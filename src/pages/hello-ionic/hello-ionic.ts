@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DataBaseService } from '../../providers/database';
 import {Loading, LoadingController, ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 // import { SQLite } from '@ionic-native/sqlite';
 // import { DATABASE_NAME } from '../../common/config';
 // import { Platform } from 'ionic-angular';
@@ -18,6 +19,7 @@ export class HelloIonicPage {
     private dbService: DataBaseService,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
+    private storage: Storage,
     // private sqlite: SQLite,
     // private sqliteObj: SQLiteObject,
   ) {
@@ -25,10 +27,33 @@ export class HelloIonicPage {
   }
   ionViewDidLoad() {
     setTimeout(() => {
-      this.getData();
+      this.storage.get('HasCreateDb').then(res => {
+        console.log(res);
+        if (res) {
+          this.toastCtrl.create({
+            message: '查询数据中...',
+            duration: 2000,
+            position: 'middle'
+          }).present();
+          this.getData();
+        } else {
+          this.toastCtrl.create({
+            message: res.toString(),
+            duration: 2000,
+            position: 'middle'
+          }).present();
+        }
+      }).catch(e =>{
+        this.toastCtrl.create({
+          message: `storage: ${e.toString()}`,
+          duration: 20000,
+          position: 'middle'
+        }).present();
+        console.log(e);
+      });
     },1000);
   }
-  
+
   getData() {
     // let selctLoading = this.loadingCtrl.create({
     //   content: '查询中...',
@@ -49,8 +74,8 @@ export class HelloIonicPage {
      }
    }).catch(e => {
     this.toastCtrl.create({
-      message: '查询失败',
-      duration: 2000,
+      message: `查询失败: ${e.toString()}`,
+      duration: 5000,
       position: 'middle'
     }).present();
     // selctLoading.dismiss();

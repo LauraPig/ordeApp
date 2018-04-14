@@ -11,6 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataBaseService } from '../providers/database';
 
 import { SQLite } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class MyApp {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public sqlite: SQLite,
+    public storage: Storage,
     // public sqliteObj: SQLiteObject,
   ) {
     this.initializeApp();
@@ -51,8 +53,16 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.storage.get('HasCreateDb').then(res => {
+        console.log('res=====>', res);
+        if (!res) {
+          this.initDB();
+        }
+      }).catch(e => {
+        console.log(e);
+      });
       // this.initDB();
-      this.initDB();
+      // this.initDB();
     });
   }
 
@@ -68,6 +78,7 @@ export class MyApp {
     this.loading.present();
     this.dbService.creatDataBase().then((res) => {
       // resolve(res);
+      this.storage.set('HasCreateDb', true);
       this.loading.dismiss();
     }).catch(e => {
       this.loading.dismiss();

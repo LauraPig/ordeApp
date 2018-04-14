@@ -60,11 +60,38 @@ export class DataBaseService {
             });
         });
     }
-    
+
     fetchDataByName(tableName: string): Promise<any> {
-        return this.dbObject.executeSql(`SELECT * FROM ${tableName}`, {});
+      this.sqlite.create({
+        name: DATABASE_NAME,
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        return  db.executeSql(`SELECT * FROM ${tableName}`, {});
+      }).catch(e => {
+        return new Promise((resolve, reject) => {
+          reject(e);
+        });
+      });
+      return null;
+      // return this.dbObject.transaction((db: SQLiteObject) => {
+      //   db.executeSql(`SELECT * FROM ${tableName}`, {});
+      // });
     }
     getSumByName(tableName: string): Promise<any> {
-        return this.dbObject.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {});
+      this.sqlite.create({
+        name: DATABASE_NAME,
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+       return db.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {});
+      }).catch(e => {
+        return new Promise((resolve, reject) => {
+          reject(e);
+        });
+      });
+      return null;
+      // return this.dbObject.transaction((db: SQLiteObject) => {
+      //   db.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {});
+      // });
+        // return this.dbObject.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {});
     }
 }
