@@ -1,10 +1,9 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { DATABASE_NAME } from '../common/config';
-import { CREATE_TABLE, INSERT_DATA  } from '../common/table';
-import { mock_data } from '../mock/mock-data';
+import { DATABASE_NAME } from '../../common/config';
+import { CREATE_TABLE, INSERT_DATA  } from '../../common/table';
+import { mock_data } from '../../mock/mock-data';
 import { Injectable } from '@angular/core';
 import { ToastController } from 'ionic-angular';
-// import { injectViewContainerRef } from '@angular/core/src/render3';
 
 @Injectable()
 export class DataBaseService {
@@ -61,21 +60,12 @@ export class DataBaseService {
         });
     }
 
-    fetchDataByName(tableName: string): Promise<any> {
-      this.sqlite.create({
+    openDataBase(): Promise<any> {
+      return  this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
-      }).then((db: SQLiteObject) => {
-        return  db.executeSql(`SELECT * FROM ${tableName}`, {});
-      }).catch(e => {
-        return new Promise((resolve, reject) => {
-          reject(e);
-        });
       });
-      return null;
-      // return this.dbObject.transaction((db: SQLiteObject) => {
-      //   db.executeSql(`SELECT * FROM ${tableName}`, {});
-      // });
+
     }
     getSumByName(tableName: string): Promise<any> {
       this.sqlite.create({

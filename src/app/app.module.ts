@@ -5,18 +5,18 @@ import { SQLite } from '@ionic-native/sqlite';
 import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
-import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
+import { HomePage } from '../pages/home/home';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { DataBaseService } from '../providers/database';
+import { DataBaseService } from '../providers/database/database';
 
 @NgModule({
   declarations: [
     MyApp,
-    HelloIonicPage,
+    HomePage,
     ItemDetailsPage,
     ListPage
   ],
@@ -29,7 +29,7 @@ import { DataBaseService } from '../providers/database';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HelloIonicPage,
+    HomePage,
     ItemDetailsPage,
     ListPage
   ],

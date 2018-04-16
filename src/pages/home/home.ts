@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { DataBaseService } from '../../providers/database';
+import { DataBaseService } from '../../providers/database/database';
 import {Loading, LoadingController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import {SQLiteObject} from "@ionic-native/sqlite";
 // import { SQLite } from '@ionic-native/sqlite';
 // import { DATABASE_NAME } from '../../common/config';
 // import { Platform } from 'ionic-angular';
 const tableName = 'ct_product_dtl';
 
 @Component({
-  selector: 'page-hello-ionic',
-  templateUrl: 'hello-ionic.html'
+  selector: 'page-home',
+  templateUrl: 'home.html'
 })
-export class HelloIonicPage {
+export class HomePage {
   loading: Loading ;
   userinfo: any = [];
   total: number = 0;
@@ -26,52 +27,57 @@ export class HelloIonicPage {
     console.log('主页...');
   }
   ionViewDidLoad() {
-    setTimeout(() => {
-      this.storage.get('HasCreateDb').then(res => {
-        console.log(res);
-        if (res) {
-          this.toastCtrl.create({
-            message: '查询数据中...',
-            duration: 2000,
-            position: 'middle'
-          }).present();
-          this.getData();
-        } else {
-          this.toastCtrl.create({
-            message: res.toString(),
-            duration: 2000,
-            position: 'middle'
-          }).present();
-        }
-      }).catch(e =>{
+    // setTimeout(() => {
+    //
+    // },1000);
+    this.storage.get('HasCreateDb').then(res => {
+      console.log(res);
+      if (res) {
+        // this.toastCtrl.create({
+        //   message: '查询数据中...',
+        //   duration: 2000,
+        //   position: 'middle'
+        // }).present();
+        this.getData();
+      } else {
         this.toastCtrl.create({
-          message: `storage: ${e.toString()}`,
-          duration: 20000,
+          message: res.toString(),
+          duration: 2000,
           position: 'middle'
         }).present();
-        console.log(e);
-      });
-    },1000);
+      }
+    }).catch(e =>{
+      this.toastCtrl.create({
+        message: `storage: ${e.toString()}`,
+        duration: 20000,
+        position: 'middle'
+      }).present();
+      console.log(e);
+    });
   }
 
   getData() {
-    // let selctLoading = this.loadingCtrl.create({
-    //   content: '查询中...',
-    // });
-    // selctLoading.present();
-   this.dbService.fetchDataByName(tableName).then(res => {
-    // selctLoading.dismiss();
-     if (res.rows.length) {
-      this.userinfo = [];
-      for(var i=0; i < res.rows.length; i++) {
-        this.userinfo.push({
-          id:res.rows.item(i).id,
-          product_id:res.rows.item(i).product_id,
-          material_id:res.rows.item(i).material_id,
-          weight:res.rows.item(i).weight
-        })
-      }
-     }
+    let selctLoading = this.loadingCtrl.create({
+      content: '查询中...',
+    });
+    selctLoading.present();
+   this.dbService.openDataBase().then((db: SQLiteObject) => {
+     db.executeSql(`SELECT * FROM ${tableName}`, {}).then(res => {
+       selctLoading.dismiss();
+       if (res.rows.length) {
+         this.userinfo = [];
+         for(var i=0; i < res.rows.length; i++) {
+           this.userinfo.push({
+             id:res.rows.item(i).id,
+             product_id:res.rows.item(i).product_id,
+             material_id:res.rows.item(i).material_id,
+             weight:res.rows.item(i).weight
+           })
+         }
+       }
+     }).catch(e => {console.log(e)});
+    selctLoading.dismiss();
+
    }).catch(e => {
     this.toastCtrl.create({
       message: `查询失败: ${e.toString()}`,
@@ -81,11 +87,12 @@ export class HelloIonicPage {
     // selctLoading.dismiss();
     console.log(e);
    });
-   this.dbService.getSumByName(tableName).then(res => {
-    // selctLoading.dismiss();
-    if (res.rows.length) {
-     this.total = res.rows.item(0).total;
-    }
+   this.dbService.openDataBase().then((db: SQLiteObject) => {
+     db.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {}).then(res => {
+       if (res.rows.length) {
+         this.total = res.rows.item(0).total;
+       }
+     }).catch(e => {console.log(e)});
   }).catch(e => {
     // selctLoading.dismiss();
     console.log(e);

@@ -1,4 +1,4 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content" style="menu-width: 400px">
 
   <ion-header>
     <ion-toolbar>
@@ -8,9 +8,17 @@
 
   <ion-content>
     <ion-list>
-      <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+      <ion-list-header >
+        <span style="font-size: large; margin-left: 1px">预定</span>
+      </ion-list-header>
+      <button style="margin-left: 10px" ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
+      <ion-list no-lines>
+        <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+          {{p.title}}
+        </button>
+      </ion-list>
     </ion-list>
   </ion-content>
 

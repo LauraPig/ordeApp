@@ -2,13 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 
 import { Platform, MenuController, Nav, LoadingController, Loading, ToastController  } from 'ionic-angular';
 
-import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
+import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 // import { DATABASE_NAME } from '../common/config';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { DataBaseService } from '../providers/database';
+import { DataBaseService } from '../providers/database/database';
 
 import { SQLite } from '@ionic-native/sqlite';
 import { Storage } from '@ionic/storage';
@@ -23,7 +23,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage = HelloIonicPage;
+  rootPage = HomePage;
   pages: Array<{title: string, component: any}>;
 
   constructor(
@@ -42,8 +42,8 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Hello Ionic', component: HelloIonicPage },
-      { title: 'My First List', component: ListPage }
+      { title: '立即预订', component: HomePage },
+      { title: '一周菜单', component: ListPage }
     ];
   }
 
