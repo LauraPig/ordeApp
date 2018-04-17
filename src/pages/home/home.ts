@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataBaseService } from '../../providers/database/database';
-import {Loading, LoadingController, ToastController } from 'ionic-angular';
+import {Loading, LoadingController, ToastController, NavController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {SQLiteObject} from "@ionic-native/sqlite";
 // import { SQLite } from '@ionic-native/sqlite';
@@ -21,6 +21,7 @@ export class HomePage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private storage: Storage,
+    private navCtrl: NavController
     // private sqlite: SQLite,
     // private sqliteObj: SQLiteObject,
   ) {
@@ -97,6 +98,14 @@ export class HomePage {
     // selctLoading.dismiss();
     console.log(e);
   });
+  }
+
+  goHomeMenuPage() {
+    this.navCtrl.push('homeMenu');
+  }
+
+  goSettingPage() {
+    this.navCtrl.push('setting');
   }
 
 

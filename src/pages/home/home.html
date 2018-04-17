@@ -1,17 +1,20 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="goHomeMenuPage()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>
-      <div class="title">
+      <div>
         <span>Jimmy</span><br/>
         <span>欢迎来到</span>
       </div>
     </ion-title>
     <ion-buttons end>
-      <button ion-button>
-        <ion-icon name="settings"></ion-icon>
+      <button ion-button icon-only (click)="goSettingPage()" >
+        <ion-icon name="settings">
+        </ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

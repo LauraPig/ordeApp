@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-navbar>
+    <!--<ion-title>设置</ion-title>-->
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-list-header class="list-header">
+      <span>预定</span>
+    </ion-list-header>
+    <button class="inner-list"  ion-item (click)="openPage('homePage')">
+      立即预定
+    </button>
+    <button class="inner-list"  ion-item (click)="openPage('listPage')">
+      一周菜单
+    </button>
+    <button class="inner-list last-item"  ion-item (click)="openPage('listPage')">
+      待消费
+    </button>
+    <ion-list no-lines>
+      <button ion-item  (click)="openPage('listPage')">
+        历史用餐记录
+      </button>
+      <button ion-item  (click)="openPage('listPage')">
+        逾期未取餐
+      </button>
+      <button ion-item  (click)="openPage('listPage')">
+        我的积分
+        <ion-note clear item-end>
+          16分
+        </ion-note>
+      </button>
+      <button ion-item  (click)="openPage('listPage')">
+        我的营养管理
+      </button>
+      <button ion-item  (click)="openPage('listPage')">
+        我的消息
+        <ion-badge item-end>3</ion-badge>
+      </button>
+      <button ion-item  (click)="openPage('listPage')">
+        新闻
+      </button>
+    </ion-list>
+  </ion-list>
+</ion-content>
