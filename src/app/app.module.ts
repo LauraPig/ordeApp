@@ -23,7 +23,9 @@ import { DataBaseService } from '../providers/database/database';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp, {
-      backButtonText: '返回'
+      backButtonText: '返回',
+      backButtonIcon: 'ios-arrow-back',
+      mode: 'ios'
     }),
     IonicStorageModule.forRoot()
 
