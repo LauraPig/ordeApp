@@ -28,33 +28,61 @@ export class HomePage {
     console.log('主页...');
   }
   ionViewDidLoad() {
-    // setTimeout(() => {
-    //
-    // },1000);
-    this.storage.get('HasCreateDb').then(res => {
-      console.log(res);
-      if (res) {
+    let initLoading = this.loadingCtrl.create({
+      content: '数据初始化中...',
+    });
+
+    setTimeout(() => {
+      initLoading.dismiss();
+      this.storage.get('HasCreateDb').then(res => {
+        console.log(res);
+        if (res) {
+          // this.toastCtrl.create({
+          //   message: '查询数据中...',
+          //   duration: 2000,
+          //   position: 'middle'
+          // }).present();
+          this.getData();
+        } else {
+          this.toastCtrl.create({
+            message: res.toString(),
+            duration: 2000,
+            position: 'middle'
+          }).present();
+        }
+      }).catch(e =>{
         // this.toastCtrl.create({
-        //   message: '查询数据中...',
-        //   duration: 2000,
+        //   message: `storage: ${e.toString()}`,
+        //   duration: 20000,
         //   position: 'middle'
         // }).present();
-        this.getData();
-      } else {
-        this.toastCtrl.create({
-          message: res.toString(),
-          duration: 2000,
-          position: 'middle'
-        }).present();
-      }
-    }).catch(e =>{
-      this.toastCtrl.create({
-        message: `storage: ${e.toString()}`,
-        duration: 20000,
-        position: 'middle'
-      }).present();
-      console.log(e);
-    });
+        console.log(e);
+      });
+    },2000);
+    // this.storage.get('HasCreateDb').then(res => {
+    //   console.log(res);
+    //   if (res) {
+    //     // this.toastCtrl.create({
+    //     //   message: '查询数据中...',
+    //     //   duration: 2000,
+    //     //   position: 'middle'
+    //     // }).present();
+    //     this.getData();
+    //   } else {
+    //     this.toastCtrl.create({
+    //       message: res.toString(),
+    //       duration: 2000,
+    //       position: 'middle'
+    //     }).present();
+    //   }
+    // }).catch(e =>{
+    //   this.toastCtrl.create({
+    //     message: `storage: ${e.toString()}`,
+    //     duration: 20000,
+    //     position: 'middle'
+    //   }).present();
+    //   console.log(e);
+    // });
   }
 
   getData() {

@@ -1,0 +1,33 @@
+page-week-menu {
+  .header-title {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  .col{
+    padding: 0;
+  }
+  ion-card {
+    height: 70px;
+    position: relative;
+    text-align: center;
+  }
+
+  .card-title {
+    //height: 100%;
+    background-color: rgba(2d,2d,2d, 0.5);
+    position: absolute;
+    bottom: 0;
+    font-size: 1em;
+    width: 100%;
+    //font-weight: bold;
+    color: #fff;
+  }
+
+  .card-subtitle {
+    font-size: 1.0em;
+    position: absolute;
+    top: 52%;
+    width: 100%;
+    color: #fff;
+  }
+}

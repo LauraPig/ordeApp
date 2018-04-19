@@ -1,0 +1,20 @@
+page-week-menu-type {
+
+  .type-list-card {
+    height: 170px;
+    position: relative;
+    text-align: center;
+  }
+
+  .card-title {
+    //height: 100%;
+    background-color: rgba(2d,2d,2d, 0.5);
+    position: absolute;
+    bottom: 0;
+    font-size: 1.5em;
+    width: 100%;
+    //font-weight: bold;
+    color: #fff;
+  }
+
+}

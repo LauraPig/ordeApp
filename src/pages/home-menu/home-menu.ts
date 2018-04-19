@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, Nav, NavParams } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ListPage } from '../../pages/list/list';
+import { WeekMenuPage } from '../../pages/week-menu/week-menu';
 
 /**
  * Generated class for the HomeMenuPage page.
@@ -47,6 +48,9 @@ export class HomeMenuPage {
         break;
       case 'listPage':
         this.navCtrl.push(ListPage);
+        break;
+      case 'weekMenu':
+        this.navCtrl.setRoot(WeekMenuPage);
         break;
       default:
         // break;

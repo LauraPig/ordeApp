@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HomePage } from  '../../pages/home/home';
+import { ListPage } from  '../../pages/list/list';
 
 /**
  * Generated class for the SettingPage page.
@@ -22,6 +24,19 @@ export class SettingPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingPage');
+  }
+
+  openPage(page: string) {
+    switch (page) {
+      case 'homePage':
+        this.navCtrl.setRoot(HomePage);
+        break;
+      case 'listPage':
+        this.navCtrl.push(ListPage);
+        break;
+      default:
+      // break;
+    }
   }
 
 }

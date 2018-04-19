@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button tappable ion-button icon-only (click)="goHomeMenuPage()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      一周菜单
+    </ion-title>
+    <ion-buttons end>
+      <button tappable ion-button icon-only (click)="goSettingPage()" >
+        <ion-icon name="settings">
+        </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list no-lines *ngFor="let item of productList">
+    <ion-list-header class="header-title">
+      {{item?.date}}
+    </ion-list-header>
+    <ion-row>
+      <ion-col col-6 *ngFor="let p of item.list; let i = index">
+        <ion-card (click)="gotoMenuType(item, i)">
+          <img src="{{p?.img}}"/>
+          <div class="card-title">{{p?.typeName}}</div>
+          <!--<div class="card-subtitle">64 Listings</div>-->
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-list>
+
+</ion-content>

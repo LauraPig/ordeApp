@@ -14,5 +14,41 @@
 
 
 <ion-content padding>
+  <ion-list no-lines>
+    <button ion-item  (click)="openPage('listPage')">
+      个人信息
+    </button>
+    <button ion-item  (click)="openPage('listPage')">
+      语言
+    </button>
+    <button ion-item  (click)="openPage('listPage')">
+      地区位置
+    </button>
+    <button ion-item  (click)="openPage('listPage')">
+      反馈
+    </button>
+    <button ion-item  (click)="openPage('listPage')">
+      用户指南
+      <!--<ion-badge item-end>3</ion-badge>-->
+    </button>
+    <button ion-item  (click)="openPage('listPage')">
+      版本信息
+      <ion-note clear item-end>
+        1.0.0版本
+      </ion-note>
+    </button>
+    <button ion-item  (click)="openPage('listPage')">
+      隐私政策
+    </button>
+    <button ion-item  (click)="openPage('listPage')">
+      法律法规
+    </button>
+  </ion-list>
+  <ion-list no-lines>
+    <button ion-item (click)="openPage('listPage')">
+      退出当前账号
+    </button>
+  </ion-list>
+
 
 </ion-content>
