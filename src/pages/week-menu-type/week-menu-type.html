@@ -26,7 +26,7 @@
 
       <!--<ion-icon name="ios-arrow-forward" item-right *ngIf="!(item.status)" ></ion-icon>-->
       <ion-list *ngIf="i === currentIndex">
-        <ion-card class="type-list-card" *ngFor=" let typeItem of p.foodType" (click)="gotoMenuType(typeItem)">
+        <ion-card class="type-list-card" *ngFor=" let typeItem of p.foodType; let typeIndex = index" (click)="gotoTypeDetail(p.typeName, item.date, typeItem)">
           <img src="{{typeItem?.img}}"/>
           <div class="card-title">{{typeItem?.name}}</div>
           <!--<div class="card-subtitle">64 Listings</div>-->

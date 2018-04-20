@@ -459,6 +459,74 @@ export const productList = [
       {
         typeName: '晚餐',
         img: 'assets/imgs/bf.jpg',
+        foodType: [
+          {
+            name: '包子',
+            img: 'assets/imgs/bf.jpg',
+            typeList: [
+              {
+                name: '叉烧包',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '牛肉包',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '鲜肉包',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '菜包',
+                img: 'assets/imgs/bf.jpg',
+              },
+            ],
+          },
+          {
+            name: '面条',
+            img: 'assets/imgs/bf.jpg',
+            typeList: [
+              {
+                name: '炸酱面',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '刀削面',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '热干面',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '牛肉面',
+                img: 'assets/imgs/bf.jpg',
+              },
+            ],
+          },
+          {
+            name: '套餐',
+            img: 'assets/imgs/bf.jpg',
+            typeList: [
+              {
+                name: '红烧排骨',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '香菇滑鸡',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '咖喱牛腩',
+                img: 'assets/imgs/bf.jpg',
+              },
+              {
+                name: '奥尔良烤鸡排',
+                img: 'assets/imgs/bf.jpg',
+              },
+            ],
+          },
+        ],
       },
       {
         typeName: '宵夜',

@@ -38,4 +38,12 @@ export class WeekMenuTypePage {
 
   }
 
+  gotoTypeDetail(name: string,date: string, typeItem: object) {
+    this.navCtrl.push('type-detail', {
+      name: name,
+      date: date,
+      typeItem: typeItem
+    })
+  }
+
 }

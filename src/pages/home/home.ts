@@ -28,12 +28,12 @@ export class HomePage {
     console.log('主页...');
   }
   ionViewDidLoad() {
-    let initLoading = this.loadingCtrl.create({
-      content: '数据初始化中...',
-    });
 
+    let initLoading = this.loadingCtrl.create({
+      content: '查询数据中...',
+    });
+    initLoading.present();
     setTimeout(() => {
-      initLoading.dismiss();
       this.storage.get('HasCreateDb').then(res => {
         console.log(res);
         if (res) {
@@ -42,7 +42,7 @@ export class HomePage {
           //   duration: 2000,
           //   position: 'middle'
           // }).present();
-          this.getData();
+          this.getData(initLoading);
         } else {
           this.toastCtrl.create({
             message: res.toString(),
@@ -51,6 +51,7 @@ export class HomePage {
           }).present();
         }
       }).catch(e =>{
+        initLoading.dismiss();
         // this.toastCtrl.create({
         //   message: `storage: ${e.toString()}`,
         //   duration: 20000,
@@ -58,41 +59,18 @@ export class HomePage {
         // }).present();
         console.log(e);
       });
-    },2000);
-    // this.storage.get('HasCreateDb').then(res => {
-    //   console.log(res);
-    //   if (res) {
-    //     // this.toastCtrl.create({
-    //     //   message: '查询数据中...',
-    //     //   duration: 2000,
-    //     //   position: 'middle'
-    //     // }).present();
-    //     this.getData();
-    //   } else {
-    //     this.toastCtrl.create({
-    //       message: res.toString(),
-    //       duration: 2000,
-    //       position: 'middle'
-    //     }).present();
-    //   }
-    // }).catch(e =>{
-    //   this.toastCtrl.create({
-    //     message: `storage: ${e.toString()}`,
-    //     duration: 20000,
-    //     position: 'middle'
-    //   }).present();
-    //   console.log(e);
-    // });
+    },1000);
   }
 
-  getData() {
-    let selctLoading = this.loadingCtrl.create({
-      content: '查询中...',
-    });
-    selctLoading.present();
+  getData(initLoading: any) {
+    // let selctLoading = this.loadingCtrl.create({
+    //   content: '查询中...',
+    // });
+    // selctLoading.present();
    this.dbService.openDataBase().then((db: SQLiteObject) => {
      db.executeSql(`SELECT * FROM ${tableName}`, {}).then(res => {
-       selctLoading.dismiss();
+       initLoading.dismiss();
+       // selctLoading.dismiss();
        if (res.rows.length) {
          this.userinfo = [];
          for(var i=0; i < res.rows.length; i++) {
@@ -105,7 +83,8 @@ export class HomePage {
          }
        }
      }).catch(e => {console.log(e)});
-    selctLoading.dismiss();
+     initLoading.dismiss();
+    // selctLoading.dismiss();
 
    }).catch(e => {
     this.toastCtrl.create({
