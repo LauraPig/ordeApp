@@ -6,7 +6,8 @@ import {SQLiteObject} from "@ionic-native/sqlite";
 // import { SQLite } from '@ionic-native/sqlite';
 // import { DATABASE_NAME } from '../../common/config';
 // import { Platform } from 'ionic-angular';
-const tableName = 'ct_product_dtl';
+// const tableName = 'ct_product_dtl';
+const tableName = 'ct_product';
 
 @Component({
   selector: 'page-home',
@@ -16,6 +17,7 @@ export class HomePage {
   loading: Loading ;
   userinfo: any = [];
   total: number = 0;
+  text: any;
   constructor(
     private dbService: DataBaseService,
     private loadingCtrl: LoadingController,
@@ -42,7 +44,8 @@ export class HomePage {
           //   duration: 2000,
           //   position: 'middle'
           // }).present();
-          this.getData(initLoading);
+          // this.getData(initLoading);
+          this.getText(initLoading);
         } else {
           this.toastCtrl.create({
             message: res.toString(),
@@ -95,6 +98,7 @@ export class HomePage {
     // selctLoading.dismiss();
     console.log(e);
    });
+
    this.dbService.openDataBase().then((db: SQLiteObject) => {
      db.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {}).then(res => {
        if (res.rows.length) {
@@ -105,6 +109,57 @@ export class HomePage {
     // selctLoading.dismiss();
     console.log(e);
   });
+  }
+
+  // formatText (a: string) {
+  //   a = "" + a;
+  //   return a.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+  // }
+
+  getText (initLoading: any) {
+    this.dbService.openDataBase().then((db: SQLiteObject) => {
+      db.executeSql(`SELECT * FROM ${tableName}`, {}).then(res => {
+        initLoading.dismiss();
+        // selctLoading.dismiss();
+        if (res.rows.length) {
+          this.userinfo = [];
+          for(var i=0; i < res.rows.length; i++) {
+            this.userinfo.push({
+              id:res.rows.item(i).id,
+              summary:res.rows.item(i).summary
+            });
+
+            this.text = res.rows.item(i).summary.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+            let obj = document.querySelector('#text');
+            obj.insertAdjacentHTML('afterend', this.text);
+          }
+        }
+
+      }).catch(e => {console.log(e)});
+      initLoading.dismiss();
+      // selctLoading.dismiss();
+
+    }).catch(e => {
+      this.toastCtrl.create({
+        message: `查询失败: ${e.toString()}`,
+        duration: 5000,
+        position: 'middle'
+      }).present();
+      // selctLoading.dismiss();
+      console.log(e);
+    });
+
+    this.dbService.openDataBase().then((db: SQLiteObject) => {
+      db.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {}).then(res => {
+        if (res.rows.length) {
+          this.total = res.rows.item(0).total;
+        }
+      }).catch(e => {console.log(e)});
+    }).catch(e => {
+      // selctLoading.dismiss();
+      console.log(e);
+    });
+
   }
 
   goHomeMenuPage() {

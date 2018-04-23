@@ -20,31 +20,38 @@
   </ion-navbar>
 </ion-header>
 
+<!--测试富文本-->
 
 <ion-content padding>
-  <!--<h2>Expense List</h2>-->
-  <ion-list>
-    <ion-item-sliding *ngFor="let user of userinfo; let i=index">
-      <ion-item>
-        <ion-avatar item-start>
-          {{i}}
-        </ion-avatar>
-        <h2>{{user.product_id}}</h2>
-        <h3>{{user.material_id}}</h3>
-        <p>{{user.weight}}克</p>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
-  <!-- <ion-infinite-scroll (ionInfinite)="loadMoreRepos($event)" *ngIf="hasMore">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="loading..."
-    ></ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->
+  <div id="text">
+    <!--{{text}}-->
+  </div>
 </ion-content>
-<ion-footer>
-  <ion-toolbar>
-    <!-- <ion-title>已经加载了：{{userinfo.length}} </ion-title> -->
-    <ion-title>总共：{{total}} 条</ion-title>
-  </ion-toolbar>
-</ion-footer>
+
+<!--<ion-content padding>-->
+  <!--&lt;!&ndash;<h2>Expense List</h2>&ndash;&gt;-->
+  <!--<ion-list>-->
+    <!--<ion-item-sliding *ngFor="let user of userinfo; let i=index">-->
+      <!--<ion-item>-->
+        <!--<ion-avatar item-start>-->
+          <!--{{i}}-->
+        <!--</ion-avatar>-->
+        <!--<h2>{{user.product_id}}</h2>-->
+        <!--<h3>{{user.material_id}}</h3>-->
+        <!--<p>{{user.weight}}克</p>-->
+      <!--</ion-item>-->
+    <!--</ion-item-sliding>-->
+  <!--</ion-list>-->
+  <!--&lt;!&ndash; <ion-infinite-scroll (ionInfinite)="loadMoreRepos($event)" *ngIf="hasMore">-->
+    <!--<ion-infinite-scroll-content-->
+      <!--loadingSpinner="bubbles"-->
+      <!--loadingText="loading..."-->
+    <!--&gt;</ion-infinite-scroll-content>-->
+  <!--</ion-infinite-scroll> &ndash;&gt;-->
+<!--</ion-content>-->
+<!--<ion-footer>-->
+  <!--<ion-toolbar>-->
+    <!--&lt;!&ndash; <ion-title>已经加载了：{{userinfo.length}} </ion-title> &ndash;&gt;-->
+    <!--<ion-title>总共：{{total}} 条</ion-title>-->
+  <!--</ion-toolbar>-->
+<!--</ion-footer>-->

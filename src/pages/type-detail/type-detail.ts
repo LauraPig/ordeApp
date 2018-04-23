@@ -30,4 +30,10 @@ export class TypeDetailPage {
     console.log('ionViewDidLoad TypeDetailPage');
   }
 
+  gotoDetail(item: object) {
+    this.navCtrl.push('detail', {
+      item: item
+    });
+  }
+
 }

@@ -19,7 +19,7 @@ export const CREATE_TABLE = {
         office_id VARCHAR(64) NULL 
     )`,
     ct_meal: `CREATE TABLE IF NOT EXISTS ct_meal(
-        id PRIMARY KEY VARCHAR(64) NOT NULL ,
+        id  VARCHAR(64) PRIMARY KEY NOT NULL ,
         factory_id VARCHAR(64) NULL ,
         office_id VARCHAR(64) NULL ,
         meal_type VARCHAR(64) NULL ,
@@ -37,7 +37,7 @@ export const CREATE_TABLE = {
         remarks VARCHAR(200) NULL 
     )`,
     ct_plan: `CREATE TABLE IF NOT EXISTS ct_plan(
-        id PRIMARY KEY VARCHAR(64) NOT NULL ,
+        id  VARCHAR(64) PRIMARY KEY NOT NULL ,
         meal_id VARCHAR(64) NULL ,
         office_id VARCHAR(64) NULL ,
         start_date datetime2(7) NULL ,
@@ -51,7 +51,7 @@ export const CREATE_TABLE = {
         status VARCHAR(1) NULL DEFAULT ((0)) 
     )`,
     ct_plan_dtl: `CREATE TABLE IF NOT EXISTS ct_plan_dtl(
-        id PRIMARY KEY VARCHAR(64) NOT NULL ,
+        id VARCHAR(64) PRIMARY KEY  NOT NULL ,
         plan_id VARCHAR(64) NULL ,
         obj_type VARCHAR(1) NULL ,
         obj_id VARCHAR(64) NULL ,
@@ -60,7 +60,7 @@ export const CREATE_TABLE = {
         chef_id VARCHAR(64) NULL 
     )`,
     ct_product: `CREATE TABLE IF NOT EXISTS ct_product(
-        id PRIMARY KEY VARCHAR(64) NOT NULL ,
+        id VARCHAR(64) PRIMARY KEY NOT NULL ,
         product_type VARCHAR(64) NULL ,
         office_id VARCHAR(64) NULL ,
         product_name NVARCHAR(100) NULL ,
@@ -76,6 +76,7 @@ export const CREATE_TABLE = {
         del_flag char(1) NULL DEFAULT ((0)) ,
         factory_id VARCHAR(64) NULL ,
         labels VARCHAR(1000) NULL ,
+        summary TEXT NULL ,
         is_hold VARCHAR(1) NULL DEFAULT ((0)) ,
         is_pack VARCHAR(1) NULL DEFAULT ((0)) 
     )`,
@@ -86,7 +87,7 @@ export const CREATE_TABLE = {
         weight decimal(18,2) NULL 
     )`,
     ct_product_set: `CREATE TABLE IF NOT EXISTS ct_product_set(
-        id PRIMARY KEY VARCHAR(64) NOT NULL ,
+        id VARCHAR(64) PRIMARY KEY  NOT NULL ,
         product_set_type VARCHAR(64) NULL ,
         factory_id VARCHAR(64) NULL ,
         office_id VARCHAR(64) NULL ,
@@ -106,7 +107,7 @@ export const CREATE_TABLE = {
         is_hold VARCHAR(1) NULL DEFAULT ((0))
     )`,
     ct_product_set_dtl: `CREATE TABLE IF NOT EXISTS ct_product_set_dtl(
-        id PRIMARY KEY VARCHAR(64) NOT NULL ,
+        id  VARCHAR(64) PRIMARY KEY NOT NULL ,
         product_set_id VARCHAR(64) NULL ,
         product_id VARCHAR(64) NULL ,
         num int NULL ,
@@ -169,7 +170,7 @@ export  const INSERT_DATA = {
     ct_meal: ``,
     ct_plan: ``,
     ct_plan_dtl: ``,
-    ct_product: ``,
+    ct_product: `INSERT INTO ct_product (id, summary) VALUES(?,?)`,
     ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?)`,
     ct_product_set: ``,
     ct_product_set_dtl: ``,

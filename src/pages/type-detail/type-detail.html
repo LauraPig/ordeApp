@@ -16,7 +16,7 @@
 <ion-content padding>
   <span style="font-size: 1.5rem;font-weight: bold">{{name}} - {{typeItem.name}}</span>
 
-  <ion-card *ngFor="let item of typeItem?.typeList; let i = index">
+  <ion-card *ngFor="let item of typeItem?.typeList; let i = index" (click)="gotoDetail(item)">
     <img src="{{item.img}}"/>
     <ion-card-content>
       <ion-card-title>
