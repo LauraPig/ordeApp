@@ -1,3 +1,22 @@
 page-order {
+  .ion-card-prod {
+    width: 100vw !important;
+    margin: 1vh 0 !important;
+    height: 20vh;
+    position: relative;
+    text-align: center;
+    background-image: none
+  }
 
+  .card-title {
+    //height: 100%;
+    line-height: 20vh;
+    background-color: rgba(2d,2d,2d, 0.3);
+    position: absolute;
+    bottom: 0;
+    font-size: 1em;
+    width: 100%;
+    //font-weight: bold;
+    color: #fff;
+  }
 }
