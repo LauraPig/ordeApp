@@ -13,7 +13,7 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-card>
     <img src="{{item.img}}"/>
     <ion-card-content>
@@ -48,5 +48,5 @@
       </p>
     </ion-card-content>
   </ion-card>
-  <button class="order-btn">预定</button>
+  <button class="order-btn" (click)="orderProduct(item.name)">预定</button>
 </ion-content>

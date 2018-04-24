@@ -3,6 +3,7 @@ import { DataBaseService } from '../../providers/database/database';
 import {Loading, LoadingController, ToastController, NavController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {SQLiteObject} from "@ionic-native/sqlite";
+import { OrderPage } from '../order/order';
 // import { SQLite } from '@ionic-native/sqlite';
 // import { DATABASE_NAME } from '../../common/config';
 // import { Platform } from 'ionic-angular';
@@ -45,7 +46,8 @@ export class HomePage {
           //   position: 'middle'
           // }).present();
           // this.getData(initLoading);
-          this.getText(initLoading);
+          // this.getText(initLoading);
+          initLoading.dismiss();
         } else {
           this.toastCtrl.create({
             message: res.toString(),
@@ -168,6 +170,10 @@ export class HomePage {
 
   goSettingPage() {
     this.navCtrl.push('setting');
+  }
+
+  gotoOrder() {
+    this.navCtrl.setRoot(OrderPage);
   }
 
 

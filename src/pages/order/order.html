@@ -1,0 +1,40 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button tappable ion-button icon-only (click)="goHomeMenuPage()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <div>
+        <span>Jimmy</span><br/>
+        <span>欢迎来到</span>
+      </div>
+    </ion-title>
+    <ion-buttons end>
+      <button tappable ion-button icon-only (click)="goSettingPage()" >
+        <ion-icon name="settings">
+        </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-card ion-item  no-lines style="background-image: none" >
+    <ion-card-header>
+      <ion-row>
+        <ion-col col-3>
+          <p>4月</p>
+          <p style="font-weight: bold;font-size: 1.3em">24日</p>
+        </ion-col>
+        <ion-col col-6>
+          <h1>今天</h1>
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+  </ion-card>
+
+</ion-content>

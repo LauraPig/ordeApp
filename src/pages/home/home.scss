@@ -1,4 +1,4 @@
-page-hello-ionic {
+page-home {
     .title{
         //text-align: left;
         // span{
@@ -6,4 +6,21 @@ page-hello-ionic {
         //     margin-left: 3rem;
         // }
     }
+  ion-card {
+    //height: 70px;
+    position: relative;
+    text-align: center;
+  }
+
+  .card-title {
+    //height: 5vh;
+    line-height: 5vh;
+    background-color: rgba(2d,2d,2d, 0.5);
+    position: absolute;
+    bottom: 0;
+    font-size: 1.3em;
+    width: 100%;
+    //font-weight: bold;
+    color: #fff;
+  }
 }

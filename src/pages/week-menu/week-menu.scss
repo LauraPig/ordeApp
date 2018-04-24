@@ -1,5 +1,6 @@
 page-week-menu {
   .header-title {
+    padding: 16px;
     font-size: 1.2em;
     font-weight: bold;
   }
@@ -7,14 +8,15 @@ page-week-menu {
     padding: 0;
   }
   ion-card {
-    height: 70px;
+    height: 12vh;
     position: relative;
     text-align: center;
   }
 
   .card-title {
     //height: 100%;
-    background-color: rgba(2d,2d,2d, 0.5);
+    line-height: 12vh;
+    background-color: rgba(2d,2d,2d, 0.3);
     position: absolute;
     bottom: 0;
     font-size: 1em;

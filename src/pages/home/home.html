@@ -22,10 +22,35 @@
 
 <!--测试富文本-->
 
-<ion-content padding>
-  <div id="text">
-    <!--{{text}}-->
-  </div>
+<ion-content>
+  <!--<div id="text">-->
+    <!--&lt;!&ndash;{{text}}&ndash;&gt;-->
+  <!--</div>-->
+  <ion-card>
+    <ion-card-header>
+      今日您已预订
+    </ion-card-header>
+    <img src="assets/imgs/bf.jpg"/>
+    <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
+      <ion-badge>
+        午餐
+      </ion-badge>
+    </div>
+  </ion-card>
+
+  <ion-card (click)="gotoOrder()">
+    <img src="assets/imgs/bf.jpg"/>
+    <div class="card-title">
+      立即预订
+    </div>
+  </ion-card>
+
+  <ion-card>
+    <img src="assets/imgs/bf.jpg"/>
+    <div class="card-title">
+      新闻
+    </div>
+  </ion-card>
 </ion-content>
 
 <!--<ion-content padding>-->

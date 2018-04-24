@@ -84,7 +84,7 @@ export class MyApp {
       this.loading.dismiss();
       this.toastCtrl.create({
         message: JSON.stringify(e).toString(),
-        duration: 15000,
+        duration: 1000,
         position: 'middle'
       }).present();
       console.log(e);

@@ -1,7 +1,7 @@
 page-week-menu-type {
 
   .type-list-card {
-    height: 170px;
+    height: 20vh;
     position: relative;
     text-align: center;
   }
@@ -9,6 +9,7 @@ page-week-menu-type {
   .card-title {
     //height: 100%;
     background-color: rgba(2d,2d,2d, 0.5);
+    line-height: 20vh;
     position: absolute;
     bottom: 0;
     font-size: 1.5em;

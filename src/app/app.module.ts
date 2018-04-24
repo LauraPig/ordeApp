@@ -14,6 +14,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataBaseService } from '../providers/database/database';
 import { WeekMenuPage } from "../pages/week-menu/week-menu";
 import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
+import {OrderPage} from "../pages/order/order";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
     ItemDetailsPage,
     ListPage,
     WeekMenuPage,
+    OrderPage,
     // WeekMenuTypePage
   ],
   imports: [
@@ -41,6 +43,7 @@ import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
     ItemDetailsPage,
     ListPage,
     WeekMenuPage,
+    OrderPage,
     // WeekMenuTypePage
   ],
   providers: [
