@@ -24,17 +24,33 @@
 
 <ion-content>
   <ion-card ion-item  no-lines style="background-image: none" >
-    <ion-card-header>
-      <ion-row>
+    <ion-card-header (click)="openCalendar()">
+      <ion-row *ngIf="!status">
         <ion-col col-3>
-          <p>4月</p>
-          <p style="margin-left: -10px;font-weight: bold;font-size: 1.3em">24日</p>
+          <p>{{monStr}}月</p>
+          <p style="margin-left: -10px;font-weight: bold;font-size: 1.3em">{{dayStr}}日</p>
         </ion-col>
         <ion-col col-6>
           <h1>今天</h1>
         </ion-col>
+
+      </ion-row>
+      <ion-row *ngIf="status">
+        <ion-col col-3 >
+          {{selectDay}}
+        </ion-col>
+        <ion-col col-9>
+          <ion-icon item-right name="md-arrow-dropdown" style="margin-left: 57vw" ></ion-icon>
+        </ion-col>
       </ion-row>
     </ion-card-header>
+
+    <ion-calendar *ngIf="status" [(ngModel)]="date"
+                  [options]="calendarOptions"
+                  [format]="'YYYY-MM-DD'"
+                  (onChange)="onChange($event)">
+    </ion-calendar>
+
   </ion-card>
   <ion-card  class="ion-card-prod"  no-lines >
     <img src="assets/imgs/bf.jpg"/>

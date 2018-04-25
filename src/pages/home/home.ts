@@ -64,7 +64,7 @@ export class HomePage {
         // }).present();
         console.log(e);
       });
-    },1000);
+    },600);
   }
 
   getData(initLoading: any) {

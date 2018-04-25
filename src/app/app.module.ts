@@ -15,6 +15,7 @@ import { DataBaseService } from '../providers/database/database';
 import { WeekMenuPage } from "../pages/week-menu/week-menu";
 import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
 import {OrderPage} from "../pages/order/order";
+import {CalendarModule} from "ion2-calendar";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {OrderPage} from "../pages/order/order";
       backButtonIcon: 'ios-arrow-back',
       mode: 'ios'
     }),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    CalendarModule
 
   ],
   bootstrap: [IonicApp],
