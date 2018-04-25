@@ -1,0 +1,42 @@
+page-waiting-use {
+  ion-list-header{
+    span{
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  }
+
+  ion-item {
+    padding:  0 !important;
+    //pading-left:  0 !important;
+    //width: 100vw !important;
+    height: 20vh;
+    position: relative;
+    text-align: center;
+  }
+  //.item-ios .item-block .item-inner {
+  //  padding: 0 ;
+  //}
+  .item-inner {
+    padding: 0 !important;
+  }
+  .label-ios {
+    margin: 0 !important;
+  }
+
+  .card-title {
+    text-align: center;
+    //height: 5vh;
+    line-height: 5vh;
+    background-color: rgba(2d,2d,2d, 0.5);
+    position: absolute;
+    bottom: 0;
+    font-size: 1em;
+    width: 100%;
+    //font-weight: bold;
+    color: #fff;
+  }
+  .operator-button {
+    width: 20vw;
+  }
+}

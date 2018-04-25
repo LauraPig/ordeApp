@@ -16,6 +16,7 @@ import { WeekMenuPage } from "../pages/week-menu/week-menu";
 import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
 import {OrderPage} from "../pages/order/order";
 import {CalendarModule} from "ion2-calendar";
+import {WaitingUsePage} from "../pages/waiting-use/waiting-use";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {CalendarModule} from "ion2-calendar";
     ListPage,
     WeekMenuPage,
     OrderPage,
+    WaitingUsePage,
     // WeekMenuTypePage
   ],
   imports: [
@@ -46,6 +48,7 @@ import {CalendarModule} from "ion2-calendar";
     ListPage,
     WeekMenuPage,
     OrderPage,
+    WaitingUsePage,
     // WeekMenuTypePage
   ],
   providers: [

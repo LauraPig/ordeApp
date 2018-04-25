@@ -4,6 +4,7 @@ import {Loading, LoadingController, ToastController, NavController} from 'ionic-
 import { Storage } from '@ionic/storage';
 import {SQLiteObject} from "@ionic-native/sqlite";
 import { OrderPage } from '../order/order';
+import {WaitingUsePage} from "../waiting-use/waiting-use";
 // import { SQLite } from '@ionic-native/sqlite';
 // import { DATABASE_NAME } from '../../common/config';
 // import { Platform } from 'ionic-angular';
@@ -174,6 +175,10 @@ export class HomePage {
 
   gotoOrder() {
     this.navCtrl.setRoot(OrderPage);
+  }
+
+  gotoWaitingUse() {
+    this.navCtrl.setRoot(WaitingUsePage);
   }
 
 

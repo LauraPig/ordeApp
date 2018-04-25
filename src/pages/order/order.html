@@ -30,7 +30,7 @@
           <p>{{monStr}}月</p>
           <p style="margin-left: -10px;font-weight: bold;font-size: 1.3em">{{dayStr}}日</p>
         </ion-col>
-        <ion-col col-6>
+        <ion-col col-6 *ngIf="isToday">
           <h1>今天</h1>
         </ion-col>
 

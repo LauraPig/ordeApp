@@ -1,0 +1,147 @@
+<!--
+  Generated template for the WaitingUsePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button tappable ion-button icon-only (click)="goHomeMenuPage()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      待消费
+    </ion-title>
+    <ion-buttons end>
+      <button tappable ion-button icon-only (click)="goSettingPage()" >
+        <ion-icon name="settings">
+        </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-list-header>
+      <span>今日您已预订</span>
+    </ion-list-header>
+    <ion-item-sliding>
+      <ion-item>
+        <img src="assets/imgs/bf.jpg"/>
+        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
+          <ion-badge>
+            午餐
+          </ion-badge>
+        </div>
+      </ion-item>
+      <ion-item-options side="right">
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-cube-outline"></ion-icon>
+          打包
+        </button>
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-hand-outline"></ion-icon>
+          留餐
+        </button>
+        <button class="operator-button" ion-button color="danger" (click)="unread(item)">
+          <ion-icon name="ios-trash-outline"></ion-icon>
+          退订
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list no-lines>
+    <ion-list-header>
+      <span>4月26日</span>
+    </ion-list-header>
+    <ion-item-sliding>
+      <ion-item>
+        <img src="assets/imgs/bf.jpg"/>
+        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
+          <ion-badge>
+            午餐
+          </ion-badge>
+        </div>
+      </ion-item>
+      <ion-item-options side="right">
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-cube-outline"></ion-icon>
+          打包
+        </button>
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-hand-outline"></ion-icon>
+          留餐
+        </button>
+        <button class="operator-button" ion-button color="danger" (click)="unread(item)">
+          <ion-icon name="ios-trash-outline"></ion-icon>
+          退订
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list no-lines>
+    <ion-list-header>
+      <span>4月27日</span>
+    </ion-list-header>
+    <ion-item-sliding>
+      <ion-item>
+        <img src="assets/imgs/bf.jpg"/>
+        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
+          <ion-badge>
+            午餐
+          </ion-badge>
+        </div>
+      </ion-item>
+      <ion-item-options side="right">
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-cube-outline"></ion-icon>
+          打包
+        </button>
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-hand-outline"></ion-icon>
+          留餐
+        </button>
+        <button class="operator-button" ion-button color="danger" (click)="unread(item)">
+          <ion-icon name="ios-trash-outline"></ion-icon>
+          退订
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list no-lines>
+    <ion-list-header>
+      <span>4月28日</span>
+    </ion-list-header>
+    <ion-item-sliding>
+      <ion-item>
+        <img src="assets/imgs/bf.jpg"/>
+        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
+          <ion-badge>
+            午餐
+          </ion-badge>
+        </div>
+      </ion-item>
+      <ion-item-options side="right">
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-cube-outline"></ion-icon>
+          打包
+        </button>
+        <button class="operator-button" color="light" ion-button (click)="unread(item)">
+          <ion-icon name="ios-hand-outline"></ion-icon>
+          留餐
+        </button>
+        <button class="operator-button" ion-button color="danger" (click)="unread(item)">
+          <ion-icon name="ios-trash-outline"></ion-icon>
+          退订
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

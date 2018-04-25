@@ -22,6 +22,7 @@ export class OrderPage {
   date: string;
   days: DayConfig[] = [];
   status: boolean = false;
+  isToday: boolean = true;
 
   calendarOptions: CalendarComponentOptions = {
   };
@@ -66,8 +67,12 @@ export class OrderPage {
 
   onChange($event) {
     console.log($event);
-    this.monStr = moment($event).get('months') + 1;
-    this.dayStr = moment($event).get('date');
+    const result = moment().format('YYYY-MM-DD');
+    // const today = moment().format('YYYY-MM-DD');
+    console.log(result);
+    this.isToday = $event.toString() === result;
+    this.monStr = (moment($event).get('months') + 1).toString();
+    this.dayStr = (moment($event).get('date')).toString();
     this.selectDay = moment($event).format('YYYY年MM月DD');
     // this.getGoalDay();
   }
