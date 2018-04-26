@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {CalendarComponentOptions, DayConfig, CalendarModal, CalendarModalOptions, CalendarResult} from 'ion2-calendar'
+import {CalendarComponentOptions, DayConfig} from 'ion2-calendar'
 import * as moment from 'moment'
 
 /**

@@ -39,4 +39,8 @@ export class SettingPage {
     }
   }
 
+  openPersonInfo() {
+    this.navCtrl.push('personal-info');
+  }
+
 }

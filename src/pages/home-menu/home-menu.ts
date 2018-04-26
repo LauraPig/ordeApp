@@ -3,6 +3,9 @@ import { IonicPage, NavController, Nav, NavParams } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ListPage } from '../../pages/list/list';
 import { WeekMenuPage } from '../../pages/week-menu/week-menu';
+import {ConsumeRecordPage} from "../consume-record/consume-record";
+import {WaitingUsePage} from "../waiting-use/waiting-use";
+import {OverduePage} from "../overdue/overdue";
 
 /**
  * Generated class for the HomeMenuPage page.
@@ -55,6 +58,16 @@ export class HomeMenuPage {
       default:
         // break;
     }
+  }
+
+  openWaitingUse () {
+    this.navCtrl.setRoot(WaitingUsePage);
+  }
+  openConsumeRecord() {
+    this.navCtrl.setRoot(ConsumeRecordPage);
+  }
+  openOverdue() {
+    this.navCtrl.setRoot(OverduePage);
   }
 
 }

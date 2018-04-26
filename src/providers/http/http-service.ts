@@ -1,8 +1,8 @@
 import {Injectable, Injector} from '@angular/core';
 import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx'
+// import {Observable} from 'rxjs/Rx'
 import {Headers, RequestOptions, URLSearchParams} from '@angular/http';
-import {App, NavController, ToastController} from 'ionic-angular';
+import {App, ToastController} from 'ionic-angular';
 import { HOST } from '../../common/config';
 // import { API } from '../../API/api';
 

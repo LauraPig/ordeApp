@@ -18,14 +18,14 @@
     <button class="inner-list"  ion-item (click)="openPage('weekMenu')">
       一周菜单
     </button>
-    <button class="inner-list last-item"  ion-item (click)="openPage('listPage')">
+    <button class="inner-list last-item"  ion-item (click)="openWaitingUse()">
       待消费
     </button>
     <ion-list no-lines>
-      <button ion-item  (click)="openPage('listPage')">
+      <button ion-item  (click)="openConsumeRecord()">
         历史用餐记录
       </button>
-      <button ion-item  (click)="openPage('listPage')">
+      <button ion-item  (click)="openOverdue()">
         逾期未取餐
       </button>
       <button ion-item  (click)="openPage('listPage')">
