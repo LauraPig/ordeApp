@@ -1,0 +1,41 @@
+
+<ion-content >
+  <div class="logo">
+    <img src='assets/imgs/logo.png' alt="">
+  </div>
+  <div class="logo">
+    <h2>订餐系统</h2>
+  </div>
+  <ion-list>
+
+    <ion-item>
+      <ion-label>
+        <ion-icon name="md-person"></ion-icon>
+        <!--<span style="margin-left: 2vw">员工号</span>-->
+      </ion-label>
+      <ion-input placeholder="员工号" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <ion-icon name="md-lock"></ion-icon>
+        <!--<span style="margin-left: 2vw">密码</span>-->
+      </ion-label>
+      <ion-input placeholder="密码" type="password"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <div padding>
+    <button ion-button block>登陆</button>
+  </div>
+  <div padding>
+    <span (click)="openForgetPwd()" class="forget-pwd">忘记密码</span>
+  </div>
+  <div class="bottom-tips" padding>
+    <p>
+      登录密码与EsquelPass(溢达通)相同；若首次登录，则默认密码为出生日期后6位（如生日为19880101，默认密码为880101）
+    </p>
+  </div>
+
+</ion-content>

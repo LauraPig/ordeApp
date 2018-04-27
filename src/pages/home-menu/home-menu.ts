@@ -6,6 +6,7 @@ import { WeekMenuPage } from '../../pages/week-menu/week-menu';
 import {ConsumeRecordPage} from "../consume-record/consume-record";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {OverduePage} from "../overdue/overdue";
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the HomeMenuPage page.
@@ -68,6 +69,10 @@ export class HomeMenuPage {
   }
   openOverdue() {
     this.navCtrl.setRoot(OverduePage);
+  }
+
+  gotoLogin () {
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

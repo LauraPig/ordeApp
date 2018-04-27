@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>地区/位置</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list radio-group [(ngModel)]="location" (ionChange)="changeValue($event)">
+    <ion-list-header>
+      <span>GLE</span>
+    </ion-list-header>
+    <div>
+      <ion-item>
+        <ion-label>十如</ion-label>
+        <ion-radio value="1001" item-end></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>瓦窑</ion-label>
+        <ion-radio value="1002"  item-end></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>秧塘</ion-label>
+        <ion-radio value="1003"  item-end></ion-radio>
+      </ion-item>
+    </div>
+    <ion-list-header>
+      <span>GET</span>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>十如</ion-label>
+      <ion-radio  value="1004" item-end></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>十如</ion-label>
+      <ion-radio value="1005"  item-end></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>十如</ion-label>
+      <ion-radio value="1006"  item-end></ion-radio>
+    </ion-item>
+  </ion-list>
+</ion-content>

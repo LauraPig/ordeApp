@@ -42,5 +42,8 @@ export class SettingPage {
   openPersonInfo() {
     this.navCtrl.push('personal-info');
   }
+  openSelectLocation () {
+    this.navCtrl.push('select-location');
+  }
 
 }

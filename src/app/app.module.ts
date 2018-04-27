@@ -20,6 +20,7 @@ import {WaitingUsePage} from "../pages/waiting-use/waiting-use";
 import {SuperTabsModule} from "ionic2-super-tabs";
 import {ConsumeRecordPage} from "../pages/consume-record/consume-record";
 import {OverduePage} from "../pages/overdue/overdue";
+import {LoginPage} from "../pages/login/login";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {OverduePage} from "../pages/overdue/overdue";
     WaitingUsePage,
     ConsumeRecordPage,
     OverduePage,
+    LoginPage,
     // WeekMenuTypePage
   ],
   imports: [
@@ -58,6 +60,7 @@ import {OverduePage} from "../pages/overdue/overdue";
     WaitingUsePage,
     ConsumeRecordPage,
     OverduePage,
+    LoginPage,
     // WeekMenuTypePage
   ],
   providers: [
