@@ -47,7 +47,7 @@ export class HomePage {
           //   position: 'middle'
           // }).present();
           // this.getData(initLoading);
-          // this.getText(initLoading);
+          this.getText(initLoading);
           initLoading.dismiss();
         } else {
           this.toastCtrl.create({
@@ -148,6 +148,7 @@ export class HomePage {
         duration: 5000,
         position: 'middle'
       }).present();
+      initLoading.dismiss();      
       // selctLoading.dismiss();
       console.log(e);
     });

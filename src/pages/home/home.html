@@ -23,9 +23,12 @@
 <!--测试富文本-->
 
 <ion-content>
-  <!--<div id="text">-->
-    <!--&lt;!&ndash;{{text}}&ndash;&gt;-->
-  <!--</div>-->
+  <div id="text">
+    {{text}}
+  </div>
+</ion-content>
+
+<!-- <ion-content>
   <ion-card (click)="gotoWaitingUse()">
     <ion-card-header>
       今日您已预订
@@ -51,7 +54,7 @@
       新闻
     </div>
   </ion-card>
-</ion-content>
+</ion-content> -->
 
 <!--<ion-content padding>-->
   <!--&lt;!&ndash;<h2>Expense List</h2>&ndash;&gt;-->
@@ -74,9 +77,9 @@
     <!--&gt;</ion-infinite-scroll-content>-->
   <!--</ion-infinite-scroll> &ndash;&gt;-->
 <!--</ion-content>-->
-<!--<ion-footer>-->
-  <!--<ion-toolbar>-->
-    <!--&lt;!&ndash; <ion-title>已经加载了：{{userinfo.length}} </ion-title> &ndash;&gt;-->
-    <!--<ion-title>总共：{{total}} 条</ion-title>-->
-  <!--</ion-toolbar>-->
-<!--</ion-footer>-->
+<ion-footer>
+  <ion-toolbar>
+    <!-- <ion-title>已经加载了：{{userinfo.length}} </ion-title> -->
+    <ion-title>总共：{{total}} 条</ion-title>
+  </ion-toolbar>
+</ion-footer>
