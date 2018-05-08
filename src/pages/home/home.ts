@@ -148,7 +148,7 @@ export class HomePage {
         duration: 5000,
         position: 'middle'
       }).present();
-      initLoading.dismiss();      
+      initLoading.dismiss();
       // selctLoading.dismiss();
       console.log(e);
     });
