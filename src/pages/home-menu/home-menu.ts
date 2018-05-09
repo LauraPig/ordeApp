@@ -7,6 +7,7 @@ import {ConsumeRecordPage} from "../consume-record/consume-record";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {OverduePage} from "../overdue/overdue";
 import {LoginPage} from "../login/login";
+// import {TestPage} from "../test/test";
 
 /**
  * Generated class for the HomeMenuPage page.
@@ -73,6 +74,10 @@ export class HomeMenuPage {
 
   gotoLogin () {
     this.navCtrl.setRoot(LoginPage);
+  }
+
+  gotoTest () {
+    this.navCtrl.push('test-page')
   }
 
 }

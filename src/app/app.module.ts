@@ -10,6 +10,7 @@ import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
+import { Camera } from '@ionic-native/camera';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataBaseService } from '../providers/database/database';
 import { WeekMenuPage } from "../pages/week-menu/week-menu";
@@ -21,6 +22,7 @@ import {SuperTabsModule} from "ionic2-super-tabs";
 import {ConsumeRecordPage} from "../pages/consume-record/consume-record";
 import {OverduePage} from "../pages/overdue/overdue";
 import {LoginPage} from "../pages/login/login";
+import {QRScanner} from "@ionic-native/qr-scanner";
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import {LoginPage} from "../pages/login/login";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataBaseService,
     SQLite,
+    Camera,
+    QRScanner,
     // Storage,
     // SQLiteObject,
   ]
