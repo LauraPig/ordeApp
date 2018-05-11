@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import {ZBar, ZBarOptions} from "@ionic-native/zbar";
 
 /**
  * Generated class for the TestPage page.
@@ -21,8 +21,8 @@ export class TestPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private qrScanner: QRScanner,
     private alertCtrl: AlertController,
+    private zbar: ZBar,
   ) {
     console.log('TestPage');
   }
@@ -32,7 +32,25 @@ export class TestPage {
   }
 
   doQrScann () {
-    this.navCtrl.push('scan-page');
+    // this.navCtrl.push('scan-page');
+    let options: ZBarOptions = {
+      flash: 'off',
+      text_title: '扫码',
+      text_instructions: '请将二维码置于红线中央',
+      // camera: "front" || "back",
+      drawSight: true
+    };
+
+    this.zbar.scan(options)
+      .then(result => {
+        alert("结果：" + result); // Scanned code
+        this.navCtrl.pop();
+        // const browser = this.iab.create(result);
+      })
+      .catch(error => {
+        alert(error); // Error message
+      });
   }
+
 
 }

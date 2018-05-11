@@ -77,7 +77,7 @@ export class HomeMenuPage {
   }
 
   gotoTest () {
-    this.navCtrl.push('test-page')
+    this.navCtrl.push('test-page');
   }
 
 }

@@ -23,6 +23,7 @@ import {ConsumeRecordPage} from "../pages/consume-record/consume-record";
 import {OverduePage} from "../pages/overdue/overdue";
 import {LoginPage} from "../pages/login/login";
 import {QRScanner} from "@ionic-native/qr-scanner";
+import {ZBar} from "@ionic-native/zbar";
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import {QRScanner} from "@ionic-native/qr-scanner";
     DataBaseService,
     SQLite,
     Camera,
-    QRScanner,
+    ZBar,
+    // QRScanner,
     // Storage,
     // SQLiteObject,
   ]
