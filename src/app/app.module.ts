@@ -22,8 +22,10 @@ import {SuperTabsModule} from "ionic2-super-tabs";
 import {ConsumeRecordPage} from "../pages/consume-record/consume-record";
 import {OverduePage} from "../pages/overdue/overdue";
 import {LoginPage} from "../pages/login/login";
-import {QRScanner} from "@ionic-native/qr-scanner";
 import {ZBar} from "@ionic-native/zbar";
+import {HttpProvider} from "../providers/http/http-service";
+import { HttpModule} from "@angular/http";
+import {HttpDataProviders} from "../providers/http-data/http-data";
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import {ZBar} from "@ionic-native/zbar";
     // WeekMenuTypePage
   ],
   imports: [
+    HttpModule,
     BrowserModule,
+
     IonicModule.forRoot(MyApp, {
       backButtonText: '返回',
       backButtonIcon: 'ios-arrow-back',
@@ -69,8 +73,10 @@ import {ZBar} from "@ionic-native/zbar";
   providers: [
     StatusBar,
     SplashScreen,
+    HttpProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataBaseService,
+    HttpDataProviders,
     SQLite,
     Camera,
     ZBar,

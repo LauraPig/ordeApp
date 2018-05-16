@@ -1,76 +1,51 @@
 import {Injectable, Injector} from '@angular/core';
-import {Http, Response} from '@angular/http';
-// import {Observable} from 'rxjs/Rx'
-import {Headers, RequestOptions, URLSearchParams} from '@angular/http';
+import {Headers, RequestOptions, Response, Http} from '@angular/http';
 import {App, ToastController} from 'ionic-angular';
 import { HOST } from '../../common/config';
 // import { API } from '../../API/api';
 
 import 'rxjs/add/operator/toPromise';
 
-import {Storage} from '@ionic/storage';
 
 @Injectable()
 export class HttpProvider {
   host: string;
   // API_URL = 'http://localhost:8080/api';
-  API_URL = 'http://drip.growu.me/api';
 
-  constructor(private http: Http,
-              private toastCtrl: ToastController,
-              protected injector: Injector,
-              protected app: App,
-              private storage: Storage) {
+  constructor(
+    private http: Http,
+    private toastCtrl: ToastController,
+    protected injector: Injector,
+    protected app: App,
+    // private storage: Storage,
+  ) {
   }
 
-  public httpGetWithAuth(url: string, params: URLSearchParams) {
-    return this.storage.get("token").then(data => {
-      var headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Authorization', data);
-      let options = new RequestOptions({headers: headers, search: params});
-      return this.http.get(HOST + url, options).toPromise()
-        .then(this.extractData)
-        .catch(err => this.handleError(err));
+  // public httpPostWithAuth(url: string, body: any) {
+  //   return this.storage.get("token").then(data => {
+  //     var headers = new Headers();
+  //     headers.append('Content-Type', 'application/json');
+  //     headers.append('Accept', 'application/x.drip.v2+json');
+  //     headers.append('Authorization', 'Bearer ' + data);
+  //     let options = new RequestOptions({headers: headers});
+  //     return this.http.post(this.API_URL + url, body, options).toPromise()
+  //       .then(this.extractData)
+  //       .catch(err => this.handleError(err));
+  //   });
+  // }
+
+  //  post 带有token
+  public httpPostWithAuth(url: string, body: any) {
+    let headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    headers.set('token', `1111asdfasdbasfasd`);
+    let options = new RequestOptions({
+      headers,
+      method: 'POST'
     });
-  }
-
-  public httpGetNoAuthWithParams(url: string, params: URLSearchParams) {
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    let options = new RequestOptions({headers: headers, search: params});
-    return this.http.get(this.API_URL + url, options).toPromise()
-      .then(this.extractData)
-      .catch(err => this.handleError(err));
-  }
-
-  public httpGetNoAuth(url: string) {
-    return this.http.get(url, {}).toPromise()
-      .then(this.extractData)
-      .catch(err => this.handleError(err));
-  }
-
-  public httpPostNoAuth(url: string, body: any) {
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    // headers.append('Accept', 'application/x.drip.v2+json');
-    let options = new RequestOptions({headers: headers});
     return this.http.post(HOST + url, body, options).toPromise()
       .then(this.extractData)
       .catch(err => this.handleError(err));
-  }
-
-  public httpPostWithAuth(url: string, body: any) {
-    return this.storage.get("token").then(data => {
-      var headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      // headers.append('Accept', 'application/x.drip.v2+json');
-      headers.append('Authorization', data);
-      let options = new RequestOptions({headers: headers});
-      return this.http.post(HOST + url, body, options).toPromise()
-        .then(this.extractData)
-        .catch(err => this.handleError(err));
-    });
   }
 
 

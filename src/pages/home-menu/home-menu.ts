@@ -7,6 +7,7 @@ import {ConsumeRecordPage} from "../consume-record/consume-record";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {OverduePage} from "../overdue/overdue";
 import {LoginPage} from "../login/login";
+import {HttpProvider} from "../../providers/http/http-service";
 // import {TestPage} from "../test/test";
 
 /**
@@ -30,7 +31,7 @@ export class HomeMenuPage {
   pages: Array<{title: string, component: any}>;
   otherPages: Array<{title: string, component: any}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpPro: HttpProvider) {
 
     // this.pages = [
     //   { title: '立即预订', component: HomePage },
@@ -43,7 +44,26 @@ export class HomeMenuPage {
   }
 
   ionViewDidLoad() {
+    this.initData();
     console.log('ionViewDidLoad HomeMenuPage');
+  }
+
+  initData () {
+    let params = [
+      {
+        'versionNo': 0,
+        'type': '0'
+      },
+      {
+        'versionNo': 0,
+        'type': '1'
+      }
+    ];
+    this.httpPro.httpPostWithAuth('/data/', params).then(data => {
+      alert('结果' + data.success);
+    }).catch(e => {
+      alert('错误==》' + e);
+    });
   }
 
   openPage(page: string) {

@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import {SQLiteObject} from "@ionic-native/sqlite";
 import { OrderPage } from '../order/order';
 import {WaitingUsePage} from "../waiting-use/waiting-use";
+import {HttpProvider} from "../../providers/http/http-service";
 // import { SQLite } from '@ionic-native/sqlite';
 // import { DATABASE_NAME } from '../../common/config';
 // import { Platform } from 'ionic-angular';
@@ -25,7 +26,8 @@ export class HomePage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private storage: Storage,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    public httpPro: HttpProvider,
     // private sqlite: SQLite,
     // private sqliteObj: SQLiteObject,
   ) {
