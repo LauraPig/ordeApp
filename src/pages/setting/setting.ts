@@ -46,4 +46,12 @@ export class SettingPage {
     this.navCtrl.push('select-location');
   }
 
+  openAboutPage () {
+    this.navCtrl.push('about');
+  }
+
+  openRechargePage () {
+    this.navCtrl.push('recharge');
+  }
+
 }

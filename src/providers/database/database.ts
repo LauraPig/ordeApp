@@ -61,6 +61,24 @@ export class DataBaseService {
         });
     }
 
+    updateTableData(list: Array<any>): Promise<any> {
+      return  this.sqlite.create({
+        name: DATABASE_NAME,
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        this.dbObject = db;
+        this.dbObject.transaction((db: SQLiteObject) => {
+          list.map(item => {
+            console.log(item);
+            // db.executeSql()
+          });
+        }).then().catch(e => {
+
+        });
+      }).catch(e => {});
+
+    }
+
     openDataBase(): Promise<any> {
       return  this.sqlite.create({
         name: DATABASE_NAME,
