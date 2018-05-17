@@ -192,5 +192,26 @@ export  const INSERT_DATA = {
 };
 
 export const UPDATE_DATA = {
+  CT_Material: `UPDATE CT_Material SET id=?, MaterialName=?, Unit=?, EXP=?, Specification=?, Remarks=?, IsValid=?, Pinyin=?, Attribute=?, Imgs=?, heat=?, protein=?, fat=?, carbohydrate=?, unitg=?, material_type=?, office_id=?, update_date=?, del_flag=?, MaterialID=?`,
 
+  ct_meal: `UPDATE ct_meal SET id=?, factory_id=?, office_id=?, meal_type=?, pre_hour=?, end_hour=?, back_hour=?, is_pre=?, start_time=?, end_time=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?`,
+
+
+  ct_plan: `UPDATE ct_plan SET id=?, meal_id=?, start_date=?, end_date=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, status=?`,
+
+  ct_plan_dtl: `UPDATE ct_plan_dtl SET id=?, plan_id=?, obj_type=?, obj_id=?,
+   update_by=?, update_date=?, product_name=?, factory_id=?, office_id=?, product_type=?, 
+   price=?, img_url=?, is_score=?, cost_credits=?, is_pack=?, is_hold=?, is_approval=?, summary=?, labels=?, cost=?, del_flag=?`,
+  ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?)`,
+
+
+  ct_product: `UPDATE ct_product SET id=?, remarks=?, create_by=?, create_date=?,
+   update_by=?, update_date=?, product_name=?, factory_id=?, office_id=?, product_type=?, 
+   price=?, img_url=?, is_score=?, cost_credits=?, is_pack=?, is_hold=?, is_approval=?, summary=?, labels=?, cost=?, del_flag=?`,
+  ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?)`,
+  ct_product_set: ``,
+  ct_product_set_dtl: ``,
+  sys_dict_type: ``,
+  sys_dict_value: ``,
+  sys_office: ``,
 };
