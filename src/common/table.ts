@@ -1,5 +1,6 @@
 export const CREATE_TABLE = {
     CT_Material: `CREATE TABLE IF NOT EXISTS CT_Material(
+        [id] varchar(64) PRIMARY KEY NOT NULL ,
         [MaterialName] nvarchar(200) NOT NULL ,
         [Unit] nvarchar(10) NOT NULL ,
         [EXP] float(53) NOT NULL DEFAULT ((1)) ,
@@ -14,7 +15,6 @@ export const CREATE_TABLE = {
         [fat] decimal(18,2) NULL ,
         [carbohydrate] decimal(18,2) NULL ,
         [unitg] decimal(18,2) NULL ,
-        [id] varchar(64) PRIMARY KEY NOT NULL ,
         [material_type] varchar(100) NULL ,
         [office_id] varchar(64) NULL ,
         [update_date] datetime2(7) NULL ,
@@ -126,7 +126,7 @@ export const CREATE_TABLE = {
         [del_flag] varchar(1) NULL DEFAULT ((0))
     )`,
     sys_dict_type: `CREATE TABLE IF NOT EXISTS sys_dict_type(
-        [id] varchar(64) NULL ,
+        [id] varchar(64) PRIMARY KEY NULL ,
         [type] varchar(64) NULL ,
         [description] nvarchar(64) NULL ,
         [create_by] varchar(64) NULL ,
@@ -138,7 +138,7 @@ export const CREATE_TABLE = {
         [is_sqlite] varchar(1) NULL DEFAULT ((0)) 
     )`,
     sys_dict_value: `CREATE TABLE IF NOT EXISTS sys_dict_value(
-        [id] nvarchar(64) NULL ,
+        [id] nvarchar(64) PRIMARY KEY NULL ,
         [dict_type_id] nvarchar(64) NULL ,
         [label] nvarchar(128) NULL ,
         [value] nvarchar(128) NULL ,
@@ -151,7 +151,7 @@ export const CREATE_TABLE = {
         [office_id] varchar(64) NULL DEFAULT '' 
     )`,
     sys_office: `CREATE TABLE IF NOT EXISTS sys_office(
-        [id] varchar(64) NULL ,
+        [id] varchar(64) PRIMARY KEY NULL ,
         [parent_id] varchar(64) NULL ,
         [parent_ids] varchar(2000) NULL ,
         [name] nvarchar(100) NULL ,
@@ -178,17 +178,27 @@ export const CREATE_TABLE = {
     )`,
 };
 export  const INSERT_DATA = {
-    // CT_Material: `INSERT INTO CT_Material VALUES(NULL,?,?,?)`,
-    ct_meal: ``,
-    ct_plan: ``,
-    ct_plan_dtl: ``,
-    ct_product: `INSERT INTO ct_product (id, summary) VALUES(?,?)`,
-    ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?)`,
-    ct_product_set: ``,
-    ct_product_set_dtl: ``,
-    sys_dict_type: ``,
-    sys_dict_value: ``,
-    sys_office: ``,
+    CT_Material: `INSERT INTO CT_Material VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //20
+
+    ct_meal: `INSERT INTO ct_meal VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //16
+
+    ct_plan: `INSERT INTO ct_plan VALUES(?,?,?,?,?,?,?,?,?,?,?)`, // 11
+
+    ct_plan_dtl: `INSERT INTO ct_plan_dtl VALUES(?,?,?,?,?,?,?,?,?)`, // 9
+
+    ct_product: `INSERT INTO ct_product VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //21
+
+    ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?,?,?)`, //6
+
+    ct_product_set: `INSERT INTO ct_product_set VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //20
+
+    ct_product_set_dtl: `INSERT INTO ct_product_set_dtl VALUES(?,?,?,?,?,?,?)`, // 7
+
+    sys_dict_type: `INSERT INTO sys_dict_type VALUES(?,?,?,?,?,?,?,?,?,?)`, //10
+
+    sys_dict_value: `INSERT INTO sys_dict_value VALUES(?,?,?,?,?,?,?,?,?,?,?)`, //11
+
+    sys_office: `INSERT INTO sys_office VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
 };
 
 export const UPDATE_DATA = {
@@ -196,22 +206,21 @@ export const UPDATE_DATA = {
 
   ct_meal: `UPDATE ct_meal SET id=?, factory_id=?, office_id=?, meal_type=?, pre_hour=?, end_hour=?, back_hour=?, is_pre=?, start_time=?, end_time=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?`,
 
-
   ct_plan: `UPDATE ct_plan SET id=?, meal_id=?, start_date=?, end_date=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, status=?`,
 
-  ct_plan_dtl: `UPDATE ct_plan_dtl SET id=?, plan_id=?, obj_type=?, obj_id=?,
-   update_by=?, update_date=?, product_name=?, factory_id=?, office_id=?, product_type=?, 
-   price=?, img_url=?, is_score=?, cost_credits=?, is_pack=?, is_hold=?, is_approval=?, summary=?, labels=?, cost=?, del_flag=?`,
-  ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?)`,
+  ct_plan_dtl: `UPDATE ct_plan_dtl SET id=?, plan_id=?, obj_type=?, obj_id=?, price=?, max_num=?, chef_id=?, update_date=?, del_flag=?`,
 
+  ct_product: `UPDATE ct_product SET id=?, remarks=?, create_by=?, create_date=?, update_by=?, update_date=?, product_name=?, factory_id=?, office_id=?, product_type=?,  price=?, img_url=?, is_score=?, cost_credits=?, is_pack=?, is_hold=?, is_approval=?, summary=?, labels=?, cost=?, del_flag=?`,
 
-  ct_product: `UPDATE ct_product SET id=?, remarks=?, create_by=?, create_date=?,
-   update_by=?, update_date=?, product_name=?, factory_id=?, office_id=?, product_type=?, 
-   price=?, img_url=?, is_score=?, cost_credits=?, is_pack=?, is_hold=?, is_approval=?, summary=?, labels=?, cost=?, del_flag=?`,
-  ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?)`,
-  ct_product_set: ``,
-  ct_product_set_dtl: ``,
-  sys_dict_type: ``,
-  sys_dict_value: ``,
-  sys_office: ``,
+  ct_product_dtl: `UPDATE ct_product_dtl SET id=?, product_id=?, material_id=?, weight=?, update_date=?, del_flag=?`,
+
+  ct_product_set: `UPDATE ct_product_set SET id=?, factory_id=?, office_id=?, product_set_name=?, price=?, img_url=?, is_score=?, cost_credits=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, labels=?, is_pack=?, is_hold=?, is_approval=?, summary=?, cost=?, `,
+
+  ct_product_set_dtl: `UPDATE ct_product_set_dtl SET id=?, product_set_id=?, product_id=?, num=?, price=?, update_date=?, del_flag=?`,
+
+  sys_dict_type: `UPDATE sys_dict_type SET id=?, type=?, description=?, create_by=?, create_date=?, update_by=?, update_date=?, del_flag=?, is_selfdom=?, is_sqlite=?`,
+
+  sys_dict_value: `UPDATE sys_dict_value SET id=?, dict_type_id=?, label=?, value=?, sort=?, create_by=?, create_date=?, update_by=?, update_date=?, del_flag=?, office_id=?`,
+
+  sys_office: `UPDATE sys_office SET id=?, parent_id=?, parent_ids=?, name=?, sort=?, area_id=?, code=?, type=?, grade=?, address=?,  zip_code=?, master=?, phone=?, fax=?, email=?, USEABLE=?, PRIMARY_PERSON=?, DEPUTY_PERSON=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, del_flag=?`,
 };

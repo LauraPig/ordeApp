@@ -14,6 +14,7 @@ export class DataBaseService {
     ){
         console.log('数据库初始化');
     }
+    // 创建数据库
     creatDataBase(): Promise<any> {
         return this.sqlite.create({
             name: DATABASE_NAME,
@@ -55,7 +56,9 @@ export class DataBaseService {
         });
     }
 
-    updateCt_productTableData(list: Array<any>): Promise<any> {
+
+    // CT_Material表
+    updateCtMaterialTableData(list: Array<any>): Promise<any> {
       return  this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
@@ -64,15 +67,17 @@ export class DataBaseService {
         this.dbObject.transaction((db: SQLiteObject) => {
           list.map(item => {
             console.log(item);
-            db.executeSql(`SELECT COUNT(*) AS result FROM ct_product WHERE id=${item.id}`, {}).then(res => {
+            db.executeSql(`SELECT COUNT(*) AS total FROM CT_Material WHERE id=${item.id}`, {}).then(res => {
               if (res.rows.length && res.rows.item(0).total > 1) {
-                db.executeSql(UPDATE_DATA.ct_product,
-                  [item.id, item.remarks, item.createBy, item.createDate, item.updateBy, item.updateDate, item.productName, item.factory, item.office, item.productType, item.price, item.imgUrl, item.isScore, item.costCredits, item.isPack, item.isHold, item.isApproval, item.summary, item.labels, item.cost, item.delFlag]).then().catch(e => {
-     alert(`更新${tablename}表数据失败`);
+
+                // TODO
+                //字段数量不够20
+                db.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialType, item.materialname, item.unit, item.exp, item.specification, item.isvalid, item.pinyin, item.attribute, item.officeId]).then().catch(e => {
+                  alert(`更新CT_Material表数据失败`);
                 });
               } else {
-                db.executeSql(`INSERT INTO ${tableName} VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) `, [item.id, item.remarks, item.createBy, item.createDate, item.updateBy, item.updateDate, item.productName, item.factory, item.office, item.productType, item.price, item.imgUrl, item.isScore, item.costCredits, item.isPack, item.isHold, item.isApproval, item.summary, item.labels, item.cost, item.type, item.objNum]).then().catch(e => {
-                  alert(`插入${tablename}表数据失败`);
+                db.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialType, item.materialname, item.unit, item.exp, item.specification, item.isvalid, item.pinyin, item.attribute, item.officeId]).then().catch(e => {
+                  alert(`插入CT_Material表数据失败`);
                 });
               }
             }).catch(e => {
@@ -83,8 +88,37 @@ export class DataBaseService {
 
         });
       }).catch(e => {});
-
     }
+
+  //   ct_meal  还有问题
+  updateCtMealTableData(list: Array<any>): Promise<any> {
+    return  this.sqlite.create({
+      name: DATABASE_NAME,
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      this.dbObject = db;
+      this.dbObject.transaction((db: SQLiteObject) => {
+        list.map(item => {
+          console.log(item);
+          db.executeSql(`SELECT COUNT(*) AS total FROM ct_meal WHERE id=${item.id}`, {}).then(res => {
+            if (res.rows.length && res.rows.item(0).total > 1) {
+              db.executeSql(UPDATE_DATA.ct_meal, [item.id, item.materialType, item.materialname, item.unit, item.exp, item.specification, item.isvalid, item.pinyin, item.attribute, item.officeId]).then().catch(e => {
+                alert(`更新CT_Material表数据失败`);
+              });
+            } else {
+              db.executeSql(INSERT_DATA.ct_meal, [item.id, item.materialType, item.materialname, item.unit, item.exp, item.specification, item.isvalid, item.pinyin, item.attribute, item.officeId]).then().catch(e => {
+                alert(`插入CT_Material表数据失败`);
+              });
+            }
+          }).catch(e => {
+
+          });
+        });
+      }).then().catch(e => {
+
+      });
+    }).catch(e => {});
+  }
 
     openDataBase(): Promise<any> {
       return  this.sqlite.create({
