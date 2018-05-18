@@ -95,7 +95,7 @@ export class MyApp {
       }
     ];
     this.httpDataPro.fetchInitData(params).then(res => {
-      alert('数据' + res.success);
+      alert('数据---' + JSON.stringify(res.body));
       const temData = res.body;
       if (!res.success) {
         return;
@@ -103,119 +103,77 @@ export class MyApp {
 
       //  保存最新的版本号
       if (temData.thermalDataVer) {
+        alert('设置缓存hotVersion');
         this.storage.set('hotVersion', temData.thermalDataVer);
       }
 
       //
       if (temData.coldDataVer) {
+        alert('设置缓存coldVersion');
         this.storage.set('coldVersion', temData.coldDataVer);
       }
 
-      // 处理产品数据
+      // ct_product
       if (temData.productList && temData.productList.length > 0) {
-        temData.productList.map(item => {
-          item.createBy = item.createBy.id;
-          item.updateBy = item.updateBy.id;
-          item.factory = item.factory.id;
-          item.office = item.office.id;
-        });
-
-        alert(JSON.stringify(temData.productList));
+        alert('设置ct_product');
+        this.dbService.updateCtProductTableData(temData.productList);
       }
 
-      //
+      //  ct_product_dtl
       if (temData.productDtlList && temData.productDtlList.length > 0) {
-        temData.productDtlList.map(item => {
-          item.product = item.product.id;
-          item.material = item.material.id;
-        });
+        alert('设置ct_product_dtl');
+        this.dbService.updateCtProductDtlTableData(temData.productDtlList);
       }
 
-      //
+      //  ct_product_set
       if (temData.productSetList && temData.productSetList.length > 0) {
-        temData.productSetList.map(item => {
-          item.createBy = item.createBy.id;
-          item.updateBy = item.updateBy.id;
-          item.factory = item.factory.id;
-          item.office = item.office.id;
-        });
+        this.dbService.updateCtProductSetTableData(temData.productSetList);
       }
 
-      //
+      //  ct_product_set_dtl
       if (temData.productSetDtlList && temData.productSetDtlList.length > 0) {
-        temData.productSetDtlList.map(item => {
-          item.productSet = item.productSet.id;
-          item.product = item.product.id;
-          item.factory = item.factory.id;
-          item.office = item.office.id;
-        });
+        this.dbService.updateCtProductSetDtlTableData(temData.productSetDtlList);
       }
 
-      //
+      //  CT_Material
       if (temData.ctMaterialList && temData.ctMaterialList.length > 0) {
-        temData.ctMaterialList.map(item => {
-          item.office = item.office.id;
-        });
+        this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
       }
 
-      //
+      //  sys_dict_type
       if (temData.dictTypeList && temData.dictTypeList.length > 0) {
-        temData.dictTypeList.map(item => {
-          item.createBy = item.createBy.id;
-          item.updateBy = item.updateBy.id;
-        });
+        this.dbService.updateSysDictTypeTableData(temData.dictTypeList);
       }
 
-      //
+      //  sys_dict_value
       if (temData.dictValueList && temData.dictValueList.length > 0) {
-        temData.dictValueList.map(item => {
-          item.createBy = item.createBy.id;
-          item.updateBy = item.updateBy.id;
-          item.dictType = item.dictType.id;
-        });
+        this.dbService.updateSysDictValueTableData(temData.dictValueList);
       }
 
 
-      //
+      //  sys_office
       if (temData.officeList && temData.officeList.length > 0) {
-        temData.officeList.map(item => {
-          item.createBy = item.createBy.id;
-          item.updateBy = item.updateBy.id;
-          item.area = item.area.id;
-          item.primaryPerson = item.primaryPerson.id;
-          item.deputyPerson = item.deputyPerson.id;
-        });
+       this.dbService.updateSysOfficeTableData(temData.officeList);
       }
 
-      //
+      //  ct_meal
       if (temData.ctMealList && temData.ctMealList.length > 0) {
-        temData.ctMealList.map(item => {
-          item.createBy = item.createBy.id;
-          item.updateBy = item.updateBy.id;
-          item.factory = item.factory.id;
-          item.office = item.office.id;
-        });
+        this.dbService.updateCtMealTableData(temData.ct_meal);
       }
 
-      //
+      //  ct_plan
       if (temData.ctPlanList && temData.ctPlanList.length > 0) {
-        temData.ctPlanList.map(item => {
-          item.createBy = item.createBy.id;
-          item.updateBy = item.updateBy.id;
-          item.meal = item.meal.id;
-        });
+        this.dbService.updateCtPlanTableData(temData.ctPlanList);
       }
 
-      //
+      //  ct_plan_dtl
       if (temData.ctPlanDtlList && temData.ctPlanDtlList.length > 0) {
-        temData.ctPlanDtlList.map(item => {
-          item.plan = item.plan.id;
-          item.chef = item.chef.id;
-        });
+        this.dbService.updateCtPlanDtlTableData(temData.ctPlanDtlList);
       }
 
     }).catch(e => {
       console.log(e);
+      alert('拉取数据错误---' + JSON.stringify(e));
     });
   }
 

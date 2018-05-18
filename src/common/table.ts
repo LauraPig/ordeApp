@@ -18,8 +18,7 @@ export const CREATE_TABLE = {
         [material_type] varchar(100) NULL ,
         [office_id] varchar(64) NULL ,
         [update_date] datetime2(7) NULL ,
-        [del_flag] varchar(1) NULL DEFAULT ((0)) ,
-        [MaterialID] int NULL
+        [del_flag] varchar(1) NULL DEFAULT ((0))
     )`,
     ct_meal: `CREATE TABLE IF NOT EXISTS ct_meal(
         [id] varchar(64) PRIMARY KEY NOT NULL ,
@@ -178,7 +177,7 @@ export const CREATE_TABLE = {
     )`,
 };
 export  const INSERT_DATA = {
-    CT_Material: `INSERT INTO CT_Material VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //20
+    CT_Material: `INSERT INTO CT_Material VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //19
 
     ct_meal: `INSERT INTO ct_meal VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //16
 
@@ -202,25 +201,25 @@ export  const INSERT_DATA = {
 };
 
 export const UPDATE_DATA = {
-  CT_Material: `UPDATE CT_Material SET id=?, MaterialName=?, Unit=?, EXP=?, Specification=?, Remarks=?, IsValid=?, Pinyin=?, Attribute=?, Imgs=?, heat=?, protein=?, fat=?, carbohydrate=?, unitg=?, material_type=?, office_id=?, update_date=?, del_flag=?, MaterialID=?`,
+    CT_Material: `UPDATE CT_Material SET id=?, MaterialName=?, Unit=?, EXP=?, Specification=?, Remarks=?, IsValid=?, Pinyin=?, Attribute=?, Imgs=?, heat=?, protein=?, fat=?, carbohydrate=?, unitg=?, material_type=?, office_id=?, update_date=?, del_flag=?`,
 
-  ct_meal: `UPDATE ct_meal SET id=?, factory_id=?, office_id=?, meal_type=?, pre_hour=?, end_hour=?, back_hour=?, is_pre=?, start_time=?, end_time=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?`,
+    ct_meal: `UPDATE ct_meal SET id=?, factory_id=?, office_id=?, meal_type=?, pre_hour=?, end_hour=?, back_hour=?, is_pre=?, start_time=?, end_time=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?`,
 
-  ct_plan: `UPDATE ct_plan SET id=?, meal_id=?, start_date=?, end_date=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, status=?`,
+    ct_plan: `UPDATE ct_plan SET id=?, meal_id=?, start_date=?, end_date=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, status=?`,
 
-  ct_plan_dtl: `UPDATE ct_plan_dtl SET id=?, plan_id=?, obj_type=?, obj_id=?, price=?, max_num=?, chef_id=?, update_date=?, del_flag=?`,
+    ct_plan_dtl: `UPDATE ct_plan_dtl SET id=?, plan_id=?, obj_type=?, obj_id=?, price=?, max_num=?, chef_id=?, update_date=?, del_flag=?`,
 
-  ct_product: `UPDATE ct_product SET id=?, remarks=?, create_by=?, create_date=?, update_by=?, update_date=?, product_name=?, factory_id=?, office_id=?, product_type=?,  price=?, img_url=?, is_score=?, cost_credits=?, is_pack=?, is_hold=?, is_approval=?, summary=?, labels=?, cost=?, del_flag=?`,
+    ct_product: `UPDATE ct_product SET id=?, remarks=?, create_by=?, create_date=?, update_by=?, update_date=?, product_name=?, factory_id=?, office_id=?, product_type=?,  price=?, img_url=?, is_score=?, cost_credits=?, is_pack=?, is_hold=?, is_approval=?, summary=?, labels=?, cost=?, del_flag=?`,
 
-  ct_product_dtl: `UPDATE ct_product_dtl SET id=?, product_id=?, material_id=?, weight=?, update_date=?, del_flag=?`,
+    ct_product_dtl: `UPDATE ct_product_dtl SET id=?, product_id=?, material_id=?, weight=?, update_date=?, del_flag=?`,
 
-  ct_product_set: `UPDATE ct_product_set SET id=?, factory_id=?, office_id=?, product_set_name=?, price=?, img_url=?, is_score=?, cost_credits=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, labels=?, is_pack=?, is_hold=?, is_approval=?, summary=?, cost=?, `,
+    ct_product_set: `UPDATE ct_product_set SET id=?, factory_id=?, office_id=?, product_set_name=?, price=?, img_url=?, is_score=?, cost_credits=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, labels=?, is_pack=?, is_hold=?, is_approval=?, summary=?, cost=?`,
 
-  ct_product_set_dtl: `UPDATE ct_product_set_dtl SET id=?, product_set_id=?, product_id=?, num=?, price=?, update_date=?, del_flag=?`,
+    ct_product_set_dtl: `UPDATE ct_product_set_dtl SET id=?, product_set_id=?, product_id=?, num=?, price=?, update_date=?, del_flag=?`,
 
-  sys_dict_type: `UPDATE sys_dict_type SET id=?, type=?, description=?, create_by=?, create_date=?, update_by=?, update_date=?, del_flag=?, is_selfdom=?, is_sqlite=?`,
+    sys_dict_type: `UPDATE sys_dict_type SET id=?, type=?, description=?, create_by=?, create_date=?, update_by=?, update_date=?, del_flag=?, is_selfdom=?, is_sqlite=?`,
 
-  sys_dict_value: `UPDATE sys_dict_value SET id=?, dict_type_id=?, label=?, value=?, sort=?, create_by=?, create_date=?, update_by=?, update_date=?, del_flag=?, office_id=?`,
+    sys_dict_value: `UPDATE sys_dict_value SET id=?, dict_type_id=?, label=?, value=?, sort=?, create_by=?, create_date=?, update_by=?, update_date=?, del_flag=?, office_id=?`,
 
-  sys_office: `UPDATE sys_office SET id=?, parent_id=?, parent_ids=?, name=?, sort=?, area_id=?, code=?, type=?, grade=?, address=?,  zip_code=?, master=?, phone=?, fax=?, email=?, USEABLE=?, PRIMARY_PERSON=?, DEPUTY_PERSON=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, del_flag=?`,
+    sys_office: `UPDATE sys_office SET id=?, parent_id=?, parent_ids=?, name=?, sort=?, area_id=?, code=?, type=?, grade=?, address=?,  zip_code=?, master=?, phone=?, fax=?, email=?, USEABLE=?, PRIMARY_PERSON=?, DEPUTY_PERSON=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?, del_flag=?`,
 };
