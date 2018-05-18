@@ -58,7 +58,7 @@ export class DataBaseService {
 
 
     // CT_Material表
-    updateCtMaterialTableData(list: Array<any>): Promise<any> {
+    updateCtMaterialTableData(list: any): Promise<any> {
       return  this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
@@ -96,7 +96,7 @@ export class DataBaseService {
     }
 
     //   ct_meal
-    updateCtMealTableData(list: Array<any>): Promise<any> {
+    updateCtMealTableData(list: any): Promise<any> {
       return  this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
@@ -124,13 +124,13 @@ export class DataBaseService {
             });
           });
         }).then().catch(e => {
-
+          alert('操作数据表失败---：' + e.toString());
         });
       }).catch(e => {});
     }
 
     //   ct_plan
-    updateCtPlanTableData(list: Array<any>): Promise<any> {
+    updateCtPlanTableData(list: any): Promise<any> {
       return  this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
@@ -164,7 +164,7 @@ export class DataBaseService {
     }
 
     //   ct_plan_dtl
-    updateCtPlanDtlTableData(list: Array<any>): Promise<any> {
+    updateCtPlanDtlTableData(list: any): Promise<any> {
       return  this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
@@ -198,14 +198,15 @@ export class DataBaseService {
     }
 
     //   ct_product
-    updateCtProductTableData(list: Array<any>): Promise<any> {
+    updateCtProductTableData(list: any): Promise<any> {
       return  this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.dbObject = db;
         this.dbObject.transaction((db: SQLiteObject) => {
-          list.map(item => {
+          alert('类型--' + (list instanceof Array));
+         list instanceof Array && list.map(item => {
             console.log(item);
             db.executeSql(`SELECT COUNT(*) AS total FROM ct_product WHERE id=${item.id}`, {}).then(res => {
               if (res.rows.length && res.rows.item(0).total > 1) {

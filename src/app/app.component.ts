@@ -95,8 +95,10 @@ export class MyApp {
       }
     ];
     this.httpDataPro.fetchInitData(params).then(res => {
-      alert('数据---' + JSON.stringify(res.body));
+      // alert('数据---' + JSON.stringify(res.body));
+      // alert('数据---' + JSON.stringify(res.body));
       const temData = res.body;
+      alert('数据-2--' + JSON.stringify(temData.productList));
       if (!res.success) {
         return;
       }
@@ -115,7 +117,8 @@ export class MyApp {
 
       // ct_product
       if (temData.productList && temData.productList.length > 0) {
-        alert('设置ct_product');
+        alert('ct_product---类型' + (temData.productList instanceof Array) );
+        alert('设置ct_product---' + temData.productList );
         this.dbService.updateCtProductTableData(temData.productList);
       }
 
