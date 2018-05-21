@@ -101,27 +101,31 @@ export class DataBaseService {
         // (ts: SQLiteTransaction) =>{
         (db: SQLiteObject) =>{
           // db.addTransaction(db.transaction())
-        // db.transaction((tb: SQLiteObject) => {
-        //   listProdcut.map((item, index) => {
-        //     if (resultList.indexOf(item) > 0) {
-        //       tb.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag]).then(() =>{
-        //         // alert('update success');
-        //         if (index === listProdcut.length - 1) {
-        //           initLoading.dismiss();
-        //         }
-        //       }).catch();
-        //     } else {
-        //       tb.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag]).then(() =>{
-        //         if (index === listProdcut.length - 1) {
-        //           initLoading.dismiss();
-        //         }
-        //       }).catch();
-        //     }
-        //   });
-        // }).then().catch(e =>{
-        //   alert('操作CT_Material表数据失败-transaction-' + e.toString());
-        //   initLoading.dismiss();
-        // });
+        db.transaction((tx: SQLiteTransaction) => {
+          listProdcut.map((item, index) => {
+            if (resultList.indexOf(item) > 0) {
+              tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
+                if (index === listProdcut.length - 1) {
+                  initLoading.dismiss();
+                }
+              }, (e) =>{
+                initLoading.dismiss();
+                alert('eeeeee--' + e.toString());
+              });
+            } else {
+              tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                if (index === listProdcut.length - 1) {
+                  initLoading.dismiss();
+                }
+              }, e =>{
+                alert('eeeeee-insert-' + e.toString());
+              });
+            }
+          });
+        }).then().catch(e =>{
+          alert('操作CT_Material表数据失败-transaction-' + e.toString());
+          initLoading.dismiss();
+        });
       }).catch(e =>{
 
       });
