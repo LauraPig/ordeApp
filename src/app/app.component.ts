@@ -20,6 +20,8 @@ export class MyApp {
 
   loading: Loading ;
   coldVersion: number = 0;
+  isFetchCold: boolean = false;
+  isFetchHot: boolean = false;
   hotVersion: number = 0;
   @ViewChild(Nav) nav: Nav;
 
@@ -62,23 +64,34 @@ export class MyApp {
 
       // 获取本地的coldVersion版本号
       this.storage.get('coldVersion').then(res => {
-        if (!res) {
+        // alert('res--coldVersion-' + res);
+        if (res) {
           this.coldVersion = Number(res);
         }
+        // hotVersion 版本号
+        this.storage.get('hotVersion').then(res => {
+          // alert('res--hotVersion-' + res);
+          if (res) {
+            this.hotVersion = Number(res);
+          }
+
+          this.checkData();
+        }).catch(e => {
+          this.isFetchHot = true;
+          console.log(e);
+        });
       }).catch(e => {
+        this.isFetchCold = true;
         console.log(e);
       });
 
-      // hotVersion 版本号
-      this.storage.get('hotVersion').then(res => {
-        if (!res) {
-          this.hotVersion = Number(res);
-        }
-      }).catch(e => {
-        console.log(e);
-      });
 
-      this.checkData();
+
+      // this.checkData();
+
+      // if () {
+      //   this.checkData();
+      // }
     });
   }
 
@@ -94,89 +107,94 @@ export class MyApp {
         'type': '1'
       }
     ];
+    // alert('this.coldVersion--' + this.coldVersion);
+    // alert('this.hotVersion--' + this.hotVersion);
     this.httpDataPro.fetchInitData(params).then(res => {
       // alert('数据---' + JSON.stringify(res.body));
       // alert('数据---' + JSON.stringify(res.body));
       const temData = res.body;
-      alert('数据-2--' + JSON.stringify(temData.productList));
+      // alert('数据-2--' + JSON.stringify(temData.productList));
       if (!res.success) {
         return;
       }
 
       //  保存最新的版本号
-      if (temData.thermalDataVer) {
-        alert('设置缓存hotVersion');
-        this.storage.set('hotVersion', temData.thermalDataVer);
+      if (temData.thermalDataVer && temData.thermalDataVer !== this.hotVersion) {
+        // alert('设置缓存hotVersion--' + temData.thermalDataVer);
+        // this.storage.set('hotVersion', temData.thermalDataVer);
       }
 
       //
-      if (temData.coldDataVer) {
-        alert('设置缓存coldVersion');
-        this.storage.set('coldVersion', temData.coldDataVer);
-      }
-
-      // ct_product
-      if (temData.productList && temData.productList.length > 0) {
-        alert('ct_product---类型' + (temData.productList instanceof Array) );
-        alert('设置ct_product---' + temData.productList );
-        this.dbService.updateCtProductTableData(temData.productList);
-      }
-
-      //  ct_product_dtl
-      if (temData.productDtlList && temData.productDtlList.length > 0) {
-        alert('设置ct_product_dtl');
-        this.dbService.updateCtProductDtlTableData(temData.productDtlList);
-      }
-
-      //  ct_product_set
-      if (temData.productSetList && temData.productSetList.length > 0) {
-        this.dbService.updateCtProductSetTableData(temData.productSetList);
-      }
-
-      //  ct_product_set_dtl
-      if (temData.productSetDtlList && temData.productSetDtlList.length > 0) {
-        this.dbService.updateCtProductSetDtlTableData(temData.productSetDtlList);
+      if (temData.coldDataVer && temData.coldDataVer !== this.coldVersion) {
+        // alert('设置缓存coldVersion--' + temData.coldDataVer);
+        // this.storage.set('coldVersion', temData.coldDataVer);
       }
 
       //  CT_Material
+      alert(temData.ctMaterialList.length);
       if (temData.ctMaterialList && temData.ctMaterialList.length > 0) {
-        this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
+        // this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
+        this.dbService.testCtMaterialTableData(temData.ctMaterialList);
       }
 
-      //  sys_dict_type
-      if (temData.dictTypeList && temData.dictTypeList.length > 0) {
-        this.dbService.updateSysDictTypeTableData(temData.dictTypeList);
-      }
-
-      //  sys_dict_value
-      if (temData.dictValueList && temData.dictValueList.length > 0) {
-        this.dbService.updateSysDictValueTableData(temData.dictValueList);
-      }
-
-
-      //  sys_office
-      if (temData.officeList && temData.officeList.length > 0) {
-       this.dbService.updateSysOfficeTableData(temData.officeList);
-      }
-
-      //  ct_meal
-      if (temData.ctMealList && temData.ctMealList.length > 0) {
-        this.dbService.updateCtMealTableData(temData.ct_meal);
-      }
-
-      //  ct_plan
-      if (temData.ctPlanList && temData.ctPlanList.length > 0) {
-        this.dbService.updateCtPlanTableData(temData.ctPlanList);
-      }
-
-      //  ct_plan_dtl
-      if (temData.ctPlanDtlList && temData.ctPlanDtlList.length > 0) {
-        this.dbService.updateCtPlanDtlTableData(temData.ctPlanDtlList);
-      }
+      // // ct_product
+      // if (temData.productList && temData.productList.length > 0) {
+      //   // alert('ct_product---类型' + (temData.productList instanceof Array) );
+      //   // alert('设置ct_product---' + temData.productList );
+      //   this.dbService.updateCtProductTableData(temData.productList);
+      // }
+      //
+      // //  ct_product_dtl
+      // if (temData.productDtlList && temData.productDtlList.length > 0) {
+      //   // alert('设置ct_product_dtl');
+      //   this.dbService.updateCtProductDtlTableData(temData.productDtlList);
+      // }
+      //
+      // //  ct_product_set
+      // if (temData.productSetList && temData.productSetList.length > 0) {
+      //   this.dbService.updateCtProductSetTableData(temData.productSetList);
+      // }
+      //
+      // //  ct_product_set_dtl
+      // if (temData.productSetDtlList && temData.productSetDtlList.length > 0) {
+      //   this.dbService.updateCtProductSetDtlTableData(temData.productSetDtlList);
+      // }
+      //
+      //
+      // //  sys_dict_type
+      // if (temData.dictTypeList && temData.dictTypeList.length > 0) {
+      //   this.dbService.updateSysDictTypeTableData(temData.dictTypeList);
+      // }
+      //
+      // //  sys_dict_value
+      // if (temData.dictValueList && temData.dictValueList.length > 0) {
+      //   this.dbService.updateSysDictValueTableData(temData.dictValueList);
+      // }
+      //
+      //
+      // //  sys_office
+      // if (temData.officeList && temData.officeList.length > 0) {
+      //  this.dbService.updateSysOfficeTableData(temData.officeList);
+      // }
+      //
+      // //  ct_meal
+      // if (temData.ctMealList && temData.ctMealList.length > 0) {
+      //   this.dbService.updateCtMealTableData(temData.ct_meal);
+      // }
+      //
+      // //  ct_plan
+      // if (temData.ctPlanList && temData.ctPlanList.length > 0) {
+      //   this.dbService.updateCtPlanTableData(temData.ctPlanList);
+      // }
+      //
+      // //  ct_plan_dtl
+      // if (temData.ctPlanDtlList && temData.ctPlanDtlList.length > 0) {
+      //   this.dbService.updateCtPlanDtlTableData(temData.ctPlanDtlList);
+      // }
 
     }).catch(e => {
       console.log(e);
-      alert('拉取数据错误---' + JSON.stringify(e));
+      alert('拉取数据错误---' + e.toString());
     });
   }
 
