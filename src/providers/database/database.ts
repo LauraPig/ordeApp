@@ -4,6 +4,7 @@ import { CREATE_TABLE, INSERT_DATA, UPDATE_DATA  } from '../../common/table';
 // import { mock_data } from '../../mock/mock-data';
 import { Injectable } from '@angular/core';
 import {LoadingController, ToastController} from 'ionic-angular';
+import {getIdSet} from "../../utils/index";
 
 @Injectable()
 export class DataBaseService {
@@ -58,18 +59,19 @@ export class DataBaseService {
     }
 
 
-    // test
-    testCtMaterialTableData (list: Array<any>) {
+    // CT_Material表
+    updateCtMaterialTableData (list: Array<any>) {
       let initLoading = this.loadingCtrl.create({
+        spinner: 'bubbles',
         content: '更新数据中...',
       });
       initLoading.present();
-      let idList = [];
+      // let idList = [];
       let resultList = [];
-       list && list.map(item =>{
-         idList.push(item.id);
-       });
-       let sqlStr = idList.join(`','`);
+       // list && list.map(item =>{
+       //   idList.push(item.id);
+       // });
+       let sqlStr = getIdSet(list);
        // alert(`'${sqlStr}'`);
 
       this.sqlite.create({
@@ -83,7 +85,33 @@ export class DataBaseService {
               resultList.push(res.rows.item(i).id);
             }
           }
-          this.insertOper(list, resultList, initLoading);
+          db.transaction((tx: SQLiteTransaction) => {
+            list.map((item, index) => {
+              if (resultList.indexOf(item) > 0) {
+                tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
+                  if (index === list.length - 1) {
+                    alert('index---' + index);
+                    initLoading.dismiss();
+                  }
+                }, (e) =>{
+                  initLoading.dismiss();
+                  alert('eeeeee--' + e.toString());
+                });
+              } else {
+                tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                  if (index === list.length - 1) {
+                    initLoading.dismiss();
+                    alert('index---' + index);
+                  }
+                }, e =>{
+                  alert('eeeeee-insert-' + e.toString());
+                });
+              }
+            });
+          }).then().catch(e =>{
+            alert('操作CT_Material表数据失败-transaction-' + e.toString());
+            initLoading.dismiss();
+          });
         }).catch(e =>{
           alert('操作CT_Material表数据失败--' + JSON.stringify(e));
         });
@@ -93,125 +121,59 @@ export class DataBaseService {
       });
     }
 
-    insertOper(listProdcut, resultList, initLoading) {
+
+    //   ct_meal
+    updateCtMealTableData(list: Array<any>) {
+
+      let resultList = [];
+      let initLoading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content: '更新ct_meal数据中...',
+      });
+      initLoading.present();
+
+      let sqlStr = getIdSet(list);
+
       this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
-      }).then(
-        // (ts: SQLiteTransaction) =>{
-        (db: SQLiteObject) =>{
-          // db.addTransaction(db.transaction())
-        db.transaction((tx: SQLiteTransaction) => {
-          listProdcut.map((item, index) => {
-            if (resultList.indexOf(item) > 0) {
-              tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
-                if (index === listProdcut.length - 1) {
-                  initLoading.dismiss();
-                }
-              }, (e) =>{
-                initLoading.dismiss();
-                alert('eeeeee--' + e.toString());
-              });
-            } else {
-              tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
-                if (index === listProdcut.length - 1) {
-                  initLoading.dismiss();
-                }
-              }, e =>{
-                alert('eeeeee-insert-' + e.toString());
-              });
-            }
-          });
-        }).then().catch(e =>{
-          alert('操作CT_Material表数据失败-transaction-' + e.toString());
-          initLoading.dismiss();
-        });
-      }).catch(e =>{
-
-      });
-    }
-
-
-    // CT_Material表
-    updateCtMaterialTableData(list: Array<any>): Promise<any> {
-      let initLoading = this.loadingCtrl.create({
-        content: '更新数据中...',
-      });
-      initLoading.present();
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
       }).then((db: SQLiteObject) => {
-        list && list.map((item, index) => {
-          db.executeSql(`SELECT COUNT(*) AS total FROM CT_Material WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag]).then(() =>{
-                // alert(`更新CT_Material表数据成功`);
-                if (index === list.length - 1) {
-                  initLoading.dismiss();
-                }
-              }).catch(e => {
-                alert(`更新CT_Material表数据失败` + JSON.stringify(e));
-                initLoading.dismiss();
-              });
-            } else {
-              db.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag]).then(() => {
-                // alert(`插入CT_Material表数据成功`);
-                if (index === list.length - 1) {
-                  initLoading.dismiss();
-                }
-              }).catch(e => {
-                alert(`插入CT_Material表数据失败` + JSON.stringify(e));
-                initLoading.dismiss();
-              });
+        db.executeSql(`SELECT id FROM ct_meal WHERE id in ('${sqlStr}')`,{}).then(res =>{
+          if (res.rows.length) {
+            for(var i = 0; i < res.rows.length; i++) {
+              resultList.push(res.rows.item(i).id);
             }
-          }).catch(e => {
-            initLoading.dismiss();
-            // alert('操作CT_Material表数据失败');
-            // alert('e错误-executeSql-' + JSON.stringify(e));
-          });
+          }
+          db.transaction((tx: SQLiteTransaction) =>{
+           list && list.map((item, index) =>{
+              if (resultList.indexOf(item) > 0) {
+                tx.executeSql(UPDATE_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
+                  if (index === list.length - 1) {
+                    initLoading.dismiss();
+                  }
+                }, (e) =>{
+                  alert('err in update ct_meal table ,cause by: ' +  e.toString());
+                  initLoading.dismiss();
+                });
+              } else {
+                tx.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
+                  if (index === list.length - 1) {
+                    initLoading.dismiss();
+                  }
+                }, (e) =>{
+                  alert('err in insert ct_meal table cause by: ' + JSON.stringify(e));
+                  initLoading.dismiss();
+                });
+              }
+            });
+          }).then(() =>{
 
-        });
-
-      }).catch(e => {
-        initLoading.dismiss();
-        // alert('操作CT_Material表数据失败');
-      });
-    }
-
-    //   ct_meal
-    updateCtMealTableData(list: Array<any>): Promise<any> {
-      let initLoading = this.loadingCtrl.create({
-        content: '更新数据中...',
-      });
-      initLoading.present();
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM ct_meal WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks]).then(() => {
-                // alert(`更新ct_meal表数据成功`);
-                initLoading.dismiss();
-              }).catch(e => {
-                // alert(`更新ct_meall表数据失败` + JSON.stringify(e));
-                initLoading.dismiss();
-              });
-            } else {
-              db.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks]).then(() => {
-                // alert(`插入ct_meal表数据成功`);
-                initLoading.dismiss();
-              }).catch(e => {
-                // alert(`插入ct_meal表数据失败` + JSON.stringify(e));
-                initLoading.dismiss();
-              });
-            }
-          }).catch(e => {
+          }).catch(e =>{
+            alert('err in operate the ct_meal table cause by: ' + e.toString());
             initLoading.dismiss();
           });
+        }).catch(e => {
+
         });
       }).catch(e => {
         initLoading.dismiss();
@@ -219,29 +181,59 @@ export class DataBaseService {
     }
 
     //   ct_plan
-    updateCtPlanTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
+    updateCtPlanTableData(list: Array<any>) {
+      let resultList = [];
+      let initLoading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content: '更新ct_meal数据中...',
+      });
+      initLoading.present();
+
+      let sqlStr = getIdSet(list);
+
+      this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
       }).then((db: SQLiteObject) => {
-        list.map(item => {
+        list && list.map(item => {
           console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM ct_plan WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status]).then(() => {
-                alert(`更新ct_plan表数据成功`);
-              }).catch(e => {
-                alert(`更新ct_plan表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status]).then(() =>{
-                alert(`插入ct_plan表数据成功`);
-              }).catch(e => {
-                alert(`插入ct_plan表数据失败` + JSON.stringify(e));
-              });
+          db.executeSql(`SELECT id FROM ct_plan WHERE id in ('${sqlStr}')`, {}).then(res => {
+            if (res.rows.length) {
+              for(var i = 0; i < res.rows.length; i++) {
+                resultList.push(res.rows.item(i).id);
+              }
             }
-          }).catch(e => {
+            db.transaction((tx: SQLiteTransaction) =>{
+              list.map((item, index) =>{
+                if (resultList.indexOf(item) > 0) {
+                  tx.executeSql(UPDATE_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status],() =>{
+                    if (index === list.length - 1) {
+                      initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in update ct_plan table ,cause by: ' +  e.toString());
+                    initLoading.dismiss();
+                  });
+                } else {
+                  tx.executeSql(INSERT_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status],() =>{
+                    if (index === list.length - 1) {
+                      initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert ct_plan table cause by: ' + e.toString());
+                    initLoading.dismiss();
+                  });
+                }
+              });
+            }).then(() =>{
 
+            }).catch(e =>{
+              alert('err in operate the ct_plan table cause by: ' + e.toString());
+              initLoading.dismiss();
+            });
+          }).catch(e => {
+            alert('err in select the ct_plan table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
         });
       }).catch(e => {});

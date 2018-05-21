@@ -62,36 +62,36 @@ export class MyApp {
         console.log(e);
       });
 
-      // 获取本地的coldVersion版本号
-      this.storage.get('coldVersion').then(res => {
-        // alert('res--coldVersion-' + res);
-        if (res) {
-          this.coldVersion = Number(res);
-        }
-        // hotVersion 版本号
-        this.storage.get('hotVersion').then(res => {
-          // alert('res--hotVersion-' + res);
-          if (res) {
-            this.hotVersion = Number(res);
-          }
-
-          this.checkData();
-        }).catch(e => {
-          this.isFetchHot = true;
-          console.log(e);
-        });
-      }).catch(e => {
-        this.isFetchCold = true;
-        console.log(e);
-      });
-
-
-
       // this.checkData();
 
       // if () {
       //   this.checkData();
       // }
+    });
+  }
+
+  handleVersion() {
+    // 获取本地的coldVersion版本号
+    this.storage.get('coldVersion').then(res => {
+      // alert('res--coldVersion-' + res);
+      if (res) {
+        this.coldVersion = Number(res);
+      }
+      // hotVersion 版本号
+      this.storage.get('hotVersion').then(res => {
+        // alert('res--hotVersion-' + res);
+        if (res) {
+          this.hotVersion = Number(res);
+        }
+
+        this.checkData();
+      }).catch(e => {
+        this.isFetchHot = true;
+        console.log(e);
+      });
+    }).catch(e => {
+      this.isFetchCold = true;
+      console.log(e);
     });
   }
 
@@ -133,8 +133,8 @@ export class MyApp {
       //  CT_Material
       alert(temData.ctMaterialList.length);
       if (temData.ctMaterialList && temData.ctMaterialList.length > 0) {
-        // this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
-        this.dbService.testCtMaterialTableData(temData.ctMaterialList);
+        this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
+        // this.dbService.testCtMaterialTableData(temData.ctMaterialList);
       }
 
       // // ct_product
@@ -143,7 +143,7 @@ export class MyApp {
       //   // alert('设置ct_product---' + temData.productList );
       //   this.dbService.updateCtProductTableData(temData.productList);
       // }
-      //
+
       // //  ct_product_dtl
       // if (temData.productDtlList && temData.productDtlList.length > 0) {
       //   // alert('设置ct_product_dtl');
@@ -176,16 +176,16 @@ export class MyApp {
       // if (temData.officeList && temData.officeList.length > 0) {
       //  this.dbService.updateSysOfficeTableData(temData.officeList);
       // }
-      //
-      // //  ct_meal
-      // if (temData.ctMealList && temData.ctMealList.length > 0) {
-      //   this.dbService.updateCtMealTableData(temData.ct_meal);
-      // }
-      //
-      // //  ct_plan
-      // if (temData.ctPlanList && temData.ctPlanList.length > 0) {
-      //   this.dbService.updateCtPlanTableData(temData.ctPlanList);
-      // }
+
+      //  ct_meal
+      if (temData.ctMealList && temData.ctMealList.length > 0) {
+        this.dbService.updateCtMealTableData(temData.ct_meal);
+      }
+
+      //  ct_plan
+      if (temData.ctPlanList && temData.ctPlanList.length > 0) {
+        this.dbService.updateCtPlanTableData(temData.ctPlanList);
+      }
       //
       // //  ct_plan_dtl
       // if (temData.ctPlanDtlList && temData.ctPlanDtlList.length > 0) {
@@ -201,7 +201,7 @@ export class MyApp {
   initDB() {
     this.loading = this.loadingCtrl.create({
       spinner: 'bubbles',
-      content: '初始化数据中...'
+      content: '创建数据库...'
       // content: `
       //   <div class="custom-spinner-container">
       //     <div class="custom-spinner-box"></div>
@@ -210,6 +210,7 @@ export class MyApp {
     this.loading.present();
     this.dbService.creatDataBase().then((res) => {
       // resolve(res);
+      this.handleVersion();
       this.storage.set('HasCreateDb', true);
       this.loading.dismiss();
     }).catch(e => {
