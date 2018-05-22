@@ -57,6 +57,8 @@ export class MyApp {
         console.log('res=====>', res);
         if (!res) {
           this.initDB();
+        } else if (res) {
+          this.handleVersion();
         }
       }).catch(e => {
         console.log(e);
@@ -110,6 +112,7 @@ export class MyApp {
     // alert('this.coldVersion--' + this.coldVersion);
     // alert('this.hotVersion--' + this.hotVersion);
     this.httpDataPro.fetchInitData(params).then(res => {
+      // alert('结果---' + res.success);
       // alert('数据---' + JSON.stringify(res.body));
       // alert('数据---' + JSON.stringify(res.body));
       const temData = res.body;
@@ -133,8 +136,8 @@ export class MyApp {
       //  CT_Material
       alert(temData.ctMaterialList.length);
       if (temData.ctMaterialList && temData.ctMaterialList.length > 0) {
-        this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
-        // this.dbService.testCtMaterialTableData(temData.ctMaterialList);
+        this.dbService.testByDelete(temData.ctMaterialList);
+        // this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
       }
 
       // // ct_product
@@ -179,12 +182,12 @@ export class MyApp {
 
       //  ct_meal
       if (temData.ctMealList && temData.ctMealList.length > 0) {
-        this.dbService.updateCtMealTableData(temData.ct_meal);
+        // this.dbService.updateCtMealTableData(temData.ct_meal);
       }
 
       //  ct_plan
       if (temData.ctPlanList && temData.ctPlanList.length > 0) {
-        this.dbService.updateCtPlanTableData(temData.ctPlanList);
+        // this.dbService.updateCtPlanTableData(temData.ctPlanList);
       }
       //
       // //  ct_plan_dtl

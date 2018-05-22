@@ -59,59 +59,87 @@ export class DataBaseService {
     }
 
 
-    // CT_Material表
-    updateCtMaterialTableData (list: Array<any>) {
+
+    test(list: Array<any>){
       let initLoading = this.loadingCtrl.create({
         spinner: 'bubbles',
         content: '更新数据中...',
       });
-      initLoading.present();
-      // let idList = [];
+      initLoading.present().then(() => {
+        this.openDataBase().then((db: SQLiteObject) =>{
+          db.transaction((tx: SQLiteTransaction) =>{
+            list.map((item, index) =>{
+              tx.executeSql(`SELECT COUNT(*) AS total FROM CT_Material WHERE id='${item.id}'`, [], (res) =>{
+                alert('res' + JSON.stringify(res));
+                if (res.rows.item(0).total > 0) {
+                  tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
+                    if (index === list.length - 1) {
+                      // alert('index---' + index);
+                      initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    initLoading.dismiss();
+                    alert('eeeeee-update-' + JSON.stringify(e));
+                  });
+                } else {
+                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                    if (index === list.length - 1) {
+                      initLoading.dismiss();
+                      // alert('index---' + index);
+                    }
+                  }, e =>{
+                    alert('eeeeee-insert-' + JSON.stringify(e));
+                  });
+                }
+              }, e =>{});
+            });
+          }).then().catch(e => {
+            initLoading.dismiss();
+            alert('---transaction- ' + e.toString());
+          });
+        });
+      });
+    }
+
+    testByDelete (list: Array<any>) {
+    let initLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '更新数据中...',
+    });
+    initLoading.present().then(() =>{
       let resultList = [];
-       // list && list.map(item =>{
-       //   idList.push(item.id);
-       // });
-       let sqlStr = getIdSet(list);
-       // alert(`'${sqlStr}'`);
+      let sqlStr = getIdSet(list);
 
       this.sqlite.create({
         name: DATABASE_NAME,
         location: 'default'
       }).then((db: SQLiteObject) => {
-        db.executeSql(`SELECT id FROM CT_Material WHERE id in ('${sqlStr}')`, {}).then(res =>{
-          // alert('idset--' + JSON.stringify(res.rows.item(0)));
-          if (res.rows.length) {
-            for(var i = 0; i < res.rows.length; i++) {
-              resultList.push(res.rows.item(i).id);
-            }
-          }
-          db.transaction((tx: SQLiteTransaction) => {
-            list.map((item, index) => {
-              if (resultList.indexOf(item) > 0) {
-                tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
-                  if (index === list.length - 1) {
-                    alert('index---' + index);
+        db.executeSql(`DELETE FROM CT_Material WHERE id in ('${sqlStr}')`, {}).then(res =>{
+          // alert('res--delete--' + JSON.stringify(res));
+          if (res) {
+            this.openDataBase().then((db: SQLiteObject) =>{
+              db.transaction((tx: SQLiteTransaction) => {
+                list.map((item, index) => {
+                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                    if (index === list.length - 1) {
+                      initLoading.dismiss();
+                      // alert('index---' + index);
+                    }
+                  }, e =>{
                     initLoading.dismiss();
-                  }
-                }, (e) =>{
-                  initLoading.dismiss();
-                  alert('eeeeee--' + e.toString());
+                    alert('eeeeee-insert-' + JSON.stringify(e));
+                  });
                 });
-              } else {
-                tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
-                  if (index === list.length - 1) {
-                    initLoading.dismiss();
-                    alert('index---' + index);
-                  }
-                }, e =>{
-                  alert('eeeeee-insert-' + e.toString());
-                });
-              }
+              }).then().catch(e =>{
+                alert('操作CT_Material表数据失败-transaction-' + e.toString());
+                initLoading.dismiss();
+              });
+            }).catch(e =>{
+
             });
-          }).then().catch(e =>{
-            alert('操作CT_Material表数据失败-transaction-' + e.toString());
-            initLoading.dismiss();
-          });
+          }
+
+
         }).catch(e =>{
           alert('操作CT_Material表数据失败--' + JSON.stringify(e));
         });
@@ -119,6 +147,76 @@ export class DataBaseService {
       }).catch(e => {
         alert('操作CT_Material表数据失败');
       });
+    });
+    // let idList = [];
+
+  }
+
+
+    // CT_Material表
+    updateCtMaterialTableData (list: Array<any>) {
+      let initupdateCtMaterialLoading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content: '更新数据中...',
+      });
+      initupdateCtMaterialLoading.present().then(() =>{
+        let resultList = [];
+        let sqlStr = getIdSet(list);
+
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`SELECT id FROM CT_Material WHERE id in ('${sqlStr}')`, {}).then(res =>{
+            // alert('idset--' + JSON.stringify(res.rows.item(0)));
+            if (res.rows.length) {
+              for(var i = 0; i < res.rows.length; i++) {
+                resultList.push(res.rows.item(i).id);
+              }
+            }
+            this.openDataBase().then((db: SQLiteObject) =>{
+              db.transaction((tx: SQLiteTransaction) => {
+                list.map((item, index) => {
+                  if (resultList.indexOf(item.id) > -1) {
+                    tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
+                      if (index === list.length - 1) {
+                        // alert('index---' + index);
+                        initupdateCtMaterialLoading.dismiss();
+                      }
+                    }, (e) =>{
+                      initupdateCtMaterialLoading.dismiss();
+                      alert('eeeeee-update-' + JSON.stringify(e));
+                    });
+                  } else {
+                    tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                      if (index === list.length - 1) {
+                        initupdateCtMaterialLoading.dismiss();
+                        // alert('index---' + index);
+                      }
+                    }, e =>{
+                      initupdateCtMaterialLoading.dismiss();
+                      alert('eeeeee-insert-' + JSON.stringify(e));
+                    });
+                  }
+                });
+              }).then().catch(e =>{
+                alert('操作CT_Material表数据失败-transaction-' + e.toString());
+                initupdateCtMaterialLoading.dismiss();
+              });
+            }).catch(e =>{
+
+            });
+
+          }).catch(e =>{
+            alert('操作CT_Material表数据失败--' + JSON.stringify(e));
+          });
+
+        }).catch(e => {
+          alert('操作CT_Material表数据失败');
+        });
+      });
+      // let idList = [];
+
     }
 
 
@@ -130,54 +228,58 @@ export class DataBaseService {
         spinner: 'bubbles',
         content: '更新ct_meal数据中...',
       });
-      initLoading.present();
+      initLoading.present().then(() =>{
+        let sqlStr = getIdSet(list);
 
-      let sqlStr = getIdSet(list);
-
-      this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        db.executeSql(`SELECT id FROM ct_meal WHERE id in ('${sqlStr}')`,{}).then(res =>{
-          if (res.rows.length) {
-            for(var i = 0; i < res.rows.length; i++) {
-              resultList.push(res.rows.item(i).id);
-            }
-          }
-          db.transaction((tx: SQLiteTransaction) =>{
-           list && list.map((item, index) =>{
-              if (resultList.indexOf(item) > 0) {
-                tx.executeSql(UPDATE_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
-                  if (index === list.length - 1) {
-                    initLoading.dismiss();
-                  }
-                }, (e) =>{
-                  alert('err in update ct_meal table ,cause by: ' +  e.toString());
-                  initLoading.dismiss();
-                });
-              } else {
-                tx.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
-                  if (index === list.length - 1) {
-                    initLoading.dismiss();
-                  }
-                }, (e) =>{
-                  alert('err in insert ct_meal table cause by: ' + JSON.stringify(e));
-                  initLoading.dismiss();
-                });
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`SELECT id FROM ct_meal WHERE id in ('${sqlStr}')`,{}).then(res =>{
+            if (res.rows.length) {
+              for(var i = 0; i < res.rows.length; i++) {
+                resultList.push(res.rows.item(i).id);
               }
-            });
-          }).then(() =>{
+            }
+            db.transaction((tx: SQLiteTransaction) =>{
+              list && list.map((item, index) =>{
+                if (resultList.indexOf(item.id) > -1) {
+                  tx.executeSql(UPDATE_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
+                    if (index === list.length - 1) {
+                      alert('index-ct_meal--' + index);
+                      initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in update ct_meal table ,cause by: ' +  e.toString());
+                    initLoading.dismiss();
+                  });
+                } else {
+                  tx.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
+                    if (index === list.length - 1) {
+                      alert('index-ct_meal--' + index);
+                      initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert ct_meal table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                }
+              });
+            }).then(() =>{
 
-          }).catch(e =>{
-            alert('err in operate the ct_meal table cause by: ' + e.toString());
+            }).catch(e =>{
+              alert('err in operate the ct_meal table cause by: ' + e.toString());
+              initLoading.dismiss();
+            });
+          }).catch(e => {
             initLoading.dismiss();
           });
         }).catch(e => {
-
+          initLoading.dismiss();
         });
-      }).catch(e => {
-        initLoading.dismiss();
       });
+
+
     }
 
     //   ct_plan
@@ -205,13 +307,13 @@ export class DataBaseService {
             }
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                if (resultList.indexOf(item) > 0) {
+                if (resultList.indexOf(item.id) > -1) {
                   tx.executeSql(UPDATE_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status],() =>{
                     if (index === list.length - 1) {
                       initLoading.dismiss();
                     }
                   }, (e) =>{
-                    alert('err in update ct_plan table ,cause by: ' +  e.toString());
+                    alert('err in update ct_plan table ,cause by: ' +  JSON.stringify(e));
                     initLoading.dismiss();
                   });
                 } else {
@@ -220,7 +322,7 @@ export class DataBaseService {
                       initLoading.dismiss();
                     }
                   }, (e) =>{
-                    alert('err in insert ct_plan table cause by: ' + e.toString());
+                    alert('err in insert ct_plan table cause by: ' + JSON.stringify(e));
                     initLoading.dismiss();
                   });
                 }
