@@ -17,4 +17,9 @@ export class HttpDataProviders {
   public fetchInitData (params: any) {
   return this.httpPro.httpPostWithAuth('/data', params);
   }
+
+  // 用户订单
+  public fetchUserOrderData (params: any) {
+    return this.httpPro.httpPostWithAuth('/orderList', params);
+  }
 }

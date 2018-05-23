@@ -52,17 +52,17 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
-      // 判断是否已经初始化数据库
-      this.storage.get('HasCreateDb').then(res => {
-        console.log('res=====>', res);
-        if (!res) {
-          this.initDB();
-        } else if (res) {
-          this.handleVersion();
-        }
-      }).catch(e => {
-        console.log(e);
-      });
+      // // 判断是否已经初始化数据库
+      // this.storage.get('HasCreateDb').then(res => {
+      //   console.log('res=====>', res);
+      //   if (!res) {
+      //     this.initDB();
+      //   } else if (res) {
+      //     this.handleVersion();
+      //   }
+      // }).catch(e => {
+      //   console.log(e);
+      // });
 
       // this.checkData();
 
@@ -116,7 +116,8 @@ export class MyApp {
       // alert('数据---' + JSON.stringify(res.body));
       // alert('数据---' + JSON.stringify(res.body));
       const temData = res.body;
-      // alert('数据-2--' + JSON.stringify(temData.productList));
+      // alert('type--' + typeof temData);
+      // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
       if (!res.success) {
         return;
       }
@@ -134,66 +135,12 @@ export class MyApp {
       }
 
       //  CT_Material
-      alert(temData.ctMaterialList.length);
+      // alert(temData.ctMaterialList.length);
       if (temData.ctMaterialList && temData.ctMaterialList.length > 0) {
-        this.dbService.testByDelete(temData.ctMaterialList);
+        // this.dbService.updateCtMaterialTableData(temData);
         // this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
       }
 
-      // // ct_product
-      // if (temData.productList && temData.productList.length > 0) {
-      //   // alert('ct_product---类型' + (temData.productList instanceof Array) );
-      //   // alert('设置ct_product---' + temData.productList );
-      //   this.dbService.updateCtProductTableData(temData.productList);
-      // }
-
-      // //  ct_product_dtl
-      // if (temData.productDtlList && temData.productDtlList.length > 0) {
-      //   // alert('设置ct_product_dtl');
-      //   this.dbService.updateCtProductDtlTableData(temData.productDtlList);
-      // }
-      //
-      // //  ct_product_set
-      // if (temData.productSetList && temData.productSetList.length > 0) {
-      //   this.dbService.updateCtProductSetTableData(temData.productSetList);
-      // }
-      //
-      // //  ct_product_set_dtl
-      // if (temData.productSetDtlList && temData.productSetDtlList.length > 0) {
-      //   this.dbService.updateCtProductSetDtlTableData(temData.productSetDtlList);
-      // }
-      //
-      //
-      // //  sys_dict_type
-      // if (temData.dictTypeList && temData.dictTypeList.length > 0) {
-      //   this.dbService.updateSysDictTypeTableData(temData.dictTypeList);
-      // }
-      //
-      // //  sys_dict_value
-      // if (temData.dictValueList && temData.dictValueList.length > 0) {
-      //   this.dbService.updateSysDictValueTableData(temData.dictValueList);
-      // }
-      //
-      //
-      // //  sys_office
-      // if (temData.officeList && temData.officeList.length > 0) {
-      //  this.dbService.updateSysOfficeTableData(temData.officeList);
-      // }
-
-      //  ct_meal
-      if (temData.ctMealList && temData.ctMealList.length > 0) {
-        // this.dbService.updateCtMealTableData(temData.ct_meal);
-      }
-
-      //  ct_plan
-      if (temData.ctPlanList && temData.ctPlanList.length > 0) {
-        // this.dbService.updateCtPlanTableData(temData.ctPlanList);
-      }
-      //
-      // //  ct_plan_dtl
-      // if (temData.ctPlanDtlList && temData.ctPlanDtlList.length > 0) {
-      //   this.dbService.updateCtPlanDtlTableData(temData.ctPlanDtlList);
-      // }
 
     }).catch(e => {
       console.log(e);

@@ -1,6 +1,8 @@
 /**
  * Created by Jimmy on 2018/5/21.
  */
+
+// 获取对象列表中的所有ID
 export  const  getIdSet =  (list: Array<any>): String => {
   let idList = [];
   if (list) {
@@ -16,4 +18,10 @@ export  const  getIdSet =  (list: Array<any>): String => {
     return '';
   }
   return '';
-}
+};
+
+// 获取当天时间  返回格式YYYY-MM-DD HH:MM:SS
+export const getToday = () :string =>{
+  return '';
+};
+

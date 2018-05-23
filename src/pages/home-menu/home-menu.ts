@@ -60,7 +60,7 @@ export class HomeMenuPage {
       }
     ];
     this.httpPro.httpPostWithAuth('/data/', params).then(data => {
-      alert('结果' + data.success);
+      // alert('结果' + data.success);
     }).catch(e => {
       alert('错误==》' + JSON.stringify(e));
     });

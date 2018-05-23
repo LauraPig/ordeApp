@@ -3,8 +3,10 @@ import { DATABASE_NAME } from '../../common/config';
 import { CREATE_TABLE, INSERT_DATA, UPDATE_DATA  } from '../../common/table';
 // import { mock_data } from '../../mock/mock-data';
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import {LoadingController, ToastController} from 'ionic-angular';
 import {getIdSet} from "../../utils/index";
+import {resolveTimingValue} from "@angular/animations/browser/src/util";
 
 @Injectable()
 export class DataBaseService {
@@ -13,6 +15,7 @@ export class DataBaseService {
         private sqlite: SQLite,
         private toastCtrl: ToastController,
         private loadingCtrl: LoadingController,
+        public storage: Storage,
     ){
         console.log('数据库初始化');
     }
@@ -101,13 +104,16 @@ export class DataBaseService {
       });
     }
 
-    testByDelete (list: Array<any>) {
+
+  // Ct_Material
+    updateCtMaterialTableData (obj, resolve){
+
+    const list = obj.ctMaterialList;
     let initLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '更新数据中...',
     });
     initLoading.present().then(() =>{
-      let resultList = [];
       let sqlStr = getIdSet(list);
 
       this.sqlite.create({
@@ -115,15 +121,17 @@ export class DataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM CT_Material WHERE id in ('${sqlStr}')`, {}).then(res =>{
-          // alert('res--delete--' + JSON.stringify(res));
+          // alert('res--Ct_Material--' + JSON.stringify(res));
           if (res) {
             this.openDataBase().then((db: SQLiteObject) =>{
               db.transaction((tx: SQLiteTransaction) => {
+                // tx.start();
                 list.map((item, index) => {
                   tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
                     if (index === list.length - 1) {
-                      initLoading.dismiss();
-                      // alert('index---' + index);
+                      // tx.finish();
+                        this.updateCtMealTableData(obj, initLoading, resolve);
+                      // initLoading.dismiss();
                     }
                   }, e =>{
                     initLoading.dismiss();
@@ -135,451 +143,454 @@ export class DataBaseService {
                 initLoading.dismiss();
               });
             }).catch(e =>{
-
+              alert('操作CT_Material表数据失败--' + JSON.stringify(e));
             });
           }
-
-
         }).catch(e =>{
           alert('操作CT_Material表数据失败--' + JSON.stringify(e));
         });
-
       }).catch(e => {
         alert('操作CT_Material表数据失败');
       });
     });
-    // let idList = [];
 
   }
 
-
-    // CT_Material表
-    updateCtMaterialTableData (list: Array<any>) {
-      let initupdateCtMaterialLoading = this.loadingCtrl.create({
-        spinner: 'bubbles',
-        content: '更新数据中...',
-      });
-      initupdateCtMaterialLoading.present().then(() =>{
-        let resultList = [];
-        let sqlStr = getIdSet(list);
-
-        this.sqlite.create({
-          name: DATABASE_NAME,
-          location: 'default'
-        }).then((db: SQLiteObject) => {
-          db.executeSql(`SELECT id FROM CT_Material WHERE id in ('${sqlStr}')`, {}).then(res =>{
-            // alert('idset--' + JSON.stringify(res.rows.item(0)));
-            if (res.rows.length) {
-              for(var i = 0; i < res.rows.length; i++) {
-                resultList.push(res.rows.item(i).id);
-              }
-            }
-            this.openDataBase().then((db: SQLiteObject) =>{
-              db.transaction((tx: SQLiteTransaction) => {
-                list.map((item, index) => {
-                  if (resultList.indexOf(item.id) > -1) {
-                    tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
-                      if (index === list.length - 1) {
-                        // alert('index---' + index);
-                        initupdateCtMaterialLoading.dismiss();
-                      }
-                    }, (e) =>{
-                      initupdateCtMaterialLoading.dismiss();
-                      alert('eeeeee-update-' + JSON.stringify(e));
-                    });
-                  } else {
-                    tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
-                      if (index === list.length - 1) {
-                        initupdateCtMaterialLoading.dismiss();
-                        // alert('index---' + index);
-                      }
-                    }, e =>{
-                      initupdateCtMaterialLoading.dismiss();
-                      alert('eeeeee-insert-' + JSON.stringify(e));
-                    });
-                  }
-                });
-              }).then().catch(e =>{
-                alert('操作CT_Material表数据失败-transaction-' + e.toString());
-                initupdateCtMaterialLoading.dismiss();
-              });
-            }).catch(e =>{
-
-            });
-
-          }).catch(e =>{
-            alert('操作CT_Material表数据失败--' + JSON.stringify(e));
-          });
-
-        }).catch(e => {
-          alert('操作CT_Material表数据失败');
-        });
-      });
-      // let idList = [];
-
-    }
-
-
     //   ct_meal
-    updateCtMealTableData(list: Array<any>) {
-
-      let resultList = [];
-      let initLoading = this.loadingCtrl.create({
-        spinner: 'bubbles',
-        content: '更新ct_meal数据中...',
-      });
-      initLoading.present().then(() =>{
+    updateCtMealTableData(obj, initLoading, resolve) {
+      if (obj.ctPlanList && obj.ctPlanList.length > 0) {
+        const list = obj.ctMealList;
         let sqlStr = getIdSet(list);
-
         this.sqlite.create({
           name: DATABASE_NAME,
           location: 'default'
         }).then((db: SQLiteObject) => {
-          db.executeSql(`SELECT id FROM ct_meal WHERE id in ('${sqlStr}')`,{}).then(res =>{
-            if (res.rows.length) {
-              for(var i = 0; i < res.rows.length; i++) {
-                resultList.push(res.rows.item(i).id);
-              }
-            }
-            db.transaction((tx: SQLiteTransaction) =>{
-              list && list.map((item, index) =>{
-                if (resultList.indexOf(item.id) > -1) {
-                  tx.executeSql(UPDATE_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
-                    if (index === list.length - 1) {
-                      alert('index-ct_meal--' + index);
-                      initLoading.dismiss();
-                    }
-                  }, (e) =>{
-                    alert('err in update ct_meal table ,cause by: ' +  e.toString());
-                    initLoading.dismiss();
-                  });
-                } else {
+          db.executeSql(`DELETE FROM ct_meal WHERE id in ('${sqlStr}')`,{}).then(res =>{
+            // alert('res--ct_meal--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                // tx.start();
+                list && list.map((item, index) =>{
                   tx.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
                     if (index === list.length - 1) {
-                      alert('index-ct_meal--' + index);
-                      initLoading.dismiss();
+                      // tx.finish();
+                      this.updateCtPlanTableData(obj, initLoading, resolve);
                     }
                   }, (e) =>{
                     alert('err in insert ct_meal table cause by: ' + JSON.stringify(e));
                     initLoading.dismiss();
                   });
-                }
-              });
-            }).then(() =>{
+                });
+              }).then(() =>{
 
-            }).catch(e =>{
-              alert('err in operate the ct_meal table cause by: ' + e.toString());
-              initLoading.dismiss();
-            });
+              }).catch(e =>{
+                alert('err in operate the ct_meal table cause by: ' + e.toString());
+                initLoading.dismiss();
+              });
+            }
           }).catch(e => {
+            alert('操作ct_meal表数据失败--' + JSON.stringify(e));
             initLoading.dismiss();
           });
         }).catch(e => {
+          alert('操作ct_meal表数据失败--' + JSON.stringify(e));
           initLoading.dismiss();
         });
-      });
-
-
+      } else {
+        this.updateCtPlanTableData(obj, initLoading, resolve);
+      }
     }
 
     //   ct_plan
-    updateCtPlanTableData(list: Array<any>) {
-      let resultList = [];
-      let initLoading = this.loadingCtrl.create({
-        spinner: 'bubbles',
-        content: '更新ct_meal数据中...',
-      });
-      initLoading.present();
-
-      let sqlStr = getIdSet(list);
-
-      this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list && list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT id FROM ct_plan WHERE id in ('${sqlStr}')`, {}).then(res => {
-            if (res.rows.length) {
-              for(var i = 0; i < res.rows.length; i++) {
-                resultList.push(res.rows.item(i).id);
-              }
-            }
-            db.transaction((tx: SQLiteTransaction) =>{
-              list.map((item, index) =>{
-                if (resultList.indexOf(item.id) > -1) {
-                  tx.executeSql(UPDATE_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status],() =>{
-                    if (index === list.length - 1) {
-                      initLoading.dismiss();
-                    }
-                  }, (e) =>{
-                    alert('err in update ct_plan table ,cause by: ' +  JSON.stringify(e));
-                    initLoading.dismiss();
-                  });
-                } else {
+    updateCtPlanTableData(obj, initLoading, resolve) {
+      if (obj.ctPlanList && obj.ctPlanList.length > 0) {
+        const list = obj.ctPlanList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM ct_plan WHERE id in ('${sqlStr}')`,{}).then(res => {
+            // alert('res--ct_plan--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
                   tx.executeSql(INSERT_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status],() =>{
                     if (index === list.length - 1) {
-                      initLoading.dismiss();
+                      // tx.finish();
+                      this.updateCtPlanDtlTableData(obj, initLoading, resolve);
                     }
                   }, (e) =>{
                     alert('err in insert ct_plan table cause by: ' + JSON.stringify(e));
                     initLoading.dismiss();
                   });
-                }
-              });
-            }).then(() =>{
+                });
+              }).then(() =>{
 
-            }).catch(e =>{
-              alert('err in operate the ct_plan table cause by: ' + e.toString());
-              initLoading.dismiss();
-            });
+              }).catch(e =>{
+                alert('err in operate the ct_plan table cause by: ' + e.toString());
+                initLoading.dismiss();
+              });
+            }
           }).catch(e => {
             alert('err in select the ct_plan table cause by: ' + e.toString());
             initLoading.dismiss();
           });
+        }).catch(e => {
+          initLoading.dismiss();
+          alert('操作ct_plan表数据失败--' + JSON.stringify(e));
         });
-      }).catch(e => {});
+      } else {
+        this.updateCtPlanDtlTableData(obj, initLoading, resolve);
+      }
+
     }
 
     //   ct_plan_dtl
-    updateCtPlanDtlTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM ct_plan_dtl WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.ct_plan_dtl , [item.id, item.planId, item.objType, item.objId, item.price, item.maxNum, item.chefId, item.updateDate, item.delFlag]).then(() =>{
-                alert(`更新ct_plan_dtl表数据成功`);
-              }).catch(e => {
-                alert(`更新ct_plan_dtl表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.ct_plan_dtl , [item.id, item.planId, item.objType, item.objId, item.price, item.maxNum, item.chefId, item.updateDate, item.delFlag]).then(() =>{
-                alert(`插入ct_plan_dtl表数据成功`);
-              }).catch(e => {
-                alert(`插入ct_plan_dtl表数据失败` + JSON.stringify(e));
+    updateCtPlanDtlTableData(obj, initLoading, resolve) {
+      if (obj.ctPlanDtlList && obj.ctPlanDtlList.length > 0) {
+
+        const list = obj.ctPlanDtlList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM ct_plan_dtl WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--ct_plan_dtl--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.ct_plan_dtl , [item.id, item.planId, item.objType, item.objId, item.price, item.maxNum, item.chefId, item.updateDate, item.delFlag],() =>{
+                    if (index === list.length - 1) {
+                      // tx.finish();
+                      this.updateCtProductTableData(obj, initLoading, resolve);
+                      // initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-
+            alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
+        }).catch(e => {
+          alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+          initLoading.dismiss();
         });
-      }).catch(e => {});
+      } else {
+        initLoading.dismiss();
+        this.updateCtProductTableData(obj, initLoading, resolve);
+      }
+
     }
 
     //   ct_product
-    updateCtProductTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map((item, index) => {
-          let sqlStr = `SELECT COUNT(*) AS total FROM ct_product WHERE id='${item.id}'`;
-          db.executeSql(sqlStr, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.ct_product , [item.id, item.remarks, item.createBy, item.createDate, item.updateBy, item.updateDate, item.productName, item.factoryId, item.officeId, item.productType, item.price, item.imgUrl, item.isScore, item.costCredits, item.isPack, item.isHold, item.isApproval, item.summary, item.labels, item.cost, item.delFlag]).then(() =>{
-                alert(`更新ct_product表数据成功`);
-              }).catch(e => {
-                alert(`更新ct_product表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.ct_product , [item.id, item.remarks, item.createBy, item.createDate, item.updateBy, item.updateDate, item.productName, item.factoryId, item.officeId, item.productType, item.price, item.imgUrl, item.isScore, item.costCredits, item.isPack, item.isHold, item.isApproval, item.summary, item.labels, item.cost, item.delFlag]).then(() => {
-                alert(`插入ct_product表数据成功`);
-              }).catch(e => {
-                alert(`插入ct_product表数据失败` + JSON.stringify(e));
+    updateCtProductTableData(obj, initLoading, resolve) {
+      if (obj.productList && obj.productList.length > 0) {
+        const list = obj.productList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM ct_product WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--ct_pro--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.ct_product , [item.id, item.remarks, item.createBy, item.createDate, item.updateBy, item.updateDate, item.productName, item.factoryId, item.officeId, item.productType, item.price, item.imgUrl, item.isScore, item.costCredits, item.isPack, item.isHold, item.isApproval, item.summary, item.labels, item.cost, item.delFlag],() =>{
+                    if (index === list.length - 1) {
+                      // tx.finish();
+                      this.updateCtProductDtlTableData(obj, initLoading,resolve);
+                      // initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-            alert('e错误-execute-' + e.toString());
+            alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
+        }).catch(e => {
+          alert('e错误-createDB-' + e.toString());
         });
-        // this.dbObject = db;
-        // this.dbObject.transaction((db: SQLiteObject) => {
-        //   // alert('result==' + JSON.stringify(list[0]));
-        //
-        // }).catch(e => {
-        //   alert('e错误-transaction--Product-' + e.toString());
-        // });
-      }).catch(e => {
-        alert('e错误-createDB-' + e.toString());
-      });
+      } else {
+        this.updateCtProductDtlTableData(obj, initLoading,resolve);
+      }
     }
 
     //   ct_product_dtl
-    updateCtProductDtlTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM ct_product_dtl WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.ct_product_dtl , [item.id, item.productId, item.materialId, item.weight, item.updateDate, item.delFlag]).then(() =>{
-                alert(`更新ct_product_dtl表数据成功`);
-              }).catch(e => {
-                alert(`更新ct_product_dtl表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.ct_product_dtl , [item.id, item.productId, item.materialId, item.weight, item.updateDate, item.delFlag]).then(() =>{
-                alert(`插入ct_product_dtl表数据成功`);
-              }).catch(e => {
-                alert(`插入ct_product_dtl表数据失败` + JSON.stringify(e));
+    updateCtProductDtlTableData(obj, initLoading ,resolve) {
+      if (obj.productDtlList && obj.productDtlList.length > 0) {
+        const list = obj.productDtlList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM ct_product_dtl WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--ct_pro_dtl--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.ct_product_dtl , [item.id, item.productId, item.materialId, item.weight, item.updateDate, item.delFlag],() =>{
+                    if (index === list.length - 1) {
+                      // tx.finish();
+                      this.updateCtProductSetTableData(obj, initLoading, resolve);
+                      // initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-
+            alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
-        });
-      }).catch(e => {});
+        }).catch(e => {});
+      } else {
+        this.updateCtProductSetTableData(obj, initLoading, resolve);
+      }
     }
 
     //   ct_product_set
-    updateCtProductSetTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM ct_product_set WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 1) {
-              db.executeSql(UPDATE_DATA.ct_product_set , [item.id, item.factoryId, item.officeId, item.productSetName, item.price, item.imgUrl, item.isScore, item.costCredits, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.labels, item.isPack, item.isHold, item.isApproval, item.summary, item.cost]).then(() =>{
-                alert(`更新ct_product_set表数据成功`);
-              }).catch(e => {
-                alert(`更新ct_product_set表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.ct_product_set , [item.id, item.factoryId, item.officeId, item.productSetName, item.price, item.imgUrl, item.isScore, item.costCredits, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.labels, item.isPack, item.isHold, item.isApproval, item.summary, item.cost]).then(() =>{
-                alert(`更新ct_product_set表数据成功`);
-              }).catch(e => {
-                alert(`插入ct_product_set表数据失败` + JSON.stringify(e));
+    updateCtProductSetTableData(obj, initLoading,  resolve) {
+      if (obj.productSetList && obj.productSetList.length > 0) {
+        const list = obj.productSetList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM ct_product_set WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--ct_pro_set--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.ct_product_set , [item.id, item.factoryId, item.officeId, item.productSetName, item.price, item.imgUrl, item.isScore, item.costCredits, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.labels, item.isPack, item.isHold, item.isApproval, item.summary, item.cost],() =>{
+                    if (index === list.length - 1) {
+                      // tx.finish();
+                      this.updateCtProductSetDtlTableData(obj, initLoading,resolve);
+                      // initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-
+            alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
-        });
-      }).catch(e => {});
+        }).catch(e => {});
+      } else {
+        this.updateCtProductSetDtlTableData(obj, initLoading, resolve);
+      }
     }
 
     //   ct_product_set_dtl
-    updateCtProductSetDtlTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM ct_product_set_dtl WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.ct_product_set_dtl , [item.id, item.productSetId, item.productId, item.num, item.price, item.updateDate, item.delFlag]).then(() =>{
-                alert(`更新ct_product_set_dtl表数据成功`);
-              }).catch(e => {
-                alert(`更新ct_product_set_dtl表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.ct_product_set_dtl , [item.id, item.productSetId, item.productId, item.num, item.price, item.updateDate, item.delFlag]).then(() =>{
-                alert(`插入ct_product_set_dtl表数据成功`);
-              }).catch(e => {
-                alert(`插入ct_product_set_dtl表数据失败` + JSON.stringify(e));
+    updateCtProductSetDtlTableData(obj, initLoading, resolve){
+      if (obj.productSetDtlList && obj.productSetDtlList.length > 0) {
+
+        const list = obj.productSetDtlList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM ct_product_set_dtl WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--ct_pro_dtl_set--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.ct_product_set_dtl , [item.id, item.productSetId, item.productId, item.num, item.price, item.updateDate, item.delFlag],() =>{
+                    if (index === list.length - 1) {
+                      // tx.finish();
+                      this.updateSysDictTypeTableData(obj, initLoading,  resolve);
+                      // initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-
+            alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
-        });
-      }).catch(e => {});
+
+
+        }).catch(e => {});
+      } else {
+        this.updateSysDictTypeTableData(obj, initLoading, resolve);
+        // initLoading.dismiss();
+      }
     }
 
     //   sys_dict_type
-    updateSysDictTypeTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM sys_dict_type WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.sys_dict_type , [item.id, item.type, item.description, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.isSelfdom, item.isSqlite]).then(() => {
-                alert(`更新sys_dict_type表数据成功`);
-              }).catch(e => {
-                alert(`更新sys_dict_type表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.sys_dict_type , [item.id, item.type, item.description, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.isSelfdom, item.isSqlite]).then(() =>{
-                alert(`插入sys_dict_type表数据成功`);
-              }).catch(e => {
-                alert(`插入sys_dict_type表数据失败` + JSON.stringify(e));
+    updateSysDictTypeTableData(obj, initLoading, resolve) {
+      if (obj.dictTypeList && obj.dictTypeList.length > 0) {
+
+        const list = obj.dictTypeList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM sys_dict_type WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--sys_dict_type--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.sys_dict_type , [item.id, item.type, item.description, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.isSelfdom, item.isSqlite],() =>{
+                    if (index === list.length - 1) {
+                      // tx.finish();
+                      this.updateSysDictValueTableData(obj, initLoading,resolve);
+                      // initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert sys_dict_type table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate sys_dict_type table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-
+            alert('err in operate sys_dict_type table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
-        });
-      }).catch(e => {});
+        }).catch(e => {});
+      } else {
+        this.updateSysDictValueTableData(obj, initLoading, resolve);
+      }
     }
 
     //   sys_dict_value
-    updateSysDictValueTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM sys_dict_value WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.sys_dict_value , [item.id, item.dictTypeId, item.label, item.value, item.sort, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.officeId]).then(() =>{
-                alert(`更新sys_dict_value表数据成功`);
-              }).catch(e => {
-                alert(`更新sys_dict_value表数据失败` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.sys_dict_value , [item.id, item.dictTypeId, item.label, item.value, item.sort, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.officeId]).then(() => {
-                alert(`插入sys_dict_value表数据成功`);
-              }).catch(e => {
-                alert(`插入sys_dict_value表数据失败` + JSON.stringify(e));
+    updateSysDictValueTableData(obj, initLoading, resolve) {
+      if (obj.dictValueList && obj.dictValueList.length > 0) {
+
+        const list = obj.dictValueList;
+        let sqlStr = getIdSet(list);
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM sys_dict_value WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--sys_dict_value--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.sys_dict_value , [item.id, item.dictTypeId, item.label, item.value, item.sort, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.officeId],() =>{
+                    if (index === list.length - 1) {
+                      // tx.finish();
+                      this.updateSysOfficeTableData(obj, initLoading, resolve);
+                      // initLoading.dismiss();
+                    }
+                  }, (e) =>{
+                    alert('err in insert sys_dict_value table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate sys_dict_value table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-
+            alert('err in operate sys_dict_value table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
-        });
-      }).catch(e => {});
+        }).catch(e => {});
+      } else {
+        this.updateSysOfficeTableData(obj, initLoading , resolve);
+      }
     }
 
     //   sys_office
-    updateSysOfficeTableData(list: Array<any>): Promise<any> {
-      return  this.sqlite.create({
-        name: DATABASE_NAME,
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        list.map(item => {
-          console.log(item);
-          db.executeSql(`SELECT COUNT(*) AS total FROM sys_office WHERE id='${item.id}'`, {}).then(res => {
-            if (res.rows.length && res.rows.item(0).total > 0) {
-              db.executeSql(UPDATE_DATA.sys_office , [item.id, item.parentId2, item.parentIds, item.name, item.sort, item.areaId, item.code, item.type, item.grade, item.address, item.zipCode, item.master, item.phone, item.fax, item.email, item.useable, item.primaryPerson, item.deputyPerson,item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.delFlag]).then(() =>{
-                alert(`更新sys_office表数据成功`);
-              }).catch(e => {
-                alert(`更新sys_office表数据失败--` + JSON.stringify(e));
-              });
-            } else {
-              db.executeSql(INSERT_DATA.sys_office , [item.id, item.parentId2, item.parentIds, item.name, item.sort, item.areaId, item.code, item.type, item.grade, item.address, item.zipCode, item.master, item.phone, item.fax, item.email, item.useable, item.primaryPerson, item.deputyPerson,item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.delFlag]).then(() =>{
-                alert(`插入sys_office表数据成功`);
-              }).catch(e => {
-                alert(`插入sys_office表数据失败--` + JSON.stringify(e));
+    updateSysOfficeTableData(obj, initLoading, resolve) {
+      if (obj.officeList && obj.officeList.length > 0) {
+        const list = obj.officeList;
+        let sqlStr = getIdSet(list);
+
+        this.sqlite.create({
+          name: DATABASE_NAME,
+          location: 'default'
+        }).then((db: SQLiteObject) => {
+          db.executeSql(`DELETE FROM sys_office WHERE id in ('${sqlStr}')`, {}).then(res => {
+            // alert('res--sys_office--' + JSON.stringify(res));
+            if (res) {
+              db.transaction((tx: SQLiteTransaction) =>{
+                list.map((item, index) =>{
+                  tx.executeSql(INSERT_DATA.sys_office , [item.id, item.parentId2, item.parentIds, item.name, item.sort, item.areaId, item.code, item.type, item.grade, item.address, item.zipCode, item.master, item.phone, item.fax, item.email, item.useable, item.primaryPerson, item.deputyPerson,item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.delFlag],() =>{
+                    if (index === list.length - 1) {
+                      tx.finish();
+                      initLoading.dismiss();
+                      //  保存最新的版本号
+                      if (obj.thermalDataVer) {
+                        resolve(true);
+                        // alert('设置缓存hotVersion--' + temData.thermalDataVer);
+                        this.storage.set('hotVersion', obj.thermalDataVer);
+                      }
+
+                      //
+                      if (obj.coldDataVer) {
+                        // alert('设置缓存coldVersion--' + temData.coldDataVer);
+                        this.storage.set('coldVersion', obj.coldDataVer);
+                      }
+
+                    }
+                  }, (e) =>{
+                    alert('err in insert sys_office table cause by: ' + JSON.stringify(e));
+                    initLoading.dismiss();
+                  });
+                });
+              }).catch(e =>{
+                alert('err in operate sys_office table cause by: ' + JSON.stringify(e));
+                initLoading.dismiss();
               });
             }
           }).catch(e => {
-
+            alert('err in operate sys_office table cause by: ' + e.toString());
+            initLoading.dismiss();
           });
-        });
-      }).catch(e => {});
+        }).catch(e => {});
+      } else {
+        initLoading.dismiss();
+      }
     }
 
 

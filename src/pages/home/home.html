@@ -32,12 +32,24 @@
     <ion-card-header>
       今日您已预订
     </ion-card-header>
-    <img src="assets/imgs/bf.jpg"/>
-    <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
-      <ion-badge>
-        午餐
-      </ion-badge>
+
+    <ion-slides *ngIf="orderList?.length > 0">
+
+      <ion-slide *ngFor="let item of orderList" >
+        <img src="{{item.imgUrl}}"/>
+        <div class="card-title">{{item.name}} ({{item.officeName}})
+          <ion-badge>
+            {{item.label}}
+          </ion-badge>
+        </div>
+      </ion-slide>
+
+    </ion-slides>
+
+    <div *ngIf="orderList?.length === 0">
+      <h5>暂无预定</h5>
     </div>
+
   </ion-card>
 
   <ion-card (click)="gotoOrder()">
