@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OperateDataBaseService } from '../../providers/database/operate-database';
 import { DataBaseService } from '../../providers/database/database';
 import {Loading, LoadingController, ToastController, NavController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -9,8 +10,6 @@ import {HttpProvider} from "../../providers/http/http-service";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import * as moment from "moment";
 import {DATABASE_NAME} from "../../common/config";
-import {resolveDep} from "@angular/core/src/view/provider";
-import {resolveTimingValue} from "@angular/animations/browser/src/util";
 const tableName = 'ct_product';
 
 @Component({
@@ -20,9 +19,9 @@ const tableName = 'ct_product';
 export class HomePage {
 
   coldVersion: number = 0;
-  isFetchCold: boolean = false;
-  isFetchHot: boolean = false;
   hotVersion: number = 0;
+  factoryName: string = '';
+  factoryId: string = '';
 
   orderList: any = [];
   loading: Loading ;
@@ -30,7 +29,8 @@ export class HomePage {
   total: number = 0;
   text: any;
   constructor(
-    private dbService: DataBaseService,
+    private dbService: OperateDataBaseService,
+    private dataBaseService: DataBaseService,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private storage: Storage,
@@ -46,11 +46,17 @@ export class HomePage {
     this.storage.get('HasCreateDb').then(res => {
       console.log('res=====>', res);
       if (!res) {
-        this.initDB();
+        this.initDB().then((res) => {
+          this.handleVersion().then((data) =>{
+            alert('更新数据完成---' + data);
+          });
+          this.storage.set('HasCreateDb', true);
+          this.loading.dismiss();
+        });;
       } else if (res) {
         this.handleVersion().then((data) =>{
-          alert('data' + data);
-          this.getData();
+          alert('更新数据完成---' + data);
+          // this.getData();
         });
       }
     }).catch(e => {
@@ -61,9 +67,14 @@ export class HomePage {
     // }, 20000);
   }
 
+  ionViewDidEnter() {
+   console.log('did Enter');
+   this.getData();
+  }
+
   handleVersion(): Promise<any> {
     // 获取本地的coldVersion版本号
-     return this.storage.get('coldVersion').then(res => {
+     this.storage.get('coldVersion').then(res => {
       // alert('res--coldVersion-' + res);
       if (res) {
         this.coldVersion = Number(res);
@@ -75,15 +86,10 @@ export class HomePage {
           this.hotVersion = Number(res);
         }
 
-        this.checkData();
-      }).catch(e => {
-        this.isFetchHot = true;
-        console.log(e);
+       return this.checkData();
       });
-    }).catch(e => {
-      this.isFetchCold = true;
-      console.log(e);
     });
+     return Promise.reject('错误');
   }
 
   // 调用接口，拉取最新数据
@@ -98,50 +104,53 @@ export class HomePage {
         'type': '1'
       }
     ];
-    // alert('this.coldVersion--' + this.coldVersion);
-    // alert('this.hotVersion--' + this.hotVersion);
-    let p = new Promise ((resolve, reject) =>{
-      this.httpDataPro.fetchInitData(params).then(res => {
-        // alert('结果---' + res.success);
-        // alert('数据---' + JSON.stringify(res.body));
-        // alert('数据---' + JSON.stringify(res.body));
-        const temData = res.body;
-        // alert('type--' + typeof temData);
-        // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
-        if (!res.success) {
-          return;
-        }
 
-        //  保存最新的版本号
-        if (temData.thermalDataVer && temData.thermalDataVer !== this.hotVersion) {
-          // alert('设置缓存hotVersion--' + temData.thermalDataVer);
-          // this.storage.set('hotVersion', temData.thermalDataVer);
-        }
-
-        //
-        if (temData.coldDataVer && temData.coldDataVer !== this.coldVersion) {
-          // alert('设置缓存coldVersion--' + temData.coldDataVer);
-          // this.storage.set('coldVersion', temData.coldDataVer);
-        }
-
-        //  CT_Material
-        // alert(temData.ctMaterialList.length);
-        if (temData.ctMaterialList && temData.ctMaterialList.length > 0) {
-          this.dbService.updateCtMaterialTableData(temData, resolve);
-          // this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
-        }
-
-
-      }).catch(e => {
-       reject('获取数据错误');
-        console.log(e);
-        alert('拉取数据错误---' + e.toString());
-      });
+   return this.httpDataPro.fetchInitData(params).then(res => {
+     let initUpdateLoading = this.loadingCtrl.create({
+       spinner: 'bubbles',
+       content: '更新数据中...',
+     });
+     initUpdateLoading.present();
+      // alert('结果---' + res.success);
+      // alert('数据---' + JSON.stringify(res.body));
+      // alert('数据---' + JSON.stringify(res.body));
+      const temData = res.body;
+      // alert('type--' + typeof temData);
+      // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
+      if (!res.success) {
+        return Promise.reject('获取数据错误');
+      }
+      //  CT_Material
+      // alert(temData.ctMaterialList.length);
+     this.dbService.updateCtMaterialTableData(temData).then(() => {
+       this.dbService.updateCtMealTableData(temData).then(() =>{
+         this.dbService.updateCtPlanTableData(temData).then(() =>{
+           this.dbService.updateCtPlanDtlTableData(temData).then(() =>{
+             this.dbService.updateCtProductTableData(temData).then(() =>{
+               this.dbService.updateCtProductDtlTableData(temData).then(() =>{
+                 this.dbService.updateCtProductSetTableData(temData).then(() =>{
+                   this.dbService.updateCtProductSetDtlTableData(temData).then(() =>{
+                     this.dbService.updateSysDictTypeTableData(temData).then(() =>{
+                       this.dbService.updateSysDictValueTableData(temData).then(() =>{
+                         this.dbService.updateSysOfficeTableData(temData).then(() =>{
+                           initUpdateLoading.dismiss();
+                           this.getData();
+                         });
+                       });
+                     });
+                   });
+                 });
+               });
+             });
+           });
+         });
+       });
+     });
     });
-    return p;
+
   }
 
-  initDB() {
+  initDB() :Promise<any> {
     this.loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '创建数据库...'
@@ -151,26 +160,23 @@ export class HomePage {
       //   </div>`,
     });
     this.loading.present();
-    this.dbService.creatDataBase().then((res) => {
-      // resolve(res);
-      this.handleVersion().then(() =>{
-        this.getData();
-      });
-      this.storage.set('HasCreateDb', true);
-      this.loading.dismiss();
-    }).catch(e => {
-      this.loading.dismiss();
-      this.toastCtrl.create({
-        message: JSON.stringify(e).toString(),
-        duration: 1000,
-        position: 'middle'
-      }).present();
-      console.log(e);
-      // reject(e);
-    });
+     return this.dataBaseService.creatDataBase();
   }
 
   getData() {
+
+    this.dbService.openDataBase().then((db: SQLiteObject) =>{
+      db.executeSql(`select name, id from sys_office WHERE id = '9a96a9106216453faf44259ee7f98f69'`, {}).then(res =>{
+        if (res.rows.length) {
+          this.factoryName = res.rows.item(0).name;
+          this.factoryId = res.rows.item(0).id;
+        }
+      }).catch(e =>{
+        console.log(e);
+      });
+    });
+
+    //
     let today = moment().format('YYYY-MM-DD HH:MM:SS');
     console.log('today', today);
     let params = {
@@ -178,6 +184,7 @@ export class HomePage {
       // 'dinnerDate': today,
       'status': '0',
     }
+
 
     this.httpDataPro.fetchUserOrderData(params).then(res =>{
       // alert('res' + JSON.stringify(res));
@@ -191,16 +198,94 @@ export class HomePage {
           location: 'default'
         }).then((db: SQLiteObject) =>{
           list.map((item, index) =>{
-            let temProductList = item.ctOrderProductList;
-            let label = '';
-            let num: number = temProductList[0].objNum;
-            let name: string = '';
-            let officeName: string = '';
-            db.executeSql(`SELECT c.label as label from ct_plan a,ct_meal b,sys_dict_value c where a.id= '${item.id}' and a.meal_id = b.id and b.meal_type = c.value`, []).then(res =>{
-              // alert('res in select: ' + res.rows.length);
-            }).catch(e =>{
-              alert('err in select: ' + e.toString());
-            });
+            if (item.factoryId === this.factoryId) {
+              let temProductList = item.ctOrderProductList;
+              let label = '';
+              let num: number = temProductList[0].objNum;
+              let productName: string = '';
+              let imgUrl: string = 'assets/imgs/bf.jpg';
+              let officeName: string = '';
+              let officeId: string = '';
+              let factoryName: string = this.factoryName;
+
+              // 查询餐别
+              db.executeSql(`SELECT c.label as label, b.office_id as officeId from ct_plan a,ct_meal b,sys_dict_value c where a.id= '${item.planId}' and a.meal_id = b.id and b.meal_type = c.value and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' `, []).then(res =>{
+                if (res.rows.length) {
+                  label = res.rows.item(0).label;
+                  officeId = res.rows.item(0).officeId;
+                  // 查询餐厅名称
+                  db.executeSql(`select  name from sys_office where del_flag='0' AND id = '${officeId}'`, []).then(res =>{
+                    if (res.rows.length) {
+                      officeName = res.rows.item(0).name;
+                      // 查询产品名称
+                      if (temProductList[0].objType === '0') {
+                        db.executeSql(`select product_name as name from ct_product  where del_flag='0' AND id = '${temProductList[0].objId}'`, []).then(res =>{
+                          if (res.rows.length) {
+                            // alert('item:' + res.rows.item.toString());
+                            productName = res.rows.item(0).name;
+                            let temObj = {
+                              label,
+                              imgUrl,
+                              productName,
+                              num,
+                              officeName,
+                              factoryName,
+                            };
+                            this.orderList.push(temObj);
+                          }
+
+                        }).catch(e =>{
+                          alert('err in select ct_product: ' + JSON.stringify(e));
+                        });
+                      }
+                      if (temProductList[0].objType === '1') {
+                        db.executeSql(`select product_set_name as name from ct_product_set  where del_flag='0' AND id = '${temProductList[0].objId}'`, []).then(res =>{
+                          if (res.rows.length) {
+                            productName = res.rows.item(0).name;
+                            let temObj = {
+                              label,
+                              imgUrl,
+                              productName,
+                              num,
+                              officeName,
+                              factoryName,
+                            };
+                            this.orderList.push(temObj);
+                          }
+
+                        }).catch(e =>{
+                          alert('err in select ct_product_set: ' + JSON.stringify(e));
+                        });
+                      }
+                    }
+
+                  }).catch(e =>{
+                    alert('err in select sys_office: ' + JSON.stringify(e));
+                  });
+                }
+
+              }).catch(e =>{
+                alert('err in select ct_plan: ' + JSON.stringify(e));
+              });
+
+
+
+
+
+              // let temObj = {
+              //   label,
+              //   imgUrl,
+              //   name,
+              //   num,
+              //   officeName,
+              //   factoryName,
+              // };
+              // this.orderList.push(temObj);
+
+
+
+              //
+            }
             // tx.executeSql(`SELECT meal_id FROM ct_plan WHERE id='${item.id}'`, [], (res) =>{
             //   alert('res in select: ' + JSON.stringify(res));
             //
@@ -224,10 +309,7 @@ export class HomePage {
     });
   }
 
-  // formatText (a: string) {
-  //   a = "" + a;
-  //   return a.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
-  // }
+
 
   getText (initLoading: any) {
     this.dbService.openDataBase().then((db: SQLiteObject) => {
@@ -285,7 +367,10 @@ export class HomePage {
   }
 
   gotoOrder() {
-    this.navCtrl.setRoot(OrderPage);
+    this.navCtrl.setRoot(OrderPage, {
+      factoryId: this.factoryId,
+      factoryName: this.factoryName,
+    });
   }
 
   gotoWaitingUse() {

@@ -38,25 +38,6 @@ export class DataBaseService {
                 db.executeSql(CREATE_TABLE.sys_dict_type, {});
                 db.executeSql(CREATE_TABLE.sys_dict_value, {});
                 db.executeSql(CREATE_TABLE.sys_office, {});
-            }).then(() => {
-                this.dbObject.transaction((db: SQLiteObject) => {
-                  // TODO
-                }).catch(e => {
-                    this.toastCtrl.create({
-                        // message: `插入数据:${JSON.stringify(e).toString()}`,
-                        message: `插入数据:${e.toString()}`,
-                        duration: 25000,
-                        position: 'middle'
-                      }).present();
-                      console.log(e);
-                });
-            }).catch(e => {
-                this.toastCtrl.create({
-                    message: `创建表：${JSON.stringify(e).toString()}`,
-                    duration: 25000,
-                    position: 'middle'
-                  }).present();
-                  console.log(e);
             });
         });
     }

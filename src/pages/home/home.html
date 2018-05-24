@@ -8,7 +8,7 @@
     <ion-title>
       <div>
         <span>Jimmy</span><br/>
-        <span>欢迎来到</span>
+        <span>欢迎来到{{factoryName}}</span>
       </div>
     </ion-title>
     <ion-buttons end>
@@ -37,7 +37,7 @@
 
       <ion-slide *ngFor="let item of orderList" >
         <img src="{{item.imgUrl}}"/>
-        <div class="card-title">{{item.name}} ({{item.officeName}})
+        <div class="card-title">{{item.productName}} ({{item.factoryName}}-{{item.officeName}})
           <ion-badge>
             {{item.label}}
           </ion-badge>
@@ -52,7 +52,7 @@
 
   </ion-card>
 
-  <ion-card (click)="gotoOrder()">
+  <ion-card (click)="gotoOrder(factoryName)">
     <img src="assets/imgs/bf.jpg"/>
     <div class="card-title">
       立即预订

@@ -13,6 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataBaseService } from '../providers/database/database';
+import { OperateDataBaseService } from '../providers/database/operate-database';
 import { WeekMenuPage } from "../pages/week-menu/week-menu";
 // import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
 import {OrderPage} from "../pages/order/order";
@@ -26,6 +27,7 @@ import {ZBar} from "@ionic-native/zbar";
 import {HttpProvider} from "../providers/http/http-service";
 import { HttpModule} from "@angular/http";
 import {HttpDataProviders} from "../providers/http-data/http-data";
+import {SelectTypePage} from "../pages/select-type/select-type";
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import {HttpDataProviders} from "../providers/http-data/http-data";
     ConsumeRecordPage,
     OverduePage,
     LoginPage,
+    SelectTypePage,
     // WeekMenuTypePage
   ],
   imports: [
@@ -68,6 +71,7 @@ import {HttpDataProviders} from "../providers/http-data/http-data";
     ConsumeRecordPage,
     OverduePage,
     LoginPage,
+    SelectTypePage,
     // WeekMenuTypePage
   ],
   providers: [
@@ -76,6 +80,7 @@ import {HttpDataProviders} from "../providers/http-data/http-data";
     HttpProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataBaseService,
+    OperateDataBaseService,
     HttpDataProviders,
     SQLite,
     Camera,

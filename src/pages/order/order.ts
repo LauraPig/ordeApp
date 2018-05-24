@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {CalendarComponentOptions, DayConfig} from 'ion2-calendar'
 import * as moment from 'moment'
+import {DataBaseService} from "../../providers/database/database";
+import {SQLiteObject} from "@ionic-native/sqlite";
+import {SelectTypePage} from "../select-type/select-type";
 
 /**
  * Generated class for the OrderPage page.
@@ -18,16 +21,30 @@ import * as moment from 'moment'
 export class OrderPage {
   selectDay: any = moment().format('YYYY年MM月DD');
   monStr: string;
+  factoryId: string;
+  factoryName: string;
   dayStr: string;
   date: string;
   days: DayConfig[] = [];
   status: boolean = false;
   isToday: boolean = true;
 
+  typeList: Array<any> = [];
+
   calendarOptions: CalendarComponentOptions = {
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    public dbService: DataBaseService,
+  ) {
+
+    // 获取参数
+    this.factoryId = this.navParams.get('factoryId');
+    this.factoryName = this.navParams.get('factoryName');
+
     this.monStr = (new Date().getMonth() + 1).toString();
     this.dayStr = (new Date().getDate()).toString();
     this.days.push({
@@ -61,6 +78,25 @@ export class OrderPage {
 
 
   ionViewDidLoad() {
+    // alert('factoryId--' + this.factoryId);
+    if (this.factoryId) {
+      this.dbService.openDataBase().then((db: SQLiteObject) =>{
+        db.executeSql(`select  b.label as label,b.value as value from ct_meal a,sys_dict_value b,sys_office c where c.parent_ids LIKE '%${this.factoryId}%' AND c.type='4'  AND b.[value]=a.meal_type and a.office_id = c.id AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag = '0' GROUP BY b.label,b.[value],b.sort ORDER BY b.sort;`, {}).then(res =>{
+          // alert('res.length' + res.rows.length);
+          if (res.rows.length) {
+            for ( let i = 0; i < res.rows.length; i++) {
+              this.typeList.push({
+                label: res.rows.item(i).label,
+                imgUrl: 'assets/imgs/bf.jpg',
+                value: res.rows.item(i).value,
+              });
+            }
+          }
+        }).catch(e =>{
+          console.log(e);
+        });
+      });
+    }
 
     console.log('ionViewDidLoad OrderPage');
   }
@@ -79,6 +115,14 @@ export class OrderPage {
 
   goHomeMenuPage() {
     this.navCtrl.push('homeMenu');
+  }
+
+  gotoSelectTypePage(value: string, factoryName: string) {
+    this.navCtrl.setRoot(SelectTypePage, {
+      value,
+      factoryName,
+      factoryId: this.factoryId,
+    })
   }
 
   goSettingPage() {
