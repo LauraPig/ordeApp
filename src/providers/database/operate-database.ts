@@ -87,7 +87,7 @@ export class OperateDataBaseService {
             db.transaction((tx: SQLiteTransaction) =>{
               // tx.start();
               list && list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks],() =>{
+                tx.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks],() =>{
                   if (index === list.length - 1) {
                     // tx.finish();
                     // alert('ct_meal finish');
@@ -127,7 +127,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.status],() =>{
+                tx.executeSql(INSERT_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.status],() =>{
                   if (index === list.length - 1) {
                     tx.finish();
                   }
@@ -206,7 +206,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.ct_product , [item.id, item.productType, item.officeId, item.productName, item.price, item.imgUrl, item.isScore, item.costCredits, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.delFlag, item.factoryId, item.labels, item.isHold, item.isPack, item.isApproval, item.summary, item.cost],() =>{
+                tx.executeSql(INSERT_DATA.ct_product , [item.id, item.productType, item.officeId, item.productName, item.price, item.imgUrl, item.isScore, item.costCredits, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.delFlag, item.factoryId, item.labels, item.isHold, item.isPack, item.isApproval, item.summary, item.cost],() =>{
                   if (index === list.length - 1) {
                   }
                 }, (e) =>{
@@ -277,7 +277,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.ct_product_set , [item.id, item.factoryId, item.officeId, item.productSetName, item.price, item.imgUrl, item.isScore, item.costCredits, item.delFlag, item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.labels, item.isPack, item.isHold, item.isApproval, item.summary, item.cost],() =>{
+                tx.executeSql(INSERT_DATA.ct_product_set , [item.id, item.factoryId, item.officeId, item.productSetName, item.price, item.imgUrl, item.isScore, item.costCredits, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.labels, item.isPack, item.isHold, item.isApproval, item.summary, item.cost],() =>{
                   if (index === list.length - 1) {
                     // tx.finish();
                     // initLoading.dismiss();
@@ -352,7 +352,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.sys_dict_type , [item.id, item.type, item.description, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.isSelfdom, item.isSqlite],() =>{
+                tx.executeSql(INSERT_DATA.sys_dict_type , [item.id, item.type, item.description, item.createById, item.createDate, item.updateById, item.updateDate, item.delFlag, item.isSelfdom, item.isSqlite],() =>{
                   if (index === list.length - 1) {
                     tx.finish();
                   }
@@ -388,7 +388,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.sys_dict_value , [item.id, item.dictTypeId, item.label, item.value, item.sort, item.createBy, item.createDate, item.updateBy, item.updateDate, item.delFlag, item.officeId],() =>{
+                tx.executeSql(INSERT_DATA.sys_dict_value , [item.id, item.dictTypeId, item.label, item.value, item.sort, item.createById, item.createDate, item.updateById, item.updateDate, item.delFlag, item.officeId],() =>{
                   if (index === list.length - 1) {
                     tx.finish();
                   }
@@ -424,7 +424,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.sys_office , [item.id, item.parentId2, item.parentIds, item.name, item.sort, item.areaId, item.code, item.type, item.grade, item.address, item.zipCode, item.master, item.phone, item.fax, item.email, item.useable, item.primaryPerson, item.deputyPerson,item.createBy, item.createDate, item.updateBy, item.updateDate, item.remarks, item.delFlag],() =>{
+                tx.executeSql(INSERT_DATA.sys_office , [item.id, item.parentId2, item.parentIds, item.name, item.sort, item.areaId, item.code, item.type, item.grade, item.address, item.zipCode, item.master, item.phone, item.fax, item.email, item.useable, item.primaryPersonId, item.deputyPersonId,item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.delFlag],() =>{
                   if (index === list.length - 1) {
                     tx.finish();
                     //  保存最新的版本号

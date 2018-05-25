@@ -15,19 +15,19 @@
 
 <ion-content>
   <ion-card>
-    <img src="{{item.img}}"/>
+    <img src="{{item.imgUrl}}"/>
     <ion-card-content>
       <ion-card-title>
         {{item.name}}
       </ion-card-title>
       <p>
-        ￥ 6.0元/份
+        ￥ {{item.price}}元/份
       </p>
       <p>
         套餐包括：
       </p>
       <p>
-        豆腐，青菜，酱油，米饭，鸡肉，菜干汤,豆腐，青菜，酱油，米饭，鸡肉，菜干汤,豆腐，青菜，酱油，米饭，鸡肉，菜干汤,豆腐，青菜，酱油，米饭，鸡肉，菜干汤,
+        {{item.productName}}
       </p>
       <p>
         <ion-badge>150g</ion-badge>
@@ -48,5 +48,5 @@
       </p>
     </ion-card-content>
   </ion-card>
-  <button class="order-btn" (click)="orderProduct(item.name)">预定</button>
+  <button class="order-btn" (click)="orderProduct(item.id)">预定</button>
 </ion-content>

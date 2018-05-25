@@ -22,4 +22,9 @@ export class HttpDataProviders {
   public fetchUserOrderData (params: any) {
     return this.httpPro.httpPostWithAuth('/orderList', params);
   }
+
+  // 用户创建订单
+  public createOrder (params: any) {
+    return this.httpPro.httpPostWithAuth('/order', params);
+  }
 }

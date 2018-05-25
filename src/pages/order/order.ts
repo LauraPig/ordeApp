@@ -25,6 +25,7 @@ export class OrderPage {
   factoryName: string;
   dayStr: string;
   date: string;
+  // dateResult: string;
   days: DayConfig[] = [];
   status: boolean = false;
   isToday: boolean = true;
@@ -45,7 +46,9 @@ export class OrderPage {
     this.factoryId = this.navParams.get('factoryId');
     this.factoryName = this.navParams.get('factoryName');
 
+
     this.monStr = (new Date().getMonth() + 1).toString();
+    this.monStr = this.monStr.length === 1 ? `0${this.monStr}` : this.monStr;
     this.dayStr = (new Date().getDate()).toString();
     this.days.push({
       date: new Date(),
@@ -107,14 +110,11 @@ export class OrderPage {
     // const today = moment().format('YYYY-MM-DD');
     console.log(result);
     this.isToday = $event.toString() === result;
+    // this.dateResult = $event.toString();
     this.monStr = (moment($event).get('months') + 1).toString();
     this.dayStr = (moment($event).get('date')).toString();
     this.selectDay = moment($event).format('YYYY年MM月DD');
     // this.getGoalDay();
-  }
-
-  goHomeMenuPage() {
-    this.navCtrl.push('homeMenu');
   }
 
   gotoSelectTypePage(value: string, factoryName: string) {
@@ -122,8 +122,17 @@ export class OrderPage {
       value,
       factoryName,
       factoryId: this.factoryId,
+      monStr: this.monStr,
+      dayStr: this.dayStr,
+      typeList: this.typeList,
     })
   }
+
+  goHomeMenuPage() {
+    this.navCtrl.push('homeMenu');
+  }
+
+
 
   goSettingPage() {
     this.navCtrl.push('setting');

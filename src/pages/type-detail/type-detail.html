@@ -7,27 +7,29 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{date}}</ion-title>
+    <ion-title>{{monStr}}月{{dayStr}}日</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <span style="font-size: 1.5rem;font-weight: bold">{{name}} - {{typeItem.name}}</span>
+<ion-content>
+  <span style="font-size: 1.5rem;font-weight: bold;line-height: 60px">{{label}} - {{name}}</span>
 
-  <ion-card *ngFor="let item of typeItem?.typeList; let i = index" (click)="gotoDetail(item)">
-    <img src="{{item.img}}"/>
+  <ion-card *ngFor="let item of resultList; let i = index" (click)="gotoDetail(item)">
+    <img src="{{item.imgUrl}}"/>
     <ion-card-content>
       <ion-card-title>
         {{item.name}}
       </ion-card-title>
       <p>
-        包括： 豆腐，青菜，酱油，米饭，鸡肉，菜干汤,豆腐，青菜，酱油，米饭，鸡肉，菜干汤,豆腐，青菜，酱油，米饭，鸡肉，菜干汤,豆腐，青菜，酱油，米饭，鸡肉，菜干汤,
-      </p>
-      <p>
-        餐厅： {{typeItem.name}}餐厅
+        包括： {{item.productName}}
       </p>
     </ion-card-content>
   </ion-card>
+  <div *ngIf="resultList?.length === 0">
+    <div class="null-data">
+      <img src="assets/imgs/null.png" alt="加载失败">
+    </div>
+  </div>
 </ion-content>

@@ -4,7 +4,7 @@ import { SelectTypePage } from './select-type';
 
 @NgModule({
   declarations: [
-    SelectTypePage,
+    // SelectTypePage,
   ],
   imports: [
     IonicPageModule.forChild(SelectTypePage),
