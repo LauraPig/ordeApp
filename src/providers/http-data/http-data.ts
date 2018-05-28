@@ -27,4 +27,9 @@ export class HttpDataProviders {
   public createOrder (params: any) {
     return this.httpPro.httpPostWithAuth('/order', params);
   }
+
+  // 获取逾期未取餐数据
+  public fetchOverDueData (params: any) {
+    return this.httpPro.httpPostWithAuth('/notTakingMeals', params);
+  }
 }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import {HttpDataProviders} from "../../providers/http-data/http-data";
 
 /**
  * Generated class for the OverduePage page.
@@ -15,11 +17,39 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class OverduePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  userId: string;
+  dataList: Array<any> = [];
+  orderList: Array<any> = [];
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: Storage,
+    public httpDataPro: HttpDataProviders,
+  ) {
+
   }
 
   ionViewDidLoad() {
+    this.storage.get('userId').then(res =>{
+      if (res) {
+        this.userId = res;
+        this.getOverDueData(res);
+      }
+    });
     console.log('ionViewDidLoad OverduePage');
+  }
+
+  getOverDueData(id: string) {
+    if (id) {
+      let params = {'userId': id};
+      this.httpDataPro.fetchOverDueData(params).then(res => {
+        alert('res---' + res.body.orderList);
+        if (res.success) {
+          this.orderList  = res.body.orderList;
+        }
+      });
+    }
   }
 
   goHomeMenuPage() {

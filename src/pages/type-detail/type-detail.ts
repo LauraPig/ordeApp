@@ -49,9 +49,9 @@ export class TypeDetailPage {
       let yearStr = new Date().getFullYear();
       // this.dateStr = `${yearStr}-${this.monStr}-${this.dayStr}`;
 
-
+      // alert('this.monstr--type-detail: ' + this.monStr);
       this.dateStr = `${yearStr}-${this.monStr}-${this.dayStr} 00:00:00`;
-      alert('date-' + this.dateStr);
+      // alert('date-' + this.dateStr);
       // AND a.start_date <= '${this.dateStr}' AND a.end_date >= '${this.dateStr}'
 
 

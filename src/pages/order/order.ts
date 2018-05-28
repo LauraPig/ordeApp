@@ -48,7 +48,7 @@ export class OrderPage {
 
 
     this.monStr = (new Date().getMonth() + 1).toString();
-    this.monStr = this.monStr.length === 1 ? `0${this.monStr}` : this.monStr;
+    this.monStr = this.monStr.length === 1 ? '0' + this.monStr : this.monStr;
     this.dayStr = (new Date().getDate()).toString();
     this.days.push({
       date: new Date(),
@@ -118,6 +118,7 @@ export class OrderPage {
   }
 
   gotoSelectTypePage(value: string, factoryName: string) {
+    // alert('this.monstr--order: ' + this.monStr);
     this.navCtrl.setRoot(SelectTypePage, {
       value,
       factoryName,

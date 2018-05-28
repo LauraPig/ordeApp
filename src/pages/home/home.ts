@@ -170,6 +170,8 @@ export class HomePage {
         if (res.rows.length) {
           this.factoryName = res.rows.item(0).name;
           this.factoryId = res.rows.item(0).id;
+          this.storage.set('factoryId', this.factoryId);
+          this.storage.set('factoryName', this.factoryName);
         }
       }).catch(e =>{
         console.log(e);

@@ -59,11 +59,11 @@ export class DetailPage {
     });
 
     if (this.officeId && this.value && this.dateStr) {
-      alert('-dateStr--' + this.dateStr);
+      // alert('-dateStr--' + this.dateStr);
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
         let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${this.officeId}' and b.meal_type = '${this.value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.dateStr}' AND a.end_date>='${this.dateStr}'`;
         db.executeSql(sqlStr, {}).then(res =>{
-          alert('res-length--' + res.rows.length);
+          // alert('res-length--' + res.rows.length);
           if (res.rows.length) {
             this.planId = res.rows.item(0).id;
           }

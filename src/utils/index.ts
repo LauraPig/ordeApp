@@ -25,3 +25,45 @@ export const getToday = () :string =>{
   return '';
 };
 
+
+/**
+  * 根据当前日期返回显示多少天
+  *
+  * @return number result
+  */
+
+export const getResult = () :number =>{
+  let week = new Date().getDay();
+  let result: number;
+  switch (week) {
+    case 0:
+      result = 0;
+      break;
+    case 1:
+      result = 7;
+      break;
+    case 2:
+      result = 6;
+      break;
+    case 3:
+      result = 5;
+      break;
+    case 4:
+      result = 4;
+      break;
+    case 5:
+      result = 3;
+      break;
+    case 6:
+      result = 2;
+      break;
+    case 7:
+      result = 1;
+      break;
+    default:
+      result = 0;
+      break;
+  }
+  return result;
+};
+
