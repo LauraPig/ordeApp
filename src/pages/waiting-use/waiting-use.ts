@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import * as moment from 'moment';
+import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {Storage} from '@ionic/storage';
 
 /**
  * Generated class for the WaitingUsePage page.
@@ -15,11 +18,54 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 })
 export class WaitingUsePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  dataList: Array<any> = [];
+  userId: string;
+  todayStr: string;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public storage: Storage,
+    public httpDataPro: HttpDataProviders,
+  ) {
   }
 
   ionViewDidLoad() {
+    this.todayStr = moment().format('YYYY-MM-DD');
+    this.storage.get('userId').then(res =>{
+      if (res) {
+        this.userId = res;
+        let dateStr = `${moment().format('YYYY-MM-DD')} 00:00:00`;
+        this.getDataList(res, dateStr);
+      }
+
+    })
     console.log('ionViewDidLoad WaitingUsePage');
+  }
+
+  getDataList(userId: string, dinnerDate: string) {
+    if (userId && dinnerDate) {
+      let params = {
+        'userId': userId,
+        'dinnerDate': dinnerDate
+      }
+      this.httpDataPro.fetchWaitingListData(params).then(res =>{
+        // alert('res-data--' + JSON.stringify(res));
+        if (res.success && res.body) {
+          for (let key in res.body) {
+            let tempObj = {
+              dateStr: key,
+              list: res.body[key],
+            };
+            this.dataList.push(tempObj);
+          }
+        }
+      }).catch(e =>{
+
+      });
+    }
+
   }
 
   // 打包

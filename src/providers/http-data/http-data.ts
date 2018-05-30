@@ -37,4 +37,9 @@ export class HttpDataProviders {
   public fetchRecordListData (params: any) {
     return this.httpPro.httpPostWithAuth('/consumptionList', params);
   }
+
+  // 获取待消费列表数据
+  public fetchWaitingListData (params: any) {
+    return this.httpPro.httpPostWithAuth('/canBeConsumed', params);
+  }
 }

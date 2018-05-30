@@ -24,59 +24,31 @@
 </ion-header>
 
 
-<ion-content>
-  <ion-list no-lines>
+<ion-content padding>
+  <ion-list no-lines *ngFor="let item of dataList">
     <ion-list-header>
-      <span>今日您已预订</span>
+      <span *ngIf="item.dateStr === todayStr">今日您已预订</span>
+      <span *ngIf="item.dateStr !== todayStr">{{item.dateStr}}</span>
     </ion-list-header>
-    <ion-item-sliding>
+    <ion-item-sliding *ngFor="let p of item.list" style="margin-bottom: 3vh">
       <ion-item>
         <img src="assets/imgs/bf.jpg"/>
-        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
+        <div class="card-title">{{p.productName}} x 1份（{{p.factoryName}}{{p.officeName}}）
           <ion-badge>
-            午餐
+            {{p.mealType}}
           </ion-badge>
         </div>
       </ion-item>
       <ion-item-options side="right">
-        <button class="operator-button" color="light" ion-button (click)="pack()">
+        <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
           <ion-icon name="ios-cube-outline"></ion-icon>
           打包
         </button>
-        <button class="operator-button" color="light" ion-button (click)="holdOrder()">
+        <button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">
           <ion-icon name="ios-hand-outline"></ion-icon>
           留餐
         </button>
-        <button class="operator-button" ion-button color="danger" (click)="cancelOrder()">
-          <ion-icon name="ios-trash-outline"></ion-icon>
-          退订
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-  <ion-list no-lines>
-    <ion-list-header>
-      <span>4月26日</span>
-    </ion-list-header>
-    <ion-item-sliding>
-      <ion-item>
-        <img src="assets/imgs/bf.jpg"/>
-        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
-          <ion-badge>
-            午餐
-          </ion-badge>
-        </div>
-      </ion-item>
-      <ion-item-options side="right">
-        <button class="operator-button" color="light" ion-button (click)="pack()">
-          <ion-icon name="ios-cube-outline"></ion-icon>
-          打包
-        </button>
-        <button class="operator-button" color="light" ion-button (click)="holdOrder()">
-          <ion-icon name="ios-hand-outline"></ion-icon>
-          留餐
-        </button>
-        <button class="operator-button" ion-button color="danger" (click)="cancelOrder()">
+        <button class="operator-button" ion-button color="danger" (click)="cancelOrder(p.id, userId)">
           <ion-icon name="ios-trash-outline"></ion-icon>
           退订
         </button>
@@ -84,64 +56,11 @@
     </ion-item-sliding>
   </ion-list>
 
-  <ion-list no-lines>
-    <ion-list-header>
-      <span>4月27日</span>
-    </ion-list-header>
-    <ion-item-sliding>
-      <ion-item>
-        <img src="assets/imgs/bf.jpg"/>
-        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
-          <ion-badge>
-            午餐
-          </ion-badge>
-        </div>
-      </ion-item>
-      <ion-item-options side="right">
-        <button class="operator-button" color="light" ion-button (click)="pack()">
-          <ion-icon name="ios-cube-outline"></ion-icon>
-          打包
-        </button>
-        <button class="operator-button" color="light" ion-button (click)="holdOrder()">
-          <ion-icon name="ios-hand-outline"></ion-icon>
-          留餐
-        </button>
-        <button class="operator-button" ion-button color="danger" (click)="cancelOrder()">
-          <ion-icon name="ios-trash-outline"></ion-icon>
-          退订
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
 
-  <ion-list no-lines>
-    <ion-list-header>
-      <span>4月28日</span>
-    </ion-list-header>
-    <ion-item-sliding>
-      <ion-item>
-        <img src="assets/imgs/bf.jpg"/>
-        <div class="card-title">辣子鸡套餐 x 1份（九美桥主餐厅）
-          <ion-badge>
-            午餐
-          </ion-badge>
-        </div>
-      </ion-item>
-      <ion-item-options side="right">
-        <button class="operator-button" color="light" ion-button (click)="pack()">
-          <ion-icon name="ios-cube-outline"></ion-icon>
-          打包
-        </button>
-        <button class="operator-button" color="light" ion-button (click)="holdOrder()">
-          <ion-icon name="ios-hand-outline"></ion-icon>
-          留餐
-        </button>
-        <button class="operator-button" ion-button color="danger" (click)="cancelOrder()">
-          <ion-icon name="ios-trash-outline"></ion-icon>
-          退订
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+
+
+  <div *ngIf="dataList.length === 0" style="font-size: 2rem;margin-top: 30vh;margin-left: 40vw">
+    暂无数据
+  </div>
 
 </ion-content>
