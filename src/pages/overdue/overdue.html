@@ -20,88 +20,21 @@
 
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
+  <ion-list *ngIf="orderList?.length > 0" >
+    <ion-item *ngFor="let item of orderList">
+      <h2>{{item.productName}}</h2>
       <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
+        <h3 style="margin-left: 10px">{{item.price}}元</h3>
       </div>
       <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
+        <ion-badge color="light" style="color: #bfbfbf">{{item.mealType}}</ion-badge>
+        {{item.dinnerDate}} {{item.factoryName}}-{{item.officeName}}
       </p>
     </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-      </div>
-      <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-      </div>
-      <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-      </div>
-      <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-      </div>
-      <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-      </div>
-      <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-      </div>
-      <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-      </div>
-      <p style="line-height: 35px;">
-        <ion-badge color="light" style="color: #bfbfbf">早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-
   </ion-list>
+
+  <div *ngIf="orderList?.length === 0" style="margin-left: 40vw;margin-top: 20vh;font-size: 2rem">
+    暂无数据
+  </div>
 
 </ion-content>

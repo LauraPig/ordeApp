@@ -25,7 +25,7 @@
     </ion-list-header>
     <ion-row>
       <ion-col col-6 *ngFor="let p of item.list; let i = index">
-        <ion-card (click)="gotoMenuType(p.value, item?.todayStr, item.list, item.monStr, item.dayStr)">
+        <ion-card tappable (click)="gotoMenuType(p.value, item?.todayStr, item.list, item.monStr, item.dayStr)">
           <img src="{{p?.imgUrl}}"/>
           <div class="card-title">{{p?.label}}</div>
           <!--<div class="card-subtitle">64 Listings</div>-->

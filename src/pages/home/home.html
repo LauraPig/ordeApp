@@ -28,7 +28,7 @@
 <!--</ion-content>-->
 
 <ion-content>
-  <ion-card (click)="gotoWaitingUse()">
+  <ion-card tappable (click)="gotoWaitingUse()">
     <ion-card-header>
       今日您已预订
     </ion-card-header>
@@ -52,7 +52,8 @@
 
   </ion-card>
 
-  <ion-card (click)="gotoOrder(factoryName)">
+
+  <ion-card tappable (click)="gotoOrder(factoryName)">
     <img src="assets/imgs/bf.jpg"/>
     <div class="card-title">
       立即预订

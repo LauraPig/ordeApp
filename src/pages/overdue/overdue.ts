@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
+import * as moment from "moment";
+import _date = moment.unitOfTime._date;
 
 /**
  * Generated class for the OverduePage page.
@@ -18,7 +20,7 @@ import {HttpDataProviders} from "../../providers/http-data/http-data";
 export class OverduePage {
 
   userId: string;
-  dataList: Array<any> = [];
+  // dataList: Array<any> = [];
   orderList: Array<any> = [];
 
   constructor(
@@ -31,22 +33,30 @@ export class OverduePage {
   }
 
   ionViewDidLoad() {
+    let dateStr = moment().format('YYYY-MM-DD HH:MM:SS');
+    // alert('date--' + dateStr);
     this.storage.get('userId').then(res =>{
-      if (res) {
+      if (res && dateStr) {
         this.userId = res;
-        this.getOverDueData(res);
+        this.getOverDueData(res, dateStr);
       }
     });
     console.log('ionViewDidLoad OverduePage');
   }
 
-  getOverDueData(id: string) {
-    if (id) {
-      let params = {'userId': id};
+  getOverDueData(id: string, dateStr: string) {
+    if (id && dateStr) {
+      let params = {
+        id,
+        'date': dateStr
+      };
       this.httpDataPro.fetchOverDueData(params).then(res => {
-        alert('res---' + res.body.orderList);
+        // alert('res-length--' + res.body.orderList.length);
         if (res.success) {
-          this.orderList  = res.body.orderList;
+          this.orderList  = res.body.orderList && res.body.orderList.map((item, index) => {
+            item.dinnerDate = moment(item.dinnerDate).format('YYYY-MM-DD');
+            return item;
+          });
         }
       });
     }

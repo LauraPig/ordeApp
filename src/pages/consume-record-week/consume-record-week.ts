@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import * as moment from "moment";
+import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {Storage} from '@ionic/storage';
 
 /**
  * Generated class for the ConsumeRecordWeekPage page.
@@ -17,11 +20,54 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ConsumeRecordWeekPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  userId: string;
+  orderList: Array<any> = [];
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: Storage,
+    public httpDataPro: HttpDataProviders,
+  ) {
   }
 
   ionViewDidLoad() {
+
+    this.orderList = [];
+    let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
+
+    let lastMonday = `${moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD')} 00:00:00`;   //周一日期
+    let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期
+    this.storage.get('userId').then(res =>{
+      if (res) {
+        this.userId = res;
+        this.getListData(res, lastMonday, lastSunday);
+      }
+    });
     console.log('ionViewDidLoad ConsumeRecordWeekPage');
+  }
+
+  getListData(id: string, queryStartDate: string, queryEndDate: string ) {
+    if (id && queryEndDate && queryStartDate) {
+      let params = {
+        'userId': id,
+        'status': '1',
+        'queryStartDate': queryStartDate,
+        'queryEndDate': queryEndDate,
+      };
+      this.httpDataPro.fetchRecordListData(params).then(res =>{
+        if (res.success) {
+          this.orderList = res.body.ctOrderList && res.body.ctOrderList.map((item, index) => {
+            item.dinnerDate = moment(item.dinnerDate).format('MM月DD日 HH:MM');
+            return item;
+          });
+        }
+
+      }).catch(e =>{
+
+      });
+    }
+
   }
 
 }

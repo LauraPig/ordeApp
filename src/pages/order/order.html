@@ -24,7 +24,7 @@
 
 <ion-content>
   <ion-card ion-item  no-lines style="background-image: none" >
-    <ion-card-header (click)="openCalendar()">
+    <ion-card-header tappable (click)="openCalendar()">
       <ion-row *ngIf="!status">
         <ion-col col-3>
           <p>{{monStr}}月</p>
@@ -52,7 +52,7 @@
     </ion-calendar>
 
   </ion-card>
-  <ion-card *ngFor="let item of typeList"  class="ion-card-prod"  no-lines (click)="gotoSelectTypePage(item.value, factoryName)">
+  <ion-card *ngFor="let item of typeList"  class="ion-card-prod"  no-lines tappable (click)="gotoSelectTypePage(item.value, factoryName)">
     <img src="{{item.imgUrl}}"/>
     <div class="card-title">{{item.label}}</div>
   </ion-card>

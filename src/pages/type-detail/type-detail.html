@@ -16,7 +16,7 @@
 <ion-content>
   <span style="font-size: 1.5rem;font-weight: bold;line-height: 60px">{{label}} - {{name}}</span>
 
-  <ion-card *ngFor="let item of resultList; let i = index" (click)="gotoDetail(item)">
+  <ion-card *ngFor="let item of resultList; let i = index" tappable (click)="gotoDetail(item)">
     <img src="{{item.imgUrl}}"/>
     <ion-card-content>
       <ion-card-title>

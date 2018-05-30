@@ -52,24 +52,6 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.storage.set('userId', '1');
-
-      // // 判断是否已经初始化数据库
-      // this.storage.get('HasCreateDb').then(res => {
-      //   console.log('res=====>', res);
-      //   if (!res) {
-      //     this.initDB();
-      //   } else if (res) {
-      //     this.handleVersion();
-      //   }
-      // }).catch(e => {
-      //   console.log(e);
-      // });
-
-      // this.checkData();
-
-      // if () {
-      //   this.checkData();
-      // }
     });
   }
 

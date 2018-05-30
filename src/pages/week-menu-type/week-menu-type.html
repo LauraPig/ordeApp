@@ -18,7 +18,7 @@
 
   <ion-list style="padding-top: 10px">
     <ion-card ion-item *ngFor="let item of typeList; let i = index" no-lines style="background-image: none" >
-      <ion-card-header (click)="accordion(item.value)">
+      <ion-card-header tappable (click)="accordion(item.value)">
 
         <span style="font-size: 1.5rem;font-weight: bold">{{item?.label}}</span>
         <ion-icon name="ios-arrow-up-outline"  *ngIf="item.value === value" style="margin-left: 80%" ></ion-icon>
@@ -26,7 +26,7 @@
 
       <!--<ion-icon name="ios-arrow-forward" item-right *ngIf="!(item.status)" ></ion-icon>-->
       <ion-list *ngIf="item.value === value">
-        <ion-card class="type-list-card"  *ngFor=" let p of typeObj[item.value]; let typeIndex = index" (click)="gotoTypeDetail(p.name, item.value, item.label, p.id)">
+        <ion-card class="type-list-card"  *ngFor=" let p of typeObj[item.value]; let typeIndex = index" tappable (click)="gotoTypeDetail(p.name, item.value, item.label, p.id)">
           <img src="{{p?.imgUrl}}"/>
           <div class="card-title">{{p?.name}}</div>
           <!--<div class="card-subtitle">64 Listings</div>-->

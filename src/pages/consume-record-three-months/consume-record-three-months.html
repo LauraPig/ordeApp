@@ -1,47 +1,14 @@
 <ion-content>
   <ion-list>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
+    <ion-item *ngFor="let item of orderList">
+      <h2>{{item?.productName}}</h2>
       <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-        <button ion-button>去评价</button>
+        <h3 style="margin-left: 10px">{{item?.price}}元</h3>
+        <button ion-button >去评价</button>
       </div>
       <p style="line-height: 35px">
-        <ion-badge>早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-        <button ion-button>去评价</button>
-      </div>
-      <p style="line-height: 35px">
-        <ion-badge>早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end style="width: 17vw">
-        <h3 style="margin-left: 10px">6.00元</h3>
-        <button ion-button color="secondary">查看评价</button>
-      </div>
-      <p style="line-height: 35px">
-        <ion-badge>早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
-      </p>
-    </ion-item>
-    <ion-item>
-      <h2>豆浆油条套餐</h2>
-      <div item-end>
-        <h3 style="margin-left: 10px">6.00元</h3>
-        <button ion-button>去评价</button>
-      </div>
-      <p style="line-height: 35px">
-        <ion-badge>早餐</ion-badge>
-        1月3日 8:20am 十如-主餐厅
+        <ion-badge>{{item.mealType}}</ion-badge>
+        {{item.dinnerDate}} {{item.factoryName}}-{{item.officeName}}
       </p>
     </ion-item>
   </ion-list>

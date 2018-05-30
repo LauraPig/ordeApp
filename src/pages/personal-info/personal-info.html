@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item (click)="goQRCode()">
+    <ion-item tappable (click)="goQRCode()">
       <ion-thumbnail item-start>
         <img src="{{user?.avatar_url || 'assets/imgs/logo.png'}}">
       </ion-thumbnail >

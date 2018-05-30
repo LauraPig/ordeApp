@@ -32,4 +32,9 @@ export class HttpDataProviders {
   public fetchOverDueData (params: any) {
     return this.httpPro.httpPostWithAuth('/notTakingMeals', params);
   }
+
+  // 获取历史用餐记录
+  public fetchRecordListData (params: any) {
+    return this.httpPro.httpPostWithAuth('/consumptionList', params);
+  }
 }

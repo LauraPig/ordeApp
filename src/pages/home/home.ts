@@ -146,7 +146,9 @@ export class HomePage {
          });
        });
      });
-    });
+    }).catch(e =>{
+      alert('调用数据接口失败' + e.toString());
+   });
 
   }
 
@@ -164,6 +166,7 @@ export class HomePage {
   }
 
   getData() {
+    this.orderList = [];
 
     this.dbService.openDataBase().then((db: SQLiteObject) =>{
       db.executeSql(`select name, id from sys_office WHERE id = '9a96a9106216453faf44259ee7f98f69'`, {}).then(res =>{
@@ -179,15 +182,15 @@ export class HomePage {
     });
 
     //
-    let today = moment().format('YYYY-MM-DD HH:MM:SS');
+    let today = `${moment().format('YYYY-MM-DD')} 00:00:00`;
     console.log('today', today);
     let params = {
       'userId': '1',
-      // 'dinnerDate': today,
+      'dinnerDate': today,
       'status': '0',
     }
 
-
+    // 获取今天已经预定的信息
     this.httpDataPro.fetchUserOrderData(params).then(res =>{
       // alert('res' + JSON.stringify(res));
       if (!res.success) {
