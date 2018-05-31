@@ -42,4 +42,9 @@ export class HttpDataProviders {
   public fetchWaitingListData (params: any) {
     return this.httpPro.httpPostWithAuth('/canBeConsumed', params);
   }
+
+  // 获取工厂列表数据
+  public fetchFactoryListData () {
+    return this.httpPro.httpPostWithAuth('/officeTree', null);
+  }
 }

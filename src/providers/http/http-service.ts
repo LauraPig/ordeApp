@@ -38,7 +38,7 @@ export class HttpProvider {
   public httpPostWithAuth(url: string, body: any) {
     let headers = new Headers();
     headers.set('Content-Type', 'application/json');
-    headers.set('token', `1111asdfasdbasfasd`);
+    headers.set('token', `111`);
     let options = new RequestOptions({
       headers,
       method: 'POST'

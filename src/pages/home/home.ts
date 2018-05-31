@@ -168,17 +168,28 @@ export class HomePage {
   getData() {
     this.orderList = [];
 
-    this.dbService.openDataBase().then((db: SQLiteObject) =>{
-      db.executeSql(`select name, id from sys_office WHERE id = '9a96a9106216453faf44259ee7f98f69'`, {}).then(res =>{
-        if (res.rows.length) {
-          this.factoryName = res.rows.item(0).name;
-          this.factoryId = res.rows.item(0).id;
-          this.storage.set('factoryId', this.factoryId);
-          this.storage.set('factoryName', this.factoryName);
-        }
-      }).catch(e =>{
-        console.log(e);
-      });
+    this.storage.get('factoryId').then(res =>{
+      if (!res) {
+        this.dbService.openDataBase().then((db: SQLiteObject) =>{
+          db.executeSql(`select name, id from sys_office WHERE id = '9a96a9106216453faf44259ee7f98f69'`, {}).then(res =>{
+            if (res.rows.length) {
+              this.factoryName = res.rows.item(0).name;
+              this.factoryId = res.rows.item(0).id;
+              this.storage.set('factoryId', this.factoryId);
+              this.storage.set('factoryName', this.factoryName);
+            }
+          }).catch(e =>{
+            console.log(e);
+          });
+        });
+      } else {
+        this.factoryId = res;
+        this.storage.get('factoryName').then(data =>{
+          if (data) {
+            this.factoryName = data;
+          }
+        })
+      }
     });
 
     //
