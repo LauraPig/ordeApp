@@ -161,7 +161,7 @@ export class HomePage {
       //     <div class="custom-spinner-box"></div>
       //   </div>`,
     });
-    this.loading.present();
+    // this.loading.present();
      return this.dataBaseService.creatDataBase();
   }
 
@@ -321,7 +321,7 @@ export class HomePage {
       }
     }).catch(e => {
       console.log(e);
-      alert('网络异常---' + e.toString());
+      // alert('网络异常---' + e.toString());
     });
   }
 

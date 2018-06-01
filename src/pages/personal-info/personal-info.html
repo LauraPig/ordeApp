@@ -15,17 +15,17 @@
 
 <ion-content>
   <ion-list>
-    <ion-item tappable (click)="goQRCode()">
+    <ion-item tappable (click)="goQRCode(userInfo?.no)">
       <ion-thumbnail item-start>
-        <img src="{{user?.avatar_url || 'assets/imgs/logo.png'}}">
+        <img src="{{userInfo.avatar_url || 'assets/imgs/logo.png'}}">
       </ion-thumbnail >
       <h2 style="margin-left: 5vw">
-        <p ion-text>{{user?.nickname || '还没有昵称'}}</p>
+        <p ion-text>{{userInfo.name || '还没有昵称'}}</p>
         <p>
-          GLE000001
+          {{userInfo.no}}
         </p>
         <p>
-          GLG260
+          {{userInfo.departmentName}}
         </p>
 
         <!--<i class="iconfont icon-vip-copy" ion-text [color]="user.is_vip?'danger':'gray'" (click)="goVipPage($event)"></i>-->
@@ -45,31 +45,34 @@
       <ion-row>
         <ion-col col-6 style="border-right: 1px solid #c5c5c5">
           <p>信用账户余额</p>
-          <p>220.0元</p>
+          <p>{{creditAccount}}元</p>
         </ion-col>
         <ion-col col-6 style="padding-left: 5vw">
           <p>现金账户余额</p>
-          <p>0.0元</p>
+          <p>{{cashAccount}}元</p>
         </ion-col>
       </ion-row>
     </ion-item>
+
+
   </ion-list>
-  <ion-list>
-    <ion-list-header>
-      <span style="font-size: 1.2em;font-weight: bold">基础信息</span> <ion-icon item-end name="md-create"></ion-icon>
-    </ion-list-header>
-    <ion-item>
-      <ion-row>
-        <ion-col col-6 style="border-right: 1px solid #c5c5c5">
-          <p>身高</p>
-          <p>170 cm</p>
-        </ion-col>
-        <ion-col col-6 style="padding-left: 5vw">
-          <p>体重</p>
-          <p>70 KG</p>
-        </ion-col>
-      </ion-row>
-    </ion-item>
-  </ion-list>
+  <!--<ion-list>-->
+  <!--<ion-list-header>-->
+  <!--<span style="font-size: 1.2em;font-weight: bold">基础信息</span> <ion-icon item-end name="md-create"></ion-icon>-->
+  <!--</ion-list-header>-->
+  <!--<ion-item>-->
+  <!--<ion-row>-->
+  <!--<ion-col col-6 style="border-right: 1px solid #c5c5c5">-->
+  <!--<p>身高</p>-->
+  <!--<p>170 cm</p>-->
+  <!--</ion-col>-->
+  <!--<ion-col col-6 style="padding-left: 5vw">-->
+  <!--<p>体重</p>-->
+  <!--<p>70 KG</p>-->
+  <!--</ion-col>-->
+  <!--</ion-row>-->
+  <!--</ion-item>-->
+  <!--</ion-list>-->
+  <qr-code [value]="'1231234'" [size]="150" [backgroundAlpha]="0.5" [padding]="10"></qr-code>
 
 </ion-content>

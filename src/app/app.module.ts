@@ -15,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataBaseService } from '../providers/database/database';
 import { OperateDataBaseService } from '../providers/database/operate-database';
 import { WeekMenuPage } from "../pages/week-menu/week-menu";
+import { QRCodeModule } from 'angular2-qrcode';
 // import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
 import {OrderPage} from "../pages/order/order";
 import {CalendarModule} from "ion2-calendar";
@@ -45,7 +46,9 @@ import {SelectTypePage} from "../pages/select-type/select-type";
     // WeekMenuTypePage
   ],
   imports: [
+    QRCodeModule,
     HttpModule,
+    // QRCodeModule,
     BrowserModule,
 
     IonicModule.forRoot(MyApp, {
@@ -85,9 +88,6 @@ import {SelectTypePage} from "../pages/select-type/select-type";
     SQLite,
     Camera,
     ZBar,
-    // QRScanner,
-    // Storage,
-    // SQLiteObject,
   ]
 })
 export class AppModule {}

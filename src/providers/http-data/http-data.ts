@@ -15,7 +15,7 @@ export class HttpDataProviders {
   }
   // 获取数据
   public fetchInitData (params: any) {
-  return this.httpPro.httpPostWithAuth('/data', params);
+    return this.httpPro.httpPostWithAuth('/data', params);
   }
 
   // 用户订单
@@ -46,5 +46,10 @@ export class HttpDataProviders {
   // 获取工厂列表数据
   public fetchFactoryListData () {
     return this.httpPro.httpPostWithAuth('/officeTree', null);
+  }
+
+  // 获取个人信息
+  public fetchPersonInfoData (params: any) {
+    return this.httpPro.httpPostWithAuth('/userData', params);
   }
 }

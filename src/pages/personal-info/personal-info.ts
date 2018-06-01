@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {Storage} from '@ionic/storage';
 
 /**
  * Generated class for the PersonalInfoPage page.
@@ -16,16 +18,59 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'personal-info.html',
 })
 export class PersonalInfoPage {
+  userId: string;
+  userInfo: object = {};
+  accountInfo: Array<any> = [];
+  creditAccount: string;
+  cashAccount: string;
+  constructor(
+    public navCtrl: NavController,
+    public httpDataPro: HttpDataProviders,
+    public storage: Storage,
+    public navParams: NavParams,
+  ) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
+    this.storage.get('userId').then(res => {
+      if (res) {
+        this.userId = res;
+        this.getPersonInfo(res);
+      }
+
+    });
     console.log('ionViewDidLoad PersonalInfoPage');
   }
 
-  goQRCode() {
-    this.navCtrl.push('qr-code');
+  getPersonInfo(id: string) {
+    if (id) {
+      let params ={
+        'id': id,
+      }
+      this.httpDataPro.fetchPersonInfoData(params).then(res =>{
+        // alert('res-data:' + JSON.stringify(res));
+        if (res.success && res.body) {
+          this.userInfo = res.body.user;
+          this.accountInfo = res.body.accounList;
+          this.accountInfo.map((item, index) =>{
+            if (item.accountType === '0') {
+              this.cashAccount = item.balance;
+            }
+            if (item.accountType === '1') {
+              this.creditAccount = item.balance;
+            }
+          })
+        }
+      });
+    }
+
+  }
+
+  goQRCode(no: string) {
+    this.navCtrl.push('qr-code', {
+      no
+    });
   }
 
 }
