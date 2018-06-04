@@ -52,4 +52,9 @@ export class HttpDataProviders {
   public fetchPersonInfoData (params: any) {
     return this.httpPro.httpPostWithAuth('/userData', params);
   }
+
+  // 登录
+  public checkLogin (params: any) {
+    return this.httpPro.httpPostWithAuth('/sign', params);
+  }
 }

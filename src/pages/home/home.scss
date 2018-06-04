@@ -1,26 +1,78 @@
 page-home {
-    .title{
-        //text-align: left;
-        // span{
-        //     margin-top: 4rem;
-        //     margin-left: 3rem;
-        // }
-    }
+  .toolbar-ios {
+    min-height: 55px !important;
+  }
+
+  .toolbar-title-ios{
+    text-align: left !important;
+  }
+
+  img{
+    width: 100%;
+    height: 250px;
+  }
+
+
+  .cut-title{
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+  }
+
+  .card-ios {
+    margin: 0 0 10px !important;
+    //border-radius: 2px;
+    width: 100% !important;
+    //margin-bottom: 5px;
+    //font-size: 1.4rem;
+    //background: #fff;
+    //-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    //box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
   ion-card {
     //height: 70px;
     position: relative;
-    text-align: center;
+    //text-align: center;
+    margin-bottom: 5px;
+
+    .no-product {
+      text-align: center;
+    }
   }
 
+
+
   .card-title {
-    //height: 5vh;
+
+    //background-color: rgba(2d,2d,2d, 0.5);
+    width: 50%;
+    height: 180px;
     line-height: 5vh;
-    background-color: rgba(2d,2d,2d, 0.5);
     position: absolute;
-    bottom: 0;
-    font-size: 1.2em;
-    width: 100%;
+    left: 10px;
+    top: 70px;
+    bottom: 35px;
+    //font-size: 1.5em;
+    //width: 100%;
     //font-weight: bold;
-    color: #fff;
+    color: #ffffff;
+    text-align: left;
+    //float: left;
+  }
+
+  .order-tile {
+
+    //background-color: rgba(2d,2d,2d, 0.5);
+    width: 50%;
+    //height: 180px;
+    line-height: 5vh;
+    position: absolute;
+    left: 10px;
+    top: 116px;
+    bottom: 35px;
+    font-size: 2em;
+    //width: 100%;
+    //font-weight: bold;
+    color: #ffffff;
   }
 }

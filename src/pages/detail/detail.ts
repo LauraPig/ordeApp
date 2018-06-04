@@ -68,7 +68,7 @@ export class DetailPage {
             this.planId = res.rows.item(0).id;
           }
         }).catch(e => {
-
+          alert('错误-->' + JSON.stringify(e));
         });
       }).catch(e =>{
         console.log(e);
@@ -133,7 +133,12 @@ export class DetailPage {
       //   ]
       // }).present();
     } else {
-      alert('非法操作');
+      alert('id-->' + id);
+      alert('planId-->' + this.planId);
+      alert('factoryId-->' + this.factoryId);
+      alert('officeId-->' + this.officeId);
+      alert('dateStr-->' + this.dateStr);
+      alert('userId-->' + this.userId);
     }
   }
 

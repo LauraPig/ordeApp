@@ -219,7 +219,7 @@ export class HomePage {
               let label = '';
               let num: number = temProductList[0].objNum;
               let productName: string = '';
-              let imgUrl: string = 'assets/imgs/bf.jpg';
+              let imgUrl: string = 'assets/imgs/1.png';
               let officeName: string = '';
               let officeId: string = '';
               let factoryName: string = this.factoryName;

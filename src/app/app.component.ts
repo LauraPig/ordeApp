@@ -11,6 +11,7 @@ import { DataBaseService } from '../providers/database/database';
 import { SQLite } from '@ionic-native/sqlite';
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../providers/http-data/http-data";
+import {LoginPage} from "../pages/login/login";
 
 
 @Component({
@@ -27,6 +28,7 @@ export class MyApp {
 
   // make HelloIonicPage the root (or first) page
   rootPage = HomePage;
+  // rootPage = LoginPage;
   pages: Array<{title: string, component: any}>;
 
   constructor(

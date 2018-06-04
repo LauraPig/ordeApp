@@ -34,6 +34,20 @@ export class HttpProvider {
   //   });
   // }
 
+  //  post 不带token
+  public httpPostNoAuth(url: string, body: any) {
+    let headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    // headers.set('token', `111`);
+    let options = new RequestOptions({
+      headers,
+      method: 'POST'
+    });
+    return this.http.post(HOST + url, body, options).toPromise()
+      .then(this.extractData)
+      .catch(err => this.handleError(err));
+  }
+
   //  post 带有token
   public httpPostWithAuth(url: string, body: any) {
     let headers = new Headers();

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {Storage} from "@ionic/storage";
+import {HomePage} from "../home/home";
 
 /**
  * Generated class for the LoginPage page.
@@ -14,12 +17,54 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  type: string='password';
+  name: string;
+  password: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: Storage,
+    public httpDataPro: HttpDataProviders,
+    public alertCtrl: AlertController
+  ) {
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
+  }
+
+  doLogin() {
+    // let loginLoading = this.
+    if (this.name && this.password) {
+      let params = {
+        'name': this.name,
+        'password': this.password,
+        // 'token': this.password,
+      }
+
+      this.httpDataPro.checkLogin(params).then(res =>{
+        // alert('res--login-> ' + JSON.stringify(res));
+        if (res.success) {
+          this.storage.set('token', res.body.token);
+          this.navCtrl.setRoot(HomePage);
+        }
+      });
+    }
+  }
+
+  changeType() {
+    // e.preventDefault();
+    this.type = 'password' === this.type ? 'text' : 'password';
+    // const pwdSelector = document.getElementById('pwd');
+    // console.log('type--->',pwdSelector.getAttribute('type'));
+    // if (pwdSelector.getAttribute('type') === 'password') {
+    //   pwdSelector.setAttribute('type','text');
+    // } else {
+    //   pwdSelector.setAttribute('type','password');
+    // }
+
   }
 
   openForgetPwd() {

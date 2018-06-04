@@ -1,16 +1,47 @@
 page-login {
+
+  .list-ios > .item-block:first-child {
+    border-top: none !important;
+  }
+
+  /* label 字体大小*/
+  .label-ios[stacked] {
+    margin-bottom: 4px;
+    font-size: 1.7rem !important;
+  }
+
+  .pwd-input {
+    //margin-right: 20vw !important;
+    margin-left: -11vw;
+    width: 70vw !important;
+  }
+
+  .input-inner {
+    padding-left: 0 !important;
+    border-bottom: 0.55px solid #c8c7cc !important;
+    .icon-eye{
+      margin-top: 5vh !important;
+    }
+  }
+
+  .login-input{
+    margin-top:10vh;
+  }
   .logo {
     display: flex;
     justify-content: center;
-    margin-top: 5vh;
+    margin-top: 10vh;
     img{
       width: 40vw;
       height: 20vh
     }
   }
   .forget-pwd{
-    float: right;
-    margin-right: 2vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    ////float: right;
+    //margin-right: 2vw;
   }
   .bottom-tips {
     position: fixed;
