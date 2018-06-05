@@ -69,7 +69,7 @@ export class HomePage {
 
   ionViewDidEnter() {
    console.log('did Enter');
-   this.getData();
+   // this.getData();
   }
 
   handleVersion(): Promise<any> {

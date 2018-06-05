@@ -41,8 +41,6 @@ export class DetailPage {
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
   ) {
-    // this.id = this.navParams.get('id');
-    // this.type = this.navParams.get('type');
     this.item = this.navParams.get('item');
     this.dateStr = this.navParams.get('dateStr');
     // this.dateStr = '2018-5-28 00:00:00';
@@ -59,6 +57,10 @@ export class DetailPage {
     });
 
     if (this.officeId && this.value && this.dateStr) {
+      // alert('officeId-->' + this.officeId);
+      // alert('value-->' + this.value);
+      // alert('dateStr-->' + this.dateStr);
+
       // alert('-dateStr--' + this.dateStr);
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
         let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${this.officeId}' and b.meal_type = '${this.value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.dateStr}' AND a.end_date>='${this.dateStr}'`;
@@ -74,20 +76,6 @@ export class DetailPage {
         console.log(e);
       })
     }
-    // if (this.id && this.type) {
-    //   this.dbService.openDataBase().then((db: SQLiteObject) =>{
-    //     let sqlStr = this.type === '0' ?  `select a.product_name productName,a.price price from ct_product a where id = '${this.id}' and a.del_flag = '0'`: `select a.product_set_name productName,a.price price from ct_product_set a where id = '${this.id}' and a.del_flag = '0'`;
-    //     db.executeSql(sqlStr, {}).then(res =>{
-    //       if (res.rows.length) {
-    //
-    //       }
-    //     }).catch(e => {
-    //
-    //     });
-    //   }).catch(e =>{
-    //     console.log(e);
-    //   })
-    // }
   }
 
   orderProduct(id: string) {
@@ -133,12 +121,12 @@ export class DetailPage {
       //   ]
       // }).present();
     } else {
-      alert('id-->' + id);
-      alert('planId-->' + this.planId);
-      alert('factoryId-->' + this.factoryId);
-      alert('officeId-->' + this.officeId);
-      alert('dateStr-->' + this.dateStr);
-      alert('userId-->' + this.userId);
+      // alert('id-->' + id);
+      // alert('planId-->' + this.planId);
+      // alert('factoryId-->' + this.factoryId);
+      // alert('officeId-->' + this.officeId);
+      // alert('dateStr-->' + this.dateStr);
+      // alert('userId-->' + this.userId);
     }
   }
 

@@ -59,12 +59,14 @@ export class TypeDetailPage {
         db.executeSql(`select d.product_name name,d.price price,d.id id,0 type from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product d
                        WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${this.value}' 
                        and b.office_id = '${this.officeId}' AND c.obj_type = '0' AND c.obj_id = d.id
-                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
+                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0' 
+                       and a.start_date<='${this.dateStr}' and a.end_date>='${this.dateStr}'
                        UNION
                        select d.product_set_name name,d.price price,d.id id,1 type  from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product_set d
                        WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${this.value}' 
                        and b.office_id = '${this.officeId}' AND c.obj_type = '1' AND c.obj_id = d.id
-                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'`,{}).then(res =>{
+                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
+                       and a.start_date<='${this.dateStr}' and a.end_date>='${this.dateStr}'`,{}).then(res =>{
 
                          // alert('res.length--' + res.rows.length);
                         if (res.rows.length) {

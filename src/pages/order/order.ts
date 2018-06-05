@@ -50,6 +50,7 @@ export class OrderPage {
     this.monStr = (new Date().getMonth() + 1).toString();
     this.monStr = this.monStr.length === 1 ? '0' + this.monStr : this.monStr;
     this.dayStr = (new Date().getDate()).toString();
+    this.dayStr = this.dayStr.length === 1 ? '0' + this.dayStr : this.dayStr;
     this.days.push({
       date: new Date(),
       title: '今天',

@@ -24,7 +24,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-list no-lines *ngFor="let item of dataList">
     <ion-list-header>
       <span *ngIf="item.dateStr === todayStr">今日您已预订</span>
@@ -32,7 +32,7 @@
     </ion-list-header>
     <ion-item-sliding *ngFor="let p of item.list" style="margin-bottom: 3vh">
       <ion-item>
-        <img src="assets/imgs/bf.jpg"/>
+        <img src="assets/imgs/3.png"/>
         <div class="card-title">{{p.productName}} x 1份（{{p.factoryName}}{{p.officeName}}）
           <ion-badge>
             {{p.mealType}}
