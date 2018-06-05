@@ -7,6 +7,19 @@ page-home {
     text-align: left !important;
   }
 
+  .swiper-pagination-bullet-active {
+    background: #DAA520 !important;
+    opacity: 1;
+  }
+
+  .swiper-pagination-bullet {
+    width: 15px !important;
+    height: 15px !important;
+    background: #808080;
+    opacity: .8 !important;
+    pointer-events: auto;
+  }
+
   img{
     width: 100%;
     height: 250px;

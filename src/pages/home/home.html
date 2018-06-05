@@ -34,7 +34,7 @@
       <span >今日您已预订</span>
     </ion-card-header>
 
-    <ion-slides *ngIf="orderList?.length > 0">
+    <ion-slides *ngIf="orderList?.length > 0" pager>
 
       <ion-slide *ngFor="let item of orderList" >
         <img src="{{item.imgUrl}}"/>
