@@ -16,7 +16,7 @@ import { DataBaseService } from '../providers/database/database';
 import { OperateDataBaseService } from '../providers/database/operate-database';
 import { WeekMenuPage } from "../pages/week-menu/week-menu";
 
-import { QRCodeModule } from 'angularx-qrcode';
+// import { QRCodeModule } from 'angularx-qrcode';
 // import { QRCodeModule } from 'angular2-qrcode';
 // import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
 import {OrderPage} from "../pages/order/order";
@@ -48,7 +48,7 @@ import {SelectTypePage} from "../pages/select-type/select-type";
     // WeekMenuTypePage
   ],
   imports: [
-    QRCodeModule,
+    // QRCodeModule,
     HttpModule,
     // QRCodeModule,
     BrowserModule,
