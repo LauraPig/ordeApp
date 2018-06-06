@@ -91,7 +91,7 @@ export class OrderPage {
             for ( let i = 0; i < res.rows.length; i++) {
               this.typeList.push({
                 label: res.rows.item(i).label,
-                imgUrl: 'assets/imgs/bf.jpg',
+                imgUrl: 'assets/imgs/4.png',
                 value: res.rows.item(i).value,
               });
             }
@@ -103,6 +103,13 @@ export class OrderPage {
     }
 
     console.log('ionViewDidLoad OrderPage');
+  }
+
+  ionViewDidEnter() {
+    const listSelector = document.getElementById('type');
+    alert('count-->' + listSelector.childElementCount);
+    alert('children-->' + listSelector.children.item(0).className);
+    // listSelector.children
   }
 
   onChange($event) {

@@ -1,7 +1,23 @@
 page-waiting-use {
+
+  .toolbar-ios {
+    min-height: 55px !important;
+  }
+
+  .toolbar-title-ios{
+    text-align: left !important;
+  }
+
+  .cut-title{
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+  }
+
   ion-list-header{
+    text-align: center;
+    line-height: 7vh;
     span{
-      font-size: 1.2em;
+      font-size: 1.6em;
       font-weight: bold;
     }
   }
@@ -32,16 +48,21 @@ page-waiting-use {
   }
 
   .card-title {
-    text-align: center;
-    //height: 5vh;
+
+    //background-color: rgba(2d,2d,2d, 0.5);
+    width: 50%;
+    height: 180px;
     line-height: 5vh;
-    background-color: rgba(2d,2d,2d, 0.5);
     position: absolute;
-    bottom: 0;
-    font-size: 1em;
-    width: 100%;
+    left: 5vw;
+    top: 3vh;
+    bottom: 35px;
+    //font-size: 1.5em;
+    //width: 100%;
     //font-weight: bold;
-    color: #fff;
+    color: #ffffff;
+    text-align: left;
+    //float: left;
   }
   .operator-button {
     width: 20vw;

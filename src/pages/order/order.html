@@ -52,10 +52,23 @@
     </ion-calendar>
 
   </ion-card>
-  <ion-card *ngFor="let item of typeList"  class="ion-card-prod"  no-lines tappable (click)="gotoSelectTypePage(item.value, factoryName)">
-    <img src="{{item.imgUrl}}"/>
-    <div class="card-title">{{item.label}}</div>
-  </ion-card>
+
+
+  <ion-list class="type-list" id="type">
+    <ion-item *ngFor="let item of typeList">
+      <ion-avatar item-start>
+        <img src="{{item.imgUrl}}"/>
+      </ion-avatar>
+      {{item.label}}
+      <ion-icon name="ios-arrow-down-outline" item-end></ion-icon>
+    </ion-item>
+  </ion-list>
+
+
+  <!--<ion-card *ngFor="let item of typeList"  class="ion-card-prod"  no-lines tappable (click)="gotoSelectTypePage(item.value, factoryName)">-->
+    <!--<img src="{{item.imgUrl}}"/>-->
+    <!--<div class="card-title">{{item.label}}</div>-->
+  <!--</ion-card>-->
 
 
 </ion-content>

@@ -8,6 +8,16 @@ page-order {
     background-image: none
   }
 
+  .type-list {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    ion-item {
+      flex-grow: 1;
+      height: calc(80%/3);
+    }
+  }
+
   .card-title {
     //height: 100%;
     line-height: 20vh;
