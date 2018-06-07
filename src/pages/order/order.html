@@ -76,24 +76,50 @@
     </div>
 
     <div *ngSwitchCase="4">
-      <div *ngFor="let item of typeList">
-        <ion-item  class="item-4">
+      <div *ngFor="let item of typeList; index as i">
+        <ion-item  class="item-4" (click)="getMealTypeDetail(item, i)">
 
           <ion-avatar item-start>
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
-          <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon *ngIf="!item.status" name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon *ngIf="item.status" name="ios-arrow-up-outline" item-end></ion-icon>
         </ion-item>
-        <div *ngIf="false">
+        <div *ngIf="item.status">
           <ion-list no-lines>
-            <ion-item class="item-list-normal"  *ngFor="let p of typeList">
-              <ion-avatar item-start>
-                <img src="{{p.imgUrl}}"/>
-              </ion-avatar>
-              {{p.label}}
-              <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
-            </ion-item>
+            <div *ngFor="let p of item?.officeList">
+              <ion-item class="item-list-normal">
+                <ion-avatar item-start>
+                  <img src="{{p.imgUrl}}"/>
+                </ion-avatar>
+                {{p.name}}
+                <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+              </ion-item>
+              <div>
+                <ion-slides pager>
+                  <ion-slide *ngFor="let de of typeList" >
+                    <img src="assets/imgs/3.png"/>
+                    <!--<div class="card-title">-->
+                      <!--<div style="font-size: 2rem">-->
+                        <!--{{item.productName}}-->
+                      <!--</div>-->
+                      <!--<div style="font-size: 1.7rem">-->
+                        <!--{{item.factoryName}}-{{item.officeName}}-->
+                      <!--</div>-->
+                      <!--<div style="font-size: 2rem">-->
+                        <!--{{item.label}}-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  </ion-slide>
+                </ion-slides>
+                <ion-item>
+                  <h3>青豆五花肉</h3>
+                  <p>包括： 青豆、五花肉、青菜、米饭、水果</p>
+                  <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+                </ion-item>
+              </div>
+            </div>
           </ion-list>
         </div>
       </div>
