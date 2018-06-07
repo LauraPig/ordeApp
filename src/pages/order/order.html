@@ -1,20 +1,19 @@
-
 <ion-header>
   <ion-navbar>
     <ion-buttons start>
       <button tappable ion-button icon-only (click)="goHomeMenuPage()">
-        <ion-icon name="menu"></ion-icon>
+        <ion-icon color="Gray-color" name="menu"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>
-      <div>
+      <div >
         <span>Jimmy</span><br/>
-        <span>欢迎来到{{factoryName}}</span>
+        <span class="cut-title">欢迎来到{{factoryName}}</span>
       </div>
     </ion-title>
     <ion-buttons end>
       <button tappable ion-button icon-only (click)="goSettingPage()" >
-        <ion-icon name="settings">
+        <ion-icon color="Gray-color" name="settings">
         </ion-icon>
       </button>
     </ion-buttons>
@@ -54,14 +53,69 @@
   </ion-card>
 
 
-  <ion-list class="type-list" id="type">
-    <ion-item *ngFor="let item of typeList">
-      <ion-avatar item-start>
-        <img src="{{item.imgUrl}}"/>
-      </ion-avatar>
-      {{item.label}}
-      <ion-icon name="ios-arrow-down-outline" item-end></ion-icon>
-    </ion-item>
+  <ion-list no-lines class="type-list"  [ngSwitch]="listLength">
+    <div *ngSwitchCase="3">
+      <ion-item class="item-3" *ngFor="let item of typeList">
+        <ion-avatar item-start>
+          <img src="{{item.imgUrl}}"/>
+        </ion-avatar>
+        {{item.label}}
+        <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+      </ion-item>
+      <div>
+        <ion-list no-lines>
+          <ion-item class="item-list-normal"  *ngFor="let p of typeList">
+            <ion-avatar item-start>
+              <img src="{{p.imgUrl}}"/>
+            </ion-avatar>
+            {{p.label}}
+            <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="4">
+      <div *ngFor="let item of typeList">
+        <ion-item  class="item-4">
+
+          <ion-avatar item-start>
+            <img src="{{item.imgUrl}}"/>
+          </ion-avatar>
+          {{item.label}}
+          <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+        </ion-item>
+        <div *ngIf="false">
+          <ion-list no-lines>
+            <ion-item class="item-list-normal"  *ngFor="let p of typeList">
+              <ion-avatar item-start>
+                <img src="{{p.imgUrl}}"/>
+              </ion-avatar>
+              {{p.label}}
+              <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+            </ion-item>
+          </ion-list>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="5">
+      <ion-item  class="item-5" *ngFor="let item of typeList">
+        <ion-avatar item-start>
+          <img src="{{item.imgUrl}}"/>
+        </ion-avatar>
+        {{item.label}}
+        <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+      </ion-item>
+    </div>
+    <div *ngSwitchDefault>
+      <ion-item class="item-3" *ngFor="let item of typeList">
+        <ion-avatar item-start>
+          <img src="{{item.imgUrl}}"/>
+        </ion-avatar>
+        {{item.label}}
+        <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+      </ion-item>
+    </div>
   </ion-list>
 
 

@@ -7,6 +7,8 @@ page-home {
     max-height: none;
   }
 
+
+  /* 头部样式*/
   .toolbar-ios {
     min-height: 55px !important;
   }
@@ -14,6 +16,14 @@ page-home {
   .toolbar-title-ios{
     text-align: left !important;
   }
+
+  .cut-title{
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+  }
+
+
+
 
   .swiper-pagination-bullet-active {
     background: #DAA520 !important;
@@ -37,10 +47,7 @@ page-home {
   }
 
 
-  .cut-title{
-    font-size: 1.2rem !important;
-    font-weight: 500 !important;
-  }
+
 
   .card-ios {
     margin: 0 0 1vh !important;

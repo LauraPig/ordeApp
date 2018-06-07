@@ -29,6 +29,7 @@ export class OrderPage {
   days: DayConfig[] = [];
   status: boolean = false;
   isToday: boolean = true;
+  listLength: number;
 
   typeList: Array<any> = [];
 
@@ -91,10 +92,15 @@ export class OrderPage {
             for ( let i = 0; i < res.rows.length; i++) {
               this.typeList.push({
                 label: res.rows.item(i).label,
-                imgUrl: 'assets/imgs/4.png',
+                imgUrl: `assets/imgs/${res.rows.item(i).value}.png`,
                 value: res.rows.item(i).value,
               });
+
+
             }
+            this.typeList.push(this.typeList[0]);
+            // this.typeList.push(this.typeList[0]);
+            this.listLength = this.typeList.length;
           }
         }).catch(e =>{
           console.log(e);
@@ -106,9 +112,9 @@ export class OrderPage {
   }
 
   ionViewDidEnter() {
-    const listSelector = document.getElementById('type');
-    alert('count-->' + listSelector.childElementCount);
-    alert('children-->' + listSelector.children.item(0).className);
+    // const listSelector = document.getElementById('type');
+    // alert('count-->' + listSelector.childElementCount);
+    // alert('children-->' + listSelector.childNodes[0]);
     // listSelector.children
   }
 
