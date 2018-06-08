@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {CalendarComponentOptions, DayConfig} from 'ion2-calendar'
 import * as moment from 'moment'
 import {DataBaseService} from "../../providers/database/database";
 import {SQLiteObject} from "@ionic-native/sqlite";
 import {SelectTypePage} from "../select-type/select-type";
 import { Storage } from '@ionic/storage';
+import {HomePage} from "../home/home";
+import {WaitingUsePage} from "../waiting-use/waiting-use";
+import {HttpDataProviders} from "../../providers/http-data/http-data";
 
 /**
  * Generated class for the OrderPage page.
@@ -28,11 +31,15 @@ export class OrderPage {
   date: string;
   // dateResult: string;
   days: DayConfig[] = [];
-  status: boolean = false;
-  isToday: boolean = true;
+  status: boolean = false; // 控制日期是否显示
+  isToday: boolean = true; // 是否今天
   listLength: number;
 
-  typeList: Array<any> = [];
+  typeList: Array<any> = []; // 餐别类型List
+
+  todayStr: string;  // 日期选择器选择的时间 格式： YYYY-MM-DD HH:MM:SS
+  userId: string;   // 用户ID
+  planId: string;  // 产品计划ID
 
   calendarOptions: CalendarComponentOptions = {
   };
@@ -41,8 +48,10 @@ export class OrderPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public storage: Storage,
     public dbService: DataBaseService,
+    public httpDataPro: HttpDataProviders,
   ) {
 
     // 获取参数
@@ -56,6 +65,10 @@ export class OrderPage {
       }
     });
 
+    this.storage.get('userId').then(res => {
+      this.userId = res;
+    });
+
     // 获取工厂名称
     this.storage.get('factoryName').then(res =>{
       if (res) {
@@ -63,6 +76,7 @@ export class OrderPage {
       }
     });
 
+    this.todayStr = moment().format('YYYY-MM-DD HH:MM:SS');
 
     this.monStr = (new Date().getMonth() + 1).toString();
     this.monStr = this.monStr.length === 1 ? '0' + this.monStr : this.monStr;
@@ -116,7 +130,7 @@ export class OrderPage {
 
 
             }
-            this.typeList.push(this.typeList[0]);
+            // this.typeList.push(this.typeList[0]);
             // this.typeList.push(this.typeList[0]);
             this.listLength = this.typeList.length;
           }
@@ -147,6 +161,7 @@ export class OrderPage {
     this.monStr = (moment($event).get('months') + 1).toString();
     this.dayStr = (moment($event).get('date')).toString();
     this.selectDay = moment($event).format('YYYY年MM月DD');
+    this.todayStr = moment($event).format('YYYY-MM-DD HH:MM:SS');
     // this.getGoalDay();
   }
 
@@ -171,7 +186,9 @@ export class OrderPage {
               temList.push({
                 id: res.rows.item(i).id,
                 name,
-                imgUrl: 'assets/imgs/4.png'
+                imgUrl: 'assets/imgs/4.png',
+                status: false,
+                productList: [],
               });
             }
 
@@ -188,9 +205,171 @@ export class OrderPage {
     }
   }
 
+
+  // 根据餐厅获取对应的产品列表
+  getProductList (item: any, p: any, parentIndex: number, childrenIndex: number) {
+
+    this.typeList[parentIndex].officeList[childrenIndex].status = p.status === false;
+
+    let temList: Array<any> = [];
+    if (this.todayStr && item.value && p.id) {
+      this.dbService.openDataBase().then((db: SQLiteObject) =>{
+        db.executeSql(`select d.product_name name,d.price price,d.id id,0 type from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product d
+                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}' 
+                       and b.office_id = '${p.id}' AND c.obj_type = '0' AND c.obj_id = d.id
+                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0' 
+                       and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'
+                       UNION
+                       select d.product_set_name name,d.price price,d.id id,1 type  from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product_set d
+                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}' 
+                       and b.office_id = '${p.id}' AND c.obj_type = '1' AND c.obj_id = d.id
+                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
+                       and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{
+
+          // alert('res.length--' + res.rows.length);
+          if (res.rows.length) {
+            for (let i = 0; i < res.rows.length; i ++) {
+              if (res.rows.item(i).type === 1) {
+                let productName: string ='';
+                let productNameList: Array<any> =[];
+                db.executeSql(`select c.product_name productName from ct_product_set_dtl b,ct_product c where b.product_id = c.id and b.del_flag='0' and c.del_flag='0' AND b.product_set_id= '${res.rows.item(i).id}';`, {}).then(data =>{
+                  // alert('data.length--' + data.rows.length);
+                  if (data.rows.length) {
+                    for (let j = 0; j < data.rows.length; j ++ ) {
+                      productNameList.push(data.rows.item(j).productName);
+                    }
+                    let temObj = {
+                      imgUrl: 'assets/imgs/2.png',
+                      name: res.rows.item(i).name,
+                      type: res.rows.item(i).type,
+                      price: res.rows.item(i).price,
+                      id: res.rows.item(i).id,
+                      productName: productNameList.join(',')
+                    };
+                    temList.push(temObj);
+                  }
+                }).catch(e =>{
+
+                });
+              } else {
+                let obj = {
+                  imgUrl: 'assets/imgs/2.png',
+                  name: res.rows.item(i).name,
+                  type: res.rows.item(i).type,
+                  price: res.rows.item(i).price,
+                  id: res.rows.item(i).id,
+                  productName: res.rows.item(i).name
+                };
+                temList.push(obj);
+              }
+              this.typeList[parentIndex].officeList[childrenIndex].productList = temList;
+            }
+          }
+        }).catch(e =>{
+
+        });
+      }).catch(e =>{
+
+      });
+    }
+  }
+
+
+
+  // 弹出详情框
+  showDetailModal (p: any, id: string, value: string) {
+    let detailModal = this.modalCtrl.create('modal-detail',{
+      item: p,
+      id,
+      value,
+      todayStr: this.todayStr
+    });
+    detailModal.present();
+  }
+
+  //订餐按钮
+  doOrder(e: Event, de: any, officeId: string, value: string) {
+
+    e.stopPropagation(); //阻止事件冒泡
+
+    if (officeId && value && this.todayStr) {
+      // alert('officeId-->' + this.officeId);
+      // alert('value-->' + this.value);
+      // alert('dateStr-->' + this.dateStr);
+
+      // alert('-dateStr--' + this.dateStr);
+      this.dbService.openDataBase().then((db: SQLiteObject) =>{
+        let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
+        db.executeSql(sqlStr, {}).then(res =>{
+          // alert('res-length--' + res.rows.length);
+          if (res.rows.length) {
+            this.planId = res.rows.item(0).id;
+          }
+        }).catch(e => {
+          alert('错误-->' + JSON.stringify(e));
+        });
+      }).catch(e =>{
+        console.log(e);
+      });
+
+
+      //下单操作
+      if (de.id && this.planId && this.factoryId && officeId && this.todayStr && this.userId) {
+        let params = {
+          'factoryId': this.factoryId,
+          'officeId': officeId,
+          'userId': this.userId,
+          'planId': this.planId,
+          'dinnerDate': this.todayStr,
+          'isPre': 1,
+          'ctOrderProductList': [{'objNum': 1, 'objId': de.id }],
+        };
+        this.httpDataPro.createOrder(params).then(res => {
+          if (res.success) {
+            this.alertCtrl.create({
+              title: '订餐成功',
+              subTitle: '请到“待消费”列表查看详情',
+              buttons: [
+                {
+                  text: '确定',
+                  handler: data => {
+                    this.navCtrl.setRoot(WaitingUsePage);
+                  }
+                }
+              ]
+            }).present();
+          } else {
+            alert(res.msg);
+          }
+        });
+
+        // this.alertCtrl.create({
+        //   title: '订餐成功',
+        //   subTitle: '请到“待消费”列表查看详情',
+        //   buttons: [
+        //     {
+        //       text: '确定',
+        //       handler: data => {
+        //         // this.navCtrl.setRoot()
+        //       }
+        //     }
+        //   ]
+        // }).present();
+      } else {
+        // alert('id-->' + id);
+        // alert('planId-->' + this.planId);
+        // alert('factoryId-->' + this.factoryId);
+        // alert('officeId-->' + this.officeId);
+        // alert('dateStr-->' + this.dateStr);
+        // alert('userId-->' + this.userId);
+      }
+    }
+  }
+
   // getPageData() {
   //
   // }
+
 
 
   gotoSelectTypePage(value: string, factoryName: string) {

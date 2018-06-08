@@ -54,6 +54,8 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.storage.set('userId', '1');
+      this.storage.set('factoryId', '9a96a9106216453faf44259ee7f98f69');
+      // this.storage.set('factoryName', '1');
     });
   }
 

@@ -55,23 +55,56 @@
 
   <ion-list no-lines class="type-list"  [ngSwitch]="listLength">
     <div *ngSwitchCase="3">
-      <ion-item class="item-3" *ngFor="let item of typeList">
-        <ion-avatar item-start>
-          <img src="{{item.imgUrl}}"/>
-        </ion-avatar>
-        {{item.label}}
-        <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
-      </ion-item>
-      <div>
-        <ion-list no-lines>
-          <ion-item class="item-list-normal"  *ngFor="let p of typeList">
-            <ion-avatar item-start>
-              <img src="{{p.imgUrl}}"/>
-            </ion-avatar>
-            {{p.label}}
-            <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
-          </ion-item>
-        </ion-list>
+      <div *ngFor="let item of typeList; index as i">
+        <ion-item  class="item-3" (click)="getMealTypeDetail(item, i)">
+
+          <ion-avatar item-start>
+            <img src="{{item.imgUrl}}"/>
+          </ion-avatar>
+          {{item.label}}
+          <ion-icon *ngIf="!item.status" name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon *ngIf="item.status" name="ios-arrow-up-outline" item-end></ion-icon>
+        </ion-item>
+        <div *ngIf="item.status">
+          <ion-list no-lines>
+            <div *ngFor="let p of item?.officeList; index as ci">
+              <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
+                <ion-avatar item-start>
+                  <img src="{{p.imgUrl}}"/>
+                </ion-avatar>
+                {{p.name}}
+                <ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>
+                <ion-icon *ngIf="p.status" name="ios-arrow-up-outline" item-end></ion-icon>
+              </ion-item>
+              <div *ngIf="p.status">
+                <div *ngFor="let de of p.productList" >
+                  <ion-slides pager>
+                    <ion-slide>
+                      <img src="{{de.imgUrl}}"/>
+                      <!--<div class="card-title">-->
+                      <!--<div style="font-size: 2rem">-->
+                      <!--{{item.productName}}-->
+                      <!--</div>-->
+                      <!--<div style="font-size: 1.7rem">-->
+                      <!--{{item.factoryName}}-{{item.officeName}}-->
+                      <!--</div>-->
+                      <!--<div style="font-size: 2rem">-->
+                      <!--{{item.label}}-->
+                      <!--</div>-->
+                      <!--</div>-->
+                    </ion-slide>
+                  </ion-slides>
+                  <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
+                    <p class="product-title">{{de.name}}</p>
+                    <p>包括： {{de.productName}} </p>
+                    <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>
+                    <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+                  </ion-item>
+                </div>
+              </div>
+            </div>
+          </ion-list>
+        </div>
       </div>
     </div>
 
@@ -88,36 +121,40 @@
         </ion-item>
         <div *ngIf="item.status">
           <ion-list no-lines>
-            <div *ngFor="let p of item?.officeList">
-              <ion-item class="item-list-normal">
+            <div *ngFor="let p of item?.officeList; index as ci">
+              <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
                 <ion-avatar item-start>
                   <img src="{{p.imgUrl}}"/>
                 </ion-avatar>
                 {{p.name}}
-                <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+                <ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>
+                <ion-icon *ngIf="p.status" name="ios-arrow-up-outline" item-end></ion-icon>
               </ion-item>
-              <div>
-                <ion-slides pager>
-                  <ion-slide *ngFor="let de of typeList" >
-                    <img src="assets/imgs/3.png"/>
-                    <!--<div class="card-title">-->
+              <div *ngIf="p.status">
+                <div *ngFor="let de of p.productList" >
+                  <ion-slides pager>
+                    <ion-slide>
+                      <img src="{{de.imgUrl}}"/>
+                      <!--<div class="card-title">-->
                       <!--<div style="font-size: 2rem">-->
-                        <!--{{item.productName}}-->
+                      <!--{{item.productName}}-->
                       <!--</div>-->
                       <!--<div style="font-size: 1.7rem">-->
-                        <!--{{item.factoryName}}-{{item.officeName}}-->
+                      <!--{{item.factoryName}}-{{item.officeName}}-->
                       <!--</div>-->
                       <!--<div style="font-size: 2rem">-->
-                        <!--{{item.label}}-->
+                      <!--{{item.label}}-->
                       <!--</div>-->
-                    <!--</div>-->
-                  </ion-slide>
-                </ion-slides>
-                <ion-item>
-                  <h3>青豆五花肉</h3>
-                  <p>包括： 青豆、五花肉、青菜、米饭、水果</p>
-                  <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
-                </ion-item>
+                      <!--</div>-->
+                    </ion-slide>
+                  </ion-slides>
+                  <ion-item tappable (click)="showDetailModal()">
+                    <p class="product-title">{{de.name}}</p>
+                    <p>包括： {{de.productName}} </p>
+                    <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>
+                    <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+                  </ion-item>
+                </div>
               </div>
             </div>
           </ion-list>
@@ -125,13 +162,57 @@
       </div>
     </div>
     <div *ngSwitchCase="5">
-      <ion-item  class="item-5" *ngFor="let item of typeList">
-        <ion-avatar item-start>
-          <img src="{{item.imgUrl}}"/>
-        </ion-avatar>
-        {{item.label}}
-        <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
-      </ion-item>
+      <div *ngFor="let item of typeList; index as i">
+        <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
+
+          <ion-avatar item-start>
+            <img src="{{item.imgUrl}}"/>
+          </ion-avatar>
+          {{item.label}}
+          <ion-icon *ngIf="!item.status" name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon *ngIf="item.status" name="ios-arrow-up-outline" item-end></ion-icon>
+        </ion-item>
+        <div *ngIf="item.status">
+          <ion-list no-lines>
+            <div *ngFor="let p of item?.officeList; index as ci">
+              <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
+                <ion-avatar item-start>
+                  <img src="{{p.imgUrl}}"/>
+                </ion-avatar>
+                {{p.name}}
+                <ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>
+                <ion-icon *ngIf="p.status" name="ios-arrow-up-outline" item-end></ion-icon>
+              </ion-item>
+              <div *ngIf="p.status">
+                <div *ngFor="let de of p.productList" >
+                  <ion-slides pager>
+                    <ion-slide>
+                      <img src="{{de.imgUrl}}"/>
+                      <!--<div class="card-title">-->
+                      <!--<div style="font-size: 2rem">-->
+                      <!--{{item.productName}}-->
+                      <!--</div>-->
+                      <!--<div style="font-size: 1.7rem">-->
+                      <!--{{item.factoryName}}-{{item.officeName}}-->
+                      <!--</div>-->
+                      <!--<div style="font-size: 2rem">-->
+                      <!--{{item.label}}-->
+                      <!--</div>-->
+                      <!--</div>-->
+                    </ion-slide>
+                  </ion-slides>
+                  <ion-item tappable (click)="showDetailModal()">
+                    <p class="product-title">{{de.name}}</p>
+                    <p>包括： {{de.productName}} </p>
+                    <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>
+                    <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+                  </ion-item>
+                </div>
+              </div>
+            </div>
+          </ion-list>
+        </div>
+      </div>
     </div>
     <div *ngSwitchDefault>
       <ion-item class="item-3" *ngFor="let item of typeList">

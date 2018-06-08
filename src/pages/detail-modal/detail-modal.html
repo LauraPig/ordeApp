@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      详情
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides pager>
+    <ion-slide>
+      <img src="{{item.imgUrl}}"/>
+    </ion-slide>
+  </ion-slides>
+  <p class="product-title">
+    {{item.name}}
+  </p>
+  <p class="price-title">
+    ￥{{item.price}}元/份
+  </p>
+  <p class="common-title">
+    套餐包括：
+  </p>
+  <p class="common-title">
+    {{item?.productName}}
+  </p>
+  <div class="common-title">
+    <p>套餐特色</p>
+    <p>
+      保留川香得麻辣特点，结合营养搭配，不失地方菜系特点同时能控制能量，满足你对营养/地方美食的双重体验。
+    </p>
+  </div>
+  <button class="order-btn" (click)="orderProduct(item.id)">订餐</button>
+</ion-content>

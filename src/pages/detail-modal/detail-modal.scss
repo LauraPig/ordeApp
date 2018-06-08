@@ -1,0 +1,39 @@
+page-detail-modal {
+
+  position: relative;
+  //margin-left: 8vw;
+  ion-slides{
+    height: 250px !important;
+  }
+
+  .common-title {
+    margin: 0 5vw;
+    font-size: 1.6rem;
+  }
+
+  .product-title {
+    margin-top: 5vh;
+    margin-left: 5vw;
+    font-size: 2rem;
+  }
+  .price-title {
+    //margin-top: 5vh;
+    margin-left: 5vw;
+    font-size: 2rem;
+  }
+
+  .order-btn {
+    background-color: rgba(39, 194, 15, 0.5);
+    width: 20%;
+    height: 35px;
+    border-radius: 10px;
+    position: fixed;
+    bottom: 7%;
+    right: 10%;
+    font-size: 1.2em;
+    //width: 100%;
+    //font-weight: bold;
+    color: #fff;
+  }
+  //height: 80vh;
+}
