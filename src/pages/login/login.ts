@@ -54,7 +54,9 @@ export class LoginPage {
     }
   }
 
-  changeType() {
+  changeType(e: Event) {
+    e.stopPropagation();
+    // e.preventDefault();
     // e.preventDefault();
     this.type = 'password' === this.type ? 'text' : 'password';
     // const pwdSelector = document.getElementById('pwd');

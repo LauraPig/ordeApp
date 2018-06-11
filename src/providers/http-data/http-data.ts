@@ -57,4 +57,11 @@ export class HttpDataProviders {
   public checkLogin (params: any) {
     return this.httpPro.httpPostWithAuth('/sign', params);
   }
+
+  // 调用微信支付
+  public doWxPay (params: any) {
+
+    // TODO
+    return this.httpPro.httpPostNoAuth('/', params);
+  }
 }

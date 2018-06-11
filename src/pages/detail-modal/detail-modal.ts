@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {DataBaseService} from "../../providers/database/database";
@@ -36,6 +36,7 @@ export class DetailModalPage {
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     public dbService: DataBaseService,
     public viewCtrl: ViewController,
   ) {
@@ -81,6 +82,16 @@ export class DetailModalPage {
   }
 
   orderProduct(id: string) {
+    let orderLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '处理中...'
+      // content: `
+      //   <div class="custom-spinner-container">
+      //     <div class="custom-spinner-box"></div>
+      //   </div>`,
+    });
+    orderLoading.present();
+
     if (id && this.planId && this.factoryId && this.officeId && this.dateStr && this.userId) {
       let params = {
         'factoryId': this.factoryId,
@@ -93,20 +104,26 @@ export class DetailModalPage {
       };
       this.httpDataPro.createOrder(params).then(res => {
         if (res.success) {
-          this.alertCtrl.create({
-            title: '订餐成功',
-            subTitle: '请到“待消费”列表查看详情',
-            buttons: [
-              {
-                text: '确定',
-                handler: data => {
-                  this.navCtrl.setRoot(WaitingUsePage);
+          orderLoading.dismiss().then(() =>{
+            this.alertCtrl.create({
+              title: '订餐成功',
+              subTitle: '请到“待消费”列表查看详情',
+              buttons: [
+                {
+                  text: '确定',
+                  handler: data => {
+                    this.navCtrl.setRoot(WaitingUsePage);
+                  }
                 }
-              }
-            ]
-          }).present();
+              ]
+            }).present();
+          });
+
         } else {
-          alert(res.msg);
+          orderLoading.dismiss().then(() =>{
+            alert(res.msg);
+          });
+
         }
       });
 
@@ -123,6 +140,7 @@ export class DetailModalPage {
       //   ]
       // }).present();
     } else {
+      orderLoading.dismiss();
       // alert('id-->' + id);
       // alert('planId-->' + this.planId);
       // alert('factoryId-->' + this.factoryId);

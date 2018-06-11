@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {CalendarComponentOptions, DayConfig} from 'ion2-calendar'
 import * as moment from 'moment'
 import {DataBaseService} from "../../providers/database/database";
@@ -49,6 +49,7 @@ export class OrderPage {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     public storage: Storage,
     public dbService: DataBaseService,
     public httpDataPro: HttpDataProviders,
@@ -289,8 +290,21 @@ export class OrderPage {
 
   //订餐按钮
   doOrder(e: Event, de: any, officeId: string, value: string) {
+    // debugger;
 
     e.stopPropagation(); //阻止事件冒泡
+
+    let orderLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '处理中...'
+      // content: `
+      //   <div class="custom-spinner-container">
+      //     <div class="custom-spinner-box"></div>
+      //   </div>`,
+    });
+    orderLoading.present();
+
+
 
     if (officeId && value && this.todayStr) {
       // alert('officeId-->' + this.officeId);
@@ -326,20 +340,25 @@ export class OrderPage {
         };
         this.httpDataPro.createOrder(params).then(res => {
           if (res.success) {
-            this.alertCtrl.create({
-              title: '订餐成功',
-              subTitle: '请到“待消费”列表查看详情',
-              buttons: [
-                {
-                  text: '确定',
-                  handler: data => {
-                    this.navCtrl.setRoot(WaitingUsePage);
+            orderLoading.dismiss().then(() =>{
+              this.alertCtrl.create({
+                title: '订餐成功',
+                subTitle: '请到“待消费”列表查看详情',
+                buttons: [
+                  {
+                    text: '确定',
+                    handler: data => {
+                      this.navCtrl.setRoot(WaitingUsePage);
+                    }
                   }
-                }
-              ]
-            }).present();
+                ]
+              }).present();
+            });
           } else {
-            alert(res.msg);
+            orderLoading.dismiss().then(() =>{
+              alert(res.msg);
+            });
+
           }
         });
 
@@ -356,6 +375,8 @@ export class OrderPage {
         //   ]
         // }).present();
       } else {
+
+        orderLoading.dismiss();
         // alert('id-->' + id);
         // alert('planId-->' + this.planId);
         // alert('factoryId-->' + this.factoryId);
@@ -364,6 +385,7 @@ export class OrderPage {
         // alert('userId-->' + this.userId);
       }
     }
+
   }
 
   // getPageData() {
