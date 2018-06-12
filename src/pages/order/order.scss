@@ -99,6 +99,23 @@ page-order {
     //font-weight: bold;
     color: #fff;
   }
+  ion-slide {
+    img {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      margin-top: -50px;
+      margin-bottom: -50px;
+    }
+  }
+  //
+  //.product-img {
+  //  width: 100%;
+  //  height: 250px;
+  //  overflow: hidden;
+  //  margin-top: -50px;
+  //  margin-bottom: -50px;
+  //}
   //ion-calendar-month button.today{
   //  //border: 1px solid color($colors,'primary');
   //  background-color: #488aff;

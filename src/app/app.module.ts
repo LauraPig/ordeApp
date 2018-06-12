@@ -32,6 +32,8 @@ import { HttpModule} from "@angular/http";
 import {HttpDataProviders} from "../providers/http-data/http-data";
 import {SelectTypePage} from "../pages/select-type/select-type";
 
+import { WechatChenyu } from "wechat-chenyu";
+
 @NgModule({
   declarations: [
     MyApp,
@@ -90,6 +92,7 @@ import {SelectTypePage} from "../pages/select-type/select-type";
     SQLite,
     Camera,
     ZBar,
+    WechatChenyu,
   ]
 })
 export class AppModule {}
