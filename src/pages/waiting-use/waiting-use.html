@@ -43,18 +43,151 @@
         </div>
       </ion-item>
       <ion-item-options side="right">
-        <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
-          <ion-icon name="ios-cube-outline"></ion-icon>
-          打包
-        </button>
-        <button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">
-          <ion-icon name="ios-hand-outline"></ion-icon>
-          留餐
-        </button>
-        <button class="operator-button" ion-button color="danger" (click)="cancelOrder(p.id, userId)">
-          <ion-icon name="ios-trash-outline"></ion-icon>
-          退订
-        </button>
+        <ion-row>
+          <ion-col col-26>
+            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
+              <ion-icon name="ios-cube-outline"></ion-icon>
+              打包
+            </button>
+          </ion-col>
+
+          <ion-col col-6>
+            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
+              <ion-icon name="ios-cube-outline"></ion-icon>
+              打包
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
+              <ion-icon name="ios-cube-outline"></ion-icon>
+              打包
+            </button>
+          </ion-col>
+          <ion-col col-6>
+            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
+              <ion-icon name="ios-cube-outline"></ion-icon>
+              打包
+            </button>
+          </ion-col>
+        </ion-row>
+        <!--<button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">-->
+          <!--<ion-icon name="ios-hand-outline"></ion-icon>-->
+          <!--留餐-->
+        <!--</button>-->
+        <!--<button class="operator-button" ion-button color="danger" (click)="cancelOrder(p.id, userId)">-->
+          <!--<ion-icon name="ios-trash-outline"></ion-icon>-->
+          <!--退订-->
+        <!--</button>-->
+      </ion-item-options>
+    </ion-item-sliding>
+
+
+
+  </ion-list>
+
+  <ion-list>
+    <ion-item-sliding  style="margin-bottom: 3vh">
+      <ion-item>
+        <img src="assets/imgs/3.png"/>
+        <div class="card-title">
+          <div style="font-size: 2rem">
+            早餐
+
+          </div>
+          <div style="font-size: 1.7rem">
+            套餐1
+          </div>
+          <div style="font-size: 1.7rem">
+            十如-餐厅一
+          </div>
+        </div>
+      </ion-item>
+      <ion-item-options side="right">
+        <div style="display: flex;width: 45vw;height: 20vh">
+          <ion-row>
+            <ion-col>
+              <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
+                <ion-icon name="ios-cube-outline"></ion-icon>
+                打包
+              </button>
+            </ion-col>
+            <ion-col>
+              <button class="operator-button" color="primary" ion-button (click)="holdOrder(p.id, userId)">
+              <ion-icon name="ios-hand-outline"></ion-icon>
+              留餐
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <button class="operator-button" color="secondary" ion-button (click)="pack(p.id, userId)">
+                <ion-icon name="ios-cube-outline"></ion-icon>
+                编辑
+              </button>
+            </ion-col>
+            <ion-col>
+
+              <button class="operator-button" ion-button color="danger" (click)="cancelOrder(p.id, userId)">
+                <ion-icon name="ios-trash-outline"></ion-icon>
+                退订
+              </button>
+            </ion-col>
+          </ion-row>
+          <!--<div style="height: 75px">-->
+            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+              <!--打包-->
+            <!--</button>-->
+          <!--</div>-->
+          <!--<div style="height: 75px">-->
+            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+              <!--打包-->
+            <!--</button>-->
+          <!--</div>-->
+          <!--<div style="height: 75px">-->
+            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+              <!--打包-->
+            <!--</button>-->
+          <!--</div>-->
+          <!--<div style="height: 75px">-->
+            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+              <!--打包-->
+            <!--</button>-->
+
+        </div>
+
+
+        <!--<ion-row>-->
+          <!--<ion-col>-->
+            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+              <!--打包-->
+            <!--</button>-->
+          <!--</ion-col>-->
+
+          <!--<ion-col>-->
+            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+              <!--打包-->
+            <!--</button>-->
+          <!--</ion-col>-->
+        <!--</ion-row>-->
+        <!--<ion-row>-->
+          <!--<ion-col>-->
+            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+              <!--打包-->
+            <!--</button>-->
+          <!--</ion-col>-->
+          <!--<ion-col>-->
+            <!---->
+          <!--</ion-col>-->
+        <!--</ion-row>-->
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
@@ -62,8 +195,8 @@
 
 
 
-  <div *ngIf="dataList.length === 0" style="font-size: 2rem;margin-top: 30vh;margin-left: 40vw">
-    暂无数据
-  </div>
+  <!--<div *ngIf="dataList.length === 0" style="font-size: 2rem;margin-top: 30vh;margin-left: 40vw">-->
+    <!--暂无数据-->
+  <!--</div>-->
 
 </ion-content>

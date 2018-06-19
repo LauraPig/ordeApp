@@ -21,18 +21,19 @@ export class HttpProvider {
   ) {
   }
 
-  // public httpPostWithAuth(url: string, body: any) {
-  //   return this.storage.get("token").then(data => {
-  //     var headers = new Headers();
-  //     headers.append('Content-Type', 'application/json');
-  //     headers.append('Accept', 'application/x.drip.v2+json');
-  //     headers.append('Authorization', 'Bearer ' + data);
-  //     let options = new RequestOptions({headers: headers});
-  //     return this.http.post(this.API_URL + url, body, options).toPromise()
-  //       .then(this.extractData)
-  //       .catch(err => this.handleError(err));
-  //   });
-  // }
+  public httpGetNoAuth(url: string, body: any) {
+    let headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    // headers.set('token', `111`);
+    let options = new RequestOptions({
+      headers,
+      params: body,
+      // method: 'GET'
+    });
+    return this.http.get(url, options).toPromise()
+      .then(this.extractData)
+      .catch(err => this.handleError(err));
+  }
 
   //  post 不带token
   public httpPostNoAuth(url: string, body: any) {

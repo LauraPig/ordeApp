@@ -45,25 +45,31 @@ export class RechargePage {
 
   doRecharge() {
     // this.timeStamp = moment();
-
+    console.log('aaaa---', this.amount);
     this.timeStamp = new Date().getTime().toString();
 
-    alert('timeStamp--->' + this.timeStamp );
-    alert('userId--->' + this.userId );
-    alert('amount--->' + this.amount );
+    // alert('timeStamp--->' + this.timeStamp );
+    // alert('userId--->' + this.userId );
+    // alert('amount--->' + this.amount );
     if ( this.timeStamp && this.userId && this.amount) {
       let params = {
         'userId': this.userId,
         'timeStamp': this.timeStamp,
         'amount': this.amount,
+        'out_trade_no': 123412341243,
+        'body': 111
       };
 
+
       this.httpDataPro.doWxPay(params).then(res => {
+        alert('res---wechatPay-->' + JSON.stringify(res));
         if (res.success) {
-          let payinfo: JSON = JSON.parse(res.data);
+          // let payinfo: JSON = JSON.parse(res.data);
+          let payinfo: JSON = JSON.parse(res.OrderInfo);
           this.wechatChenyu.isInstalled().then((res) =>{
             this.wechatChenyu.sendPaymentRequest(payinfo).then((data) => {
                 //成功之后的跳转...
+              alert('data---pay-->' + JSON.stringify(data));
                 if (data) {
 
                 }
@@ -75,6 +81,9 @@ export class RechargePage {
           })
         }
 
+      }).catch(e => {
+        // alert('error----recharge-->' + JSON.stringify(e));
+        alert('error----recharge-->' + e.toString());
       });
     }
 

@@ -62,6 +62,6 @@ export class HttpDataProviders {
   public doWxPay (params: any) {
 
     // TODO
-    return this.httpPro.httpPostNoAuth('/', params);
+    return this.httpPro.httpGetNoAuth('http://dhpay.feelingys.com/Wechatpay/apppay', params);
   }
 }
