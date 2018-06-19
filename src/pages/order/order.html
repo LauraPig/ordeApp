@@ -79,19 +79,8 @@
               <div *ngIf="p.status">
                 <div *ngFor="let de of p.productList" >
                   <ion-slides pager>
-                    <ion-slide>
-                      <img src="{{de.imgUrl}}"/>
-                      <!--<div class="card-title">-->
-                      <!--<div style="font-size: 2rem">-->
-                      <!--{{item.productName}}-->
-                      <!--</div>-->
-                      <!--<div style="font-size: 1.7rem">-->
-                      <!--{{item.factoryName}}-{{item.officeName}}-->
-                      <!--</div>-->
-                      <!--<div style="font-size: 2rem">-->
-                      <!--{{item.label}}-->
-                      <!--</div>-->
-                      <!--</div>-->
+                    <ion-slide *ngFor="let path of de?.imgUrl">
+                      <img src="{{path}}"/>
                     </ion-slide>
                   </ion-slides>
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
@@ -133,22 +122,11 @@
               <div *ngIf="p.status">
                 <div *ngFor="let de of p.productList" >
                   <ion-slides pager>
-                    <ion-slide>
-                      <img src="{{de.imgUrl}}"/>
-                      <!--<div class="card-title">-->
-                      <!--<div style="font-size: 2rem">-->
-                      <!--{{item.productName}}-->
-                      <!--</div>-->
-                      <!--<div style="font-size: 1.7rem">-->
-                      <!--{{item.factoryName}}-{{item.officeName}}-->
-                      <!--</div>-->
-                      <!--<div style="font-size: 2rem">-->
-                      <!--{{item.label}}-->
-                      <!--</div>-->
-                      <!--</div>-->
-                    </ion-slide>
+                      <ion-slide *ngFor="let path of de?.imgUrl">
+                        <img src="{{path}}"/>
+                      </ion-slide>
                   </ion-slides>
-                  <ion-item tappable (click)="showDetailModal()">
+                  <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}</p>
                     <p>包括： {{de.productName}} </p>
                     <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>
@@ -186,22 +164,11 @@
               <div *ngIf="p.status">
                 <div *ngFor="let de of p.productList" >
                   <ion-slides pager>
-                    <ion-slide>
-                      <img src="{{de.imgUrl}}"/>
-                      <!--<div class="card-title">-->
-                      <!--<div style="font-size: 2rem">-->
-                      <!--{{item.productName}}-->
-                      <!--</div>-->
-                      <!--<div style="font-size: 1.7rem">-->
-                      <!--{{item.factoryName}}-{{item.officeName}}-->
-                      <!--</div>-->
-                      <!--<div style="font-size: 2rem">-->
-                      <!--{{item.label}}-->
-                      <!--</div>-->
-                      <!--</div>-->
+                    <ion-slide *ngFor="let path of de?.imgUrl">
+                      <img src="{{path}}"/>
                     </ion-slide>
                   </ion-slides>
-                  <ion-item tappable (click)="showDetailModal()">
+                  <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}</p>
                     <p>包括： {{de.productName}} </p>
                     <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>

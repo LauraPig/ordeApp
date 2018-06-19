@@ -206,7 +206,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.ct_product , [item.id, item.productType, item.officeId, item.productName, item.price, item.imgUrl, item.isScore, item.costCredits, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.delFlag, item.factoryId, item.labels, item.isHold, item.isPack, item.isApproval, item.summary, item.cost],() =>{
+                tx.executeSql(INSERT_DATA.ct_product , [item.id, item.productType, item.officeId, item.productName, item.price, item.imgUrl, item.isScore, item.costCredits, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.delFlag, item.factoryId, item.labels, item.isHold, item.isPack, item.isApproval, item.summary, item.cost, item.blobPath],() =>{
                   if (index === list.length - 1) {
                   }
                 }, (e) =>{
@@ -277,7 +277,7 @@ export class OperateDataBaseService {
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
-                tx.executeSql(INSERT_DATA.ct_product_set , [item.id, item.factoryId, item.officeId, item.productSetName, item.price, item.imgUrl, item.isScore, item.costCredits, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.labels, item.isPack, item.isHold, item.isApproval, item.summary, item.cost],() =>{
+                tx.executeSql(INSERT_DATA.ct_product_set , [item.id, item.factoryId, item.officeId, item.productSetName, item.price, item.imgUrl, item.isScore, item.costCredits, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.labels, item.isPack, item.isHold, item.isApproval, item.summary, item.cost, item.blobPath],() =>{
                   if (index === list.length - 1) {
                     // tx.finish();
                     // initLoading.dismiss();

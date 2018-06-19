@@ -1,48 +1,35 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import * as moment from 'moment';
-import {HttpDataProviders} from "../../providers/http-data/http-data";
-import {Storage} from '@ionic/storage';
 
+import { Storage } from '@ionic/storage';
 /**
- * Generated class for the WaitingUsePage page.
+ * Generated class for the WaitingUseListPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
-@IonicPage()
-@Component({
-  selector: 'page-waiting-use',
-  templateUrl: 'waiting-use.html',
+@IonicPage({
+  name: 'waiting-use-list'
 })
-export class WaitingUsePage {
+@Component({
+  selector: 'page-waiting-use-list',
+  templateUrl: 'waiting-use-list.html',
+})
+export class WaitingUseListPage {
 
-  dataList: Array<any> = [];
-  userId: string;
-  todayStr: string;
+  item: object;
   factoryName: string;
-  // isPack: boolean = true;
+  todayStr: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public storage: Storage,
-    public httpDataPro: HttpDataProviders,
   ) {
-  }
-
-  ionViewDidLoad() {
-    this.todayStr = moment().format('YYYY-MM-DD');
-    this.storage.get('userId').then(res =>{
-      if (res) {
-        this.userId = res;
-        let dateStr = `${moment().format('YYYY-MM-DD')} 00:00:00`;
-        this.getDataList(res, dateStr);
-      }
-
-    });
+    this.item = this.navParams.get('item');
 
     // 获取当前工厂名称
     this.storage.get('factoryName').then(res =>{
@@ -50,38 +37,13 @@ export class WaitingUsePage {
         this.factoryName = res;
       }
     });
-    console.log('ionViewDidLoad WaitingUsePage');
   }
 
-  getDataList(userId: string, dinnerDate: string) {
-    if (userId && dinnerDate) {
-      let params = {
-        'userId': userId,
-        'dinnerDate': dinnerDate
-      }
-      this.httpDataPro.fetchWaitingListData(params).then(res =>{
-        // alert('res-data--' + JSON.stringify(res));
-        if (res.success && res.body) {
-          for (let key in res.body) {
-            let tempObj = {
-              dateStr: key,
-              list: res.body[key],
-            };
-            this.dataList.push(tempObj);
-          }
-        }
-      }).catch(e =>{
+  ionViewDidLoad() {
 
-      });
-    }
-
-  }
-
-  // 跳转到某天的所有订单
-  gotoDetailList(item: any) {
-    this.navCtrl.push('waiting-use-list', {
-      item
-    });
+    // 获取当前时间
+    this.todayStr = moment().format('YYYY-MM-DD');
+    console.log('ionViewDidLoad WaitingUseListPage');
   }
 
   // 打包
@@ -128,6 +90,11 @@ export class WaitingUsePage {
     }).present();
   }
 
+  // 编辑
+  edit() {
+
+  }
+
   // 退订
   cancelOrder () {
     this.alertCtrl.create({
@@ -149,6 +116,8 @@ export class WaitingUsePage {
       ]
     }).present();
   }
+
+
 
   goHomeMenuPage() {
     this.navCtrl.push('homeMenu');

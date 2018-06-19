@@ -103,6 +103,8 @@ export class OrderPage {
       daysConfig: this.days,
       monthFormat: 'yyyy 年 MM 月 ',
       weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+      monthPickerFormat: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+
       // defaultDate: new Date(),
       // title: 'test',
     };
@@ -215,13 +217,13 @@ export class OrderPage {
     let temList: Array<any> = [];
     if (this.todayStr && item.value && p.id) {
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
-        db.executeSql(`select d.product_name name,d.price price,d.id id,0 type from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product d
+        db.executeSql(`select d.product_name name,d.price price,d.id id,0 type,d.blob_path imgPath from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product d
                        WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}' 
                        and b.office_id = '${p.id}' AND c.obj_type = '0' AND c.obj_id = d.id
                        and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0' 
                        and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'
                        UNION
-                       select d.product_set_name name,d.price price,d.id id,1 type  from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product_set d
+                       select d.product_set_name name,d.price price,d.id id,1 type,d.blob_path path  from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product_set d
                        WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}' 
                        and b.office_id = '${p.id}' AND c.obj_type = '1' AND c.obj_id = d.id
                        and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
@@ -233,14 +235,18 @@ export class OrderPage {
               if (res.rows.item(i).type === 1) {
                 let productName: string ='';
                 let productNameList: Array<any> =[];
-                db.executeSql(`select c.product_name productName from ct_product_set_dtl b,ct_product c where b.product_id = c.id and b.del_flag='0' and c.del_flag='0' AND b.product_set_id= '${res.rows.item(i).id}';`, {}).then(data =>{
+                let blobPathList: Array<any> =[];
+                db.executeSql(`select c.product_name productName,c.blob_path blobPath  from ct_product_set_dtl b,ct_product c where b.product_id = c.id and b.del_flag='0' and c.del_flag='0' AND b.product_set_id= '${res.rows.item(i).id}';`, {}).then(data =>{
                   // alert('data.length--' + data.rows.length);
                   if (data.rows.length) {
                     for (let j = 0; j < data.rows.length; j ++ ) {
                       productNameList.push(data.rows.item(j).productName);
+                      blobPathList.push(data.rows.item(j).blobPath);
                     }
                     let temObj = {
-                      imgUrl: 'assets/imgs/2.png',
+                      // imgUrl: 'assets/imgs/2.png',
+                      imgUrl: blobPathList,
+                      imgMainUrl: res.rows.item(i).imgPath,
                       name: res.rows.item(i).name,
                       type: res.rows.item(i).type,
                       price: res.rows.item(i).price,
@@ -253,8 +259,12 @@ export class OrderPage {
 
                 });
               } else {
+                let singleProduct: Array<any> =[];
+                singleProduct.push(res.rows.item(i).imgPath);
                 let obj = {
-                  imgUrl: 'assets/imgs/2.png',
+                  // imgUrl: 'assets/imgs/2.png',
+                  imgUrl: singleProduct,
+                  imgMainUrl: res.rows.item(i).imgPath,
                   name: res.rows.item(i).name,
                   type: res.rows.item(i).type,
                   price: res.rows.item(i).price,

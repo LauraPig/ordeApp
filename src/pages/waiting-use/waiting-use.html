@@ -22,56 +22,63 @@
 
 
 <ion-content>
+
   <ion-list no-lines *ngFor="let item of dataList">
     <ion-list-header>
       <span *ngIf="item.dateStr === todayStr">今日您已预订</span>
       <span *ngIf="item.dateStr !== todayStr">{{item.dateStr}}</span>
     </ion-list-header>
-    <ion-item-sliding *ngFor="let p of item.list" style="margin-bottom: 3vh">
-      <ion-item>
-        <img src="assets/imgs/3.png"/>
+
+    <!--如果显示多条则进行ngFor-->
+    <!--<ion-item-sliding *ngFor="let p of item.list" style="margin-bottom: 3vh">-->
+
+
+    <ion-item-sliding style="margin-bottom: 3vh">
+      <ion-item tappable (click)="gotoDetailList(item)">
+        <img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
         <div class="card-title">
           <div style="font-size: 2rem">
-            {{p.mealType}}
+            {{item?.list[0].mealType}}
           </div>
           <div style="font-size: 1.7rem">
-            {{p.productName}}
+            {{item?.list[0].productName}}
           </div>
           <div style="font-size: 1.7rem">
-            {{p.factoryName}}-{{p.officeName}}
+            {{item?.list[0].factoryName}}-{{item?.list[0].officeName}}
           </div>
         </div>
       </ion-item>
       <ion-item-options side="right">
-        <ion-row>
-          <ion-col col-26>
-            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
-              <ion-icon name="ios-cube-outline"></ion-icon>
-              打包
-            </button>
-          </ion-col>
-
-          <ion-col col-6>
-            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
-              <ion-icon name="ios-cube-outline"></ion-icon>
-              打包
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-6>
-            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
-              <ion-icon name="ios-cube-outline"></ion-icon>
-              打包
-            </button>
-          </ion-col>
-          <ion-col col-6>
-            <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
-              <ion-icon name="ios-cube-outline"></ion-icon>
-              打包
-            </button>
-          </ion-col>
-        </ion-row>
+        <div class="btn-list">
+          <ion-row>
+            <ion-col>
+              <button disabled="{{item?.list[0].isPack === 0 ? true: false}}" class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, userId)">
+                <ion-icon name="ios-cube-outline"></ion-icon>
+                打包
+              </button>
+            </ion-col>
+            <ion-col>
+              <button class="operator-button" color="light" ion-button (click)="holdOrder(item?.list[0].id, userId)">
+                <ion-icon name="ios-hand-outline"></ion-icon>
+                留餐
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <button class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, userId)">
+                <ion-icon name="ios-create-outline"></ion-icon>
+                编辑
+              </button>
+            </ion-col>
+            <ion-col>
+              <button class="operator-button" ion-button color="light" (click)="cancelOrder(item?.list[0].id, userId)">
+                <ion-icon name="ios-trash-outline"></ion-icon>
+                退订
+              </button>
+            </ion-col>
+          </ion-row>
+        </div>
         <!--<button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">-->
           <!--<ion-icon name="ios-hand-outline"></ion-icon>-->
           <!--留餐-->
@@ -87,116 +94,62 @@
 
   </ion-list>
 
-  <ion-list>
-    <ion-item-sliding  style="margin-bottom: 3vh">
-      <ion-item>
-        <img src="assets/imgs/3.png"/>
-        <div class="card-title">
-          <div style="font-size: 2rem">
-            早餐
-
-          </div>
-          <div style="font-size: 1.7rem">
-            套餐1
-          </div>
-          <div style="font-size: 1.7rem">
-            十如-餐厅一
-          </div>
-        </div>
-      </ion-item>
-      <ion-item-options side="right">
-        <div style="display: flex;width: 45vw;height: 20vh">
-          <ion-row>
-            <ion-col>
-              <button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
-                <ion-icon name="ios-cube-outline"></ion-icon>
-                打包
-              </button>
-            </ion-col>
-            <ion-col>
-              <button class="operator-button" color="primary" ion-button (click)="holdOrder(p.id, userId)">
-              <ion-icon name="ios-hand-outline"></ion-icon>
-              留餐
-              </button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <button class="operator-button" color="secondary" ion-button (click)="pack(p.id, userId)">
-                <ion-icon name="ios-cube-outline"></ion-icon>
-                编辑
-              </button>
-            </ion-col>
-            <ion-col>
-
-              <button class="operator-button" ion-button color="danger" (click)="cancelOrder(p.id, userId)">
-                <ion-icon name="ios-trash-outline"></ion-icon>
-                退订
-              </button>
-            </ion-col>
-          </ion-row>
-          <!--<div style="height: 75px">-->
-            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-              <!--打包-->
-            <!--</button>-->
+  <!--<ion-list>-->
+    <!--<ion-item-sliding  style="margin-bottom: 3vh">-->
+      <!--<ion-item>-->
+        <!--<img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>-->
+        <!--<div class="card-title">-->
+          <!--<div style="font-size: 2rem">-->
+            <!--早餐-->
           <!--</div>-->
-          <!--<div style="height: 75px">-->
-            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-              <!--打包-->
-            <!--</button>-->
+          <!--<div style="font-size: 1.7rem">-->
+            <!--套餐1-->
           <!--</div>-->
-          <!--<div style="height: 75px">-->
-            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-              <!--打包-->
-            <!--</button>-->
+          <!--<div style="font-size: 1.7rem">-->
+            <!--十如-餐厅一-->
           <!--</div>-->
-          <!--<div style="height: 75px">-->
-            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-              <!--打包-->
-            <!--</button>-->
-
-        </div>
-
-
-        <!--<ion-row>-->
-          <!--<ion-col>-->
-            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-              <!--打包-->
-            <!--</button>-->
-          <!--</ion-col>-->
-
-          <!--<ion-col>-->
-            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-              <!--打包-->
-            <!--</button>-->
-          <!--</ion-col>-->
-        <!--</ion-row>-->
-        <!--<ion-row>-->
-          <!--<ion-col>-->
-            <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-              <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-              <!--打包-->
-            <!--</button>-->
-          <!--</ion-col>-->
-          <!--<ion-col>-->
-            <!---->
-          <!--</ion-col>-->
-        <!--</ion-row>-->
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+        <!--</div>-->
+      <!--</ion-item>-->
+      <!--<ion-item-options side="right">-->
+        <!--<div class="btn-list">-->
+          <!--<ion-row>-->
+            <!--<ion-col>-->
+              <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+                <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+                <!--打包-->
+              <!--</button>-->
+            <!--</ion-col>-->
+            <!--<ion-col>-->
+              <!--<button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">-->
+              <!--<ion-icon name="ios-hand-outline"></ion-icon>-->
+              <!--留餐-->
+              <!--</button>-->
+            <!--</ion-col>-->
+          <!--</ion-row>-->
+          <!--<ion-row>-->
+            <!--<ion-col>-->
+              <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
+                <!--<ion-icon name="ios-create-outline"></ion-icon>-->
+                <!--编辑-->
+              <!--</button>-->
+            <!--</ion-col>-->
+            <!--<ion-col>-->
+              <!--<button class="operator-button" ion-button color="light" (click)="cancelOrder(p.id, userId)">-->
+                <!--<ion-icon name="ios-trash-outline"></ion-icon>-->
+                <!--退订-->
+              <!--</button>-->
+            <!--</ion-col>-->
+          <!--</ion-row>-->
+        <!--</div>-->
+      <!--</ion-item-options>-->
+    <!--</ion-item-sliding>-->
+  <!--</ion-list>-->
 
 
 
 
-  <!--<div *ngIf="dataList.length === 0" style="font-size: 2rem;margin-top: 30vh;margin-left: 40vw">-->
-    <!--暂无数据-->
-  <!--</div>-->
+  <div *ngIf="dataList.length === 0" style="font-size: 2rem;margin-top: 30vh;margin-left: 40vw">
+    暂无数据
+  </div>
 
 </ion-content>

@@ -83,7 +83,8 @@ export const CREATE_TABLE = {
         [is_pack] varchar(1) NULL DEFAULT ((0)) ,
         [is_approval] varchar(1) NULL DEFAULT ((0)) ,
         [summary] text NULL ,
-        [cost] decimal(18,2) NULL DEFAULT ((0.00)) 
+        [cost] decimal(18,2) NULL DEFAULT ((0.00)),
+        [blob_path] varchar(1000) NULL
     )`,
     ct_product_dtl: `CREATE TABLE IF NOT EXISTS ct_product_dtl(
         [id] varchar(64) PRIMARY KEY NOT NULL ,
@@ -113,7 +114,8 @@ export const CREATE_TABLE = {
         [is_hold] varchar(1) NULL DEFAULT ((0)) ,
         [is_approval] varchar(1) NULL DEFAULT ((0)) ,
         [summary] text NULL ,
-        [cost] decimal(18,2) NULL DEFAULT ((0.00))
+        [cost] decimal(18,2) NULL DEFAULT ((0.00)),
+        [blob_path] varchar(1000) NULL
     )`,
     ct_product_set_dtl: `CREATE TABLE IF NOT EXISTS ct_product_set_dtl(
         [id] varchar(64) PRIMARY KEY NOT NULL ,
@@ -185,11 +187,11 @@ export  const INSERT_DATA = {
 
     ct_plan_dtl: `INSERT INTO ct_plan_dtl VALUES(?,?,?,?,?,?,?,?,?)`, // 9
 
-    ct_product: `INSERT INTO ct_product VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //21
+    ct_product: `INSERT INTO ct_product VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //21
 
     ct_product_dtl: `INSERT INTO ct_product_dtl VALUES(?,?,?,?,?,?)`, //6
 
-    ct_product_set: `INSERT INTO ct_product_set VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //20
+    ct_product_set: `INSERT INTO ct_product_set VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //20
 
     ct_product_set_dtl: `INSERT INTO ct_product_set_dtl VALUES(?,?,?,?,?,?,?)`, // 7
 

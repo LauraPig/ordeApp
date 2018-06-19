@@ -6,12 +6,12 @@
 
     <ion-item class="input-inner">
       <ion-label class="input-font" stacked>员工号：</ion-label>
-      <ion-input [(ngModel)]="name"  type="text"></ion-input>
+      <ion-input [(ngModel)]="name"  type="text" clearInput></ion-input>
     </ion-item>
 
     <ion-item class="input-inner">
       <ion-label  stacked>密码：</ion-label>
-      <ion-input [(ngModel)]="password" class="pwd-input"  type="{{type}}"></ion-input>
+      <ion-input [(ngModel)]="password" class="pwd-input"  type="{{type}}" clearInput></ion-input>
       <ion-icon tappable class="icon-eye" *ngIf="type !== 'password'"  item-right name="ios-eye-outline" (click)="changeType($event)"></ion-icon>
       <ion-icon tappable class="icon-eye" *ngIf="type === 'password'" item-right name="ios-eye" (click)="changeType($event)"></ion-icon>
     </ion-item>
