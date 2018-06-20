@@ -13,9 +13,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-slides pager>
+  <ion-slides>
     <ion-slide>
-      <img src="{{item.imgUrl}}"/>
+      <img src="{{item?.imgMainUrl}}"/>
     </ion-slide>
   </ion-slides>
   <p class="product-title">
@@ -36,5 +36,19 @@
       保留川香得麻辣特点，结合营养搭配，不失地方菜系特点同时能控制能量，满足你对营养/地方美食的双重体验。
     </p>
   </div>
-  <button class="order-btn" (click)="orderProduct(item.id)">订餐</button>
+  <div *ngIf="item.type === 1">
+    <div *ngFor="let p of item?.productObjList">
+      <ion-slides>
+        <ion-slide>
+          <img src="{{p.picUrl}}"/>
+        </ion-slide>
+      </ion-slides>
+      <p class="product-title">
+        {{p.name}}
+      </p>
+    </div>
+  </div>
+
 </ion-content>
+
+<button class="order-btn" (click)="orderProduct(item.id)">订餐</button>

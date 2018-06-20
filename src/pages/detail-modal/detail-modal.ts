@@ -82,72 +82,175 @@ export class DetailModalPage {
   }
 
   orderProduct(id: string) {
-    let orderLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '处理中...'
-      // content: `
-      //   <div class="custom-spinner-container">
-      //     <div class="custom-spinner-box"></div>
-      //   </div>`,
-    });
-    orderLoading.present();
 
-    if (id && this.planId && this.factoryId && this.officeId && this.dateStr && this.userId) {
-      let params = {
-        'factoryId': this.factoryId,
-        'officeId': this.officeId,
-        'userId': this.userId,
-        'planId': this.planId,
-        'dinnerDate': this.dateStr,
-        'isPre': 1,
-        'ctOrderProductList': [{'objNum': 1, 'objId': id }],
-      };
-      this.httpDataPro.createOrder(params).then(res => {
-        if (res.success) {
-          orderLoading.dismiss().then(() =>{
-            this.alertCtrl.create({
-              title: '订餐成功',
-              subTitle: '请到“待消费”列表查看详情',
-              buttons: [
-                {
-                  text: '确定',
-                  handler: data => {
-                    this.navCtrl.setRoot(WaitingUsePage);
+    if (this.value === 'waterBar') {
+
+      let numCtrl = this.alertCtrl.create({
+        title: '份数',
+        inputs: [
+          {
+            name: 'num',
+            // placeholder: '1',
+            type: 'number'
+          }
+        ],
+        buttons: [
+          {
+            text: '确认',
+            handler: inputData => {
+              // alert('InputData-->' + inputData.num);
+              console.log('data');
+
+
+              let orderLoading = this.loadingCtrl.create({
+                spinner: 'bubbles',
+                content: '处理中...'
+                // content: `
+                //   <div class="custom-spinner-container">
+                //     <div class="custom-spinner-box"></div>
+                //   </div>`,
+              });
+              orderLoading.present();
+
+              if (id && this.planId && this.factoryId && this.officeId && this.dateStr && this.userId) {
+                let params = {
+                  'factoryId': this.factoryId,
+                  'officeId': this.officeId,
+                  'userId': this.userId,
+                  'planId': this.planId,
+                  'dinnerDate': this.dateStr,
+                  'isPre': 1,
+                  'ctOrderProductList': [{'objNum': 1, 'objId': id }],
+                };
+                this.httpDataPro.createOrder(params).then(res => {
+                  if (res.success) {
+                    orderLoading.dismiss().then(() =>{
+                      this.alertCtrl.create({
+                        title: '订餐成功',
+                        subTitle: '请到“待消费”列表查看详情',
+                        buttons: [
+                          {
+                            text: '确定',
+                            handler: data => {
+                              this.navCtrl.setRoot(WaitingUsePage);
+                            }
+                          }
+                        ]
+                      }).present();
+                    });
+
+                  } else {
+                    orderLoading.dismiss().then(() =>{
+                      alert(res.msg);
+                    });
+
                   }
-                }
-              ]
-            }).present();
-          });
+                });
 
-        } else {
-          orderLoading.dismiss().then(() =>{
-            alert(res.msg);
-          });
+                // this.alertCtrl.create({
+                //   title: '订餐成功',
+                //   subTitle: '请到“待消费”列表查看详情',
+                //   buttons: [
+                //     {
+                //       text: '确定',
+                //       handler: data => {
+                //         // this.navCtrl.setRoot()
+                //       }
+                //     }
+                //   ]
+                // }).present();
+              } else {
+                orderLoading.dismiss();
+                // alert('id-->' + id);
+                // alert('planId-->' + this.planId);
+                // alert('factoryId-->' + this.factoryId);
+                // alert('officeId-->' + this.officeId);
+                // alert('dateStr-->' + this.dateStr);
+                // alert('userId-->' + this.userId);
+              }
 
-        }
+            }
+          },
+          {
+            text: '取消',
+            role: 'cancel',
+            handler: data => {
+              console.log('Cancel clicked');
+            }
+          }
+        ]
       });
+      numCtrl.present();
 
-      // this.alertCtrl.create({
-      //   title: '订餐成功',
-      //   subTitle: '请到“待消费”列表查看详情',
-      //   buttons: [
-      //     {
-      //       text: '确定',
-      //       handler: data => {
-      //         // this.navCtrl.setRoot()
-      //       }
-      //     }
-      //   ]
-      // }).present();
     } else {
-      orderLoading.dismiss();
-      // alert('id-->' + id);
-      // alert('planId-->' + this.planId);
-      // alert('factoryId-->' + this.factoryId);
-      // alert('officeId-->' + this.officeId);
-      // alert('dateStr-->' + this.dateStr);
-      // alert('userId-->' + this.userId);
+      let orderLoading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content: '处理中...'
+        // content: `
+        //   <div class="custom-spinner-container">
+        //     <div class="custom-spinner-box"></div>
+        //   </div>`,
+      });
+      orderLoading.present();
+
+      if (id && this.planId && this.factoryId && this.officeId && this.dateStr && this.userId) {
+        let params = {
+          'factoryId': this.factoryId,
+          'officeId': this.officeId,
+          'userId': this.userId,
+          'planId': this.planId,
+          'dinnerDate': this.dateStr,
+          'isPre': 1,
+          'ctOrderProductList': [{'objNum': 1, 'objId': id }],
+        };
+        this.httpDataPro.createOrder(params).then(res => {
+          if (res.success) {
+            orderLoading.dismiss().then(() =>{
+              this.alertCtrl.create({
+                title: '订餐成功',
+                subTitle: '请到“待消费”列表查看详情',
+                buttons: [
+                  {
+                    text: '确定',
+                    handler: data => {
+                      this.navCtrl.setRoot(WaitingUsePage);
+                    }
+                  }
+                ]
+              }).present();
+            });
+
+          } else {
+            orderLoading.dismiss().then(() =>{
+              alert(res.msg);
+            });
+
+          }
+        });
+
+        // this.alertCtrl.create({
+        //   title: '订餐成功',
+        //   subTitle: '请到“待消费”列表查看详情',
+        //   buttons: [
+        //     {
+        //       text: '确定',
+        //       handler: data => {
+        //         // this.navCtrl.setRoot()
+        //       }
+        //     }
+        //   ]
+        // }).present();
+      } else {
+        orderLoading.dismiss();
+        // alert('id-->' + id);
+        // alert('planId-->' + this.planId);
+        // alert('factoryId-->' + this.factoryId);
+        // alert('officeId-->' + this.officeId);
+        // alert('dateStr-->' + this.dateStr);
+        // alert('userId-->' + this.userId);
+      }
     }
+
   }
 
   dismiss(){

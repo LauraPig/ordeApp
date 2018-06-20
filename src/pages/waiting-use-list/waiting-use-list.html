@@ -1,33 +1,45 @@
+<!--<ion-header>-->
+  <!--<ion-navbar>-->
+    <!--<ion-buttons start>-->
+      <!--<button tappable ion-button icon-only (click)="goHomeMenuPage()">-->
+        <!--<ion-icon color="Gray-color" name="menu"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
+    <!--<ion-title>-->
+      <!--<div >-->
+        <!--<span>Jimmy</span><br/>-->
+        <!--<span class="cut-title">欢迎来到{{factoryName}}</span>-->
+      <!--</div>-->
+    <!--</ion-title>-->
+    <!--<ion-buttons end>-->
+      <!--<button tappable ion-button icon-only (click)="goSettingPage()" >-->
+        <!--<ion-icon color="Gray-color" name="settings">-->
+        <!--</ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
+  <!--</ion-navbar>-->
+<!--</ion-header>-->
+
+
 <ion-header>
+
   <ion-navbar>
-    <ion-buttons start>
-      <button tappable ion-button icon-only (click)="goHomeMenuPage()">
-        <ion-icon color="Gray-color" name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
     <ion-title>
-      <div >
-        <span>Jimmy</span><br/>
-        <span class="cut-title">欢迎来到{{factoryName}}</span>
-      </div>
+      <span *ngIf="item.dateStr === todayStr">今日您已预订</span>
+      <span *ngIf="item.dateStr !== todayStr">{{item.dateStr}}</span>
     </ion-title>
-    <ion-buttons end>
-      <button tappable ion-button icon-only (click)="goSettingPage()" >
-        <ion-icon color="Gray-color" name="settings">
-        </ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
+
 </ion-header>
 
 
 <ion-content>
 
   <ion-list no-lines>
-    <ion-list-header>
-      <span *ngIf="item.dateStr === todayStr">今日您已预订</span>
-      <span *ngIf="item.dateStr !== todayStr">{{item.dateStr}}</span>
-    </ion-list-header>
+    <!--<ion-list-header>-->
+      <!--<span *ngIf="item.dateStr === todayStr">今日您已预订</span>-->
+      <!--<span *ngIf="item.dateStr !== todayStr">{{item.dateStr}}</span>-->
+    <!--</ion-list-header>-->
 
     <ion-item-sliding *ngFor="let p of item?.list" style="margin-bottom: 3vh">
       <ion-item>
@@ -48,7 +60,11 @@
         <div class="btn-list">
           <ion-row>
             <ion-col>
-              <button disabled="{{p.isPack === 0 ? true : false}}" class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">
+              <button *ngIf="p.isPack === '0'" disabled="true" class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, userId)">
+                <ion-icon name="ios-cube-outline"></ion-icon>
+                打包
+              </button>
+              <button *ngIf="p.isPack === '1'"  class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, userId)">
                 <ion-icon name="ios-cube-outline"></ion-icon>
                 打包
               </button>

@@ -33,6 +33,7 @@ import {HttpDataProviders} from "../providers/http-data/http-data";
 import {SelectTypePage} from "../pages/select-type/select-type";
 
 import { WechatChenyu } from "wechat-chenyu";
+import { LocationPage } from "../pages/location/location";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { WechatChenyu } from "wechat-chenyu";
     OverduePage,
     LoginPage,
     SelectTypePage,
+    LocationPage,
     // WeekMenuTypePage
   ],
   imports: [
@@ -79,6 +81,7 @@ import { WechatChenyu } from "wechat-chenyu";
     OverduePage,
     LoginPage,
     SelectTypePage,
+    LocationPage,
     // WeekMenuTypePage
   ],
   providers: [

@@ -234,14 +234,19 @@ export class OrderPage {
             for (let i = 0; i < res.rows.length; i ++) {
               if (res.rows.item(i).type === 1) {
                 let productName: string ='';
-                let productNameList: Array<any> =[];
-                let blobPathList: Array<any> =[];
+                let productNameList: Array<any> = [];
+                let blobPathList: Array<any> = [];
+                let productObj = {picUrl: '', name: ''}; //
+                let mealList: Array<any> = [];
                 db.executeSql(`select c.product_name productName,c.blob_path blobPath  from ct_product_set_dtl b,ct_product c where b.product_id = c.id and b.del_flag='0' and c.del_flag='0' AND b.product_set_id= '${res.rows.item(i).id}';`, {}).then(data =>{
                   // alert('data.length--' + data.rows.length);
                   if (data.rows.length) {
                     for (let j = 0; j < data.rows.length; j ++ ) {
                       productNameList.push(data.rows.item(j).productName);
                       blobPathList.push(data.rows.item(j).blobPath);
+                      productObj.picUrl = data.rows.item(j).blobPath;
+                      productObj.name = data.rows.item(j).productName;
+                      mealList.push(productObj);
                     }
                     let temObj = {
                       // imgUrl: 'assets/imgs/2.png',
@@ -251,7 +256,8 @@ export class OrderPage {
                       type: res.rows.item(i).type,
                       price: res.rows.item(i).price,
                       id: res.rows.item(i).id,
-                      productName: productNameList.join(',')
+                      productName: productNameList.join(','),
+                      productObjList: mealList,  // 套餐下的产品对象
                     };
                     temList.push(temObj);
                   }
@@ -300,109 +306,204 @@ export class OrderPage {
 
   //订餐按钮
   doOrder(e: Event, de: any, officeId: string, value: string) {
-    // debugger;
 
     e.stopPropagation(); //阻止事件冒泡
+    // alert('value--->' + value);
 
-    let orderLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '处理中...'
-      // content: `
-      //   <div class="custom-spinner-container">
-      //     <div class="custom-spinner-box"></div>
-      //   </div>`,
-    });
-    orderLoading.present();
-
-
-
-    if (officeId && value && this.todayStr) {
-      // alert('officeId-->' + this.officeId);
-      // alert('value-->' + this.value);
-      // alert('dateStr-->' + this.dateStr);
-
-      // alert('-dateStr--' + this.dateStr);
-      this.dbService.openDataBase().then((db: SQLiteObject) =>{
-        let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
-        db.executeSql(sqlStr, {}).then(res =>{
-          // alert('res-length--' + res.rows.length);
-          if (res.rows.length) {
-            this.planId = res.rows.item(0).id;
+    //判断是否水吧
+    if (value === 'waterBar') {
+      let numCtrl = this.alertCtrl.create({
+        title: '份数',
+        inputs: [
+          {
+            name: 'num',
+            // placeholder: '1',
+            type: 'number'
           }
-        }).catch(e => {
-          alert('错误-->' + JSON.stringify(e));
-        });
-      }).catch(e =>{
-        console.log(e);
-      });
+        ],
+        buttons: [
+          {
+            text: '确认',
+            handler: inputData => {
+              // alert('InputData-->' + inputData.num);
+              console.log('data');
 
 
-      //下单操作
-      if (de.id && this.planId && this.factoryId && officeId && this.todayStr && this.userId) {
-        let params = {
-          'factoryId': this.factoryId,
-          'officeId': officeId,
-          'userId': this.userId,
-          'planId': this.planId,
-          'dinnerDate': this.todayStr,
-          'isPre': 1,
-          'ctOrderProductList': [{'objNum': 1, 'objId': de.id }],
-        };
-        this.httpDataPro.createOrder(params).then(res => {
-          if (res.success) {
-            orderLoading.dismiss().then(() =>{
-              this.alertCtrl.create({
-                title: '订餐成功',
-                subTitle: '请到“待消费”列表查看详情',
-                buttons: [
-                  {
-                    text: '确定',
-                    handler: data => {
-                      this.navCtrl.setRoot(WaitingUsePage);
+              let orderLoading = this.loadingCtrl.create({
+                spinner: 'bubbles',
+                content: '处理中...'
+                // content: `
+                //   <div class="custom-spinner-container">
+                //     <div class="custom-spinner-box"></div>
+                //   </div>`,
+              });
+              orderLoading.present();
+
+
+
+              if (officeId && value && this.todayStr) {
+                // alert('officeId-->' + this.officeId);
+                // alert('value-->' + this.value);
+                // alert('dateStr-->' + this.dateStr);
+
+                // alert('-dateStr--' + this.dateStr);
+                this.dbService.openDataBase().then((db: SQLiteObject) =>{
+                  let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
+                  db.executeSql(sqlStr, {}).then(res =>{
+                    // alert('res-length--' + res.rows.length);
+                    if (res.rows.length) {
+                      this.planId = res.rows.item(0).id;
+
+                      //下单操作
+                      if (de.id && this.planId && this.factoryId && officeId && this.todayStr && this.userId) {
+                        let params = {
+                          'factoryId': this.factoryId,
+                          'officeId': officeId,
+                          'userId': this.userId,
+                          'planId': this.planId,
+                          'dinnerDate': this.todayStr,
+                          'isPre': 1,
+                          'ctOrderProductList': [{'objNum': inputData.num, 'objId': de.id }],
+                        };
+                        this.httpDataPro.createOrder(params).then(res => {
+                          if (res.success) {
+                            orderLoading.dismiss().then(() =>{
+                              this.alertCtrl.create({
+                                title: '订餐成功',
+                                subTitle: '请到“待消费”列表查看详情',
+                                buttons: [
+                                  {
+                                    text: '确定',
+                                    handler: data => {
+                                      this.navCtrl.setRoot(WaitingUsePage);
+                                    }
+                                  }
+                                ]
+                              }).present();
+                            });
+                          } else {
+                            orderLoading.dismiss().then(() =>{
+                              alert(res.msg);
+                            });
+
+                          }
+                        });
+                      } else {
+                        orderLoading.dismiss();
+                      }
                     }
-                  }
-                ]
-              }).present();
-            });
-          } else {
-            orderLoading.dismiss().then(() =>{
-              alert(res.msg);
-            });
-
+                  }).catch(e => {
+                    orderLoading.dismiss();
+                    alert('错误-->' + JSON.stringify(e));
+                  });
+                }).catch(e =>{
+                  orderLoading.dismiss();
+                  console.log(e);
+                });
+              } else {
+                orderLoading.dismiss();
+              }
+            }
+          },
+          {
+            text: '取消',
+            role: 'cancel',
+            handler: data => {
+              console.log('Cancel clicked');
+            }
           }
-        });
+        ]
+      });
+      numCtrl.present();
 
-        // this.alertCtrl.create({
-        //   title: '订餐成功',
-        //   subTitle: '请到“待消费”列表查看详情',
-        //   buttons: [
-        //     {
-        //       text: '确定',
-        //       handler: data => {
-        //         // this.navCtrl.setRoot()
-        //       }
-        //     }
-        //   ]
-        // }).present();
-      } else {
+    } else {
 
-        orderLoading.dismiss();
-        // alert('id-->' + id);
-        // alert('planId-->' + this.planId);
-        // alert('factoryId-->' + this.factoryId);
+
+      let orderLoading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content: '处理中...'
+        // content: `
+        //   <div class="custom-spinner-container">
+        //     <div class="custom-spinner-box"></div>
+        //   </div>`,
+      });
+      orderLoading.present();
+
+
+
+      if (officeId && value && this.todayStr) {
         // alert('officeId-->' + this.officeId);
+        // alert('value-->' + this.value);
         // alert('dateStr-->' + this.dateStr);
-        // alert('userId-->' + this.userId);
+
+        // alert('-dateStr--' + this.dateStr);
+        this.dbService.openDataBase().then((db: SQLiteObject) =>{
+          let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
+          db.executeSql(sqlStr, {}).then(res =>{
+            // alert('res-length--' + res.rows.length);
+            if (res.rows.length) {
+              this.planId = res.rows.item(0).id;
+
+              //下单操作
+              if (de.id && this.planId && this.factoryId && officeId && this.todayStr && this.userId) {
+                let params = {
+                  'factoryId': this.factoryId,
+                  'officeId': officeId,
+                  'userId': this.userId,
+                  'planId': this.planId,
+                  'dinnerDate': this.todayStr,
+                  'isPre': 1,
+                  'ctOrderProductList': [{'objNum': 1, 'objId': de.id }],
+                };
+                this.httpDataPro.createOrder(params).then(res => {
+                  if (res.success) {
+                    orderLoading.dismiss().then(() =>{
+                      this.alertCtrl.create({
+                        title: '订餐成功',
+                        subTitle: '请到“待消费”列表查看详情',
+                        buttons: [
+                          {
+                            text: '确定',
+                            handler: data => {
+                              this.navCtrl.setRoot(WaitingUsePage);
+                            }
+                          }
+                        ]
+                      }).present();
+                    });
+                  } else {
+                    orderLoading.dismiss().then(() =>{
+                      alert(res.msg);
+                    });
+
+                  }
+                });
+              } else {
+                orderLoading.dismiss();
+                // alert('id-->' + id);
+                // alert('planId-->' + this.planId);
+                // alert('factoryId-->' + this.factoryId);
+                // alert('officeId-->' + this.officeId);
+                // alert('dateStr-->' + this.dateStr);
+                // alert('userId-->' + this.userId);
+              }
+            }
+          }).catch(e => {
+            orderLoading.dismiss();
+            alert('错误-->' + JSON.stringify(e));
+          });
+        }).catch(e =>{
+          orderLoading.dismiss();
+          console.log(e);
+        });
+      } else {
+        orderLoading.dismiss();
       }
     }
 
+
+
   }
-
-  // getPageData() {
-  //
-  // }
-
-
 
   gotoSelectTypePage(value: string, factoryName: string) {
     // alert('this.monstr--order: ' + this.monStr);

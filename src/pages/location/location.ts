@@ -5,20 +5,18 @@ import { Storage } from '@ionic/storage';
 import {HomePage} from "../home/home";
 
 /**
- * Generated class for the SelectLocationPage page.
+ * Generated class for the LocationPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
-@IonicPage({
-  name: 'select-location'
-})
+@IonicPage()
 @Component({
-  selector: 'page-select-location',
-  templateUrl: 'select-location.html',
+  selector: 'page-location',
+  templateUrl: 'location.html',
 })
-export class SelectLocationPage {
+export class LocationPage {
   location: string;
   currentIndex: number = 0;
 
@@ -85,5 +83,4 @@ export class SelectLocationPage {
     // alert('当前值ID：' + e);
     // alert('当前值NAME：' + e.toString());
   }
-
 }

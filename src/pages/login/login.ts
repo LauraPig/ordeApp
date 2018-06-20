@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from "@ionic/storage";
 import {HomePage} from "../home/home";
+import {LocationPage} from "../location/location";
 
 /**
  * Generated class for the LoginPage page.
@@ -26,7 +27,8 @@ export class LoginPage {
     public navParams: NavParams,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
   ) {
 
   }
@@ -47,8 +49,35 @@ export class LoginPage {
       this.httpDataPro.checkLogin(params).then(res =>{
         // alert('res--login-> ' + JSON.stringify(res));
         if (res.success) {
+          this.toastCtrl.create({
+              message: '登录成功',
+              duration: 1000,
+              position: 'middle',
+              cssClass: 'toast-ctrl'
+            }).present();
           this.storage.set('token', res.body.token);
-          this.navCtrl.setRoot(HomePage);
+          this.storage.get('factoryId').then(res => {
+            if (res) {
+              this.navCtrl.setRoot(HomePage);
+            } else {
+              this.navCtrl.setRoot(LocationPage);
+            }
+          });
+          // this.navCtrl.setRoot(HomePage);
+        } else {
+          this.alertCtrl.create({
+            // title: '重置密码',
+            message: res.msg,
+            buttons:[
+              {
+                text: '确定',
+                handler: data => {
+                  console.log(data);
+                }
+              }
+            ]
+          }).present();
+          // alert(res.msg);
         }
       });
     }

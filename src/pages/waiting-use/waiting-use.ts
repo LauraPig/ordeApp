@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import * as moment from 'moment';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from '@ionic/storage';
@@ -28,6 +28,7 @@ export class WaitingUsePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
   ) {
@@ -53,7 +54,19 @@ export class WaitingUsePage {
     console.log('ionViewDidLoad WaitingUsePage');
   }
 
-  getDataList(userId: string, dinnerDate: string) {
+
+
+  getDataList(userId: string, dinnerDate: string){
+
+    let dataLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '加载中...'
+    });
+
+    dataLoading.present();
+
+
+
     if (userId && dinnerDate) {
       let params = {
         'userId': userId,
@@ -68,11 +81,15 @@ export class WaitingUsePage {
               list: res.body[key],
             };
             this.dataList.push(tempObj);
+
           }
+          dataLoading.dismiss();
         }
       }).catch(e =>{
-
+        dataLoading.dismiss();
       });
+    } else {
+      dataLoading.dismiss();
     }
 
   }

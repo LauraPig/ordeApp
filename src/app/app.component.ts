@@ -27,8 +27,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage = HomePage;
-  // rootPage = LoginPage;
+  // rootPage = HomePage;
+  rootPage: any;
   pages: Array<{title: string, component: any}>;
 
   constructor(
@@ -54,7 +54,15 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.storage.set('userId', '1');
-      this.storage.set('factoryId', '9a96a9106216453faf44259ee7f98f69');
+      this.storage.get('token').then(res =>{
+        // alert('res-->' + res);
+        if (res) {
+          this.rootPage = HomePage;
+        } else {
+          this.rootPage = LoginPage;
+        }
+      });
+      // this.storage.set('factoryId', '9a96a9106216453faf44259ee7f98f69');
       // this.storage.set('factoryName', '1');
     });
   }

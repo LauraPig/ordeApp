@@ -23,12 +23,13 @@ page-detail-modal {
   }
 
   .order-btn {
-    background-color: rgba(39, 194, 15, 0.8);
+    z-index: 100;
+    background-color: rgba(39, 194, 15, 0.6);
     width: 20%;
     height: 35px;
     border-radius: 10px;
     position: fixed;
-    bottom: 40vh;
+    bottom: 10vh;
     right: 10%;
     font-size: 1.2em;
     //width: 100%;
