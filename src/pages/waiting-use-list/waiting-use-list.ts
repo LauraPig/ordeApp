@@ -80,6 +80,19 @@ export class WaitingUseListPage {
           }
         ]
       }).present();
+    } else {
+      this.alertCtrl.create({
+        // title: '',
+        subTitle: '此功能未开放，敬请期待',
+        buttons: [
+          {
+            text: '确定',
+            handler: data => {
+              // this.navCtrl.setRoot()
+            }
+          }
+        ]
+      }).present();
     }
   }
 
