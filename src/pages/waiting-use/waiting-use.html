@@ -35,7 +35,8 @@
 
     <ion-item-sliding style="margin-bottom: 3vh">
       <ion-item tappable (click)="gotoDetailList(item)">
-        <img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
+        <!--<img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>-->
+        <img src="{{item.list[0].imgUrl}}"/>
         <div class="card-title">
           <div style="font-size: 2rem">
             {{item?.list[0].mealType}}

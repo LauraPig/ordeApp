@@ -43,7 +43,8 @@
 
     <ion-item-sliding *ngFor="let p of item?.list" style="margin-bottom: 3vh">
       <ion-item>
-        <img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
+        <!--<img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>-->
+        <img src="{{p.imgUrl}}"/>
         <div class="card-title">
           <div style="font-size: 2rem">
             {{p.mealType}}
