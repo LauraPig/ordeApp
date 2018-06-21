@@ -103,7 +103,7 @@ export class WaitingUsePage {
 
   // 打包
   pack(id: string, isPack: string) {
-
+     // alert('isPack--> ' + isPack);
     //  1  为可以打包， 0 不能打包
     if (isPack === '1') {
       this.alertCtrl.create({
@@ -128,6 +128,19 @@ export class WaitingUsePage {
       this.alertCtrl.create({
         // title: '',
         subTitle: '该产品不能打包',
+        buttons: [
+          {
+            text: '确定',
+            handler: data => {
+              // this.navCtrl.setRoot()
+            }
+          }
+        ]
+      }).present();
+    } else {
+      this.alertCtrl.create({
+        // title: '',
+        subTitle: '此功能未开放，敬请期待',
         buttons: [
           {
             text: '确定',
