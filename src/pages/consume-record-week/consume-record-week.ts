@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from '@ionic/storage';
@@ -27,6 +27,7 @@ export class ConsumeRecordWeekPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public loadingCtrl: LoadingController,
     public httpDataPro: HttpDataProviders,
   ) {
   }
@@ -48,6 +49,11 @@ export class ConsumeRecordWeekPage {
   }
 
   getListData(id: string, queryStartDate: string, queryEndDate: string ) {
+    let dataLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '加载中...'
+    });
+    dataLoading.present();
     if (id && queryEndDate && queryStartDate) {
       let params = {
         'userId': id,
@@ -61,13 +67,14 @@ export class ConsumeRecordWeekPage {
             item.dinnerDate = moment(item.dinnerDate).format('MM月DD日 HH:MM');
             return item;
           });
+          dataLoading.dismiss();
         }
-
       }).catch(e =>{
-
+        dataLoading.dismiss();
       });
+    } else {
+      dataLoading.dismiss();
     }
-
   }
 
 }

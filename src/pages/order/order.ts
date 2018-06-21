@@ -86,19 +86,21 @@ export class OrderPage {
     this.days.push({
       date: new Date(),
       title: '今天',
-      subTitle: '●',
+      // subTitle: '●',
     });
-    this.days.push({
-      date: moment().add(1, 'd').toDate(),
-      subTitle: '●',
-    });
-    this.days.push({
-      date: moment().add(2, 'd').toDate(),
-      subTitle: '●',
-    });
+
+
+    // this.days.push({
+    //   date: moment().add(1, 'd').toDate(),
+    //   subTitle: '●',
+    // });
+    // this.days.push({
+    //   date: moment().add(2, 'd').toDate(),
+    //   subTitle: '●',
+    // });
     this.calendarOptions = {
       from: new Date(),
-      to: moment().add(6, 'd').toDate(),
+      to: moment().add(13, 'd').toDate(),
       pickMode: 'single',
       daysConfig: this.days,
       monthFormat: 'yyyy 年 MM 月 ',
@@ -125,7 +127,7 @@ export class OrderPage {
             for ( let i = 0; i < res.rows.length; i++) {
               this.typeList.push({
                 label: res.rows.item(i).label,
-                imgUrl: `assets/imgs/${res.rows.item(i).value}.png`,
+                imgUrl: `https://dininghall.blob.core.windows.net/product/${res.rows.item(i).value}.png`,
                 value: res.rows.item(i).value,
                 officeList: [],
                 status: false,
@@ -189,7 +191,7 @@ export class OrderPage {
               temList.push({
                 id: res.rows.item(i).id,
                 name,
-                imgUrl: 'assets/imgs/4.png',
+                imgUrl: 'https://dininghall.blob.core.windows.net/product/noodle.png',
                 status: false,
                 productList: [],
               });
@@ -236,7 +238,7 @@ export class OrderPage {
                 let productName: string ='';
                 let productNameList: Array<any> = [];
                 let blobPathList: Array<any> = [];
-                let productObj = {picUrl: '', name: ''}; //
+                // let productObj = {picUrl: '', name: ''}; //
                 let mealList: Array<any> = [];
                 db.executeSql(`select c.product_name productName,c.blob_path blobPath  from ct_product_set_dtl b,ct_product c where b.product_id = c.id and b.del_flag='0' and c.del_flag='0' AND b.product_set_id= '${res.rows.item(i).id}';`, {}).then(data =>{
                   // alert('data.length--' + data.rows.length);
@@ -244,12 +246,13 @@ export class OrderPage {
                     for (let j = 0; j < data.rows.length; j ++ ) {
                       productNameList.push(data.rows.item(j).productName);
                       blobPathList.push(data.rows.item(j).blobPath);
-                      productObj.picUrl = data.rows.item(j).blobPath;
-                      productObj.name = data.rows.item(j).productName;
+                      let productObj = {
+                        picUrl:  data.rows.item(j).blobPath,
+                        name:  data.rows.item(j).productName,
+                      };
                       mealList.push(productObj);
                     }
                     let temObj = {
-                      // imgUrl: 'assets/imgs/2.png',
                       imgUrl: blobPathList,
                       imgMainUrl: res.rows.item(i).imgPath,
                       name: res.rows.item(i).name,
@@ -268,7 +271,6 @@ export class OrderPage {
                 let singleProduct: Array<any> =[];
                 singleProduct.push(res.rows.item(i).imgPath);
                 let obj = {
-                  // imgUrl: 'assets/imgs/2.png',
                   imgUrl: singleProduct,
                   imgMainUrl: res.rows.item(i).imgPath,
                   name: res.rows.item(i).name,
@@ -304,11 +306,10 @@ export class OrderPage {
     detailModal.present();
   }
 
-  //订餐按钮
+  //  订餐按钮
   doOrder(e: Event, de: any, officeId: string, value: string) {
 
     e.stopPropagation(); //阻止事件冒泡
-    // alert('value--->' + value);
 
     //判断是否水吧
     if (value === 'waterBar') {
@@ -317,7 +318,6 @@ export class OrderPage {
         inputs: [
           {
             name: 'num',
-            // placeholder: '1',
             type: 'number'
           }
         ],
@@ -325,28 +325,16 @@ export class OrderPage {
           {
             text: '确认',
             handler: inputData => {
-              // alert('InputData-->' + inputData.num);
               console.log('data');
 
 
               let orderLoading = this.loadingCtrl.create({
                 spinner: 'bubbles',
                 content: '处理中...'
-                // content: `
-                //   <div class="custom-spinner-container">
-                //     <div class="custom-spinner-box"></div>
-                //   </div>`,
               });
               orderLoading.present();
 
-
-
               if (officeId && value && this.todayStr) {
-                // alert('officeId-->' + this.officeId);
-                // alert('value-->' + this.value);
-                // alert('dateStr-->' + this.dateStr);
-
-                // alert('-dateStr--' + this.dateStr);
                 this.dbService.openDataBase().then((db: SQLiteObject) =>{
                   let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
                   db.executeSql(sqlStr, {}).then(res =>{
@@ -422,21 +410,10 @@ export class OrderPage {
       let orderLoading = this.loadingCtrl.create({
         spinner: 'bubbles',
         content: '处理中...'
-        // content: `
-        //   <div class="custom-spinner-container">
-        //     <div class="custom-spinner-box"></div>
-        //   </div>`,
       });
       orderLoading.present();
 
-
-
       if (officeId && value && this.todayStr) {
-        // alert('officeId-->' + this.officeId);
-        // alert('value-->' + this.value);
-        // alert('dateStr-->' + this.dateStr);
-
-        // alert('-dateStr--' + this.dateStr);
         this.dbService.openDataBase().then((db: SQLiteObject) =>{
           let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
           db.executeSql(sqlStr, {}).then(res =>{
@@ -480,12 +457,6 @@ export class OrderPage {
                 });
               } else {
                 orderLoading.dismiss();
-                // alert('id-->' + id);
-                // alert('planId-->' + this.planId);
-                // alert('factoryId-->' + this.factoryId);
-                // alert('officeId-->' + this.officeId);
-                // alert('dateStr-->' + this.dateStr);
-                // alert('userId-->' + this.userId);
               }
             }
           }).catch(e => {

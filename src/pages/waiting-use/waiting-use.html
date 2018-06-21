@@ -52,17 +52,17 @@
         <div class="btn-list">
           <ion-row>
             <ion-col>
-              <button *ngIf="item?.list[0].isPack === 0" disabled="true" class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, userId)">
-                <ion-icon name="ios-cube-outline"></ion-icon>
-                打包
-              </button>
-              <button *ngIf="item?.list[0].isPack === 1"  class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, userId)">
+              <!--<button *ngIf="item?.list[0].isPack === 0" disabled="true" class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id)">-->
+                <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+                <!--打包-->
+              <!--</button>-->
+              <button class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, item?.list[0].isPack)">
                 <ion-icon name="ios-cube-outline"></ion-icon>
                 打包
               </button>
             </ion-col>
             <ion-col>
-              <button class="operator-button" color="light" ion-button (click)="holdOrder(item?.list[0].id, userId)">
+              <button class="operator-button" color="light" ion-button (click)="holdOrder(item?.list[0].id)">
                 <ion-icon name="ios-hand-outline"></ion-icon>
                 留餐
               </button>
@@ -70,13 +70,13 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <button class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, userId)">
+              <button class="operator-button" color="light" ion-button (click)="edit(item?.list[0].id)">
                 <ion-icon name="ios-create-outline"></ion-icon>
                 编辑
               </button>
             </ion-col>
             <ion-col>
-              <button class="operator-button" ion-button color="light" (click)="cancelOrder(item?.list[0].id, userId)">
+              <button class="operator-button" ion-button color="light" (click)="cancelOrder(item?.list[0].id)">
                 <ion-icon name="ios-trash-outline"></ion-icon>
                 退订
               </button>

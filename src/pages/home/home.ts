@@ -219,7 +219,7 @@ export class HomePage {
               let label = '';
               let num: number = temProductList[0].objNum;
               let productName: string = '';
-              let imgUrl: string = 'assets/imgs/1.png';
+              let imgUrl: string = 'https://dininghall.blob.core.windows.net/product/1ccd62410d394493ae29be6e83eb3b72.png';
               let officeName: string = '';
               let officeId: string = '';
               let factoryName: string = this.factoryName;

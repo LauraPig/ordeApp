@@ -47,29 +47,44 @@ export class WaitingUseListPage {
   }
 
   // 打包
-  pack() {
-    this.alertCtrl.create({
-      title: '确认打包',
-      subTitle: '打包：请在就餐时间段内前往对应取餐窗口取走您的餐品。',
-      buttons: [
-        {
-          text: '确定',
-          handler: data => {
-            // this.navCtrl.setRoot()
+  pack(id: string, isPack: string) {
+    if (isPack === '1') {
+      this.alertCtrl.create({
+        title: '确认打包',
+        subTitle: '打包：请在就餐时间段内前往对应取餐窗口取走您的餐品。',
+        buttons: [
+          {
+            text: '确定',
+            handler: data => {
+              // this.navCtrl.setRoot()
+            }
+          },
+          {
+            text: '取消',
+            handler: data => {
+              // this.navCtrl.setRoot()
+            }
           }
-        },
-        {
-          text: '取消',
-          handler: data => {
-            // this.navCtrl.setRoot()
+        ]
+      }).present();
+    } else if (isPack === '0') {
+      this.alertCtrl.create({
+        // title: '',
+        subTitle: '该产品不能打包',
+        buttons: [
+          {
+            text: '确定',
+            handler: data => {
+              // this.navCtrl.setRoot()
+            }
           }
-        }
-      ]
-    }).present();
+        ]
+      }).present();
+    }
   }
 
   // 留餐
-  holdOrder() {
+  holdOrder(id: string) {
     this.alertCtrl.create({
       title: '确认留餐',
       subTitle: '留餐：若中午13：30前未到主餐厅取餐，请移步面食馆取餐。',
@@ -91,12 +106,29 @@ export class WaitingUseListPage {
   }
 
   // 编辑
-  edit() {
-
+  edit(id: string) {
+    this.alertCtrl.create({
+      title: '确认编辑',
+      subTitle: '是否确定取消该订餐，并重新预订',
+      buttons: [
+        {
+          text: '确定',
+          handler: data => {
+            // this.navCtrl.setRoot()
+          }
+        },
+        {
+          text: '取消',
+          handler: data => {
+            // this.navCtrl.setRoot()
+          }
+        }
+      ]
+    }).present();
   }
 
   // 退订
-  cancelOrder () {
+  cancelOrder (id: string) {
     this.alertCtrl.create({
       title: '退订',
       subTitle: '确定您要退订吗？',

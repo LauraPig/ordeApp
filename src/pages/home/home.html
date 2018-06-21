@@ -53,26 +53,28 @@
 
     </ion-slides>
 
-    <div *ngIf="orderList?.length === 0" class="no-product">
-      <h5>暂无预定</h5>
-    </div>
+    <!--<div *ngIf="orderList?.length === 0" class="no-product">-->
+      <!--<h5>暂无预定</h5>-->
+    <!--</div>-->
 
   </ion-card>
 
 
   <ion-card tappable (click)="gotoOrder(factoryName)">
-    <img src="assets/imgs/2.png"/>
+    <img src="https://dininghall.blob.core.windows.net/product/473c5d4611c74be3acc05a6b54cca853.png"/>
     <div class="order-tile">
       立即预订
     </div>
   </ion-card>
 
-  <ion-card >
-    <img src="assets/imgs/3.png"/>
-    <div class="order-tile">
-      新闻
-    </div>
-  </ion-card>
+  <div class="footer-card">
+    <ion-card >
+      <img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
+      <div class="order-tile">
+        新闻
+      </div>
+    </ion-card>
+  </div>
   <!--<qr-code [value]="'1231234'" [size]="150" [backgroundAlpha]="0.5" [padding]="10"></qr-code>-->
 </ion-content>
 
