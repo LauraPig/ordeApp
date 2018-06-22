@@ -241,11 +241,11 @@ export class HomePage {
                             productName = res.rows.item(0).name;
                             let temObj = {
                               label,
-                              imgUrl,
+                              imgUrl: temProductList[0].blobPath,
                               productName,
                               num,
                               officeName,
-                              factoryName,
+                              factoryName: this.factoryName,
                             };
                             this.orderList.push(temObj);
                           }
@@ -260,11 +260,11 @@ export class HomePage {
                             productName = res.rows.item(0).name;
                             let temObj = {
                               label,
-                              imgUrl,
+                              imgUrl: temProductList[0].blobPath,
                               productName,
                               num,
                               officeName,
-                              factoryName,
+                              factoryName: this.factoryName,
                             };
                             this.orderList.push(temObj);
                           }

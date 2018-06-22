@@ -120,6 +120,7 @@ export class DetailModalPage {
                   'planId': this.planId,
                   'dinnerDate': this.dateStr,
                   'isPre': 1,
+                  'mealType': this.value,
                   'ctOrderProductList': [{'objNum': 1, 'objId': id }],
                 };
                 this.httpDataPro.createOrder(params).then(res => {
@@ -201,6 +202,7 @@ export class DetailModalPage {
           'planId': this.planId,
           'dinnerDate': this.dateStr,
           'isPre': 1,
+          'mealType': this.value,
           'ctOrderProductList': [{'objNum': 1, 'objId': id }],
         };
         this.httpDataPro.createOrder(params).then(res => {

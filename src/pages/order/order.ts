@@ -326,6 +326,11 @@ export class OrderPage {
             text: '确认',
             handler: inputData => {
               console.log('data');
+              alert('份数--->' + inputData.num);
+
+              if (inputData.num) {
+
+              }
 
 
               let orderLoading = this.loadingCtrl.create({
@@ -351,6 +356,7 @@ export class OrderPage {
                           'planId': this.planId,
                           'dinnerDate': this.todayStr,
                           'isPre': 1,
+                          'mealType': value,
                           'ctOrderProductList': [{'objNum': inputData.num, 'objId': de.id }],
                         };
                         this.httpDataPro.createOrder(params).then(res => {
@@ -430,6 +436,7 @@ export class OrderPage {
                   'planId': this.planId,
                   'dinnerDate': this.todayStr,
                   'isPre': 1,
+                  'mealType': value,
                   'ctOrderProductList': [{'objNum': 1, 'objId': de.id }],
                 };
                 this.httpDataPro.createOrder(params).then(res => {

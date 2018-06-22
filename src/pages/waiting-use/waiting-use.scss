@@ -78,11 +78,15 @@ page-waiting-use {
 
   //
   .btn-list {
-    display: flex;
-    width: 45vw;
+    //display: flex;
+    //width: 46vw;
     height: 20vh
   }
   .operator-button {
-    width: 23vw;
+    float: left !important;
+    height: 50% !important;
+    padding: 0 !important;
+    //width: 22.5vw;
+    width: 50%;
   }
 }
