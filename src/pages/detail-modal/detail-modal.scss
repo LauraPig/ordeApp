@@ -4,6 +4,9 @@ page-detail-modal {
   //margin-left: 8vw;
   ion-slides{
     height: 250px !important;
+    img {
+      height: 100% !important;
+    }
   }
 
   .common-title {
