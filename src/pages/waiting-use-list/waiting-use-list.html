@@ -59,8 +59,6 @@
       </ion-item>
       <ion-item-options side="right">
         <div class="btn-list">
-          <ion-row>
-            <ion-col>
               <!--<button *ngIf="p.isPack === '0'" disabled="true" class="operator-button" color="light" ion-button (click)="pack(p.id, p.isPack)">-->
                 <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
                 <!--打包-->
@@ -69,28 +67,18 @@
                 <ion-icon name="ios-cube-outline"></ion-icon>
                 打包
               </button>
-            </ion-col>
-            <ion-col>
               <button class="operator-button" color="light" ion-button (click)="holdOrder(p.id)">
                 <ion-icon name="ios-hand-outline"></ion-icon>
                 留餐
               </button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
               <button class="operator-button" color="light" ion-button (click)="edit(p.id)">
                 <ion-icon name="ios-create-outline"></ion-icon>
                 编辑
               </button>
-            </ion-col>
-            <ion-col>
               <button class="operator-button" ion-button color="light" (click)="cancelOrder(p.id)">
                 <ion-icon name="ios-trash-outline"></ion-icon>
                 退订
               </button>
-            </ion-col>
-          </ion-row>
         </div>
       </ion-item-options>
     </ion-item-sliding>
