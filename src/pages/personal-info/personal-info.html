@@ -45,11 +45,11 @@
       <ion-row>
         <ion-col col-6 style="border-right: 1px solid #c5c5c5">
           <p>信用账户余额</p>
-          <p>{{creditAccount}}元</p>
+          <p>{{creditAccount || '0'}}元</p>
         </ion-col>
         <ion-col col-6 style="padding-left: 5vw">
           <p>现金账户余额</p>
-          <p>{{cashAccount}}元</p>
+          <p>{{cashAccount|| '0'}}元</p>
         </ion-col>
       </ion-row>
     </ion-item>

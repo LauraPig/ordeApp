@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import * as moment from "moment";
@@ -20,6 +20,7 @@ import _date = moment.unitOfTime._date;
 export class OverduePage {
 
   userId: string;
+  messageCount: number;
   // dataList: Array<any> = [];
   orderList: Array<any> = [];
 
@@ -28,8 +29,13 @@ export class OverduePage {
     public navParams: NavParams,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
+    public loadingCtrl: LoadingController,
   ) {
-
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+    });
   }
 
   ionViewDidLoad() {
@@ -45,12 +51,19 @@ export class OverduePage {
   }
 
   getOverDueData(id: string, dateStr: string) {
+
+    let dataLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '加载中...',
+    });
+    dataLoading.present();
     if (id && dateStr) {
       let params = {
         id,
         'date': dateStr
       };
       this.httpDataPro.fetchOverDueData(params).then(res => {
+        dataLoading.dismiss();
         // alert('res-length--' + res.body.orderList.length);
         if (res.success) {
           this.orderList  = res.body.orderList && res.body.orderList.map((item, index) => {
@@ -58,8 +71,16 @@ export class OverduePage {
             return item;
           });
         }
+      }).catch(e =>{
+        console.log(e);
+        dataLoading.dismiss();
       });
     }
+    dataLoading.dismiss();
+  }
+
+  gotoUnreadMessage() {
+    this.navCtrl.push('unread-message');
   }
 
   goHomeMenuPage() {

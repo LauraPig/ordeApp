@@ -18,7 +18,7 @@ import {Storage} from '@ionic/storage';
   templateUrl: 'personal-info.html',
 })
 export class PersonalInfoPage {
-  userId: string;
+  token: string;
   userInfo: object = {};
   accountInfo: Array<any> = [];
   creditAccount: string;
@@ -33,9 +33,9 @@ export class PersonalInfoPage {
   }
 
   ionViewDidLoad() {
-    this.storage.get('userId').then(res => {
+    this.storage.get('token').then(res => {
       if (res) {
-        this.userId = res;
+        this.token = res;
         this.getPersonInfo(res);
       }
 
@@ -43,10 +43,10 @@ export class PersonalInfoPage {
     console.log('ionViewDidLoad PersonalInfoPage');
   }
 
-  getPersonInfo(id: string) {
-    if (id) {
+  getPersonInfo(token: string) {
+    if (token) {
       let params ={
-        'id': id,
+        'id': token,
       }
       this.httpDataPro.fetchPersonInfoData(params).then(res =>{
         // alert('res-data:' + JSON.stringify(res));

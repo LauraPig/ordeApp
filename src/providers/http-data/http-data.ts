@@ -55,7 +55,22 @@ export class HttpDataProviders {
 
   // 登录
   public checkLogin (params: any) {
-    return this.httpPro.httpPostWithAuth('/sign', params);
+    return this.httpPro.httpPostNoAuth('/sign', params);
+  }
+
+  // 轮询是否有新消息
+  public fetchHasMessage (params: any) {
+    return this.httpPro.httpPostWithAuth('/unreadMessage', params);
+  }
+
+  // 查询未读信息列表
+  public fetchMessageListData (params: any) {
+    return this.httpPro.httpPostWithAuth('/unreadMessage', params);
+  }
+
+  // 查询未读信息列表
+  public fetchAllMessageData (params: any) {
+    return this.httpPro.httpPostWithAuth('/historicalNews', params);
   }
 
   // 调用微信支付

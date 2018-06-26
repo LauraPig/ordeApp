@@ -1,0 +1,10 @@
+page-unread-message {
+  .message-content {
+    line-height: 35px;
+    width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+}

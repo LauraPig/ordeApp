@@ -2,6 +2,8 @@ import {Injectable, Injector} from '@angular/core';
 import {Headers, RequestOptions, Response, Http} from '@angular/http';
 import {App, ToastController} from 'ionic-angular';
 import { HOST } from '../../common/config';
+
+import { Storage } from '@ionic/storage';
 // import { API } from '../../API/api';
 
 import 'rxjs/add/operator/toPromise';
@@ -10,15 +12,21 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class HttpProvider {
   host: string;
+  token: string;
   // API_URL = 'http://localhost:8080/api';
 
   constructor(
     private http: Http,
     private toastCtrl: ToastController,
     protected injector: Injector,
+    protected storage: Storage,
     protected app: App,
-    // private storage: Storage,
   ) {
+    this.storage.get('token').then(res =>{
+      if (res) {
+        this.token = res;
+      }
+    })
   }
 
   public httpGetNoAuth(url: string, body: any) {
@@ -28,7 +36,6 @@ export class HttpProvider {
     let options = new RequestOptions({
       headers,
       params: body,
-      // method: 'GET'
     });
     return this.http.get(url, options).toPromise()
       .then(this.extractData)
@@ -39,7 +46,6 @@ export class HttpProvider {
   public httpPostNoAuth(url: string, body: any) {
     let headers = new Headers();
     headers.set('Content-Type', 'application/json');
-    // headers.set('token', `111`);
     let options = new RequestOptions({
       headers,
       method: 'POST'
@@ -51,16 +57,19 @@ export class HttpProvider {
 
   //  post 带有token
   public httpPostWithAuth(url: string, body: any) {
-    let headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('token', `111`);
-    let options = new RequestOptions({
-      headers,
-      method: 'POST'
+    return this.storage.get('token').then(res => {
+      let headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+      headers.set('token', res);
+      let options = new RequestOptions({
+        headers,
+        method: 'POST'
+      });
+      return this.http.post(HOST + url, body, options).toPromise()
+        .then(this.extractData)
+        .catch(err => this.handleError(err));
     });
-    return this.http.post(HOST + url, body, options).toPromise()
-      .then(this.extractData)
-      .catch(err => this.handleError(err));
+
   }
 
 

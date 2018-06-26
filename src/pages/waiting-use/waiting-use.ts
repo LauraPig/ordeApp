@@ -22,6 +22,8 @@ export class WaitingUsePage {
   userId: string;
   todayStr: string;
   factoryName: string;
+  userName: string;
+  messageCount: number;
   // isPack: boolean = true;
 
   constructor(
@@ -32,6 +34,19 @@ export class WaitingUsePage {
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
   ) {
+
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+    });
+
+    // 获取用户名称
+    this.storage.get('userName').then(res =>{
+      if (res) {
+        this.userName = res;
+      }
+    });
   }
 
   ionViewDidLoad() {
@@ -217,6 +232,10 @@ export class WaitingUsePage {
         }
       ]
     }).present();
+  }
+
+  gotoUnreadMessage() {
+    this.navCtrl.push('unread-message');
   }
 
   goHomeMenuPage() {

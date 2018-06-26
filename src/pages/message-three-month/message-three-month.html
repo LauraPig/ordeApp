@@ -1,0 +1,22 @@
+<!--
+  Generated template for the MessageThreeMonthPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+<ion-content>
+  <ion-list *ngIf="messageList?.length > 0" >
+    <ion-item *ngFor="let item of messageList">
+      <h2>{{item.title}}</h2><ion-badge *ngIf="item.isRead === 0" style="color: #ff0f1c">未读</ion-badge>
+      <div item-end>
+        <h3 style="margin-left: 10px">{{item.pushDate}}</h3>
+      </div>
+      <p class="message-content">
+        {{item.body}}
+      </p>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

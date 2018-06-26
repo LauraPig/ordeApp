@@ -8,6 +8,7 @@ import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {OverduePage} from "../overdue/overdue";
 import {LoginPage} from "../login/login";
 import {HttpProvider} from "../../providers/http/http-service";
+import {Storage} from '@ionic/storage';
 // import {TestPage} from "../test/test";
 
 /**
@@ -30,8 +31,14 @@ export class HomeMenuPage {
 
   pages: Array<{title: string, component: any}>;
   otherPages: Array<{title: string, component: any}>;
+  messageCount: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpPro: HttpProvider) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public httpPro: HttpProvider,
+    public storage: Storage,
+  ) {
 
     // this.pages = [
     //   { title: '立即预订', component: HomePage },
@@ -44,6 +51,12 @@ export class HomeMenuPage {
   }
 
   ionViewDidLoad() {
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+
+    });
     this.initData();
     console.log('ionViewDidLoad HomeMenuPage');
   }
@@ -80,6 +93,10 @@ export class HomeMenuPage {
       default:
         // break;
     }
+  }
+
+  gotoUnreadMessage() {
+    this.navCtrl.push('unread-message');
   }
 
   openWaitingUse () {

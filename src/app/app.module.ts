@@ -34,6 +34,9 @@ import {SelectTypePage} from "../pages/select-type/select-type";
 
 import { WechatChenyu } from "wechat-chenyu";
 import { LocationPage } from "../pages/location/location";
+import {BackButtonService} from "../providers/back-button/back-button.service";
+import {AppVersion} from "@ionic-native/app-version";
+import {MessageRecordPage} from "../pages/message-record/message-record";
 
 @NgModule({
   declarations: [
@@ -49,6 +52,7 @@ import { LocationPage } from "../pages/location/location";
     LoginPage,
     SelectTypePage,
     LocationPage,
+    MessageRecordPage,
     // WeekMenuTypePage
   ],
   imports: [
@@ -82,6 +86,7 @@ import { LocationPage } from "../pages/location/location";
     LoginPage,
     SelectTypePage,
     LocationPage,
+    MessageRecordPage,
     // WeekMenuTypePage
   ],
   providers: [
@@ -92,9 +97,11 @@ import { LocationPage } from "../pages/location/location";
     DataBaseService,
     OperateDataBaseService,
     HttpDataProviders,
+    BackButtonService,
     SQLite,
     Camera,
     ZBar,
+    AppVersion,
     WechatChenyu,
   ]
 })

@@ -37,17 +37,12 @@ export class ConsumeRecordMonthPage {
     // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
     let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
     let lastDay = `${moment().format('YYYY-MM-DD HH:MM:SS')}`;   // 今天日期
-    this.storage.get('userId').then(res =>{
-      if (res) {
-        this.userId = res;
-        this.getListData(res, firstDay, lastDay);
-      }
-    });
+    this.getListData(firstDay, lastDay);
 
     console.log('ionViewDidLoad ConsumeRecordThreeMonthsPage');
   }
 
-  getListData(id: string, queryStartDate: string, queryEndDate: string ) {
+  getListData(queryStartDate: string, queryEndDate: string ) {
 
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
@@ -55,9 +50,8 @@ export class ConsumeRecordMonthPage {
     });
     dataLoading.present();
 
-    if (id && queryEndDate && queryStartDate) {
+    if (queryEndDate && queryStartDate) {
       let params = {
-        'userId': id,
         'status': '1',
         'queryStartDate': queryStartDate,
         'queryEndDate': queryEndDate,

@@ -39,29 +39,24 @@ export class ConsumeRecordWeekPage {
 
     let lastMonday = `${moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD')} 00:00:00`;   //周一日期
     let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期
-    this.storage.get('userId').then(res =>{
-      if (res) {
-        this.userId = res;
-        this.getListData(res, lastMonday, lastSunday);
-      }
-    });
+    this.getListData(lastMonday, lastSunday);
     console.log('ionViewDidLoad ConsumeRecordWeekPage');
   }
 
-  getListData(id: string, queryStartDate: string, queryEndDate: string ) {
+  getListData(queryStartDate: string, queryEndDate: string ) {
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '加载中...'
     });
     dataLoading.present();
-    if (id && queryEndDate && queryStartDate) {
+    if (queryEndDate && queryStartDate) {
       let params = {
-        'userId': id,
         'status': '1',
         'queryStartDate': queryStartDate,
         'queryEndDate': queryEndDate,
       };
       this.httpDataPro.fetchRecordListData(params).then(res =>{
+        // alert('res--in-consume-week-->' + JSON.stringify(res));
         if (res.success) {
           this.orderList = res.body.ctOrderList && res.body.ctOrderList.map((item, index) => {
             item.dinnerDate = moment(item.dinnerDate).format('MM月DD日 HH:MM');

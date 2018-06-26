@@ -7,10 +7,17 @@
     </ion-buttons>
     <ion-title>
       <div >
-        <span>Jimmy</span><br/>
+        <span>{{userName}}</span><br/>
         <span class="cut-title">欢迎来到{{factoryName}}</span>
       </div>
     </ion-title>
+    <ion-buttons *ngIf="messageCount > 0" end>
+      <button tappable ion-button icon-only (click)="gotoUnreadMessage()" >
+        <ion-icon color="Gray-color" name="ios-mail-outline">
+          <ion-badge class="bage-message">{{messageCount}}</ion-badge>
+        </ion-icon>
+      </button>
+    </ion-buttons>
     <ion-buttons end>
       <button tappable ion-button icon-only (click)="goSettingPage()" >
         <ion-icon color="Gray-color" name="settings">

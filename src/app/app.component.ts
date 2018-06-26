@@ -13,6 +13,8 @@ import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../providers/http-data/http-data";
 import {LoginPage} from "../pages/login/login";
 
+import * as moment from 'moment';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -30,6 +32,7 @@ export class MyApp {
   // rootPage = HomePage;
   rootPage: any;
   pages: Array<{title: string, component: any}>;
+  token: string;
 
   constructor(
     public platform: Platform,
@@ -45,6 +48,8 @@ export class MyApp {
     // public sqliteObj: SQLiteObject,
   ) {
     this.initializeApp();
+    // setInterval(this.getHasMessage(),5000);
+    // this.getHasMessage();
   }
 
   initializeApp() {
@@ -57,13 +62,57 @@ export class MyApp {
       this.storage.get('token').then(res =>{
         // alert('res-->' + res);
         if (res) {
+          this.token = res;
           this.rootPage = HomePage;
         } else {
           this.rootPage = LoginPage;
         }
+
       });
+
+      //  轮询获取最新消息
+      setInterval(() => {
+        let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
+        // this.storage.get('token').then(res =>{
+        //   if (res) {
+        //     this.token = res;
+        //   }
+        // });
+        let params = {
+          'pushDate': reqDateStr,
+          'flag': '0'
+        };
+        this.httpDataPro.fetchHasMessage(params).then (res => {
+          // alert('res-in-loop->' + JSON.stringify(res));
+          if (res.success) {
+            this.storage.set('messageCount', res.body.count);
+          }
+        });
+      }, 300000);
+      // this.getHasMessage();
+
       // this.storage.set('factoryId', '9a96a9106216453faf44259ee7f98f69');
       // this.storage.set('factoryName', '1');
+    });
+  }
+
+  // 轮询获取消息
+  getHasMessage () {
+    let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
+    this.storage.get('token').then(res =>{
+      if (res) {
+        this.token = res;
+      }
+    });
+    let params = {
+      'pushDate': reqDateStr,
+      'flag': '0'
+    };
+    this.httpDataPro.fetchHasMessage(params).then (res => {
+      alert('res-in-loop->' + JSON.stringify(res));
+      if (res.success) {
+        this.storage.set('messageCount', res.body.count);
+      }
     });
   }
 

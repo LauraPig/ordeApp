@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from "@ionic/storage";
 import {HomePage} from "../home/home";
 import {LocationPage} from "../location/location";
+import {BackButtonService} from "../../providers/back-button/back-button.service";
 
 /**
  * Generated class for the LoginPage page.
@@ -26,10 +27,15 @@ export class LoginPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public platform: Platform,
+    public backButtonService: BackButtonService,
     public httpDataPro: HttpDataProviders,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
   ) {
+    // this.platform.ready().then(() => {
+    //   this.backButtonService.registerBackButtonAction();
+    // });
 
   }
 
@@ -56,6 +62,7 @@ export class LoginPage {
               cssClass: 'toast-ctrl'
             }).present();
           this.storage.set('token', res.body.token);
+          this.storage.set('userName', res.body.name);
           this.storage.get('factoryId').then(res => {
             if (res) {
               this.navCtrl.setRoot(HomePage);

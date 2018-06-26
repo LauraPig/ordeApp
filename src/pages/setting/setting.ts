@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import { HomePage } from  '../../pages/home/home';
 import { ListPage } from  '../../pages/list/list';
+import { Storage } from  '@ionic/storage';
+import {LoginPage} from "../login/login";
+import { AppVersion } from '@ionic-native/app-version';
 
 /**
  * Generated class for the SettingPage page.
@@ -18,11 +21,24 @@ import { ListPage } from  '../../pages/list/list';
   templateUrl: 'setting.html',
 })
 export class SettingPage {
+  appVersionStr: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: Storage,
+    public alertCtrl: AlertController,
+    public appVersion: AppVersion,
+  ) {
   }
 
   ionViewDidLoad() {
+    this.appVersion.getVersionNumber().then(res =>{
+      if (res) {
+        this.appVersionStr = res;
+        // alert('appVersion--->' + res);
+      }
+    });
     console.log('ionViewDidLoad SettingPage');
   }
 
@@ -37,6 +53,35 @@ export class SettingPage {
       default:
       // break;
     }
+  }
+
+  logout() {
+    this.alertCtrl.create({
+      title: '退出登录',
+      subTitle: '确定退出当前账号？',
+      buttons: [
+        {
+          text: '取消',
+          handler: data => {
+            // this.navCtrl.setRoot()
+          }
+        },
+        {
+          text: '确定',
+          handler: data => {
+            this.storage.remove('token').then(() => {
+              this.navCtrl.setRoot(LoginPage)
+            });
+            console.log(data);
+            // this.navCtrl.setRoot()
+          }
+        }
+      ]
+    }).present();
+  }
+
+  openLaws () {
+    this.navCtrl.push('laws-regulations');
   }
 
   openPersonInfo() {

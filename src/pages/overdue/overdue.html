@@ -3,15 +3,22 @@
   <ion-navbar>
     <ion-buttons start>
       <button tappable ion-button icon-only (click)="goHomeMenuPage()">
-        <ion-icon name="menu"></ion-icon>
+        <ion-icon color="Gray-color" name="menu"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>
       逾期未取餐
     </ion-title>
+    <ion-buttons *ngIf="messageCount > 0" end>
+      <button tappable ion-button icon-only (click)="gotoUnreadMessage()" >
+        <ion-icon color="Gray-color" name="ios-mail-outline">
+          <ion-badge class="bage-message">{{messageCount}}</ion-badge>
+        </ion-icon>
+      </button>
+    </ion-buttons>
     <ion-buttons end>
       <button tappable ion-button icon-only (click)="goSettingPage()" >
-        <ion-icon name="settings">
+        <ion-icon color="Gray-color" name="settings">
         </ion-icon>
       </button>
     </ion-buttons>
@@ -33,8 +40,8 @@
     </ion-item>
   </ion-list>
 
-  <div *ngIf="orderList?.length === 0" style="margin-left: 40vw;margin-top: 20vh;font-size: 2rem">
-    暂无数据
-  </div>
+  <!--<div *ngIf="orderList?.length === 0" style="margin-left: 40vw;margin-top: 20vh;font-size: 2rem">-->
+    <!--暂无数据-->
+  <!--</div>-->
 
 </ion-content>

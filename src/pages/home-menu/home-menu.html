@@ -37,19 +37,19 @@
       <!--<button ion-item  (click)="openPage('listPage')">-->
         <!--我的营养管理-->
       <!--</button>-->
-      <!--<button ion-item  (click)="openPage('listPage')">-->
-        <!--我的消息-->
-        <!--<ion-badge item-end>3</ion-badge>-->
-      <!--</button>-->
+      <button ion-item  (click)="gotoUnreadMessage()">
+        我的消息
+        <ion-badge item-end>{{messageCount}}</ion-badge>
+      </button>
       <!--<button ion-item  (click)="openPage('listPage')">-->
         <!--新闻-->
       <!--</button>-->
-      <button ion-item  (click)="gotoLogin()">
-        登录页面
-      </button>
-      <button ion-item  (click)="gotoTest()">
-        测试页
-      </button>
+      <!--<button ion-item  (click)="gotoLogin()">-->
+        <!--登录页面-->
+      <!--</button>-->
+      <!--<button ion-item  (click)="gotoTest()">-->
+        <!--测试页-->
+      <!--</button>-->
     </ion-list>
   </ion-list>
 </ion-content>

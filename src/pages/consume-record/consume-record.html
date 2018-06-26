@@ -3,15 +3,22 @@
   <ion-navbar>
     <ion-buttons start>
       <button tappable ion-button icon-only (click)="goHomeMenuPage()">
-        <ion-icon name="menu"></ion-icon>
+        <ion-icon color="Gray-color" name="menu"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>
       历史用餐记录
     </ion-title>
+    <ion-buttons *ngIf="messageCount > 0" end>
+      <button tappable ion-button icon-only (click)="gotoUnreadMessage()" >
+        <ion-icon color="Gray-color" name="ios-mail-outline">
+          <ion-badge class="bage-message">{{messageCount}}</ion-badge>
+        </ion-icon>
+      </button>
+    </ion-buttons>
     <ion-buttons end>
       <button tappable ion-button icon-only (click)="goSettingPage()" >
-        <ion-icon name="settings">
+        <ion-icon color="Gray-color" name="settings">
         </ion-icon>
       </button>
     </ion-buttons>

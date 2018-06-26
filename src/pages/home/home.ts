@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OperateDataBaseService } from '../../providers/database/operate-database';
 import { DataBaseService } from '../../providers/database/database';
-import {Loading, LoadingController, ToastController, NavController} from 'ionic-angular';
+import {Loading, LoadingController, ToastController, NavController, Platform, AlertController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {SQLite, SQLiteObject, SQLiteTransaction} from "@ionic-native/sqlite";
 import { OrderPage } from '../order/order';
@@ -10,6 +10,8 @@ import {HttpProvider} from "../../providers/http/http-service";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import * as moment from "moment";
 import {DATABASE_NAME} from "../../common/config";
+import {BackButtonService} from "../../providers/back-button/back-button.service";
+import {LoginPage} from "../login/login";
 const tableName = 'ct_product';
 
 @Component({
@@ -27,7 +29,9 @@ export class HomePage {
   loading: Loading ;
   userinfo: any = [];
   total: number = 0;
+  messageCount: number = 0; // 消息条数
   text: any;
+  userName: string; // 用户名称
   constructor(
     private dbService: OperateDataBaseService,
     private dataBaseService: DataBaseService,
@@ -35,13 +39,32 @@ export class HomePage {
     private toastCtrl: ToastController,
     private storage: Storage,
     private navCtrl: NavController,
+    private platform: Platform,
+    private backButtonService: BackButtonService,
     public httpPro: HttpProvider,
     public httpDataPro: HttpDataProviders,
     public sqlite: SQLite,
+    public alertCtrl: AlertController,
   ) {
+
+    this.platform.ready().then(() => {
+      this.backButtonService.registerBackButtonAction();
+    });
+
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+    });
     console.log('主页...');
   }
   ionViewDidLoad() {
+    this.storage.get('userName').then(res => {
+      if (res) {
+        this.userName = res;
+      }
+    });
+
     // 判断是否已经初始化数据库
     this.storage.get('HasCreateDb').then(res => {
       console.log('res=====>', res);
@@ -68,7 +91,7 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-   console.log('did Enter');
+    console.log('did Enter');
    // this.getData();
   }
 
@@ -112,12 +135,30 @@ export class HomePage {
      });
      initUpdateLoading.present();
       // alert('结果---' + res.success);
-      // alert('数据---' + JSON.stringify(res.body));
+      // alert('数据-in Home--' + JSON.stringify(res));
       // alert('数据---' + JSON.stringify(res.body));
       const temData = res.body;
       // alert('type--' + typeof temData);
       // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
       if (!res.success) {
+        initUpdateLoading.dismiss();
+        if (res.errorCode === -2) {
+          this.alertCtrl.create({
+            subTitle: '登录信息失效，请重新登录',
+            buttons: [
+              {
+                text: '确定',
+                handler: data => {
+                  this.storage.remove('token').then(() => {
+                    this.navCtrl.setRoot(LoginPage)
+                  });
+                  console.log(data);
+                  // this.navCtrl.setRoot()
+                }
+              }
+            ]
+          }).present();
+        }
         return Promise.reject('获取数据错误');
       }
       //  CT_Material
@@ -147,7 +188,7 @@ export class HomePage {
        });
      });
     }).catch(e =>{
-      alert('调用数据接口失败' + e.toString());
+      alert(e.toString());
    });
 
   }
@@ -391,6 +432,10 @@ export class HomePage {
 
   gotoWaitingUse() {
     this.navCtrl.setRoot(WaitingUsePage);
+  }
+
+  gotoUnreadMessage() {
+    this.navCtrl.push('unread-message');
   }
 
 

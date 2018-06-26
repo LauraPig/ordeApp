@@ -40,6 +40,9 @@ export class OrderPage {
   todayStr: string;  // 日期选择器选择的时间 格式： YYYY-MM-DD HH:MM:SS
   userId: string;   // 用户ID
   planId: string;  // 产品计划ID
+  valueStr: string = '';  // 当前展开的餐别
+  userName: string;  // 当前用户名称
+  messageCount: number;  // 消息条数
 
   calendarOptions: CalendarComponentOptions = {
   };
@@ -55,6 +58,15 @@ export class OrderPage {
     public httpDataPro: HttpDataProviders,
   ) {
 
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+
+    });
+
+
+
     // 获取参数
     this.factoryId = this.navParams.get('factoryId');
     this.factoryName = this.navParams.get('factoryName');
@@ -63,6 +75,13 @@ export class OrderPage {
     this.storage.get('factoryId').then(res =>{
       if (res) {
         this.factoryId = res;
+      }
+    });
+
+    // 获取用户名称
+    this.storage.get('userName').then(res =>{
+      if (res) {
+        this.userName = res;
       }
     });
 
@@ -175,7 +194,9 @@ export class OrderPage {
   getMealTypeDetail(item: any, index: number) {
     // alert('index---->' + index);
     // alert('item---->' + item.value);
-    this.typeList[index].status = item.status === false;
+    // this.typeList[index].status = item.status === false;
+
+    this.valueStr = item.value === this.valueStr ? '' : item.value;
 
     let name: string = '';
     let temList: Array<any> = [];
@@ -493,6 +514,10 @@ export class OrderPage {
       dayStr: this.dayStr,
       typeList: this.typeList,
     })
+  }
+
+  gotoUnreadMessage() {
+    this.navCtrl.push('unread-message');
   }
 
   goHomeMenuPage() {

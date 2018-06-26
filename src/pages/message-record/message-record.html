@@ -1,0 +1,29 @@
+
+<ion-header>
+  <ion-navbar>
+    <!--<ion-buttons start>-->
+      <!--<button tappable ion-button icon-only (click)="goHomeMenuPage()">-->
+        <!--<ion-icon color="Gray-color" name="menu"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
+    <ion-title>
+      所有消息
+    </ion-title>
+    <!--<ion-buttons end>-->
+      <!--<button tappable ion-button icon-only (click)="goSettingPage()" >-->
+        <!--<ion-icon color="Gray-color" name="settings">-->
+        <!--</ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <super-tabs scrollTabs  [selectedTabIndex]="selectedTabIndex" style="width: 100vw">
+    <super-tab [root]="page1" [rootParams]="navParams" title="本周" ></super-tab>
+    <super-tab [root]="page2" [rootParams]="navParams" title="本月" ></super-tab>
+    <super-tab [root]="page3" [rootParams]="navParams" title="近三个月" ></super-tab>
+  </super-tabs>
+
+</ion-content>

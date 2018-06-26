@@ -7,10 +7,17 @@
     </ion-buttons>
     <ion-title>
       <div >
-        <span>Jimmy</span><br/>
+        <span>{{userName}}</span><br/>
         <span class="cut-title">欢迎来到{{factoryName}}</span>
       </div>
     </ion-title>
+    <ion-buttons *ngIf="messageCount > 0" end>
+      <button tappable ion-button icon-only (click)="gotoUnreadMessage()" >
+        <ion-icon color="Gray-color" name="ios-mail-outline">
+          <ion-badge class="bage-message">{{messageCount}}</ion-badge>
+        </ion-icon>
+      </button>
+    </ion-buttons>
     <ion-buttons end>
       <button tappable ion-button icon-only (click)="goSettingPage()" >
         <ion-icon color="Gray-color" name="settings">
@@ -54,6 +61,8 @@
 
 
   <ion-list no-lines class="type-list"  [ngSwitch]="listLength">
+
+    <!--3个item-->
     <div *ngSwitchCase="3">
       <div *ngFor="let item of typeList; index as i">
         <ion-item  class="item-3" (click)="getMealTypeDetail(item, i)">
@@ -62,10 +71,10 @@
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
-          <ion-icon *ngIf="!item.status" name="ios-arrow-forward-outline" item-end></ion-icon>
-          <ion-icon *ngIf="item.status" name="ios-arrow-up-outline" item-end></ion-icon>
+          <ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon *ngIf="item.value === valueStr" name="ios-arrow-up-outline" item-end></ion-icon>
         </ion-item>
-        <div *ngIf="item.status">
+        <div *ngIf="item.value === valueStr">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
               <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
@@ -97,6 +106,7 @@
       </div>
     </div>
 
+    <!--4个item-->
     <div *ngSwitchCase="4">
       <div *ngFor="let item of typeList; index as i">
         <ion-item  class="item-4" (click)="getMealTypeDetail(item, i)">
@@ -105,10 +115,10 @@
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
-          <ion-icon *ngIf="!item.status" name="ios-arrow-forward-outline" item-end></ion-icon>
-          <ion-icon *ngIf="item.status" name="ios-arrow-up-outline" item-end></ion-icon>
+          <ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon *ngIf="item.value === valueStr" name="ios-arrow-up-outline" item-end></ion-icon>
         </ion-item>
-        <div *ngIf="item.status">
+        <div *ngIf="item.value === valueStr">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
               <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
@@ -139,6 +149,8 @@
         </div>
       </div>
     </div>
+
+    <!--5个item-->
     <div *ngSwitchCase="5">
       <div *ngFor="let item of typeList; index as i">
         <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
@@ -147,10 +159,10 @@
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
-          <ion-icon *ngIf="!item.status" name="ios-arrow-forward-outline" item-end></ion-icon>
-          <ion-icon *ngIf="item.status" name="ios-arrow-up-outline" item-end></ion-icon>
+          <ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon *ngIf="item.value === valueStr" name="ios-arrow-up-outline" item-end></ion-icon>
         </ion-item>
-        <div *ngIf="item.status">
+        <div *ngIf="item.value === valueStr">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
               <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">

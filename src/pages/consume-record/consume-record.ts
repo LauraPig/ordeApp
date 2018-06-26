@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SuperTabsController } from "ionic2-super-tabs/dist/index";
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the ConsumeRecordPage page.
@@ -19,12 +20,28 @@ export class ConsumeRecordPage {
   page2: any = "consume-record-month";
   page3: any = "consume-record-three-months";
   selectedTabIndex: number = 0;
+  messageCount: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public superTabsCtrl: SuperTabsController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: Storage,
+    public superTabsCtrl: SuperTabsController,
+  ) {
+
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ConsumeRecordPage');
+  }
+
+  gotoUnreadMessage() {
+    this.navCtrl.push('unread-message');
   }
 
   goHomeMenuPage() {
