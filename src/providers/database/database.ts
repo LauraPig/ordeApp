@@ -54,7 +54,7 @@ export class DataBaseService {
           db.transaction((tx: SQLiteTransaction) =>{
             list.map((item, index) =>{
               tx.executeSql(`SELECT COUNT(*) AS total FROM CT_Material WHERE id='${item.id}'`, [], (res) =>{
-                alert('res' + JSON.stringify(res));
+                // alert('res' + JSON.stringify(res));
                 if (res.rows.item(0).total > 0) {
                   tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
                     if (index === list.length - 1) {

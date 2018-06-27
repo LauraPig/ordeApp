@@ -68,6 +68,11 @@ export class HttpDataProviders {
     return this.httpPro.httpPostWithAuth('/unreadMessage', params);
   }
 
+  // 修改消息状态
+  public changeMessageStatus (params: any) {
+    return this.httpPro.httpPostWithAuth('/readMessage', params);
+  }
+
   // 查询未读信息列表
   public fetchAllMessageData (params: any) {
     return this.httpPro.httpPostWithAuth('/historicalNews', params);

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {LoginPage} from "../login/login";
+import {Storage} from '@ionic/storage';
 
 /**
  * Generated class for the MessageMonthPage page.
@@ -24,6 +26,7 @@ export class MessageMonthPage {
     public navCtrl: NavController,
     public httpDataPro: HttpDataProviders,
     public navParams: NavParams,
+    public storage: Storage,
     public loadingCtrl: LoadingController,
   ) {
   }
@@ -41,30 +44,56 @@ export class MessageMonthPage {
   }
 
   getListData(queryStartDate: string, queryEndDate: string ) {
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
-    });
-    dataLoading.present();
+    // let dataLoading = this.loadingCtrl.create({
+    //   spinner: 'bubbles',
+    //   content: '加载中...'
+    // });
+    // dataLoading.present();
     if (queryEndDate && queryStartDate) {
       let params = {
         'startTime': queryStartDate,
         'endTime': queryEndDate,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
-        dataLoading.dismiss();
+        // alert('res-data:' + JSON.stringify(res));
+
+        // dataLoading.dismiss();
         if (res.success) {
-          this.messageList = res.body.sysMessageList && res.body.ctOrderList.map((item, index) => {
+          this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
               return item;
             });
+        } else if (res.errorCode === -2) {
+          alert(res.msg);
+          this.storage.remove('token').then(res => {
+            console.log(res);
+            this.navCtrl.setRoot(LoginPage);
+          });
         }
       }).catch(e =>{
-        dataLoading.dismiss();
+        // dataLoading.dismiss();
       });
     } else {
-      dataLoading.dismiss();
+      // dataLoading.dismiss();
     }
   }
+
+  // gotoMessageDetail (item: any) {
+  //   let params = {
+  //     'id': item.id,
+  //   };
+  //   this.httpDataPro.changeMessageStatus(params).then (res => {
+  //     if (res.success) {
+  //       this.navCtrl.push('message-detail', {
+  //         item
+  //       });
+  //     } if (res.errorCode === -2) {
+  //       alert('登录信息过期，请重新登录');
+  //       this.navCtrl.setRoot(LoginPage);
+  //     }
+  //   }).catch(e => {
+  //     console.log(e);
+  //   });
+  // }
 
 }

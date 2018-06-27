@@ -38,7 +38,6 @@ export class OrderPage {
   typeList: Array<any> = []; // 餐别类型List
 
   todayStr: string;  // 日期选择器选择的时间 格式： YYYY-MM-DD HH:MM:SS
-  userId: string;   // 用户ID
   planId: string;  // 产品计划ID
   valueStr: string = '';  // 当前展开的餐别
   userName: string;  // 当前用户名称
@@ -85,9 +84,6 @@ export class OrderPage {
       }
     });
 
-    this.storage.get('userId').then(res => {
-      this.userId = res;
-    });
 
     // 获取工厂名称
     this.storage.get('factoryName').then(res =>{
@@ -347,7 +343,7 @@ export class OrderPage {
             text: '确认',
             handler: inputData => {
               console.log('data');
-              alert('份数--->' + inputData.num);
+              // alert('份数--->' + inputData.num);
 
               if (inputData.num) {
 
@@ -369,11 +365,10 @@ export class OrderPage {
                       this.planId = res.rows.item(0).id;
 
                       //下单操作
-                      if (de.id && this.planId && this.factoryId && officeId && this.todayStr && this.userId) {
+                      if (de.id && this.planId && this.factoryId && officeId && this.todayStr) {
                         let params = {
                           'factoryId': this.factoryId,
                           'officeId': officeId,
-                          'userId': this.userId,
                           'planId': this.planId,
                           'dinnerDate': this.todayStr,
                           'isPre': 1,
@@ -449,11 +444,10 @@ export class OrderPage {
               this.planId = res.rows.item(0).id;
 
               //下单操作
-              if (de.id && this.planId && this.factoryId && officeId && this.todayStr && this.userId) {
+              if (de.id && this.planId && this.factoryId && officeId && this.todayStr) {
                 let params = {
                   'factoryId': this.factoryId,
                   'officeId': officeId,
-                  'userId': this.userId,
                   'planId': this.planId,
                   'dinnerDate': this.todayStr,
                   'isPre': 1,

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {LoginPage} from "../login/login";
+import {Storage} from '@ionic/storage';
 /**
  * Generated class for the MessageWeekPage page.
  *
@@ -23,6 +25,7 @@ export class MessageWeekPage {
     public navCtrl: NavController,
     public httpDataPro: HttpDataProviders,
     public navParams: NavParams,
+    public storage: Storage,
     public loadingCtrl: LoadingController,
   ) {
   }
@@ -50,13 +53,20 @@ export class MessageWeekPage {
         'endTime': queryEndDate,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
+        // alert('res-data:' + JSON.stringify(res));
         dataLoading.dismiss();
         if (res.success) {
-          this.messageList = res.body.sysMessageList && res.body.ctOrderList.map((item, index) => {
+          this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
               return item;
             });
           // dataLoading.dismiss();
+        } else if (res.errorCode === -2) {
+          alert(res.msg);
+          this.storage.remove('token').then(res => {
+            console.log(res);
+            this.navCtrl.setRoot(LoginPage);
+          });
         }
       }).catch(e =>{
         dataLoading.dismiss();
@@ -65,5 +75,23 @@ export class MessageWeekPage {
       dataLoading.dismiss();
     }
   }
+
+  // gotoMessageDetail (item: any) {
+  //   let params = {
+  //     'id': item.id,
+  //   };
+  //   this.httpDataPro.changeMessageStatus(params).then (res => {
+  //     if (res.success) {
+  //       this.navCtrl.push('message-detail', {
+  //         item
+  //       });
+  //     } if (res.errorCode === -2) {
+  //       alert('登录信息过期，请重新登录');
+  //       this.navCtrl.setRoot(LoginPage);
+  //     }
+  //   }).catch(e => {
+  //     console.log(e);
+  //   });
+  // }
 
 }

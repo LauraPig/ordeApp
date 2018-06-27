@@ -33,38 +33,35 @@ export class PersonalInfoPage {
   }
 
   ionViewDidLoad() {
-    this.storage.get('token').then(res => {
-      if (res) {
-        this.token = res;
-        this.getPersonInfo(res);
-      }
-
-    });
+    this.getPersonInfo();
     console.log('ionViewDidLoad PersonalInfoPage');
   }
 
-  getPersonInfo(token: string) {
-    if (token) {
-      let params ={
-        'id': token,
-      }
-      this.httpDataPro.fetchPersonInfoData(params).then(res =>{
-        // alert('res-data:' + JSON.stringify(res));
-        if (res.success && res.body) {
-          this.userInfo = res.body.user;
-          this.accountInfo = res.body.accounList;
-          this.accountInfo.map((item, index) =>{
-            if (item.accountType === '0') {
-              this.cashAccount = item.balance;
-            }
-            if (item.accountType === '1') {
-              this.creditAccount = item.balance;
-            }
-          })
-        }
-      });
+  getPersonInfo() {
+    let params ={
+      // 'token': token,
     }
+    this.httpDataPro.fetchPersonInfoData(params).then(res =>{
+      // alert('res-data:' + JSON.stringify(res));
+      if (res.success && res.body) {
+        const temObj = {...res.body.user};
+        // alert('res-before:' + temObj.name);
+        temObj.name = temObj.name.indexOf('(') > -1 ? temObj.name.match('\\((.+?)\\)')[1] : temObj.name;
+        // alert('res-username:' + temObj.name);
 
+        this.userInfo = {...temObj};
+
+        this.accountInfo = res.body.accounList;
+        this.accountInfo.map((item, index) =>{
+          if (item.accountType === '0') {
+            this.cashAccount = item.balance;
+          }
+          if (item.accountType === '1') {
+            this.creditAccount = item.balance;
+          }
+        })
+      }
+    });
   }
 
   goQRCode(no: string) {

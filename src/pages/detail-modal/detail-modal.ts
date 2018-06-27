@@ -44,11 +44,6 @@ export class DetailModalPage {
     this.dateStr = this.navParams.get('todayStr');
     this.officeId = this.navParams.get('id');
     this.value = this.navParams.get('value');
-    this.storage.get('userId').then(res =>{
-      if (res) {
-        this.userId = res;
-      }
-    });
     this.storage.get('factoryId').then(res =>{
       if (res) {
         this.factoryId = res;
@@ -112,11 +107,10 @@ export class DetailModalPage {
               });
               orderLoading.present();
 
-              if (id && this.planId && this.factoryId && this.officeId && this.dateStr && this.userId) {
+              if (id && this.planId && this.factoryId && this.officeId && this.dateStr) {
                 let params = {
                   'factoryId': this.factoryId,
                   'officeId': this.officeId,
-                  'userId': this.userId,
                   'planId': this.planId,
                   'dinnerDate': this.dateStr,
                   'isPre': 1,
@@ -194,11 +188,10 @@ export class DetailModalPage {
       });
       orderLoading.present();
 
-      if (id && this.planId && this.factoryId && this.officeId && this.dateStr && this.userId) {
+      if (id && this.planId && this.factoryId && this.officeId && this.dateStr) {
         let params = {
           'factoryId': this.factoryId,
           'officeId': this.officeId,
-          'userId': this.userId,
           'planId': this.planId,
           'dinnerDate': this.dateStr,
           'isPre': 1,

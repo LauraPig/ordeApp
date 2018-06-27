@@ -80,8 +80,20 @@ export class UnreadMessagePage {
 
 
   gotoMessageDetail (item: any) {
-    this.navCtrl.push('message-detail', {
-      item
-    })
+    let params = {
+      'id': item.id,
+    };
+    this.httpDataPro.changeMessageStatus(params).then (res => {
+      if (res.success) {
+        this.navCtrl.push('message-detail', {
+          item
+        });
+      } if (res.errorCode === -2) {
+        alert('登录信息过期，请重新登录');
+        this.navCtrl.setRoot(LoginPage);
+      }
+    }).catch(e => {
+      console.log(e);
+    });
   }
 }

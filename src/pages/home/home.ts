@@ -237,7 +237,6 @@ export class HomePage {
     let today = `${moment().format('YYYY-MM-DD')} 00:00:00`;
     console.log('today', today);
     let params = {
-      'userId': '1',
       'dinnerDate': today,
       'status': '0',
     }
