@@ -142,7 +142,7 @@ export class HomePage {
       // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
       if (!res.success) {
         initUpdateLoading.dismiss();
-        if (res.errorCode === -2) {
+        if (res.errorCode === '-2') {
           this.alertCtrl.create({
             subTitle: '登录信息失效，请重新登录',
             buttons: [
@@ -158,8 +158,10 @@ export class HomePage {
               }
             ]
           }).present();
+        } else {
+          return Promise.reject('获取数据错误');
         }
-        return Promise.reject('获取数据错误');
+
       }
       //  CT_Material
       // alert(temData.ctMaterialList.length);
@@ -244,8 +246,12 @@ export class HomePage {
     // 获取今天已经预定的信息
     this.httpDataPro.fetchUserOrderData(params).then(res =>{
       // alert('res' + JSON.stringify(res));
-      if (!res.success) {
-        return;
+      if (!res.success && res.errorCode === '-2') {
+          alert('登录信息过期，请重新登录');
+          this.storage.remove('token').then(data => {
+            console.log(data);
+            this.navCtrl.setRoot(LoginPage);
+          })
       }
       const list = res.body.ctOrderList;
       if (list && list.length > 0) {

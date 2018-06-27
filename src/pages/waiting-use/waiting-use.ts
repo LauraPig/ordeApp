@@ -3,6 +3,7 @@ import {AlertController, IonicPage, LoadingController, NavController, NavParams}
 import * as moment from 'moment';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from '@ionic/storage';
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the WaitingUsePage page.
@@ -89,6 +90,7 @@ export class WaitingUsePage {
       }
       this.httpDataPro.fetchWaitingListData(params).then(res =>{
         // alert('res-data--' + JSON.stringify(res));
+        dataLoading.dismiss();
         if (res.success && res.body) {
           for (let key in res.body) {
             let tempObj = {
@@ -98,7 +100,13 @@ export class WaitingUsePage {
             this.dataList.push(tempObj);
 
           }
-          dataLoading.dismiss();
+
+        } else if (res.errorCode === '-2') {
+          alert('登录信息过期，请重新登录');
+          this.storage.remove('token').then(data => {
+            console.log(data);
+            this.navCtrl.setRoot(LoginPage);
+          })
         }
       }).catch(e =>{
         dataLoading.dismiss();

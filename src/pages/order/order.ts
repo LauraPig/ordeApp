@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 import {HomePage} from "../home/home";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the OrderPage page.
@@ -391,6 +392,13 @@ export class OrderPage {
                                 ]
                               }).present();
                             });
+                          } else if (res.errorCode === '-2') {
+                            orderLoading.dismiss();
+                            alert('登录信息过期，请重新登录');
+                            this.storage.remove('token').then(data => {
+                              console.log(data);
+                              this.navCtrl.setRoot(LoginPage);
+                            })
                           } else {
                             orderLoading.dismiss().then(() =>{
                               alert(res.msg);
@@ -470,6 +478,13 @@ export class OrderPage {
                         ]
                       }).present();
                     });
+                  } else if (res.errorCode === '-2') {
+                    orderLoading.dismiss();
+                    alert('登录信息过期，请重新登录');
+                    this.storage.remove('token').then(data => {
+                      console.log(data);
+                      this.navCtrl.setRoot(LoginPage);
+                    })
                   } else {
                     orderLoading.dismiss().then(() =>{
                       alert(res.msg);

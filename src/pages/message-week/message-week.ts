@@ -61,12 +61,12 @@ export class MessageWeekPage {
               return item;
             });
           // dataLoading.dismiss();
-        } else if (res.errorCode === -2) {
-          alert(res.msg);
-          this.storage.remove('token').then(res => {
-            console.log(res);
+        } else if (res.errorCode === '-2') {
+          alert('登录信息过期，请重新登录');
+          this.storage.remove('token').then(data => {
+            console.log(data);
             this.navCtrl.setRoot(LoginPage);
-          });
+          })
         }
       }).catch(e =>{
         dataLoading.dismiss();

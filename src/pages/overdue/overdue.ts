@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import * as moment from "moment";
 import _date = moment.unitOfTime._date;
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the OverduePage page.
@@ -70,6 +71,12 @@ export class OverduePage {
             item.dinnerDate = moment(item.dinnerDate).format('YYYY-MM-DD');
             return item;
           });
+        } else if (res.errorCode === '-2') {
+          alert('登录信息过期，请重新登录');
+          this.storage.remove('token').then(data => {
+            console.log(data);
+            this.navCtrl.setRoot(LoginPage);
+          })
         }
       }).catch(e =>{
         console.log(e);

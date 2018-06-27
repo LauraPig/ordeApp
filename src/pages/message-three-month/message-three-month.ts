@@ -64,7 +64,7 @@ export class MessageThreeMonthPage {
               return item;
             });
 
-        } else if (res.errorCode === -2) {
+        } else if (res.errorCode === '-2') {
           alert(res.msg);
           this.storage.remove('token').then(res => {
             console.log(res);

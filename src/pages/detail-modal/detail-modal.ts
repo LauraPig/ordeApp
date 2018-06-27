@@ -5,6 +5,7 @@ import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {DataBaseService} from "../../providers/database/database";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {SQLiteObject} from "@ionic-native/sqlite";
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the DetailModalPage page.
@@ -134,6 +135,12 @@ export class DetailModalPage {
                       }).present();
                     });
 
+                  }  else if (res.errorCode === '-2') {
+                    alert('登录信息过期，请重新登录');
+                    this.storage.remove('token').then(data => {
+                      console.log(data);
+                      this.navCtrl.setRoot(LoginPage);
+                    })
                   } else {
                     orderLoading.dismiss().then(() =>{
                       alert(res.msg);
@@ -215,6 +222,13 @@ export class DetailModalPage {
               }).present();
             });
 
+          }  else if (res.errorCode === '-2') {
+            orderLoading.dismiss();
+            alert('登录信息过期，请重新登录');
+            this.storage.remove('token').then(data => {
+              console.log(data);
+              this.navCtrl.setRoot(LoginPage);
+            })
           } else {
             orderLoading.dismiss().then(() =>{
               alert(res.msg);

@@ -49,7 +49,9 @@ export class MessageMonthPage {
     //   content: '加载中...'
     // });
     // dataLoading.present();
-    if (queryEndDate && queryStartDate) {
+    if (queryStartDate && queryEndDate) {
+      // alert('queryStartDate-->' + queryStartDate);
+      // alert('queryEndDate-->' + queryEndDate);
       let params = {
         'startTime': queryStartDate,
         'endTime': queryEndDate,
@@ -63,7 +65,7 @@ export class MessageMonthPage {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
               return item;
             });
-        } else if (res.errorCode === -2) {
+        } else if (res.errorCode === '-2') {
           alert(res.msg);
           this.storage.remove('token').then(res => {
             console.log(res);

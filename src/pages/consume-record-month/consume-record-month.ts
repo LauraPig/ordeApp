@@ -3,6 +3,7 @@ import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angu
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { Storage } from '@ionic/storage';
 import * as moment from 'moment';
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the ConsumeRecordMonthPage page.
@@ -58,12 +59,19 @@ export class ConsumeRecordMonthPage {
       };
       this.httpDataPro.fetchRecordListData(params).then(res =>{
         // alert('res-data--' + JSON.stringify(res.body.ctOrderList));
+        dataLoading.dismiss();
         if (res.success) {
           this.orderList = res.body.ctOrderList && res.body.ctOrderList.map((item, index) => {
               item.dinnerDate = moment(item.dinnerDate).format('MM月DD日 HH:MM');
               return item;
             });
-          dataLoading.dismiss();
+
+        } else if (res.errorCode === '-2') {
+          alert('登录信息过期，请重新登录');
+          this.storage.remove('token').then(data => {
+            console.log(data);
+            this.navCtrl.setRoot(LoginPage);
+          })
         }
       }).catch(e =>{
         dataLoading.dismiss();

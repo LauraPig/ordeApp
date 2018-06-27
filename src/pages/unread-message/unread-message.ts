@@ -64,9 +64,12 @@ export class UnreadMessagePage {
           return item;
         });
         // this.storage.set('messageCount', res.body.count);
-      } if (res.errorCode === -2) {
+      } else if (res.errorCode === '-2') {
         alert('登录信息过期，请重新登录');
-        this.navCtrl.setRoot(LoginPage);
+        this.storage.remove('token').then(data => {
+          console.log(data);
+          this.navCtrl.setRoot(LoginPage);
+        })
       }
     }).catch(e => {
       console.log(e);
@@ -88,9 +91,12 @@ export class UnreadMessagePage {
         this.navCtrl.push('message-detail', {
           item
         });
-      } if (res.errorCode === -2) {
+      } else if (res.errorCode === '-2') {
         alert('登录信息过期，请重新登录');
-        this.navCtrl.setRoot(LoginPage);
+        this.storage.remove('token').then(data => {
+          console.log(data);
+          this.navCtrl.setRoot(LoginPage);
+        })
       }
     }).catch(e => {
       console.log(e);

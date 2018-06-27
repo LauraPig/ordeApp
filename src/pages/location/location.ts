@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { Storage } from '@ionic/storage';
 import {HomePage} from "../home/home";
+import {LoginPage} from "../login/login";
 
 /**
  * Generated class for the LocationPage page.
@@ -51,6 +52,12 @@ export class LocationPage {
           };
           this.factoryList.push(tempObj);
         }
+      } else if (res.errorCode === '-2') {
+        alert('登录信息过期，请重新登录');
+        this.storage.remove('token').then(data => {
+          console.log(data);
+          this.navCtrl.setRoot(LoginPage);
+        })
       }
     });
     console.log('ionViewDidLoad SelectLocationPage');
