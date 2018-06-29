@@ -68,7 +68,7 @@ export class OrderPage {
 
 
     // 获取参数
-    this.factoryId = this.navParams.get('factoryId');
+    // this.factoryId = this.navParams.get('factoryId');
     this.factoryName = this.navParams.get('factoryName');
 
     // 获取工厂ID
