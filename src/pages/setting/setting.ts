@@ -5,6 +5,7 @@ import { ListPage } from  '../../pages/list/list';
 import { Storage } from  '@ionic/storage';
 import {LoginPage} from "../login/login";
 import { AppVersion } from '@ionic-native/app-version';
+import {NativeService} from "../../providers/app-update/NativeService";
 
 /**
  * Generated class for the SettingPage page.
@@ -29,6 +30,7 @@ export class SettingPage {
     public storage: Storage,
     public alertCtrl: AlertController,
     public appVersion: AppVersion,
+    public nativeService: NativeService,
   ) {
   }
 
@@ -53,6 +55,11 @@ export class SettingPage {
       default:
       // break;
     }
+  }
+
+  // 检查是否有新版本
+  checkUpdate() {
+    this.nativeService.detectionUpgrade();
   }
 
   logout() {

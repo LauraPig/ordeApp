@@ -74,25 +74,9 @@
                 <ion-icon name="ios-trash-outline"></ion-icon>
                 退订
               </button>
-                <!--<button *ngIf="item?.list[0].isPack === 0" disabled="true" class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id)">-->
-                <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-                <!--打包-->
-                <!--</button>-->
-
         </div>
-        <!--<button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">-->
-          <!--<ion-icon name="ios-hand-outline"></ion-icon>-->
-          <!--留餐-->
-        <!--</button>-->
-        <!--<button class="operator-button" ion-button color="danger" (click)="cancelOrder(p.id, userId)">-->
-          <!--<ion-icon name="ios-trash-outline"></ion-icon>-->
-          <!--退订-->
-        <!--</button>-->
       </ion-item-options>
     </ion-item-sliding>
-
-
-
   </ion-list>
 
   <!--<ion-list>-->
@@ -113,44 +97,38 @@
       <!--</ion-item>-->
       <!--<ion-item-options side="right">-->
         <!--<div class="btn-list">-->
-          <!--<ion-row>-->
-            <!--<ion-col>-->
-              <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-                <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
-                <!--打包-->
-              <!--</button>-->
-            <!--</ion-col>-->
-            <!--<ion-col>-->
-              <!--<button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">-->
-              <!--<ion-icon name="ios-hand-outline"></ion-icon>-->
-              <!--留餐-->
-              <!--</button>-->
-            <!--</ion-col>-->
-          <!--</ion-row>-->
-          <!--<ion-row>-->
-            <!--<ion-col>-->
-              <!--<button class="operator-button" color="light" ion-button (click)="pack(p.id, userId)">-->
-                <!--<ion-icon name="ios-create-outline"></ion-icon>-->
-                <!--编辑-->
-              <!--</button>-->
-            <!--</ion-col>-->
-            <!--<ion-col>-->
-              <!--<button class="operator-button" ion-button color="light" (click)="cancelOrder(p.id, userId)">-->
-                <!--<ion-icon name="ios-trash-outline"></ion-icon>-->
-                <!--退订-->
-              <!--</button>-->
-            <!--</ion-col>-->
-          <!--</ion-row>-->
+          <!--<button class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id, item?.list[0].isPack)">-->
+            <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
+            <!--打包-->
+          <!--</button>-->
+          <!--<button class="operator-button" color="light" ion-button (click)="holdOrder(item?.list[0].id)">-->
+            <!--<ion-icon name="ios-hand-outline"></ion-icon>-->
+            <!--留餐-->
+          <!--</button>-->
+          <!--<button class="operator-button" color="light" ion-button (click)="edit(item?.list[0].id)">-->
+            <!--<ion-icon name="ios-create-outline"></ion-icon>-->
+            <!--编辑-->
+          <!--</button>-->
+          <!--<button class="operator-button" ion-button color="light" (click)="cancelOrder(item?.list[0].id)">-->
+            <!--<ion-icon name="ios-trash-outline"></ion-icon>-->
+            <!--退订-->
+          <!--</button>-->
+          <!--&lt;!&ndash;<button *ngIf="item?.list[0].isPack === 0" disabled="true" class="operator-button" color="light" ion-button (click)="pack(item?.list[0].id)">&ndash;&gt;-->
+          <!--&lt;!&ndash;<ion-icon name="ios-cube-outline"></ion-icon>&ndash;&gt;-->
+          <!--&lt;!&ndash;打包&ndash;&gt;-->
+          <!--&lt;!&ndash;</button>&ndash;&gt;-->
+
         <!--</div>-->
+        <!--&lt;!&ndash;<button class="operator-button" color="light" ion-button (click)="holdOrder(p.id, userId)">&ndash;&gt;-->
+        <!--&lt;!&ndash;<ion-icon name="ios-hand-outline"></ion-icon>&ndash;&gt;-->
+        <!--&lt;!&ndash;留餐&ndash;&gt;-->
+        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;<button class="operator-button" ion-button color="danger" (click)="cancelOrder(p.id, userId)">&ndash;&gt;-->
+        <!--&lt;!&ndash;<ion-icon name="ios-trash-outline"></ion-icon>&ndash;&gt;-->
+        <!--&lt;!&ndash;退订&ndash;&gt;-->
+        <!--&lt;!&ndash;</button>&ndash;&gt;-->
       <!--</ion-item-options>-->
     <!--</ion-item-sliding>-->
   <!--</ion-list>-->
-
-
-
-
-  <!--<div *ngIf="dataList.length === 0" style="font-size: 2rem;margin-top: 30vh;margin-left: 40vw">-->
-    <!--暂无数据-->
-  <!--</div>-->
 
 </ion-content>

@@ -136,6 +136,35 @@ export class WaitingUsePage {
           {
             text: '确定',
             handler: data => {
+              if (id) {
+                let params = {
+                  'id': id
+                };
+                this.httpDataPro.pack(params).then(res =>{
+                  if (res && res.success) {
+                    this.alertCtrl.create({
+                      title: res.msg,
+                      buttons: [{
+                        text: '确定',
+                        handler: data =>{
+                          this.navCtrl.setRoot(WaitingUsePage);
+                        }
+                      }]
+                    }).present();
+                  } else {
+                    this.alertCtrl.create({
+                      title: res.msg,
+                      buttons: [{
+                        text: '确定'
+                      }]
+                    }).present();
+                  }
+                }).catch(e => {
+                  console.log(e);
+                });
+              } else {
+                alert('订单标识为空');
+              }
               // this.navCtrl.setRoot()
             }
           },
@@ -207,6 +236,35 @@ export class WaitingUsePage {
         {
           text: '确定',
           handler: data => {
+            if (id) {
+              let params = {
+                'id': id
+              };
+              this.httpDataPro.hold(params).then(res =>{
+                if (res && res.success) {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定',
+                      handler: data =>{
+                        this.navCtrl.setRoot(WaitingUsePage);
+                      }
+                    }]
+                  }).present();
+                } else {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定'
+                    }]
+                  }).present();
+                }
+              }).catch(e => {
+                console.log(e);
+              });
+            } else {
+              alert('订单标识为空');
+            }
             // this.navCtrl.setRoot()
           }
         },
@@ -229,6 +287,35 @@ export class WaitingUsePage {
         {
           text: '确定',
           handler: data => {
+            if (id) {
+              let params = {
+                'id': id
+              };
+              this.httpDataPro.unsubscribeOrder(params).then(res => {
+                if (res && res.success) {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定',
+                      handler: data =>{
+                        this.navCtrl.setRoot(WaitingUsePage);
+                      }
+                    }]
+                  }).present();
+                } else {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定'
+                    }]
+                  }).present();
+                }
+              }).catch(e => {
+                console.log(e);
+              })
+            } else {
+              alert('订单标识为空');
+            }
             // this.navCtrl.setRoot()
           }
         },

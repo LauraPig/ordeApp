@@ -54,10 +54,12 @@ page-order {
   // 订餐按钮
   .order-button {
     float: right;
-    margin-right: 6vw;
-    margin-top: -6.3vh;
-    width: 16vw;
-    height:6vh !important;
+    margin-right: 1vw;
+    margin-top: -5vh;
+    width: 13vw;
+    height:4vh !important;
+    background-color: rgba(39, 194, 15, 0.6);
+    border-radius: 5px;
     font-size: 1.8rem !important;
   }
 

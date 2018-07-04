@@ -34,7 +34,7 @@
       <!--用户指南-->
       <!--&lt;!&ndash;<ion-badge item-end>3</ion-badge>&ndash;&gt;-->
     <!--</button>-->
-    <button ion-item>
+    <button ion-item (click)="checkUpdate()">
       版本信息
       <ion-note *ngIf="appVersionStr" clear item-end>
         {{appVersionStr}}版本

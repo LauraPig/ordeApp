@@ -14,6 +14,7 @@ import {HttpDataProviders} from "../providers/http-data/http-data";
 import {LoginPage} from "../pages/login/login";
 
 import * as moment from 'moment';
+import {NativeService} from "../providers/app-update/NativeService";
 
 
 @Component({
@@ -45,6 +46,7 @@ export class MyApp {
     public sqlite: SQLite,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
+    public nativeService: NativeService,
     // public sqliteObj: SQLiteObject,
   ) {
     this.initializeApp();
@@ -58,6 +60,8 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.nativeService.detectionUpgrade();
+
       this.storage.set('userId', '1');
       this.storage.get('token').then(res =>{
         // alert('res-->' + res);

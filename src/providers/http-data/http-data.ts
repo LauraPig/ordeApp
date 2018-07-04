@@ -78,6 +78,26 @@ export class HttpDataProviders {
     return this.httpPro.httpPostWithAuth('/historicalNews', params);
   }
 
+  // 获取APP最新版本
+  public checkAppUpdate (params: any) {
+    return this.httpPro.httpPostNoAuth('/appVersion', params);
+  }
+
+  // 退订
+  public unsubscribeOrder (params: any) {
+    return this.httpPro.httpPostWithAuth('/unsubscribe', params);
+  }
+
+  // 打包
+  public pack (params: any) {
+    return this.httpPro.httpPostWithAuth('/pack', params);
+  }
+
+  // 留餐
+  public hold (params: any) {
+    return this.httpPro.httpPostWithAuth('/hold', params);
+  }
+
   // 调用微信支付
   public doWxPay (params: any) {
 

@@ -3,6 +3,8 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 import * as moment from 'moment';
 
 import { Storage } from '@ionic/storage';
+import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {WaitingUsePage} from "../waiting-use/waiting-use";
 /**
  * Generated class for the WaitingUseListPage page.
  *
@@ -28,6 +30,7 @@ export class WaitingUseListPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public storage: Storage,
+    public httpDataPro: HttpDataProviders,
   ) {
     this.item = this.navParams.get('item');
 
@@ -56,6 +59,35 @@ export class WaitingUseListPage {
           {
             text: '确定',
             handler: data => {
+              if (id) {
+                let params = {
+                  'id': id
+                };
+                this.httpDataPro.pack(params).then(res =>{
+                  if (res && res.success) {
+                    this.alertCtrl.create({
+                      title: res.msg,
+                      buttons: [{
+                        text: '确定',
+                        handler: data => {
+                          this.navCtrl.setRoot(WaitingUsePage);
+                        }
+                      }]
+                    }).present();
+                  } else {
+                    this.alertCtrl.create({
+                      title: res.msg,
+                      buttons: [{
+                        text: '确定'
+                      }]
+                    }).present();
+                  }
+                }).catch(e => {
+                  console.log(e);
+                });
+              } else {
+                alert('订单标识为空');
+              }
               // this.navCtrl.setRoot()
             }
           },
@@ -105,6 +137,35 @@ export class WaitingUseListPage {
         {
           text: '确定',
           handler: data => {
+            if (id) {
+              let params = {
+                'id': id
+              };
+              this.httpDataPro.hold(params).then(res =>{
+                if (res && res.success) {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定',
+                      handler: data => {
+                        this.navCtrl.setRoot(WaitingUsePage);
+                      }
+                    }]
+                  }).present();
+                } else {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定'
+                    }]
+                  }).present();
+                }
+              }).catch(e => {
+                console.log(e);
+              });
+            } else {
+              alert('订单标识为空');
+            }
             // this.navCtrl.setRoot()
           }
         },
@@ -149,6 +210,35 @@ export class WaitingUseListPage {
         {
           text: '确定',
           handler: data => {
+            if (id) {
+              let params = {
+                'id': id
+              };
+              this.httpDataPro.unsubscribeOrder(params).then(res => {
+                if (res && res.success) {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定',
+                      handler: data => {
+                        this.navCtrl.setRoot(WaitingUsePage);
+                      }
+                    }]
+                  }).present();
+                } else {
+                  this.alertCtrl.create({
+                    title: res.msg,
+                    buttons: [{
+                      text: '确定'
+                    }]
+                  }).present();
+                }
+              }).catch(e => {
+                console.log(e);
+              })
+            } else {
+              alert('订单标识为空');
+            }
             // this.navCtrl.setRoot()
           }
         },

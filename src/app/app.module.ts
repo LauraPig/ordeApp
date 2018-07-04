@@ -37,6 +37,12 @@ import { LocationPage } from "../pages/location/location";
 import {BackButtonService} from "../providers/back-button/back-button.service";
 import {AppVersion} from "@ionic-native/app-version";
 import {MessageRecordPage} from "../pages/message-record/message-record";
+import {FileOpener} from "@ionic-native/file-opener";
+import {File} from '@ionic-native/file';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import {InAppBrowser} from "@ionic-native/in-app-browser";
+import { Diagnostic } from '@ionic-native/diagnostic';
+import {NativeService} from "../providers/app-update/NativeService";
 
 @NgModule({
   declarations: [
@@ -98,11 +104,17 @@ import {MessageRecordPage} from "../pages/message-record/message-record";
     OperateDataBaseService,
     HttpDataProviders,
     BackButtonService,
+    NativeService,
     SQLite,
     Camera,
     ZBar,
+    File,
     AppVersion,
     WechatChenyu,
+    FileTransfer,
+    FileOpener,
+    Diagnostic,
+    InAppBrowser,
   ]
 })
 export class AppModule {}

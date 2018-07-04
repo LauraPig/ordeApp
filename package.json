@@ -24,6 +24,8 @@
     "@ionic-native/app-version": "^4.8.0",
     "@ionic-native/camera": "^4.7.0",
     "@ionic-native/core": "4.6.0",
+    "@ionic-native/device": "^4.9.0",
+    "@ionic-native/diagnostic": "^4.9.0",
     "@ionic-native/file": "^4.9.0",
     "@ionic-native/file-opener": "^4.9.0",
     "@ionic-native/file-transfer": "^4.9.0",
@@ -51,6 +53,7 @@
     "cordova-plugin-wechat": "^2.1.0",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-sqlite-storage": "^2.3.2",
+    "cordova.plugins.diagnostic": "^4.0.8",
     "ion2-calendar": "^2.1.7",
     "ionic-angular": "3.9.2",
     "ionic2-super-tabs": "^4.2.2",
@@ -85,7 +88,8 @@
       "cordova-plugin-file": {},
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-file-opener2": {},
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova.plugins.diagnostic": {}
     },
     "platforms": [
       "android",

@@ -71,12 +71,12 @@ export class OrderPage {
     // this.factoryId = this.navParams.get('factoryId');
     this.factoryName = this.navParams.get('factoryName');
 
-    // 获取工厂ID
-    this.storage.get('factoryId').then(res =>{
-      if (res) {
-        this.factoryId = res;
-      }
-    });
+    // // 获取工厂ID
+    // this.storage.get('factoryId').then(res =>{
+    //   if (res) {
+    //     this.factoryId = res;
+    //   }
+    // });
 
     // 获取用户名称
     this.storage.get('userName').then(res =>{
@@ -134,33 +134,34 @@ export class OrderPage {
 
 
   ionViewDidLoad() {
-    // alert('factoryId--' + this.factoryId);
-    if (this.factoryId) {
-      this.dbService.openDataBase().then((db: SQLiteObject) =>{
-        db.executeSql(`select  b.label as label,b.value as value from ct_meal a,sys_dict_value b,sys_office c where c.parent_ids LIKE '%${this.factoryId}%' AND c.type='4'  AND b.[value]=a.meal_type and a.office_id = c.id AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag = '0' GROUP BY b.label,b.[value],b.sort ORDER BY b.sort;`, {}).then(res =>{
-          // alert('res.length' + res.rows.length);
-          if (res.rows.length) {
-            for ( let i = 0; i < res.rows.length; i++) {
-              this.typeList.push({
-                label: res.rows.item(i).label,
-                imgUrl: `https://dininghall.blob.core.windows.net/product/${res.rows.item(i).value}.png`,
-                value: res.rows.item(i).value,
-                officeList: [],
-                status: false,
-              });
-
-
+    // 获取工厂ID
+    this.storage.get('factoryId').then(data =>{
+      // alert('data-id-->' + data);
+      if (data) {
+        this.factoryId = data;
+        this.dbService.openDataBase().then((db: SQLiteObject) =>{
+          db.executeSql(`select  b.label as label,b.value as value from ct_meal a,sys_dict_value b,sys_office c where c.parent_ids LIKE '%${this.factoryId}%' AND c.type='4'  AND b.[value]=a.meal_type and a.office_id = c.id AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag = '0' GROUP BY b.label,b.[value],b.sort ORDER BY b.sort;`, {}).then(res =>{
+            // alert('res.length--->' + res.rows.length);
+            if (res.rows.length) {
+              for ( let i = 0; i < res.rows.length; i++) {
+                this.typeList.push({
+                  label: res.rows.item(i).label,
+                  imgUrl: `https://dininghall.blob.core.windows.net/product/${res.rows.item(i).value}.png`,
+                  value: res.rows.item(i).value,
+                  officeList: [],
+                  status: false,
+                });
+              }
+              // this.typeList.push(this.typeList[0]);
+              // this.typeList.push(this.typeList[0]);
+              this.listLength = this.typeList.length;
             }
-            // this.typeList.push(this.typeList[0]);
-            // this.typeList.push(this.typeList[0]);
-            this.listLength = this.typeList.length;
-          }
-        }).catch(e =>{
-          console.log(e);
+          }).catch(e =>{
+            console.log(e);
+          });
         });
-      });
-    }
-
+      }
+    });
     console.log('ionViewDidLoad OrderPage');
   }
 

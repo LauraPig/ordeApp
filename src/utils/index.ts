@@ -2,6 +2,21 @@
  * Created by Jimmy on 2018/5/21.
  */
 
+
+export class Utils {
+  /**
+   * 每次调用sequence加1
+   * @type {()=>number}
+   */
+  static getSequence = (() => {
+    let sequence = 1;
+    return () => {
+      return ++sequence;
+    };
+  })();
+};
+
+
 // 获取对象列表中的所有ID
 export  const  getIdSet =  (list: Array<any>): String => {
   let idList = [];

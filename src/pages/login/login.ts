@@ -50,27 +50,44 @@ export class LoginPage {
         'name': this.name,
         'password': this.password,
         // 'token': this.password,
-      }
+      };
 
       this.httpDataPro.checkLogin(params).then(res =>{
         // alert('res--login-> ' + JSON.stringify(res));
         if (res.success) {
-          this.toastCtrl.create({
+          if (res.body.token) {
+            this.toastCtrl.create({
               message: '登录成功',
               duration: 1000,
               position: 'middle',
               cssClass: 'toast-ctrl'
             }).present();
-          this.storage.set('token', res.body.token);
+            this.storage.set('token', res.body.token);
+            this.storage.set('userName', res.body.name.indexOf('(') > -1 ? res.body.name.match('\\((.+?)\\)')[1] : res.body.name);
+            this.storage.get('factoryId').then(res => {
+              if (res) {
+                this.navCtrl.setRoot(HomePage);
+              } else {
+                this.navCtrl.setRoot(LocationPage);
+              }
+            });
+          } else {
+            this.alertCtrl.create({
+              // title: '重置密码',
+              message: '服务器异常，请联系管理员',
+              buttons:[
+                {
+                  text: '确定',
+                  handler: data => {
+                    console.log(data);
+                    return;
+                  }
+                }
+              ]
+            }).present();
+          }
           // this.storage.set('userName', res.body.name);
-          this.storage.set('userName', res.body.name.indexOf('(') > -1 ? res.body.name.match('\\((.+?)\\)')[1] : res.body.name);
-          this.storage.get('factoryId').then(res => {
-            if (res) {
-              this.navCtrl.setRoot(HomePage);
-            } else {
-              this.navCtrl.setRoot(LocationPage);
-            }
-          });
+
           // this.navCtrl.setRoot(HomePage);
         } else {
           this.alertCtrl.create({
@@ -87,6 +104,9 @@ export class LoginPage {
           }).present();
           // alert(res.msg);
         }
+      }).catch(e =>{
+        console.log(e);
+        alert('服务器异常，请联系管理员');
       });
     }
   }
