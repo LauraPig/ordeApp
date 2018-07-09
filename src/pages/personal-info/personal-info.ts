@@ -33,7 +33,7 @@ export class PersonalInfoPage {
 
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.getPersonInfo();
     console.log('ionViewDidLoad PersonalInfoPage');
   }

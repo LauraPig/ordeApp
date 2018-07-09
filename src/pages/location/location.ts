@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { Storage } from '@ionic/storage';
 import {HomePage} from "../home/home";
@@ -27,6 +27,7 @@ export class LocationPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public httpDataPro: HttpDataProviders,
+    public alertCtrl: AlertController,
     public storage: Storage,
   ) {
     // this.storage.get('factoryId').then(res =>{
@@ -53,11 +54,21 @@ export class LocationPage {
           this.factoryList.push(tempObj);
         }
       } else if (res.errorCode === '-2') {
-        alert('登录信息过期，请重新登录');
-        this.storage.remove('token').then(data => {
-          console.log(data);
-          this.navCtrl.setRoot(LoginPage);
-        })
+        this.alertCtrl.create({
+          subTitle: '登录信息失效，请重新登录',
+          buttons: [
+            {
+              text: '确定',
+              handler: data => {
+                this.storage.remove('token').then(() => {
+                  this.navCtrl.setRoot(LoginPage)
+                });
+                console.log(data);
+                // this.navCtrl.setRoot()
+              }
+            }
+          ]
+        }).present();
       }
     });
     console.log('ionViewDidLoad SelectLocationPage');

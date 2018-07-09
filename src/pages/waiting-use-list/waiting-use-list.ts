@@ -42,7 +42,7 @@ export class WaitingUseListPage {
     });
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter () {
 
     // 获取当前时间
     this.todayStr = moment().format('YYYY-MM-DD');

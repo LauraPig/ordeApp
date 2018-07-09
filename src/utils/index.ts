@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 /**
  * Created by Jimmy on 2018/5/21.
  */
@@ -35,7 +36,7 @@ export  const  getIdSet =  (list: Array<any>): String => {
   return '';
 };
 
-// 获取当天时间  返回格式YYYY-MM-DD HH:MM:SS
+// 获取当天时间  返回格式YYYY-MM-DD HH:mm:ss
 export const getToday = () :string =>{
   return '';
 };
@@ -81,4 +82,24 @@ export const getResult = () :number =>{
   }
   return result;
 };
+
+/**
+ * 获取当前日期所在月份的开头和结尾日期
+ * @params month string
+ * @return [startTime, endTime]
+ *
+ */
+
+export const getCurrentMonth = (month?: string) => {
+  if (!month) {
+    return null;
+  }
+  let date = new Date();
+  let year = date.getFullYear();
+  let temStr = moment(`${year}-${month}-01`).format('YYYY-MM-DD');
+  let startTime = `${temStr} 00:00:00`;
+  let endTime = `${moment(`${year}-${month}`).endOf('month').format("YYYY-MM-DD")} 23:59:59`;
+  return [startTime, endTime];
+};
+
 

@@ -4,6 +4,7 @@ import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { Storage } from '@ionic/storage';
 import * as moment from 'moment';
 import {LoginPage} from "../login/login";
+import {getCurrentMonth} from "../../utils/index";
 
 /**
  * Generated class for the ConsumeRecordMonthPage page.
@@ -23,6 +24,7 @@ export class ConsumeRecordMonthPage {
 
   userId: string;
   orderList: Array<any> = [];
+  isNull: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -34,16 +36,34 @@ export class ConsumeRecordMonthPage {
   }
 
   ionViewDidLoad() {
-    this.orderList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
-    let lastDay = `${moment().format('YYYY-MM-DD HH:MM:SS')}`;   // 今天日期
-    this.getListData(firstDay, lastDay);
+    // this.orderList = [];
+    // // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
+    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
+    // let lastDay = `${moment().format('YYYY-MM-DD HH:MM:SS')}`;   // 今天日期
+    // this.getListData(firstDay, lastDay);
 
     console.log('ionViewDidLoad ConsumeRecordThreeMonthsPage');
   }
 
+  ionViewDidEnter() {
+    this.isNull = this.orderList.length === 0;
+  }
+
+  ionViewWillEnter() {
+    this.orderList = [];
+    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
+    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
+    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
+
+    let month = new Date().getMonth().toString();
+    const [startTime, endTime] = getCurrentMonth(month);
+    this.getListData(startTime, endTime);
+  }
+
   getListData(queryStartDate: string, queryEndDate: string ) {
+
+    // alert('queryStartDate-consume-week-->' + queryStartDate);
+    // alert('queryEndDate--in-consume-week-->' + queryEndDate);
 
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',

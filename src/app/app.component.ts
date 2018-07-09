@@ -60,12 +60,13 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.nativeService.detectionUpgrade();
+      this.nativeService.detectionUpgrade(true);
 
       this.storage.set('userId', '1');
       this.storage.get('token').then(res =>{
         // alert('res-->' + res);
         if (res) {
+          this.getHasMessage();
           this.token = res;
           this.rootPage = HomePage;
         } else {
@@ -103,17 +104,17 @@ export class MyApp {
   // 轮询获取消息
   getHasMessage () {
     let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
-    this.storage.get('token').then(res =>{
-      if (res) {
-        this.token = res;
-      }
-    });
+    // this.storage.get('token').then(res =>{
+    //   if (res) {
+    //     this.token = res;
+    //   }
+    // });
     let params = {
       'pushDate': reqDateStr,
       'flag': '0'
     };
     this.httpDataPro.fetchHasMessage(params).then (res => {
-      alert('res-in-loop->' + JSON.stringify(res));
+      // alert('res-in-loop->' + JSON.stringify(res));
       if (res.success) {
         this.storage.set('messageCount', res.body.count);
       }

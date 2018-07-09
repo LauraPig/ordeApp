@@ -9,6 +9,7 @@ import {OverduePage} from "../overdue/overdue";
 import {LoginPage} from "../login/login";
 import {HttpProvider} from "../../providers/http/http-service";
 import {Storage} from '@ionic/storage';
+import {ZBar, ZBarOptions} from "@ionic-native/zbar";
 // import {TestPage} from "../test/test";
 
 /**
@@ -36,6 +37,7 @@ export class HomeMenuPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public zbar: ZBar,
     public httpPro: HttpProvider,
     public storage: Storage,
   ) {
@@ -57,8 +59,18 @@ export class HomeMenuPage {
       }
 
     });
-    this.initData();
+    // this.initData();
     console.log('ionViewDidLoad HomeMenuPage');
+  }
+
+  ionViewWillEnter() {
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+
+    });
+    this.initData();
   }
 
   initData () {
@@ -93,6 +105,27 @@ export class HomeMenuPage {
       default:
         // break;
     }
+  }
+
+  // 扫一扫功能
+
+  qrScan() {
+    let options: ZBarOptions = {
+      flash: 'off',
+      text_title: '扫码',
+      text_instructions: '请将二维码置于红线中央',
+      // camera: "front" || "back",
+      drawSight: true
+    };
+
+    this.zbar.scan(options)
+      .then(result => {
+        alert("结果：" + result); // Scanned code
+        this.navCtrl.pop();
+      })
+      .catch(error => {
+        alert(error); // Error message
+      });
   }
 
   gotoUnreadMessage() {

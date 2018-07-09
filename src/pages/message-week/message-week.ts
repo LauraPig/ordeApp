@@ -4,6 +4,7 @@ import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {LoginPage} from "../login/login";
 import {Storage} from '@ionic/storage';
+import { getCurrentMonth } from "../../utils/index";
 /**
  * Generated class for the MessageWeekPage page.
  *
@@ -20,6 +21,7 @@ import {Storage} from '@ionic/storage';
 })
 export class MessageWeekPage {
   messageList: Array<any> = [];
+  isNull: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -31,26 +33,40 @@ export class MessageWeekPage {
   }
 
   ionViewDidLoad() {
-    this.messageList = [];
-    let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-
-    let lastMonday = `${moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD')} 00:00:00`;   //周一日期
-    let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期
-    this.getListData(lastMonday, lastSunday);
-
     console.log('ionViewDidLoad MessageWeekPage');
   }
 
-  getListData(queryStartDate: string, queryEndDate: string ) {
+  ionViewWillEnter() {
+    this.messageList = [];
+    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
+
+    // let lastMonday = `${moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD')} 00:00:00`;   //周一日期
+
+    let month = `${new Date().getMonth() + 1}`;
+    const [startTime, ] = getCurrentMonth(month);
+    let endTime = moment().format('YYYY-MM-DD HH:mm:ss');
+    // let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期
+    let lastSunday = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   //今天日期
+    this.getListData(startTime, endTime);
+  }
+
+  ionViewDidEnter() {
+    this.isNull = this.messageList.length === 0;
+  }
+
+  getListData(startTime: string, endTime: string ) {
+
+    // alert('startTime:' + startTime);
+    // alert('endTime:' + endTime);
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '加载中...'
     });
     dataLoading.present();
-    if (queryEndDate && queryStartDate) {
+    if (startTime && endTime) {
       let params = {
-        'startTime': queryStartDate,
-        'endTime': queryEndDate,
+        'startTime': startTime,
+        'endTime': endTime,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
         // alert('res-data:' + JSON.stringify(res));

@@ -38,7 +38,7 @@ export class SelectLocationPage {
     // });
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.storage.get('factoryId').then(res =>{
       if (res) {
         this.location = res;

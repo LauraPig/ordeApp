@@ -1,5 +1,22 @@
 page-waiting-use {
 
+  position: absolute;
+  /*无数据样式*/
+  .null-tips {
+    color: #bfbfbf;
+    position: relative;
+    left: 44%;
+    margin-top: 60%;
+    font-size: 1.7rem;
+    img{
+      width: auto;
+      height: auto;
+      //overflow: hidden;
+      //margin-top: -50px;
+      //margin-bottom: -50px;
+    }
+  }
+
   .bage-message {
     padding: 0 !important;
     margin-left: -10px !important;
@@ -97,5 +114,9 @@ page-waiting-use {
     padding: 0 !important;
     //width: 22.5vw;
     width: 50%;
+  }
+  .unpack-btn {
+    color: #bfbfbf;
+    background-color: rgba(191, 191, 191, 0.25) !important;
   }
 }

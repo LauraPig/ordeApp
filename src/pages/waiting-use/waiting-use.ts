@@ -25,6 +25,7 @@ export class WaitingUsePage {
   factoryName: string;
   userName: string;
   messageCount: number;
+  isNull: boolean = false;
   // isPack: boolean = true;
 
   constructor(
@@ -35,13 +36,6 @@ export class WaitingUsePage {
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
   ) {
-
-    this.storage.get('messageCount').then(res =>{
-      if (res) {
-        this.messageCount = res;
-      }
-    });
-
     // 获取用户名称
     this.storage.get('userName').then(res =>{
       if (res) {
@@ -50,7 +44,12 @@ export class WaitingUsePage {
     });
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+    });
     this.todayStr = moment().format('YYYY-MM-DD');
     this.storage.get('userId').then(res =>{
       if (res) {
@@ -70,9 +69,14 @@ export class WaitingUsePage {
     console.log('ionViewDidLoad WaitingUsePage');
   }
 
+  ionViewDidEnter() {
+    this.isNull = this.dataList.length === 0;
+  }
+
 
 
   getDataList(userId: string, dinnerDate: string){
+    this.dataList = [];
 
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',

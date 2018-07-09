@@ -23,6 +23,7 @@ import {MessageRecordPage} from "../message-record/message-record";
 export class UnreadMessagePage {
   messageList: Array<any> =[];
   token: string;
+  isNull: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -38,12 +39,18 @@ export class UnreadMessagePage {
     });
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.getMessageData();
     console.log('ionViewDidLoad UnreadMessagePage');
   }
 
+
+  ionViewDidEnter() {
+    this.isNull = this.messageList.length === 0;
+  }
+
   getMessageData () {
+    this.messageList = [];
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '加载中...',

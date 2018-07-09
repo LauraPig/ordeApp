@@ -4,6 +4,7 @@ import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {LoginPage} from "../login/login";
 import {Storage} from '@ionic/storage';
+import {getCurrentMonth} from "../../utils/index";
 
 /**
  * Generated class for the MessageMonthPage page.
@@ -21,6 +22,7 @@ import {Storage} from '@ionic/storage';
 })
 export class MessageMonthPage {
   messageList: Array<any> = [];
+  isNull: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -32,34 +34,42 @@ export class MessageMonthPage {
   }
 
   ionViewDidLoad() {
-
-
-    this.messageList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
-    let lastDay = `${moment().format('YYYY-MM-DD HH:MM:SS')}`;   // 今天日期
-    this.getListData(firstDay, lastDay);
-
     console.log('ionViewDidLoad MessageMonthPage');
   }
 
+  ionViewWillEnter() {
+    let month = new Date().getMonth().toString();
+    const [startTime, endTime] = getCurrentMonth(month);
+    this.messageList = [];
+    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
+    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
+    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
+    // let lastDay = `${moment().format('YYYY-MM-DD')} 23:59:59`;   // 今天日期
+    this.getListData(startTime, endTime);
+  }
+
+  ionViewDidEnter() {
+    this.isNull = this.messageList.length === 0;
+  }
+
+
   getListData(queryStartDate: string, queryEndDate: string ) {
-    // let dataLoading = this.loadingCtrl.create({
-    //   spinner: 'bubbles',
-    //   content: '加载中...'
-    // });
-    // dataLoading.present();
+    let dataLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '加载中...'
+    });
+    dataLoading.present();
     if (queryStartDate && queryEndDate) {
-      // alert('queryStartDate-->' + queryStartDate);
-      // alert('queryEndDate-->' + queryEndDate);
+      // alert('startTime-->' + queryStartDate);
+      // alert('endTime-->' + queryEndDate);
       let params = {
         'startTime': queryStartDate,
         'endTime': queryEndDate,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
-        // alert('res-data:' + JSON.stringify(res));
+        // alert('res-data-month:' + JSON.stringify(res));
 
-        // dataLoading.dismiss();
+        dataLoading.dismiss();
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
@@ -73,10 +83,10 @@ export class MessageMonthPage {
           });
         }
       }).catch(e =>{
-        // dataLoading.dismiss();
+        dataLoading.dismiss();
       });
     } else {
-      // dataLoading.dismiss();
+      dataLoading.dismiss();
     }
   }
 

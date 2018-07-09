@@ -68,7 +68,7 @@ export class DetailModalPage {
             this.planId = res.rows.item(0).id;
           }
         }).catch(e => {
-          alert('错误-->' + JSON.stringify(e));
+          // alert('错误-->' + JSON.stringify(e));
         });
       }).catch(e =>{
         console.log(e);
@@ -136,14 +136,32 @@ export class DetailModalPage {
                     });
 
                   }  else if (res.errorCode === '-2') {
-                    alert('登录信息过期，请重新登录');
-                    this.storage.remove('token').then(data => {
-                      console.log(data);
-                      this.navCtrl.setRoot(LoginPage);
-                    })
+                    orderLoading.dismiss();
+                    this.alertCtrl.create({
+                      subTitle: '登录信息失效，请重新登录',
+                      buttons: [
+                        {
+                          text: '确定',
+                          handler: data => {
+                            this.storage.remove('token').then(() => {
+                              this.navCtrl.setRoot(LoginPage)
+                            });
+                            console.log(data);
+                            // this.navCtrl.setRoot()
+                          }
+                        }
+                      ]
+                    }).present();
                   } else {
                     orderLoading.dismiss().then(() =>{
-                      alert(res.msg);
+                      this.alertCtrl.create({
+                        title: res.msg,
+                        buttons: [
+                          {
+                            text: '确定',
+                          }
+                        ]
+                      }).present();
                     });
 
                   }
@@ -224,14 +242,31 @@ export class DetailModalPage {
 
           }  else if (res.errorCode === '-2') {
             orderLoading.dismiss();
-            alert('登录信息过期，请重新登录');
-            this.storage.remove('token').then(data => {
-              console.log(data);
-              this.navCtrl.setRoot(LoginPage);
-            })
+            this.alertCtrl.create({
+              subTitle: '登录信息失效，请重新登录',
+              buttons: [
+                {
+                  text: '确定',
+                  handler: data => {
+                    this.storage.remove('token').then(() => {
+                      this.navCtrl.setRoot(LoginPage)
+                    });
+                    console.log(data);
+                    // this.navCtrl.setRoot()
+                  }
+                }
+              ]
+            }).present();
           } else {
             orderLoading.dismiss().then(() =>{
-              alert(res.msg);
+              this.alertCtrl.create({
+                title: res.msg,
+                buttons: [
+                  {
+                    text: '确定',
+                  }
+                ]
+              }).present();
             });
 
           }

@@ -1,4 +1,14 @@
 page-order {
+  position: absolute;
+
+  /*无数据样式*/
+  .null-tips {
+    color: #bfbfbf;
+    position: relative;
+    left: 44%;
+    margin-top: 50%;
+    font-size: 1.7rem;
+  }
 
   .bage-message {
     padding: 0 !important;
@@ -110,6 +120,7 @@ page-order {
     //font-weight: bold;
     color: #fff;
   }
+
   ion-slide {
     img {
       width: 100%;
@@ -118,5 +129,13 @@ page-order {
       margin-top: -50px;
       margin-bottom: -50px;
     }
+  }
+
+  .message-content {
+    //line-height: 35px;
+    width: 65vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

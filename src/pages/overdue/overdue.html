@@ -44,4 +44,9 @@
     <!--暂无数据-->
   <!--</div>-->
 
+  <div *ngIf="(isNull && orderList.length === 0)" class="null-tips">
+    <img src="assets/imgs/null.png" alt="">
+    <div>暂无数据</div>
+  </div>
+
 </ion-content>

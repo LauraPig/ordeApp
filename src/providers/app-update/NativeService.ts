@@ -43,7 +43,7 @@ export class NativeService {
   /**
    * 检查app是否需要升级
    */
-  detectionUpgrade() {
+  detectionUpgrade(isInit?: boolean) {
     if (this.updateProgress === -1 || this.updateProgress === 100) {
       // alert('检查更新。。');
       if (!this.isMobile()) {
@@ -95,7 +95,7 @@ export class NativeService {
                   ]
                 }).present();
               }
-            } else if (res.body.versionNo === data) {
+            } else if (res.body.versionNo === data && !isInit) {
               this.toastCtrl.create({
                 message: '已经是最新版',
                 duration: 1000,

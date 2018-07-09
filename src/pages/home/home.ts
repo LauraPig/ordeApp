@@ -25,6 +25,8 @@ export class HomePage {
   factoryName: string = '';
   factoryId: string = '';
 
+  isNull: boolean = false;
+
   orderList: any = [];
   loading: Loading ;
   userinfo: any = [];
@@ -58,7 +60,13 @@ export class HomePage {
     });
     console.log('主页...');
   }
-  ionViewDidLoad() {
+  ionViewWillEnter() {
+
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+    });
     this.storage.get('userName').then(res => {
       if (res) {
         this.userName = res;
@@ -71,26 +79,39 @@ export class HomePage {
       if (!res) {
         this.initDB().then((res) => {
           this.handleVersion().then((data) =>{
-            alert('更新数据完成---' + data);
+            // alert('更新数据完成---' + data);
           });
           this.storage.set('HasCreateDb', true);
           this.loading.dismiss();
         });;
       } else if (res) {
         this.handleVersion().then((data) =>{
-          alert('更新数据完成---' + data);
+          // alert('更新数据完成---' + data);
           // this.getData();
         });
       }
     }).catch(e => {
       console.log(e);
     });
+    // this.isNull = this.messageList.length === 0;
     // setTimeout(() =>{
     //   this.getData();
     // }, 20000);
   }
 
+
+  // ionViewWillEnter() {
+  //   this.getData();
+  //   this.storage.get('messageCount').then(res =>{
+  //     if (res) {
+  //       this.messageCount = res;
+  //     }
+  //   });
+  //
+  // }
+
   ionViewDidEnter() {
+    this.isNull = this.orderList.length === 0;
     console.log('did Enter');
    // this.getData();
   }
@@ -190,7 +211,12 @@ export class HomePage {
        });
      });
     }).catch(e =>{
-      alert(e.toString());
+      this.alertCtrl.create({
+        title: '服务异常，请联系管理员',
+        buttons: [{
+          text: '确定'
+        }]
+      }).present();
    });
 
   }
@@ -208,7 +234,10 @@ export class HomePage {
      return this.dataBaseService.creatDataBase();
   }
 
+
+  //  拉取页面数据
   getData() {
+
     this.orderList = [];
 
     this.storage.get('factoryId').then(res =>{
@@ -247,11 +276,21 @@ export class HomePage {
     this.httpDataPro.fetchUserOrderData(params).then(res =>{
       // alert('res' + JSON.stringify(res));
       if (!res.success && res.errorCode === '-2') {
-          alert('登录信息过期，请重新登录');
-          this.storage.remove('token').then(data => {
-            console.log(data);
-            this.navCtrl.setRoot(LoginPage);
-          })
+        this.alertCtrl.create({
+          subTitle: '登录信息失效，请重新登录',
+          buttons: [
+            {
+              text: '确定',
+              handler: data => {
+                this.storage.remove('token').then(() => {
+                  this.navCtrl.setRoot(LoginPage)
+                });
+                console.log(data);
+                // this.navCtrl.setRoot()
+              }
+            }
+          ]
+        }).present();
       }
       const list = res.body.ctOrderList;
       if (list && list.length > 0) {
@@ -297,7 +336,7 @@ export class HomePage {
                           }
 
                         }).catch(e =>{
-                          alert('err in select ct_product: ' + JSON.stringify(e));
+                          // alert('err in select ct_product: ' + JSON.stringify(e));
                         });
                       }
                       if (temProductList[0].objType === '1') {
@@ -316,18 +355,18 @@ export class HomePage {
                           }
 
                         }).catch(e =>{
-                          alert('err in select ct_product_set: ' + JSON.stringify(e));
+                          // alert('err in select ct_product_set: ' + JSON.stringify(e));
                         });
                       }
                     }
 
                   }).catch(e =>{
-                    alert('err in select sys_office: ' + JSON.stringify(e));
+                    // alert('err in select sys_office: ' + JSON.stringify(e));
                   });
                 }
 
               }).catch(e =>{
-                alert('err in select ct_plan: ' + JSON.stringify(e));
+                // alert('err in select ct_plan: ' + JSON.stringify(e));
               });
 
 
@@ -362,7 +401,7 @@ export class HomePage {
           //   alert('err in operate table' + e.toString());
           // });
         }).catch(e =>{
-          alert('err in open database' + e.toString());
+          // alert('err in open database' + e.toString());
         });
       }
     }).catch(e => {
@@ -443,31 +482,4 @@ export class HomePage {
     this.navCtrl.push('unread-message');
   }
 
-
-  // initDB(): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     this.loading = this.loadingCtrl.create({
-  //       spinner: 'bubbles',
-  //       content: '初始化数据中...'
-  //       // content: `
-  //       //   <div class="custom-spinner-container">
-  //       //     <div class="custom-spinner-box"></div>
-  //       //   </div>`,
-  //     });
-  //     this.loading.present();
-  //     this.dbService.creatDataBase().then((res) => {
-  //       resolve(res);
-  //       this.loading.dismiss();
-  //     }).catch(e => {
-  //       this.loading.dismiss();
-  //       this.toastCtrl.create({
-  //         message: JSON.stringify(e).toString(),
-  //         duration: 15000,
-  //         position: 'middle'
-  //       }).present();
-  //       console.log(e);
-  //       reject(e);
-  //     });
-  //   });
-  // }
 }

@@ -24,6 +24,7 @@ export class OverduePage {
   messageCount: number;
   // dataList: Array<any> = [];
   orderList: Array<any> = [];
+  isNull: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -32,14 +33,24 @@ export class OverduePage {
     public httpDataPro: HttpDataProviders,
     public loadingCtrl: LoadingController,
   ) {
+
+  }
+
+  ionViewDidLoad() {
+
+    console.log('ionViewDidLoad OverduePage');
+  }
+
+  ionViewDidEnter() {
+    this.isNull = this.orderList.length === 0;
+  }
+
+  ionViewWillEnter() {
     this.storage.get('messageCount').then(res =>{
       if (res) {
         this.messageCount = res;
       }
     });
-  }
-
-  ionViewDidLoad() {
     let dateStr = moment().format('YYYY-MM-DD HH:MM:SS');
     // alert('date--' + dateStr);
     this.storage.get('userId').then(res =>{
@@ -48,10 +59,11 @@ export class OverduePage {
         this.getOverDueData(res, dateStr);
       }
     });
-    console.log('ionViewDidLoad OverduePage');
   }
 
   getOverDueData(id: string, dateStr: string) {
+
+    this.orderList = [];
 
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
@@ -64,14 +76,18 @@ export class OverduePage {
         'date': dateStr
       };
       this.httpDataPro.fetchOverDueData(params).then(res => {
-        dataLoading.dismiss();
+        // dataLoading.dismiss();
         // alert('res-length--' + res.body.orderList.length);
         if (res.success) {
           this.orderList  = res.body.orderList && res.body.orderList.map((item, index) => {
             item.dinnerDate = moment(item.dinnerDate).format('YYYY-MM-DD');
+            if (index === res.body.orderList.length - 1) {
+              dataLoading.dismiss();
+            }
             return item;
           });
         } else if (res.errorCode === '-2') {
+          dataLoading.dismiss();
           alert('登录信息过期，请重新登录');
           this.storage.remove('token').then(data => {
             console.log(data);

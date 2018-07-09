@@ -1,5 +1,35 @@
 page-home {
-  position: relative;
+  //position: relative;
+
+  //.null-content {
+  //  position: absolute;
+  //  width: 100% !important;
+  //  height: 40vh !important;
+  //
+  //  img{
+  //    width: auto;
+  //    height: auto;
+  //    //overflow: hidden;
+  //    //margin-top: -50px;
+  //    //margin-bottom: -50px;
+  //  }
+  //}
+
+  .null-tips {
+    color: #bfbfbf;
+    position: relative;
+    left: 44%;
+    margin-top: 15%;
+    font-size: 1.7rem;
+
+    img{
+      width: auto;
+      height: auto;
+      //overflow: hidden;
+      //margin-top: -50px;
+      //margin-bottom: -50px;
+    }
+  }
 
   .bage-message {
     padding: 0 !important;
@@ -48,20 +78,18 @@ page-home {
     pointer-events: auto;
   }
 
-  img{
+
+  .card-ios {
+    margin: 0 0 0.5vh !important;
+    width: 100% !important;
+  }
+
+  .img-item{
     width: 100% !important;
     height: 40vh !important;
     margin-top: -6vh;
     margin-bottom: -6vh;
     overflow: hidden;
-  }
-
-
-
-
-  .card-ios {
-    margin: 0 0 0.5vh !important;
-    width: 100% !important;
   }
 
   .footer-card {

@@ -29,6 +29,7 @@
 
 
 <ion-content>
+
   <ion-card ion-item  no-lines style="background-image: none" >
     <ion-card-header tappable (click)="openCalendar()">
       <ion-row *ngIf="!status">
@@ -37,7 +38,7 @@
           <p style="margin-left: -10px;font-weight: bold;font-size: 1.3em">{{dayStr}}日</p>
         </ion-col>
         <ion-col col-6 *ngIf="isToday">
-          <h1>今天</h1>
+          <span style="font-size: 4rem">今天</span>
         </ion-col>
 
       </ion-row>
@@ -94,7 +95,7 @@
                   </ion-slides>
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}</p>
-                    <p>包括： {{de.productName}} </p>
+                    <p class="message-content">包括： {{de.productName}} </p>
                     <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>
                     <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
                   </ion-item>
@@ -138,7 +139,7 @@
                   </ion-slides>
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}</p>
-                    <p>包括： {{de.productName}} </p>
+                    <p class="message-content">包括： {{de.productName}} </p>
                     <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>
                     <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
                   </ion-item>
@@ -182,7 +183,7 @@
                   </ion-slides>
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}</p>
-                    <p>包括： {{de.productName}} </p>
+                    <p class="message-content">包括： {{de.productName}} </p>
                     <button class="order-button" ion-button color="secondary" (click)="doOrder($event, de, p.id, item.value)">订餐</button>
                     <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
                   </ion-item>
@@ -203,6 +204,12 @@
       </ion-item>
     </div>
   </ion-list>
+
+
+  <div *ngIf="(isNull && typeList.length === 0)" class="null-tips">
+    <img src="assets/imgs/null.png" alt="">
+    <div>暂无数据</div>
+  </div>
 
 
   <!--<ion-card *ngFor="let item of typeList"  class="ion-card-prod"  no-lines tappable (click)="gotoSelectTypePage(item.value, factoryName)">-->

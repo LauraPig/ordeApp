@@ -4,6 +4,7 @@ import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {LoginPage} from "../login/login";
 import {Storage} from '@ionic/storage';
+import {getCurrentMonth} from "../../utils/index";
 /**
  * Generated class for the MessageThreeMonthPage page.
  *
@@ -21,6 +22,7 @@ import {Storage} from '@ionic/storage';
 export class MessageThreeMonthPage {
 
   messageList: Array<any> = [];
+  isNull: boolean = false;
 
 
   constructor(
@@ -34,29 +36,40 @@ export class MessageThreeMonthPage {
   }
 
   ionViewDidLoad() {
-
-    this.messageList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    let firstDay = `${moment().subtract(89, 'days').format('YYYY-MM-DD')} 00:00:00`;   // 开始日期
-    let lastDay = `${moment().format('YYYY-MM-DD')} 23:59:59`;   // 今天日期
-    this.getListData(firstDay, lastDay);
-
     console.log('ionViewDidLoad MessageThreeMonthPage');
   }
 
+  ionViewWillEnter() {
+    this.messageList = [];
+
+    let month = `${new Date().getMonth() - 1}`;
+    const [startTime, endTime] = getCurrentMonth(month);
+    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
+    // let firstDay = `${moment().subtract(89, 'days').format('YYYY-MM-DD')} 00:00:00`;   // 开始日期
+    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
+    this.getListData(startTime, endTime);
+  }
+
+  ionViewDidEnter() {
+    this.isNull = this.messageList.length === 0;
+  }
+
+
+
   getListData(queryStartDate: string, queryEndDate: string ) {
-    // let dataLoading = this.loadingCtrl.create({
-    //   spinner: 'bubbles',
-    //   content: '加载中...'
-    // });
-    // dataLoading.present();
+    let dataLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '加载中...'
+    });
+    dataLoading.present();
     if (queryEndDate && queryStartDate) {
+
       let params = {
         'startTime': queryStartDate,
         'endTime': queryEndDate,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
-        // dataLoading.dismiss();
+        dataLoading.dismiss();
         // alert('res-data:' + JSON.stringify(res));
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
@@ -72,10 +85,10 @@ export class MessageThreeMonthPage {
           });
         }
       }).catch(e =>{
-        // dataLoading.dismiss();
+        dataLoading.dismiss();
       });
     } else {
-      // dataLoading.dismiss();
+      dataLoading.dismiss();
     }
   }
   // gotoMessageDetail (item: any) {

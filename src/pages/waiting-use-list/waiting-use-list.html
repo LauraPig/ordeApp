@@ -63,7 +63,7 @@
                 <!--<ion-icon name="ios-cube-outline"></ion-icon>-->
                 <!--打包-->
               <!--</button>-->
-              <button class="operator-button" color="light" ion-button (click)="pack(p.id, p.isPack)">
+              <button [ngClass]="{'unpack-btn': p.isPack === '0'}" class="operator-button" color="light" ion-button (click)="pack(p.id, p.isPack)">
                 <ion-icon name="ios-cube-outline"></ion-icon>
                 打包
               </button>

@@ -35,16 +35,11 @@
 <!--</ion-content>-->
 
 <ion-content>
-  <ion-card *ngIf="orderList?.length > 0" tappable (click)="gotoWaitingUse()">
-    <!--<ion-card-header>-->
-      <!--<ion-icon ios="ios-basket" md="md-basket"></ion-icon>-->
-      <!--<span >今日您已预订</span>-->
-    <!--</ion-card-header>-->
-
+  <ion-card *ngIf="orderList?.length > 0" tappable="" (click)="gotoWaitingUse()">
     <ion-slides pager>
 
       <ion-slide *ngFor="let item of orderList" >
-        <img src="{{item.imgUrl}}"/>
+        <img class="img-item" src="{{item.imgUrl}}"/>
         <div class="card-title">
           <div style="font-size: 2rem">
             {{item.productName}}
@@ -57,18 +52,27 @@
           </div>
         </div>
       </ion-slide>
-
     </ion-slides>
+    <!--<ion-cardR-header>-->
+      <!--<ion-icon ios="ios-basket" md="md-basket"></ion-icon>-->
+      <!--<span >今日您已预订</span>-->
+    <!--</ion-card-header>-->
+  </ion-card>
 
-    <!--<div *ngIf="orderList?.length === 0" class="no-product">-->
-      <!--<h5>暂无预定</h5>-->
-    <!--</div>-->
-
+  <ion-card *ngIf="(isNull && orderList.length === 0)">
+    <div  class="null-content">
+      <div class="null-tips">
+        <img src="assets/imgs/null.png" alt="">
+        <div>暂无订餐</div>
+      </div>
+    </div>
   </ion-card>
 
 
+
+
   <ion-card tappable (click)="gotoOrder(factoryName)">
-    <img src="https://dininghall.blob.core.windows.net/product/473c5d4611c74be3acc05a6b54cca853.png"/>
+    <img class="img-item" src="https://dininghall.blob.core.windows.net/product/473c5d4611c74be3acc05a6b54cca853.png"/>
     <div class="order-tile">
       立即预订
     </div>
@@ -76,7 +80,7 @@
 
   <div class="footer-card">
     <ion-card >
-      <img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
+      <img class="img-item" src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
       <div class="order-tile">
         新闻
       </div>
@@ -84,32 +88,3 @@
   </div>
   <!--<qr-code [value]="'1231234'" [size]="150" [backgroundAlpha]="0.5" [padding]="10"></qr-code>-->
 </ion-content>
-
-
-<!--<ion-content padding>-->
-  <!--&lt;!&ndash;<h2>Expense List</h2>&ndash;&gt;-->
-  <!--<ion-list>-->
-    <!--<ion-item-sliding *ngFor="let user of userinfo; let i=index">-->
-      <!--<ion-item>-->
-        <!--<ion-avatar item-start>-->
-          <!--{{i}}-->
-        <!--</ion-avatar>-->
-        <!--<h2>{{user.product_id}}</h2>-->
-        <!--<h3>{{user.material_id}}</h3>-->
-        <!--<p>{{user.weight}}克</p>-->
-      <!--</ion-item>-->
-    <!--</ion-item-sliding>-->
-  <!--</ion-list>-->
-  <!--&lt;!&ndash; <ion-infinite-scroll (ionInfinite)="loadMoreRepos($event)" *ngIf="hasMore">-->
-    <!--<ion-infinite-scroll-content-->
-      <!--loadingSpinner="bubbles"-->
-      <!--loadingText="loading..."-->
-    <!--&gt;</ion-infinite-scroll-content>-->
-  <!--</ion-infinite-scroll> &ndash;&gt;-->
-<!--</ion-content>-->
-<!--<ion-footer>-->
-  <!--<ion-toolbar>-->
-    <!--&lt;!&ndash; <ion-title>已经加载了：{{userinfo.length}} </ion-title> &ndash;&gt;-->
-    <!--<ion-title>总共：{{total}} 条</ion-title>-->
-  <!--</ion-toolbar>-->
-<!--</ion-footer>-->

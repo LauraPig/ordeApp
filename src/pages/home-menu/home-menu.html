@@ -39,7 +39,11 @@
       <!--</button>-->
       <button ion-item  (click)="gotoUnreadMessage()">
         我的消息
-        <ion-badge item-end>{{messageCount}}</ion-badge>
+        <ion-badge color="danger" item-end>{{messageCount}}</ion-badge>
+      </button>
+
+      <button ion-item  (click)="qrScan()">
+        扫一扫
       </button>
       <!--<button ion-item  (click)="openPage('listPage')">-->
         <!--新闻-->

@@ -5,6 +5,7 @@ import {Storage} from "@ionic/storage";
 import {HomePage} from "../home/home";
 import {LocationPage} from "../location/location";
 import {BackButtonService} from "../../providers/back-button/back-button.service";
+import * as moment from 'moment';
 
 /**
  * Generated class for the LoginPage page.
@@ -43,6 +44,26 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
+  // 轮询获取消息
+  getHasMessage () {
+    let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
+    // this.storage.get('token').then(res =>{
+    //   if (res) {
+    //     this.token = res;
+    //   }
+    // });
+    let params = {
+      'pushDate': reqDateStr,
+      'flag': '0'
+    };
+    this.httpDataPro.fetchHasMessage(params).then (res => {
+      // alert('res-in-loop->' + JSON.stringify(res));
+      if (res.success) {
+        this.storage.set('messageCount', res.body.count);
+      }
+    });
+  }
+
   doLogin() {
     // let loginLoading = this.
     if (this.name && this.password) {
@@ -62,7 +83,9 @@ export class LoginPage {
               position: 'middle',
               cssClass: 'toast-ctrl'
             }).present();
-            this.storage.set('token', res.body.token);
+            this.storage.set('token', res.body.token).then(data => {
+              this.getHasMessage();
+            });
             this.storage.set('userName', res.body.name.indexOf('(') > -1 ? res.body.name.match('\\((.+?)\\)')[1] : res.body.name);
             this.storage.get('factoryId').then(res => {
               if (res) {

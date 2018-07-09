@@ -44,6 +44,8 @@ export class OrderPage {
   userName: string;  // 当前用户名称
   messageCount: number;  // 消息条数
 
+  isNull: boolean = false;  //是否显示暂无数据
+
   calendarOptions: CalendarComponentOptions = {
   };
 
@@ -58,12 +60,13 @@ export class OrderPage {
     public httpDataPro: HttpDataProviders,
   ) {
 
-    this.storage.get('messageCount').then(res =>{
-      if (res) {
-        this.messageCount = res;
-      }
+    this.isNull = false;
 
-    });
+    // this.storage.get('messageCount').then(res =>{
+    //   if (res) {
+    //     this.messageCount = res;
+    //   }
+    // });
 
 
 
@@ -133,15 +136,62 @@ export class OrderPage {
   }
 
 
-  ionViewDidLoad() {
+  // ionViewDidLoad() {
+  //   // 获取工厂ID
+  //   this.storage.get('factoryId').then(data =>{
+  //     // alert('data-id-->' + data);
+  //     if (data) {
+  //       this.factoryId = data;
+  //       this.dbService.openDataBase().then((db: SQLiteObject) =>{
+  //         db.executeSql(`select  b.label as label,b.value as value from ct_meal a,sys_dict_value b,sys_office c where c.parent_ids LIKE '%${this.factoryId}%' AND c.type='4'  AND b.[value]=a.meal_type and a.office_id = c.id AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag = '0' GROUP BY b.label,b.[value],b.sort ORDER BY b.sort;`, {}).then(res =>{
+  //           // alert('res.length--->' + res.rows.length);
+  //           if (res.rows.length) {
+  //             for ( let i = 0; i < res.rows.length; i++) {
+  //               this.typeList.push({
+  //                 label: res.rows.item(i).label,
+  //                 imgUrl: `https://dininghall.blob.core.windows.net/product/${res.rows.item(i).value}.png`,
+  //                 value: res.rows.item(i).value,
+  //                 officeList: [],
+  //                 status: false,
+  //               });
+  //             }
+  //             // this.typeList.push(this.typeList[0]);
+  //             // this.typeList.push(this.typeList[0]);
+  //             this.listLength = this.typeList.length;
+  //           }
+  //         }).catch(e =>{
+  //           console.log(e);
+  //         });
+  //       });
+  //     }
+  //   });
+  //   console.log('ionViewDidLoad OrderPage');
+  // }
+
+  ionViewWillEnter() {
+
+
+    this.typeList = [];
+    // 获取信息条数
+    this.storage.get('messageCount').then(res =>{
+      if (res) {
+        this.messageCount = res;
+      }
+    });
     // 获取工厂ID
     this.storage.get('factoryId').then(data =>{
       // alert('data-id-->' + data);
       if (data) {
+        let dataLoading = this.loadingCtrl.create({
+          spinner: 'bubbles',
+          content: '加载中...',
+        });
+        dataLoading.present();
         this.factoryId = data;
         this.dbService.openDataBase().then((db: SQLiteObject) =>{
           db.executeSql(`select  b.label as label,b.value as value from ct_meal a,sys_dict_value b,sys_office c where c.parent_ids LIKE '%${this.factoryId}%' AND c.type='4'  AND b.[value]=a.meal_type and a.office_id = c.id AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag = '0' GROUP BY b.label,b.[value],b.sort ORDER BY b.sort;`, {}).then(res =>{
             // alert('res.length--->' + res.rows.length);
+            dataLoading.dismiss();
             if (res.rows.length) {
               for ( let i = 0; i < res.rows.length; i++) {
                 this.typeList.push({
@@ -157,15 +207,16 @@ export class OrderPage {
               this.listLength = this.typeList.length;
             }
           }).catch(e =>{
+            dataLoading.dismiss();
             console.log(e);
           });
         });
       }
     });
-    console.log('ionViewDidLoad OrderPage');
   }
 
   ionViewDidEnter() {
+    this.isNull = true;
     // const listSelector = document.getElementById('type');
     // alert('count-->' + listSelector.childElementCount);
     // alert('children-->' + listSelector.childNodes[0]);
@@ -174,6 +225,7 @@ export class OrderPage {
 
   // 日期选择事件
   onChange($event) {
+    this.status = !this.status;
     console.log($event);
     const result = moment().format('YYYY-MM-DD');
     // const today = moment().format('YYYY-MM-DD');
@@ -395,14 +447,31 @@ export class OrderPage {
                             });
                           } else if (res.errorCode === '-2') {
                             orderLoading.dismiss();
-                            alert('登录信息过期，请重新登录');
-                            this.storage.remove('token').then(data => {
-                              console.log(data);
-                              this.navCtrl.setRoot(LoginPage);
-                            })
+                            this.alertCtrl.create({
+                              subTitle: '登录信息失效，请重新登录',
+                              buttons: [
+                                {
+                                  text: '确定',
+                                  handler: data => {
+                                    this.storage.remove('token').then(() => {
+                                      this.navCtrl.setRoot(LoginPage)
+                                    });
+                                    console.log(data);
+                                    // this.navCtrl.setRoot()
+                                  }
+                                }
+                              ]
+                            }).present();
                           } else {
                             orderLoading.dismiss().then(() =>{
-                              alert(res.msg);
+                              this.alertCtrl.create({
+                                title: res.msg,
+                                buttons: [
+                                  {
+                                    text: '确定',
+                                  }
+                                ]
+                              }).present();
                             });
 
                           }
@@ -413,7 +482,7 @@ export class OrderPage {
                     }
                   }).catch(e => {
                     orderLoading.dismiss();
-                    alert('错误-->' + JSON.stringify(e));
+                    // alert('错误-->' + JSON.stringify(e));
                   });
                 }).catch(e =>{
                   orderLoading.dismiss();
@@ -481,14 +550,31 @@ export class OrderPage {
                     });
                   } else if (res.errorCode === '-2') {
                     orderLoading.dismiss();
-                    alert('登录信息过期，请重新登录');
-                    this.storage.remove('token').then(data => {
-                      console.log(data);
-                      this.navCtrl.setRoot(LoginPage);
-                    })
+                    this.alertCtrl.create({
+                      subTitle: '登录信息失效，请重新登录',
+                      buttons: [
+                        {
+                          text: '确定',
+                          handler: data => {
+                            this.storage.remove('token').then(() => {
+                              this.navCtrl.setRoot(LoginPage)
+                            });
+                            console.log(data);
+                            // this.navCtrl.setRoot()
+                          }
+                        }
+                      ]
+                    }).present();
                   } else {
                     orderLoading.dismiss().then(() =>{
-                      alert(res.msg);
+                      this.alertCtrl.create({
+                        title: res.msg,
+                        buttons: [
+                          {
+                            text: '确定',
+                          }
+                        ]
+                      }).present();
                     });
 
                   }
@@ -499,7 +585,7 @@ export class OrderPage {
             }
           }).catch(e => {
             orderLoading.dismiss();
-            alert('错误-->' + JSON.stringify(e));
+            // alert('错误-->' + JSON.stringify(e));
           });
         }).catch(e =>{
           orderLoading.dismiss();

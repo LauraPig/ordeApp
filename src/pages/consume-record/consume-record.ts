@@ -29,15 +29,18 @@ export class ConsumeRecordPage {
     public superTabsCtrl: SuperTabsController,
   ) {
 
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ConsumeRecordPage');
+  }
+
+  ionViewWillEnter() {
     this.storage.get('messageCount').then(res =>{
       if (res) {
         this.messageCount = res;
       }
     });
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ConsumeRecordPage');
   }
 
   gotoUnreadMessage() {

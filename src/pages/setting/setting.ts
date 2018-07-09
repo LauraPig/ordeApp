@@ -34,7 +34,7 @@ export class SettingPage {
   ) {
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.appVersion.getVersionNumber().then(res =>{
       if (res) {
         this.appVersionStr = res;
