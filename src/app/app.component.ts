@@ -1,6 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Platform, MenuController, Nav, LoadingController, Loading, ToastController  } from 'ionic-angular';
+import {
+  Platform, MenuController, Nav, LoadingController, Loading, ToastController,
+  AlertController
+} from 'ionic-angular';
 
 import { HomePage } from '../pages/home/home';
 
@@ -43,6 +46,7 @@ export class MyApp {
     public dbService: DataBaseService,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public sqlite: SQLite,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
@@ -103,7 +107,7 @@ export class MyApp {
 
   // 轮询获取消息
   getHasMessage () {
-    let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
+    let reqDateStr = moment().format('YYYY-MM-DD HH:mm:ss');
     // this.storage.get('token').then(res =>{
     //   if (res) {
     //     this.token = res;
@@ -114,9 +118,47 @@ export class MyApp {
       'flag': '0'
     };
     this.httpDataPro.fetchHasMessage(params).then (res => {
-      // alert('res-in-loop->' + JSON.stringify(res));
+      // alert('res-in-count->' + JSON.stringify(res));
       if (res.success) {
         this.storage.set('messageCount', res.body.count);
+
+        if (res.body.count > 0) {
+          let params = {
+            'pushDate': reqDateStr,
+            'flag': '1'
+          };
+          this.httpDataPro.fetchMessageListData(params).then(data => {
+            // alert('res-in-messageDetail->' + JSON.stringify(data));
+            if (data.success) {
+              let temObj = data.body.sysMessageList[0];
+              // alert('res-in-reqDateStr->' + reqDateStr);
+              // alert('res-in-endDate->' + temObj.endDate);
+              // alert(moment(reqDateStr).isBefore(temObj.endDate));
+              if (moment(reqDateStr).isBefore(temObj.endDate)) {
+                this.alertCtrl.create({
+                  title: temObj.head || '消息提示',
+                  subTitle: temObj.body || '',
+                  enableBackdropDismiss: false,
+                  buttons: [
+                    {
+                      text: '确定',
+                      handler: res => {
+                        console.log(res);
+                        this.httpDataPro.changeMessageStatus({'id': temObj.id}).then(res =>{
+                          console.log(res);
+                        }).catch(e =>{
+                          console.log(e);
+                        });
+                      }
+                    }
+                  ]
+                }).present();
+              }
+            }
+          }).catch( e =>{
+
+          });
+        }
       }
     });
   }

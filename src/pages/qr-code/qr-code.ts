@@ -28,4 +28,8 @@ export class QrCodePage {
     console.log('ionViewDidLoad QrCodePage');
   }
 
+  ionViewWillEnter() {
+    this.userNo = this.navParams.get('no');
+  }
+
 }

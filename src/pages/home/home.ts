@@ -61,6 +61,7 @@ export class HomePage {
     console.log('主页...');
   }
   ionViewWillEnter() {
+    // this.getHasMessage();
 
     this.storage.get('messageCount').then(res =>{
       if (res) {
@@ -98,6 +99,7 @@ export class HomePage {
     //   this.getData();
     // }, 20000);
   }
+
 
 
   // ionViewWillEnter() {

@@ -86,5 +86,20 @@ $colors: (
 // Fonts
 // --------------------------------------------------
 
-@import "roboto";
-@import "noto-sans";
+//@import "roboto";
+//@import "noto-sans";
+//@import "jhenghei";
+
+
+$jhenghei-font-path: $font-path !default;
+
+@font-face {
+  font-family: "JhengHei";
+  src: url("#{$jhenghei-font-path}/JhengHei.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+$font-family-md-base: "JhengHei";
+$font-family-ios-base: "JhengHei";
+$font-family-wp-base: "JhengHei";
