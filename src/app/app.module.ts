@@ -43,6 +43,7 @@ import { FileTransfer } from '@ionic-native/file-transfer';
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import {NativeService} from "../providers/app-update/NativeService";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {NativeService} from "../providers/app-update/NativeService";
     HttpModule,
     // QRCodeModule,
     BrowserModule,
+    BrowserAnimationsModule,
 
     IonicModule.forRoot(MyApp, {
       backButtonText: '返回',

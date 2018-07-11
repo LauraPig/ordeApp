@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
+import {animate, state, style, transition, trigger} from "@angular/animations";
 import {CalendarComponentOptions, DayConfig} from 'ion2-calendar'
 import * as moment from 'moment'
 import {DataBaseService} from "../../providers/database/database";
@@ -22,6 +23,30 @@ import {LoginPage} from "../login/login";
 @Component({
   selector: 'page-order',
   templateUrl: 'order.html',
+  animations: [
+    trigger('expand', [
+      state('Active', style({opacity: '1',height: '*'})),
+      state('NotActive', style({opacity: '0',height: 0, overflow: 'hidden'})),
+      transition('Active <=> NotActive', animate('700ms ease-in-out')),
+      state('ActiveUp', style({transform: '*'})),
+      state('ActiveDown', style({transform: 'rotate(180deg)'})),
+      transition('ActiveUp <=> ActiveDown', animate('500ms ease-in-out')),
+    ]),
+    trigger('expandDetail', [
+      state('ActiveDetail', style({opacity: '1',height: '*'})),
+      state('NotActiveDetail', style({opacity: '0',height: 0, overflow: 'hidden'})),
+      transition('ActiveDetail <=> NotActiveDetail', animate('1000ms ease-in-out')),
+      state('ActiveDetailUp', style({transform: '*'})),
+      state('ActiveDetailDown', style({transform: 'rotate(180deg)'})),
+      transition('ActiveDetailUp <=> ActiveDetailDown', animate('500ms ease-in-out')),
+    ]),
+    trigger('expandDate', [
+      state('ActiveDate', style({opacity: '1',height: '*'})),
+      state('NotActiveDate', style({opacity: '0',height: 0, overflow: 'hidden'})),
+      transition('ActiveDate <=> NotActiveDate', animate('700ms ease-in-out')),
+    ])
+  ]
+
 })
 export class OrderPage {
   selectDay: any = moment().format('YYYY年MM月DD');
@@ -33,6 +58,7 @@ export class OrderPage {
   // dateResult: string;
   days: DayConfig[] = [];
   status: boolean = false; // 控制日期是否显示
+  expandStatus: string = 'NotActiveDate'; // 控制日期下拉部分是否显示
   isToday: boolean = true; // 是否今天
   listLength: number;
 
@@ -133,40 +159,9 @@ export class OrderPage {
 
   openCalendar() {
     this.status = !this.status;
+    this.expandStatus = this.expandStatus === 'ActiveDate' ? 'NotActiveDate': 'ActiveDate' ;
   }
 
-
-  // ionViewDidLoad() {
-  //   // 获取工厂ID
-  //   this.storage.get('factoryId').then(data =>{
-  //     // alert('data-id-->' + data);
-  //     if (data) {
-  //       this.factoryId = data;
-  //       this.dbService.openDataBase().then((db: SQLiteObject) =>{
-  //         db.executeSql(`select  b.label as label,b.value as value from ct_meal a,sys_dict_value b,sys_office c where c.parent_ids LIKE '%${this.factoryId}%' AND c.type='4'  AND b.[value]=a.meal_type and a.office_id = c.id AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag = '0' GROUP BY b.label,b.[value],b.sort ORDER BY b.sort;`, {}).then(res =>{
-  //           // alert('res.length--->' + res.rows.length);
-  //           if (res.rows.length) {
-  //             for ( let i = 0; i < res.rows.length; i++) {
-  //               this.typeList.push({
-  //                 label: res.rows.item(i).label,
-  //                 imgUrl: `https://dininghall.blob.core.windows.net/product/${res.rows.item(i).value}.png`,
-  //                 value: res.rows.item(i).value,
-  //                 officeList: [],
-  //                 status: false,
-  //               });
-  //             }
-  //             // this.typeList.push(this.typeList[0]);
-  //             // this.typeList.push(this.typeList[0]);
-  //             this.listLength = this.typeList.length;
-  //           }
-  //         }).catch(e =>{
-  //           console.log(e);
-  //         });
-  //       });
-  //     }
-  //   });
-  //   console.log('ionViewDidLoad OrderPage');
-  // }
 
   ionViewWillEnter() {
 
@@ -199,7 +194,8 @@ export class OrderPage {
                   imgUrl: `https://dininghall.blob.core.windows.net/product/${res.rows.item(i).value}.png`,
                   value: res.rows.item(i).value,
                   officeList: [],
-                  status: false,
+                  status: 'NotActive',
+                  direction: 'ActiveDown',
                 });
               }
               // this.typeList.push(this.typeList[0]);
@@ -226,6 +222,7 @@ export class OrderPage {
   // 日期选择事件
   onChange($event) {
     this.status = !this.status;
+    this.expandStatus = this.expandStatus === 'ActiveDate' ? 'NotActiveDate': 'ActiveDate' ;
     console.log($event);
     const result = moment().format('YYYY-MM-DD');
     // const today = moment().format('YYYY-MM-DD');
@@ -246,7 +243,13 @@ export class OrderPage {
     // alert('item---->' + item.value);
     // this.typeList[index].status = item.status === false;
 
-    this.valueStr = item.value === this.valueStr ? '' : item.value;
+    this.typeList.map((item, i) => {
+      if (i !== index) {
+        item.status = 'NotActive';
+        item.direction = 'ActiveDown';
+      }
+      return item;
+    });
 
     let name: string = '';
     let temList: Array<any> = [];
@@ -263,11 +266,14 @@ export class OrderPage {
                 id: res.rows.item(i).id,
                 name,
                 imgUrl: 'https://dininghall.blob.core.windows.net/product/noodle.png',
-                status: false,
+                status: 'NotActiveDetail', // 展开状态
+                direction: 'ActiveDetailDown', // 箭头状态
                 productList: [],
               });
             }
 
+            this.typeList[index].status = item.status === 'Active' ? 'NotActive' : 'Active';
+            this.typeList[index].direction = item.direction === 'ActiveUp' ? 'ActiveDown' : 'ActiveUp';
             // alert('temList: ' + temList);
             this.typeList[index].officeList = temList;
             // alert('result: ' + this.typeObj[`${this.value}`]);
@@ -285,7 +291,10 @@ export class OrderPage {
   // 根据餐厅获取对应的产品列表
   getProductList (item: any, p: any, parentIndex: number, childrenIndex: number) {
 
-    this.typeList[parentIndex].officeList[childrenIndex].status = p.status === false;
+    this.typeList[parentIndex].officeList[childrenIndex].status = p.status === 'ActiveDetail' ? 'NotActiveDetail' : 'ActiveDetail';
+    this.typeList[parentIndex].officeList[childrenIndex].direction = p.direction === 'ActiveDetailUp' ? 'ActiveDetailDown' : 'ActiveDetailUp';
+
+    // this.typeList[parentIndex].officeList[childrenIndex].status = p.status === false;
 
     let temList: Array<any> = [];
     if (this.todayStr && item.value && p.id) {
@@ -354,6 +363,7 @@ export class OrderPage {
               }
               this.typeList[parentIndex].officeList[childrenIndex].productList = temList;
             }
+
           }
         }).catch(e =>{
 

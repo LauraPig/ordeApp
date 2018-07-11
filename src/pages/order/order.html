@@ -47,12 +47,12 @@
           {{selectDay}}
         </ion-col>
         <ion-col col-9>
-          <ion-icon item-right name="md-arrow-dropdown" style="margin-left: 57vw" ></ion-icon>
+          <ion-icon item-right name="md-arrow-dropup" style="margin-left: 57vw" ></ion-icon>
         </ion-col>
       </ion-row>
     </ion-card-header>
 
-    <ion-calendar *ngIf="status" [(ngModel)]="date"
+    <ion-calendar [@expandDate]="expandStatus" [(ngModel)]="date"
                   [options]="calendarOptions"
                   [format]="'YYYY-MM-DD'"
                   (onChange)="onChange($event)">
@@ -66,16 +66,15 @@
     <!--3个item-->
     <div *ngSwitchCase="3">
       <div *ngFor="let item of typeList; index as i">
-        <ion-item  class="item-3" (click)="getMealTypeDetail(item, i)">
-
+        <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
           <ion-avatar item-start>
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
-          <ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>
-          <ion-icon *ngIf="item.value === valueStr" name="ios-arrow-up-outline" item-end></ion-icon>
+          <!--<ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>-->
+          <ion-icon [@expand]="item.direction" name="ios-arrow-up-outline" item-end></ion-icon>
         </ion-item>
-        <div *ngIf="item.value === valueStr">
+        <div [@expand]="item.status">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
               <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
@@ -83,10 +82,10 @@
                   <img src="{{p.imgUrl}}"/>
                 </ion-avatar>
                 {{p.name}}
-                <ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>
-                <ion-icon *ngIf="p.status" name="ios-arrow-up-outline" item-end></ion-icon>
+                <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
+                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-up-outline" item-end></ion-icon>
               </ion-item>
-              <div *ngIf="p.status">
+              <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
                   <ion-slides pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
@@ -110,16 +109,15 @@
     <!--4个item-->
     <div *ngSwitchCase="4">
       <div *ngFor="let item of typeList; index as i">
-        <ion-item  class="item-4" (click)="getMealTypeDetail(item, i)">
-
+        <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
           <ion-avatar item-start>
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
-          <ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>
-          <ion-icon *ngIf="item.value === valueStr" name="ios-arrow-up-outline" item-end></ion-icon>
+          <!--<ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>-->
+          <ion-icon [@expand]="item.direction" name="ios-arrow-up-outline" item-end></ion-icon>
         </ion-item>
-        <div *ngIf="item.value === valueStr">
+        <div [@expand]="item.status">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
               <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
@@ -127,15 +125,15 @@
                   <img src="{{p.imgUrl}}"/>
                 </ion-avatar>
                 {{p.name}}
-                <ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>
-                <ion-icon *ngIf="p.status" name="ios-arrow-up-outline" item-end></ion-icon>
+                <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
+                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-up-outline" item-end></ion-icon>
               </ion-item>
-              <div *ngIf="p.status">
+              <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
                   <ion-slides pager>
-                      <ion-slide *ngFor="let path of de?.imgUrl">
-                        <img src="{{path}}"/>
-                      </ion-slide>
+                    <ion-slide *ngFor="let path of de?.imgUrl">
+                      <img src="{{path}}"/>
+                    </ion-slide>
                   </ion-slides>
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}</p>
@@ -155,15 +153,14 @@
     <div *ngSwitchCase="5">
       <div *ngFor="let item of typeList; index as i">
         <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
-
           <ion-avatar item-start>
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
-          <ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>
-          <ion-icon *ngIf="item.value === valueStr" name="ios-arrow-up-outline" item-end></ion-icon>
+          <!--<ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>-->
+          <ion-icon [@expand]="item.direction" name="ios-arrow-up-outline" item-end></ion-icon>
         </ion-item>
-        <div *ngIf="item.value === valueStr">
+        <div [@expand]="item.status">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
               <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
@@ -171,10 +168,10 @@
                   <img src="{{p.imgUrl}}"/>
                 </ion-avatar>
                 {{p.name}}
-                <ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>
-                <ion-icon *ngIf="p.status" name="ios-arrow-up-outline" item-end></ion-icon>
+                <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
+                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-up-outline" item-end></ion-icon>
               </ion-item>
-              <div *ngIf="p.status">
+              <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
                   <ion-slides pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
