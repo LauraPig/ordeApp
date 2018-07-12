@@ -16,9 +16,6 @@ import { DataBaseService } from '../providers/database/database';
 import { OperateDataBaseService } from '../providers/database/operate-database';
 import { WeekMenuPage } from "../pages/week-menu/week-menu";
 
-// import { QRCodeModule } from 'angularx-qrcode';
-// import { QRCodeModule } from 'angular2-qrcode';
-// import {WeekMenuTypePage} from "../pages/week-menu-type/week-menu-type";
 import {OrderPage} from "../pages/order/order";
 import {CalendarModule} from "ion2-calendar";
 import {WaitingUsePage} from "../pages/waiting-use/waiting-use";
