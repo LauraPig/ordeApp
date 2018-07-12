@@ -29,7 +29,7 @@ export class QrCodePage {
   }
 
   ionViewWillEnter() {
-    this.userNo = this.navParams.get('no');
+    // this.userNo = this.navParams.get('no');
   }
 
 }

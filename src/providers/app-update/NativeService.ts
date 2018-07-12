@@ -58,7 +58,7 @@ export class NativeService {
 
           this.httpDataPro.checkAppUpdate(params).then(res =>{
             // alert('res- in checkUpdate--> ' + JSON.stringify(res));
-            if (res.success && res.body.versionNo !== data) {
+            if (res.success && res.body.versionNo && res.body.versionNo !== data) {
               this.apkUrl = res.body.azurepath;
               this.isForce = res.body.isForce;
               if (res.body.isForce === '1') {
@@ -95,7 +95,7 @@ export class NativeService {
                   ]
                 }).present();
               }
-            } else if (res.body.versionNo === data && !isInit) {
+            } else if (data && !isInit) {
               this.toastCtrl.create({
                 message: '已经是最新版',
                 duration: 1000,
@@ -137,6 +137,14 @@ export class NativeService {
 
     if (this.isAndroid()) {
       if (!this.apkUrl) {
+        this.alertCtrl.create({
+          subTitle: '未找到android apk下载地址',
+          buttons: [
+            {
+              text: '确定'
+            }
+          ]
+        }).present();
         alert('未找到android apk下载地址');
         return;
       }

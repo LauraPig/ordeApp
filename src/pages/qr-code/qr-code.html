@@ -22,7 +22,8 @@
       </div>
     </ion-list-header>
     <ion-item style="text-align: center">
-      <img src="assets/imgs/qr-code.png" alt="暂无图片">
+      <!--<img src="assets/imgs/qr-code.png" alt="暂无图片">-->
+      <ion-qrcode [data]="userNo" [size]="180" [level]="'M'"  [foreground]="'black'"></ion-qrcode>
     </ion-item>
   </ion-list>
 
