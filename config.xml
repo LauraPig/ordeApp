@@ -95,7 +95,7 @@
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-file-opener2" spec="^2.0.19" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
-    <plugin name="cordova.plugins.diagnostic" spec="^4.0.8" />
     <engine name="android" spec="6.4.0" />
     <engine name="ios" spec="4.5.4" />
+    <plugin name="cordova.plugins.diagnostic" spec="^3.1.7" />
 </widget>
