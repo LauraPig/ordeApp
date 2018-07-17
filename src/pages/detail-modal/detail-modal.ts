@@ -6,6 +6,7 @@ import {DataBaseService} from "../../providers/database/database";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {SQLiteObject} from "@ionic-native/sqlite";
 import {LoginPage} from "../login/login";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 /**
  * Generated class for the DetailModalPage page.
@@ -20,6 +21,13 @@ import {LoginPage} from "../login/login";
 @Component({
   selector: 'page-detail-modal',
   templateUrl: 'detail-modal.html',
+  animations: [
+    trigger('scroll', [
+      state('scrolling', style({opacity: '0',height: 0, overflow: 'hidden'})),
+      state('static', style({opacity: '1',height: '*'})),
+      transition('static <=> scrolling', animate('2000ms ease-in-out')),
+    ]),
+  ]
 })
 export class DetailModalPage {
 
@@ -30,6 +38,8 @@ export class DetailModalPage {
   value: string; // 餐别
   planId: string; //
   userId: string; //
+
+  status: string;
 
   constructor(
     public navCtrl: NavController,
@@ -53,6 +63,8 @@ export class DetailModalPage {
   }
 
   ionViewDidLoad() {
+
+    this.status = 'static';
 
     if (this.officeId && this.value && this.dateStr) {
       // alert('officeId-->' + this.officeId);
@@ -299,6 +311,22 @@ export class DetailModalPage {
 
   dismiss(){
     this.viewCtrl.dismiss();
+  }
+
+
+  // 滚动开始
+  scrollStart (event: Event) {
+    // alert('scroll Start');
+    // this.status = this.status === 'static'? 'scrolling': 'static';
+    this.status = 'scrolling';
+  }
+
+
+  // 滚动结束
+  scrollComplete(event: Event) {
+    // alert('scrollEnd');
+    // this.status = this.status === 'scroll'? 'static': 'scrolling';
+    this.status = 'static';
   }
 
 }

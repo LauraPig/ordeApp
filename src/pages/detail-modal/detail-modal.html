@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content (ionScrollStart)="scrollStart($event)"  (ionScrollEnd)="scrollComplete($event)">
   <ion-slides>
     <ion-slide>
       <img src="{{item?.imgMainUrl}}"/>
@@ -51,4 +51,4 @@
 
 </ion-content>
 
-<button  id="orderBtn" full class="order-btn" (click)="orderProduct(item.id)">订餐</button>
+<button [@scroll]="status"  id="orderBtn" full class="order-btn" (click)="orderProduct(item.id)">订餐</button>

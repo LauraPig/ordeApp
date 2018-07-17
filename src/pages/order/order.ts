@@ -59,7 +59,7 @@ export class OrderPage {
   days: DayConfig[] = [];
   status: boolean = false; // 控制日期是否显示
   expandStatus: string = 'NotActiveDate'; // 控制日期下拉部分是否显示
-  isToday: boolean = true; // 是否今天
+  // isToday: boolean = true; // 是否今天
   listLength: number;
 
   typeList: Array<any> = []; // 餐别类型List
@@ -227,7 +227,7 @@ export class OrderPage {
     const result = moment().format('YYYY-MM-DD');
     // const today = moment().format('YYYY-MM-DD');
     console.log(result);
-    this.isToday = $event.toString() === result;
+    // this.isToday = $event.toString() === result;
     // this.dateResult = $event.toString();
     this.monStr = (moment($event).get('months') + 1).toString();
     this.dayStr = (moment($event).get('date')).toString();
