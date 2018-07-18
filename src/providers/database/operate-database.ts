@@ -130,6 +130,7 @@ export class OperateDataBaseService {
                 tx.executeSql(INSERT_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.status],() =>{
                   if (index === list.length - 1) {
                     tx.finish();
+                    // alert('ct_plan finish');
                   }
                 }, (e) =>{
                   alert('err in insert ct_plan table cause by: ' + JSON.stringify(e));
@@ -428,16 +429,16 @@ export class OperateDataBaseService {
                   if (index === list.length - 1) {
                     tx.finish();
                     //  保存最新的版本号
-                    if (obj.thermalDataVer) {
-                      // alert('设置缓存hotVersion--' + temData.thermalDataVer);
-                      this.storage.set('hotVersion', obj.thermalDataVer);
-                    }
-
+                    // if (obj.thermalDataVer) {
+                    //   alert('设置缓存hotVersion--' + obj.thermalDataVer);
+                    //   this.storage.set('hotVersion', obj.thermalDataVer);
+                    // }
                     //
-                    if (obj.coldDataVer) {
-                      // alert('设置缓存coldVersion--' + temData.coldDataVer);
-                      this.storage.set('coldVersion', obj.coldDataVer);
-                    }
+                    // //
+                    // if (obj.coldDataVer) {
+                    //   alert('设置缓存coldVersion--' + obj.coldDataVer);
+                    //   this.storage.set('coldVersion', obj.coldDataVer);
+                    // }
                   }
                 }, (e) =>{
                   alert('err in insert sys_office table cause by: ' + JSON.stringify(e));

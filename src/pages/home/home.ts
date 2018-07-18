@@ -140,6 +140,8 @@ export class HomePage {
 
   // 调用接口，拉取最新数据
   checkData () : Promise<any>{
+    // alert('res--hotVersion-' + this.hotVersion);
+    // alert('res--coldVersion-' + this.coldVersion);
     let params = [
       {
         'versionNo': this.coldVersion,
@@ -189,16 +191,37 @@ export class HomePage {
       //  CT_Material
       // alert(temData.ctMaterialList.length);
      this.dbService.updateCtMaterialTableData(temData).then(() => {
+       // alert('1');
        this.dbService.updateCtMealTableData(temData).then(() =>{
+         // alert('2');
          this.dbService.updateCtPlanTableData(temData).then(() =>{
+           // alert('3');
            this.dbService.updateCtPlanDtlTableData(temData).then(() =>{
+             // alert('4');
              this.dbService.updateCtProductTableData(temData).then(() =>{
+               // alert('5');
                this.dbService.updateCtProductDtlTableData(temData).then(() =>{
+                 // alert('6');
                  this.dbService.updateCtProductSetTableData(temData).then(() =>{
+                   // alert('7');
                    this.dbService.updateCtProductSetDtlTableData(temData).then(() =>{
+                     // alert('8');
                      this.dbService.updateSysDictTypeTableData(temData).then(() =>{
+                       // alert('9');
                        this.dbService.updateSysDictValueTableData(temData).then(() =>{
+                         // alert('10');
                          this.dbService.updateSysOfficeTableData(temData).then(() =>{
+                           // alert('11');
+                           if (temData.thermalDataVer) {
+                             // alert('设置缓存hotVersion--' + temData.thermalDataVer);
+                             this.storage.set('hotVersion', temData.thermalDataVer);
+                           }
+
+                           //
+                           if (temData.coldDataVer) {
+                             // alert('设置缓存coldVersion--' + temData.coldDataVer);
+                             this.storage.set('coldVersion', temData.coldDataVer);
+                           }
                            initUpdateLoading.dismiss();
                            this.getData();
                          });

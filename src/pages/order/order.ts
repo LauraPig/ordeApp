@@ -64,7 +64,7 @@ export class OrderPage {
 
   typeList: Array<any> = []; // 餐别类型List
 
-  todayStr: string;  // 日期选择器选择的时间 格式： YYYY-MM-DD HH:MM:SS
+  todayStr: string;  // 日期选择器选择的时间 格式： YYYY-MM-DD HH:mm:ss
   planId: string;  // 产品计划ID
   valueStr: string = '';  // 当前展开的餐别
   userName: string;  // 当前用户名称
@@ -122,7 +122,8 @@ export class OrderPage {
       }
     });
 
-    this.todayStr = moment().format('YYYY-MM-DD HH:MM:SS');
+    // this.todayStr = `${moment().format('YYYY-MM-DD')} 00:00:00`;
+    this.todayStr = moment().format('YYYY-MM-DD');
 
     this.monStr = (new Date().getMonth() + 1).toString();
     this.monStr = this.monStr.length === 1 ? '0' + this.monStr : this.monStr;
@@ -232,7 +233,8 @@ export class OrderPage {
     this.monStr = (moment($event).get('months') + 1).toString();
     this.dayStr = (moment($event).get('date')).toString();
     this.selectDay = moment($event).format('YYYY年MM月DD');
-    this.todayStr = moment($event).format('YYYY-MM-DD HH:MM:SS');
+    // this.todayStr = moment($event).format('YYYY-MM-DD HH:mm:ss');
+    this.todayStr = moment($event).format('YYYY-MM-DD');
     // this.getGoalDay();
   }
 
@@ -296,20 +298,41 @@ export class OrderPage {
 
     // this.typeList[parentIndex].officeList[childrenIndex].status = p.status === false;
 
+    // alert('value-->' + item.value);
+    // alert('todayStr-->' + this.todayStr);
+    // alert('office-id->' + p.id);
     let temList: Array<any> = [];
     if (this.todayStr && item.value && p.id) {
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
+      /*  db.executeSql(`select 0 type from ct_plan a ,ct_plan_dtl c,ct_meal b
+                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}'
+                       and b.office_id = '${p.id}' AND c.obj_type = '0'
+                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0'
+                       and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'
+                       UNION
+                       select 1 type  from ct_plan a ,ct_plan_dtl c,ct_meal b
+                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}'
+                       and b.office_id = '${p.id}' AND c.obj_type = '1'
+                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0'
+                       and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{*/
+
+
+
+
         db.executeSql(`select d.product_name name,d.price price,d.id id,0 type,d.blob_path imgPath from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product d
-                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}' 
+                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}'
                        and b.office_id = '${p.id}' AND c.obj_type = '0' AND c.obj_id = d.id
-                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0' 
+                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
                        and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'
                        UNION
                        select d.product_set_name name,d.price price,d.id id,1 type,d.blob_path path  from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product_set d
-                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}' 
+                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}'
                        and b.office_id = '${p.id}' AND c.obj_type = '1' AND c.obj_id = d.id
                        and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
                        and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{
+
+
+        // db.executeSql(`select  a.* from ct_plan a where a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{
 
           // alert('res.length--' + res.rows.length);
           if (res.rows.length) {
