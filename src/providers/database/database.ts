@@ -42,6 +42,14 @@ export class DataBaseService {
         });
     }
 
+  // 删除数据库
+  deleteDataBase(): Promise<any> {
+    return this.sqlite.deleteDatabase({
+      name: DATABASE_NAME,
+      location: 'default'
+    });
+  }
+
 
 
     test(list: Array<any>){

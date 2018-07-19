@@ -14,8 +14,11 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import {APP_DOWNLOAD, APK_DOWNLOAD} from "../../common/const";
 import {HttpDataProviders} from "../http-data/http-data";
 import {Utils} from "../../utils";
+import {Storage} from '@ionic/storage';
+
 
 import { Observable } from 'rxjs/Rx';
+import {DataBaseService} from "../database/database";
 
 @Injectable()
 export class NativeService {
@@ -31,6 +34,8 @@ export class NativeService {
               private transfer: FileTransfer,
               private appVersion: AppVersion,
               private file: File,
+              private storage: Storage,
+              private dataBaseService: DataBaseService,
               private fileOpener: FileOpener,
               private httpDataPro: HttpDataProviders,
               private diagnostic: Diagnostic,
@@ -175,6 +180,9 @@ export class NativeService {
         // 下载并安装apk
         fileTransfer.download(this.apkUrl, apk).then(() => {
           alert && alert.dismiss();
+          this.dataBaseService.deleteDataBase().then(() =>{
+            this.storage.remove('HasCreateDb');
+          });
           this.fileOpener.open(apk, 'application/vnd.android.package-archive');
         }, err => {
           this.updateProgress = -1;

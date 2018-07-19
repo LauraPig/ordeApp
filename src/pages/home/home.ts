@@ -77,6 +77,7 @@ export class HomePage {
     // 判断是否已经初始化数据库
     this.storage.get('HasCreateDb').then(res => {
       console.log('res=====>', res);
+      // alert('HasCreateDb=====>' + res);
       if (!res) {
         this.initDB().then((res) => {
           this.handleVersion().then((data) =>{
