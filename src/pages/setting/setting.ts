@@ -106,4 +106,8 @@ export class SettingPage {
     this.navCtrl.push('recharge');
   }
 
+  gotoFeedBack () {
+    this.navCtrl.push('feed-back');
+  }
+
 }

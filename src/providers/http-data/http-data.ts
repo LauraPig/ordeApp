@@ -97,6 +97,10 @@ export class HttpDataProviders {
   public hold (params: any) {
     return this.httpPro.httpPostWithAuth('/hold', params);
   }
+  // 获取反馈初始化信息
+  public fetchFeedBackInfo (params: any) {
+    return this.httpPro.httpPostWithAuth('/initFeedback', params);
+  }
 
   // 调用微信支付
   public doWxPay (params: any) {
