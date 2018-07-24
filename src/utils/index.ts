@@ -15,6 +15,24 @@ export class Utils {
       return ++sequence;
     };
   })();
+
+  static getFileName = (() => {
+    return ()=>{
+      return moment().format('x');
+    };
+  })();
+};
+
+const sourceStr = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+export const UUIDHelper = {
+  generateUUID (length = 8){
+    const uuidStrings = [];
+    while ( length--) {
+      const digit = Math.floor(Math.random() * (sourceStr.length - 1));
+      uuidStrings.push(sourceStr.charAt(digit));
+    }
+    return uuidStrings.join('');
+  },
 };
 
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {ImgUploadService} from "../../providers/upload/img-upload-service";
 
 /**
  * Generated class for the FeedBackDetailPage page.
@@ -23,7 +24,11 @@ export class FeedBackDetailPage {
   type: string;
   content: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public imgUploadService: ImgUploadService,
+  ) {
   }
 
   ionViewDidLoad() {
@@ -38,6 +43,10 @@ export class FeedBackDetailPage {
     this.others = 'others' === value;
     console.log('value----->', this.type);
     console.log('content----->', this.content);
+  }
+
+  uploadImg() {
+    this.imgUploadService.showPicActionSheet();
   }
 
 }

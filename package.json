@@ -29,6 +29,7 @@
     "@ionic-native/file": "^4.9.0",
     "@ionic-native/file-opener": "^4.9.0",
     "@ionic-native/file-transfer": "^4.9.0",
+    "@ionic-native/image-picker": "^4.10.0",
     "@ionic-native/in-app-browser": "^4.9.0",
     "@ionic-native/qr-scanner": "^4.7.0",
     "@ionic-native/splash-screen": "4.6.0",
@@ -45,6 +46,7 @@
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-file-opener2": "^2.0.19",
     "cordova-plugin-file-transfer": "^1.7.1",
+    "cordova-plugin-image-picker": "git+https://github.com/Findiglay/cordova-imagePicker.git",
     "cordova-plugin-inappbrowser": "^3.0.0",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^1.2.1",
@@ -86,7 +88,8 @@
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-file-opener2": {},
       "cordova-plugin-inappbrowser": {},
-      "cordova.plugins.diagnostic": {}
+      "cordova.plugins.diagnostic": {},
+      "cordova-plugin-image-picker": {}
     },
     "platforms": [
       "android",

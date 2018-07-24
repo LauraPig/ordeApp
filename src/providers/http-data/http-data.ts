@@ -102,6 +102,11 @@ export class HttpDataProviders {
     return this.httpPro.httpPostWithAuth('/initFeedback', params);
   }
 
+  // 获取上传图片签名后的地址
+  public fetchUploadUrl (params: any) {
+    return this.httpPro.httpPostWithAuth('/signFeedback', params);
+  }
+
   // 调用微信支付
   public doWxPay (params: any) {
 

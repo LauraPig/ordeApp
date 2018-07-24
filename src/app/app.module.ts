@@ -36,12 +36,14 @@ import {AppVersion} from "@ionic-native/app-version";
 import {MessageRecordPage} from "../pages/message-record/message-record";
 import {FileOpener} from "@ionic-native/file-opener";
 import {File} from '@ionic-native/file';
-import { FileTransfer } from '@ionic-native/file-transfer';
+import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer';
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import {NativeService} from "../providers/app-update/NativeService";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SharedModule} from "../modules/shared/shared.module";
+import {ImagePicker} from "@ionic-native/image-picker";
+import {ImgUploadService} from "../providers/upload/img-upload-service";
 
 @NgModule({
   declarations: [
@@ -105,9 +107,12 @@ import {SharedModule} from "../modules/shared/shared.module";
     OperateDataBaseService,
     HttpDataProviders,
     BackButtonService,
+    ImgUploadService,
     NativeService,
+    FileTransferObject,
     SQLite,
     Camera,
+    ImagePicker,
     ZBar,
     File,
     AppVersion,
