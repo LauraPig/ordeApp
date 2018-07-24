@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from '@ionic/storage';
 import {LoginPage} from "../login/login";
@@ -28,6 +28,7 @@ export class PersonalInfoPage {
     public navCtrl: NavController,
     public httpDataPro: HttpDataProviders,
     public storage: Storage,
+    public loadingCtrl: LoadingController,
     public navParams: NavParams,
   ) {
 
@@ -39,11 +40,23 @@ export class PersonalInfoPage {
   }
 
   getPersonInfo() {
+
+    let initLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '加载中...'
+      // content: `
+      //   <div class="custom-spinner-container">
+      //     <div class="custom-spinner-box"></div>
+      //   </div>`,
+    });
+    initLoading.present();
     let params ={
       // 'token': token,
     }
     this.httpDataPro.fetchPersonInfoData(params).then(res =>{
       // alert('res-data:' + JSON.stringify(res));
+      initLoading.dismiss();
+
       if (res.success && res.body) {
         const temObj = {...res.body.user};
         // alert('res-before:' + temObj.name);
@@ -68,6 +81,9 @@ export class PersonalInfoPage {
           this.navCtrl.setRoot(LoginPage);
         })
       }
+    }).catch(e =>{
+      console.log(e);
+      initLoading.dismiss();
     });
   }
 

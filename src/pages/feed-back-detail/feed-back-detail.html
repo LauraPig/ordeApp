@@ -1,0 +1,48 @@
+<!--
+  Generated template for the FeedBackDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>意见反馈</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <p>请选择您要反馈的问题分类</p>
+  <ion-item>
+    <ion-label>
+      菜品问题
+    </ion-label>
+    <ion-checkbox [checked]="product" (click)="selectValue('product')"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+      卫生问题
+    </ion-label>
+    <ion-checkbox [checked]="hygiene" (click)="selectValue('hygiene')"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+      其他问题
+    </ion-label>
+    <ion-checkbox [checked]="others" (click)="selectValue('others')"></ion-checkbox>
+  </ion-item>
+  <ion-textarea [(ngModel)]="content" style="margin-top: 2vh; border: .5px #c8c7cc solid;height: 25vh;line-height: 4vh"  placeholder="请输入您的详细意见或建议">
+
+  </ion-textarea>
+  <div>
+    请提供相关照片或截图
+  </div>
+  <button style="width: 20vw;height: 10vh;border: .5px #c8c7cc solid">
+    <ion-icon name="ios-add-outline"></ion-icon>
+    <p>
+      相机/相册
+    </p>
+  </button>
+</ion-content>
