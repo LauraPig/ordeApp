@@ -17,12 +17,19 @@ export class ImgUploadService {
   // 图片上传的的api
   public uploadApi: string;
 
+  accessid: string;
+  policy: string;
+  signature: string;
+  dir: string;
+  expire: string;
+  callbackbody :string;
+
   // 调用相机时传入的参数
   private cameraOpt = {
     quality: 50,
     destinationType: 1, // Camera.DestinationType.FILE_URI,
     sourceType: 1, // Camera.PictureSourceType.CAMERA,
-    encodingType: 1, // Camera.EncodingType.JPEG: 0, Camera.EncodingType.PNG: 1
+    encodingType: 0, // Camera.EncodingType.JPEG: 0, Camera.EncodingType.PNG: 1
     mediaType: 0, // Camera.MediaType.PICTURE,
     allowEdit: true,
     correctOrientation: true
@@ -34,16 +41,17 @@ export class ImgUploadService {
       width: 800,
       height: 800,
       quality: 80,
-      outputType: 0
+      // outputType: 0
     };
 
   upload: any= {
-    fileKey: 'upload',//接收图片时的key
-    fileName: 'imageName.jpg',
+    // fileKey: 'upload',//接收图片时的key
+    // fileName: 'imageName.jpg',
     headers: {
-      // 'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8', //不加入 发生错误！！
-      'Content-Type': "application/octet-stream",
-      "x-oss-meta-author": "1",
+      'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8', //不加入 发生错误！！
+      // 'Content-Type': 'application/octet-stream',
+      // 'Content-Type': 'image/jpeg;imgae/png;image/jpg',
+      // "x-oss-meta-author": "1",
     },
     params: {}, //需要额外上传的参数
     success: (data)=> { alert('uploadSuccess-->' + data); },//图片上传成功后的回调
@@ -85,8 +93,14 @@ export class ImgUploadService {
     let params = {};
     this.httpDataProvider.fetchUploadUrl(params).then(res =>{
       if (res && res.success) {
-        // this.uploadApi = res.body.url || '';
-        this.uploadApi = 'http://dininghall.oss-cn-shenzhen.aliyuncs.com/sit/feedback/a.jpg?Expires=1532539877&OSSAccessKeyId=LTAIUpqLSZzIK03R&Signature=44ZAwhNQyE%2BgJAgxPYc%2B0P6cHPA%3D';
+        this.uploadApi = res.body.host || '';
+        this.signature = res.body.signature || '';
+        this.policy = res.body.policy || '';
+        this.expire = res.body.expire || '';
+        this.accessid = res.body.accessid || '';
+        this.dir = res.body.dir || '';
+        alert('dir--->' + res.body.dir);
+        // this.uploadApi = 'http://dininghall.oss-cn-shenzhen.aliyuncs.com';
         this.useASComponent();
       } else {
         this.toastCtrl.create({
@@ -136,24 +150,6 @@ export class ImgUploadService {
     actionSheet.present();
   }
 
-// 使用原生的ActionSheet组件
-  /*private useNativeAS() {
-  let buttonLabels = ['拍照', '从手机相册选择'];
-  ActionSheet.show({
-  'title': '选择',
-  'buttonLabels': buttonLabels,
-  'addCancelButtonWithLabel': 'Cancel',
-  //'addDestructiveButtonWithLabel' : 'Delete'
-  }).then((buttonIndex: number) => {
-  if(buttonIndex == 1) {
-  this.startCamera();
-  } else if(buttonIndex == 2) {
-  this.openImgPicker();
-  }
-  });
-  }*/
-
-
 // 启动拍照功能
   private startCamera() {
     this.camera.getPicture(this.cameraOpt).then((imageData)=> {
@@ -181,29 +177,6 @@ export class ImgUploadService {
     }, (err)=> {
       alert('ERROR:'+ err);//错误：无法从手机相册中选择图片！
     });
-
-
-    // this.imagePicker.hasReadPermission().then(result =>{
-    //   if (result) {
-    //     let temp = '';
-    //     this.imagePicker.getPictures(this.imagePickerOpt).then((results)=> {
-    //         alert('results-->' + results.length);
-    //         for (var i=0; i < results.length; i++) {
-    //           temp = results[i];
-    //           this.uploadImg(temp);
-    //         }
-    //
-    //         // this.uploadImg(temp);
-    //
-    //       }, (err)=> {
-    //         // this.noticeSer.showToast('ERROR:'+ err);//错误：无法从手机相册中选择图片！
-    //       });
-    //   } else {
-    //     this.imagePicker.requestReadPermission().then(result =>{
-    //     });
-    //   }
-    // });
-
   }
 
 
@@ -219,10 +192,28 @@ export class ImgUploadService {
 
     let options:any;
     options = {
-      fileKey: UUIDHelper.generateUUID(),
-      fileName: arr[arr.length - 1],
+      fileKey: 'file',
+      // fileName: arr[arr.length - 1],
+      fileName: 'jimmy.jpg',
       headers: this.upload.headers,
-      params: this.upload.params
+      // httpMethod: 'GET',
+      httpMethod: 'POST',
+      // chunkedMode: false,
+      mimeType: 'image/jpeg;image/jpg;image/png',
+      // mimeType: 'jpg,gif,png,bmp',
+      params: {
+        // 'key' : '',
+        // 'policy': 'eyJleHBpcmF0aW9uIjoiMjAxOC0wNy0yNlQxNDoyMTo0Ny42ODhaIiwiY29uZGl0aW9ucyI6W1siY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjAwMF0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXV19',
+        // 'OSSAccessKeyId': 'LTAIUpqLSZzIK03R',
+        // 'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
+        // 'signature': 'SJCXulH4LUsmqdIl6OSZZZ//poA=',
+
+        'key' : this.dir,
+        'policy': this.policy,
+        'OSSAccessKeyId': this.accessid,
+        'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
+        'signature': this.signature,
+      }
     };
     let fileInfo = {
       fileName: options.fileName,
@@ -230,8 +221,9 @@ export class ImgUploadService {
       path,
     };
 
-    this.fileTransfer.upload(path,this.uploadApi, options)
+    this.fileTransfer.upload(path, this.uploadApi, options)
       .then((data)=> {
+        alert('success-->' + JSON.stringify(data));
 
         if (this.upload.success) {
           this.fileList.push(fileInfo);
