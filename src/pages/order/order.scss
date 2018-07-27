@@ -32,6 +32,9 @@ page-order {
   /* 头部样式*/
   .toolbar-ios {
     min-height: 55px !important;
+    p {
+      margin: 0 !important;
+    }
   }
 
   .toolbar-title-ios{

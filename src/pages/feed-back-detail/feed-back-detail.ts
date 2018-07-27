@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ImgUploadService} from "../../providers/upload/img-upload-service";
+import { Storage } from '@ionic/storage';
+import {LoginPage} from "../login/login";
+import {HttpDataProviders} from "../../providers/http-data/http-data";
 
 /**
  * Generated class for the FeedBackDetailPage page.
@@ -23,10 +26,15 @@ export class FeedBackDetailPage {
 
   type: string;
   content: string;
+  factoryId: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public storage: Storage,
+    public toastCtrl: ToastController,
+    public httpDataProvider: HttpDataProviders,
+    public alertCtrl: AlertController,
     public imgUploadService: ImgUploadService,
   ) {
   }
@@ -35,9 +43,31 @@ export class FeedBackDetailPage {
     console.log('ionViewDidLoad FeedBackDetailPage');
   }
 
+  ionViewWillEnter() {
+    this.storage.get('factoryId').then(res =>{
+      if (res) {
+        this.factoryId = res;
+      }
+    });
+  }
+
   selectValue (value: string) {
 
-    this.type = value && value || '';
+    switch (value) {
+      case 'product':
+        this.type = '1';
+        break;
+      case 'hygiene':
+        this.type = '2';
+        break;
+      case 'others':
+        this.type = '3';
+        break;
+      default:
+        break;
+    }
+
+    // this.type = value && value || '';
     this.product = 'product' === value;
     this.hygiene = 'hygiene' === value;
     this.others = 'others' === value;
@@ -47,6 +77,63 @@ export class FeedBackDetailPage {
 
   uploadImg() {
     this.imgUploadService.showPicActionSheet();
+  }
+
+  // 提交反馈意见
+  doSubmit() {
+    if (this.type && this.content && this.factoryId) {
+      let params = {
+        'factoryId': this.factoryId,
+        'feedbackType': this.type,
+        'detail': this.content,
+        'imgUrl': '',
+        'blobPath': '',
+      }
+
+
+      this.httpDataProvider.submitFeedBack(params).then(res =>{
+        if (res && res.success) {
+          this.toastCtrl.create({
+            message: res.msg || '提交成功',
+            duration: 1000,
+            position: 'middle',
+            cssClass: 'toast-ctrl'
+          }).present();
+
+          this.navCtrl.pop();
+        } else {
+          this.toastCtrl.create({
+            message: res.msg || '提交失败',
+            duration: 1000,
+            position: 'middle',
+            cssClass: 'toast-ctrl'
+          }).present();
+        }
+      }).catch(e =>{
+        console.log(e);
+      });
+
+
+
+
+    } else {
+      this.alertCtrl.create({
+        subTitle: '提交内容不能为空',
+        buttons: [
+          {
+            text: '确定',
+            // handler: data => {
+            //   this.storage.remove('token').then(() => {
+            //     this.navCtrl.setRoot(LoginPage)
+            //   });
+            //   console.log(data);
+            //   // this.navCtrl.setRoot()
+            // }
+          }
+        ]
+      }).present();
+    }
+
   }
 
 }

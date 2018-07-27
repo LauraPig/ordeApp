@@ -26,8 +26,12 @@ page-waiting-use {
     background-color: #ff0f1c !important;
   }
 
+  /* 头部样式*/
   .toolbar-ios {
     min-height: 55px !important;
+    p {
+      margin: 0 !important;
+    }
   }
 
   .toolbar-title-ios{

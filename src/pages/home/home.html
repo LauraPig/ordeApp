@@ -7,8 +7,8 @@
     </ion-buttons>
     <ion-title>
       <div >
-        <span>{{userName}}</span><br/>
-        <span class="cut-title">欢迎来到{{factoryName}}</span>
+        <p>{{userName}}</p>
+        <p class="cut-title">欢迎来到{{factoryName}}</p>
       </div>
     </ion-title>
     <ion-buttons *ngIf="messageCount > 0" end>
@@ -54,12 +54,13 @@
       </ion-slide>
     </ion-slides>
     <!--<ion-cardR-header>-->
-      <!--<ion-icon ios="ios-basket" md="md-basket"></ion-icon>-->
-      <!--<span >今日您已预订</span>-->
+    <!--<ion-icon ios="ios-basket" md="md-basket"></ion-icon>-->
+    <!--<span >今日您已预订</span>-->
     <!--</ion-card-header>-->
   </ion-card>
 
   <ion-card *ngIf="(isNull && orderList.length === 0)">
+    <!--<img class="img-item" src="assets/imgs/test.jpg"/>-->
     <div  class="null-content">
       <div class="null-tips">
         <img src="assets/imgs/null.png" alt="">
@@ -73,6 +74,7 @@
 
   <ion-card tappable (click)="gotoOrder(factoryName)">
     <img class="img-item" src="https://dininghall.blob.core.windows.net/product/473c5d4611c74be3acc05a6b54cca853.png"/>
+    <!--<img class="img-item" src="assets/imgs/test.jpg"/>-->
     <div class="order-tile">
       立即预订
     </div>
@@ -88,3 +90,4 @@
   </div>
   <!--<qr-code [value]="'1231234'" [size]="150" [backgroundAlpha]="0.5" [padding]="10"></qr-code>-->
 </ion-content>
+

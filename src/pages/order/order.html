@@ -7,8 +7,8 @@
     </ion-buttons>
     <ion-title>
       <div >
-        <span>{{userName}}</span><br/>
-        <span class="cut-title">欢迎来到{{factoryName}}</span>
+        <p>{{userName}}</p>
+        <p class="cut-title">欢迎来到{{factoryName}}</p>
       </div>
     </ion-title>
     <ion-buttons *ngIf="messageCount > 0" end>
@@ -30,7 +30,7 @@
 
 <ion-content>
 
-  <ion-card ion-item  no-lines style="background-image: none" >
+  <ion-card ion-item  no-lines style="background-image: none;" >
     <ion-card-header tappable (click)="openCalendar()">
       <ion-row *ngIf="!status">
         <ion-col offset-4 col-3>

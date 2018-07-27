@@ -99,7 +99,7 @@ export class ImgUploadService {
         this.expire = res.body.expire || '';
         this.accessid = res.body.accessid || '';
         this.dir = res.body.dir || '';
-        alert('dir--->' + res.body.dir);
+        // alert('dir--->' + res.body.dir);
         // this.uploadApi = 'http://dininghall.oss-cn-shenzhen.aliyuncs.com';
         this.useASComponent();
       } else {
@@ -187,7 +187,7 @@ export class ImgUploadService {
     }
 
     let arr = path.split('/');
-    alert('fileName--->' + arr[arr.length - 1]);
+    // alert('fileName--->' + arr[arr.length - 1]);
 
 
     let options:any;
