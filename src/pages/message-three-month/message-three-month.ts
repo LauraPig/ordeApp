@@ -42,7 +42,7 @@ export class MessageThreeMonthPage {
   ionViewWillEnter() {
     this.messageList = [];
 
-    let month = `${new Date().getMonth() - 1}`;
+    let month = new Date().getMonth() - 1;
     const [startTime, endTime] = getCurrentMonth(month);
     // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
     // let firstDay = `${moment().subtract(89, 'days').format('YYYY-MM-DD')} 00:00:00`;   // 开始日期

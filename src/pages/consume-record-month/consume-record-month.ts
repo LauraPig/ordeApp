@@ -55,7 +55,7 @@ export class ConsumeRecordMonthPage {
     // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
     // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
 
-    let month = new Date().getMonth().toString();
+    let month = new Date().getMonth();
     const [startTime, endTime] = getCurrentMonth(month);
     this.getListData(startTime, endTime);
   }

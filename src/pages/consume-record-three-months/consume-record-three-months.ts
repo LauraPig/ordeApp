@@ -51,7 +51,7 @@ export class ConsumeRecordThreeMonthsPage {
     // let firstDay = `${moment().subtract(89, 'days').format('YYYY-MM-DD')} 00:00:00`;   // 开始日期
     // let lastDay = `${moment().format('YYYY-MM-DD')} 23:59:59`;   // 今天日期
 
-    let month = `${new Date().getMonth() - 1}`;
+    let month = new Date().getMonth() - 1;
     const [startTime, endTime] = getCurrentMonth(month);
     this.getListData(startTime, endTime);
   }

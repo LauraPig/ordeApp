@@ -67,7 +67,10 @@ export class HttpProvider {
       });
       return this.http.post(HOST + url, body, options).toPromise()
         .then(this.extractData)
-        .catch(err => this.handleError(err));
+        .catch(err => {
+          alert('error-->' + JSON.stringify(err));
+          this.handleError(err);
+        });
     });
 
   }

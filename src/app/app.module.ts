@@ -44,6 +44,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SharedModule} from "../modules/shared/shared.module";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {ImgUploadService} from "../providers/upload/img-upload-service";
+import {IntegralPage} from "../pages/integral/integral";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {ImgUploadService} from "../providers/upload/img-upload-service";
     SelectTypePage,
     LocationPage,
     MessageRecordPage,
+    IntegralPage,
     // WeekMenuTypePage
   ],
   imports: [
@@ -96,6 +98,7 @@ import {ImgUploadService} from "../providers/upload/img-upload-service";
     SelectTypePage,
     LocationPage,
     MessageRecordPage,
+    IntegralPage,
     // WeekMenuTypePage
   ],
   providers: [

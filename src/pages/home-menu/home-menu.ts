@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, Nav, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, Nav, NavParams, LoadingController} from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ListPage } from '../../pages/list/list';
 import { WeekMenuPage } from '../../pages/week-menu/week-menu';
@@ -10,6 +10,8 @@ import {LoginPage} from "../login/login";
 import {HttpProvider} from "../../providers/http/http-service";
 import {Storage} from '@ionic/storage';
 import {ZBar, ZBarOptions} from "@ionic-native/zbar";
+import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {IntegralPage} from "../integral/integral";
 // import {TestPage} from "../test/test";
 
 /**
@@ -33,12 +35,15 @@ export class HomeMenuPage {
   pages: Array<{title: string, component: any}>;
   otherPages: Array<{title: string, component: any}>;
   messageCount: number;
+  integral: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public zbar: ZBar,
-    public httpPro: HttpProvider,
+    public httpDataProviders: HttpDataProviders,
+    // public httpPro: HttpProvider,
+    public loadingCtrl: LoadingController,
     public storage: Storage,
   ) {
 
@@ -53,12 +58,12 @@ export class HomeMenuPage {
   }
 
   ionViewDidLoad() {
-    this.storage.get('messageCount').then(res =>{
-      if (res) {
-        this.messageCount = res;
-      }
-
-    });
+    // this.storage.get('messageCount').then(res =>{
+    //   if (res) {
+    //     this.messageCount = res;
+    //   }
+    //
+    // });
     // this.initData();
     console.log('ionViewDidLoad HomeMenuPage');
   }
@@ -74,21 +79,25 @@ export class HomeMenuPage {
   }
 
   initData () {
-    let params = [
-      {
-        'versionNo': 0,
-        'type': '0'
-      },
-      {
-        'versionNo': 0,
-        'type': '1'
-      }
-    ];
-    this.httpPro.httpPostWithAuth('/data/', params).then(data => {
-      // alert('结果' + data.success);
-    }).catch(e => {
-      // alert('错误==》' + JSON.stringify(e));
+
+    let dataLoading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: '加载中...'
     });
+    dataLoading.present();
+    let params = {};
+    this.httpDataProviders.getIntegral(params).then(res => {
+      // alert('res--> integral' + JSON.stringify(res));
+      dataLoading.dismiss();
+      if (res && res.success) {
+        this.integral = res.body.balance || '0';
+      }
+    }).catch( e =>{
+      dataLoading.dismiss();
+      // alert('error--> integral' + e.toString());
+      console.log(e);
+    });
+
   }
 
   openPage(page: string) {
@@ -105,6 +114,12 @@ export class HomeMenuPage {
       default:
         // break;
     }
+  }
+
+
+  // 我的积分
+  gotoIntegral() {
+    this.navCtrl.push(IntegralPage);
   }
 
   // 扫一扫功能

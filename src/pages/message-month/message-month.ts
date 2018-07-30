@@ -38,7 +38,7 @@ export class MessageMonthPage {
   }
 
   ionViewWillEnter() {
-    let month = new Date().getMonth().toString();
+    let month = new Date().getMonth();
     const [startTime, endTime] = getCurrentMonth(month);
     this.messageList = [];
     // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天

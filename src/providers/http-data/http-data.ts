@@ -112,6 +112,17 @@ export class HttpDataProviders {
     return this.httpPro.httpPostWithAuth('/subFeedback', params);
   }
 
+
+  // 积分查询
+  public getIntegral (params: any) {
+    return this.httpPro.httpPostWithAuth('/scoreAccount', params);
+  }
+
+  // 积分明细
+  public getIntegralDetail (params: any) {
+    return this.httpPro.httpPostWithAuth('/scoreDetail', params);
+  }
+
   // 调用微信支付
   public doWxPay (params: any) {
 

@@ -42,7 +42,7 @@ export class MessageWeekPage {
 
     // let lastMonday = `${moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD')} 00:00:00`;   //周一日期
 
-    let month = `${new Date().getMonth() + 1}`;
+    let month = new Date().getMonth() + 1;
     const [startTime, ] = getCurrentMonth(month);
     let endTime = moment().format('YYYY-MM-DD HH:mm:ss');
     // let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期

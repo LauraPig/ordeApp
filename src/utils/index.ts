@@ -108,15 +108,17 @@ export const getResult = () :number =>{
  *
  */
 
-export const getCurrentMonth = (month?: string) => {
+export const getCurrentMonth = (month?: Number) => {
   if (!month) {
     return null;
   }
+  let monthStr = month < 10 ? `0${month}` : month;
   let date = new Date();
   let year = date.getFullYear();
-  let temStr = moment(`${year}-${month}-01`).format('YYYY-MM-DD');
+  let temStr = moment(`${year}-${monthStr}-01`).format('YYYY-MM-DD');
+  // alert('temStr-->' + temStr);
   let startTime = `${temStr} 00:00:00`;
-  let endTime = `${moment(`${year}-${month}`).endOf('month').format("YYYY-MM-DD")} 23:59:59`;
+  let endTime = `${moment(`${year}-${monthStr}`).endOf('month').format("YYYY-MM-DD")} 23:59:59`;
   return [startTime, endTime];
 };
 

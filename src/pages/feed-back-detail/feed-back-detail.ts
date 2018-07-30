@@ -82,13 +82,15 @@ export class FeedBackDetailPage {
   // 提交反馈意见
   doSubmit() {
     if (this.type && this.content && this.factoryId) {
+      // alert('factoryId--->' + this.factoryId);
+      // alert('feedbackType--->' + this.type);
       let params = {
         'factoryId': this.factoryId,
         'feedbackType': this.type,
         'detail': this.content,
         'imgUrl': '',
         'blobPath': '',
-      }
+      };
 
 
       this.httpDataProvider.submitFeedBack(params).then(res =>{
