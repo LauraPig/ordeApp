@@ -44,10 +44,10 @@
   <div style="margin-top: 20px">
     请提供相关照片或截图
   </div>
-  <div *ngIf="fileList && fileList.length > 0 ">
-    <div style="float: left;margin: 5px" *ngFor="let item of fileList">
-      <!--<ion-icon name="ios-close-circle-outline"></ion-icon>-->
-      <img style="width: 20vw;height: 10vh;" src="{{item}}" alt="">
+  <div *ngIf="fileList && fileList.length > 0 " class="img-container">
+    <div class="img-detail" *ngFor="let item of fileList; index as i">
+      <ion-icon (click)="deleteImg(i)" class="img-delete" name="ios-close-circle"></ion-icon>
+      <img (click)="viewPhoto(i)" src="{{item}}" alt="">
     </div>
   </div>
   <button (click)="uploadImg()" style="margin: 5px;width: 20vw;height: 10vh;border: .5px #c8c7cc solid">

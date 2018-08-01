@@ -4,6 +4,9 @@ import {ImgUploadService} from "../../providers/upload/img-upload-service";
 import { Storage } from '@ionic/storage';
 import {LoginPage} from "../login/login";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
+import { ModalController } from 'ionic-angular';
+import { GalleryModal } from 'ionic-gallery-modal';
+import {WaitingUsePage} from "../waiting-use/waiting-use";
 
 /**
  * Generated class for the FeedBackDetailPage page.
@@ -36,6 +39,7 @@ export class FeedBackDetailPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public modalCtrl: ModalController,
     public toastCtrl: ToastController,
     public httpDataProvider: HttpDataProviders,
     public alertCtrl: AlertController,
@@ -80,7 +84,16 @@ export class FeedBackDetailPage {
   }
 
   uploadImg() {
-    this.imgUploadService.showPicActionSheet(this.fileList);
+    if (this.fileList.length < 6) {
+      this.imgUploadService.showPicActionSheet(this.fileList);
+    } else {
+      this.toastCtrl.create({
+        message: '最多上传6张',
+        duration: 1000,
+        position: 'middle',
+        cssClass: 'toast-ctrl'
+      }).present();
+    }
   }
 
   // 提交反馈意见
@@ -119,10 +132,6 @@ export class FeedBackDetailPage {
       }).catch(e =>{
         console.log(e);
       });
-
-
-
-
     } else {
       this.alertCtrl.create({
         subTitle: '提交内容不能为空',
@@ -142,5 +151,49 @@ export class FeedBackDetailPage {
     }
 
   }
+
+
+  // 浏览图片
+  viewPhoto(index: number) {
+    let modal = this.modalCtrl.create(GalleryModal, {
+      photos: this.fileList.map((item, index) =>{
+        return {
+          url: item,
+          type: ''
+        }
+      }),
+      initialSlide: index
+    });
+    modal.present();
+  }
+
+  // 删除图片
+  deleteImg(index: number) {
+    // alert('index--->' + index);
+    if (index || index === 0 ) {
+      this.alertCtrl.create({
+        title: '删除图片',
+        subTitle: '确定要删除该图片吗？',
+        buttons: [
+          {
+            text: '确定',
+            handler: data => {
+              this.fileList.splice(index, 1);
+            }
+          },
+          {
+            text: '取消',
+            handler: data => {
+              // this.navCtrl.setRoot()
+            }
+          }
+        ]
+      }).present();
+    }
+  }
+
+
+
+
 
 }

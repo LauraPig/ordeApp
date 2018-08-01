@@ -1,5 +1,29 @@
 page-feed-back-detail {
 
+  .img-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    img{
+      width: 27vw;
+      height: 13vh;
+    }
+  }
+
+  .img-detail{
+    position: relative;
+    margin: 5px;
+  }
+
+  .img-delete {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+
   ion-item{
     padding-left: 0 !important;
   }

@@ -46,6 +46,9 @@ import {ImagePicker} from "@ionic-native/image-picker";
 import {ImgUploadService} from "../providers/upload/img-upload-service";
 import {IntegralPage} from "../pages/integral/integral";
 
+import * as ionicGalleryModal from 'ionic-gallery-modal';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -70,6 +73,7 @@ import {IntegralPage} from "../pages/integral/integral";
     // QRCodeModule,
     BrowserModule,
     BrowserAnimationsModule,
+    ionicGalleryModal.GalleryModalModule,
 
     IonicModule.forRoot(MyApp, {
       backButtonText: '返回',
@@ -124,6 +128,10 @@ import {IntegralPage} from "../pages/integral/integral";
     FileOpener,
     Diagnostic,
     InAppBrowser,
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: ionicGalleryModal.GalleryModalHammerConfig,
+    },
   ]
 })
 export class AppModule {}

@@ -5,6 +5,9 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Camera } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+import { Storage } from '@ionic/storage';
+import *  as moment from 'moment';
+
 
 import { UUIDHelper, Utils } from '../../utils'
 import {HttpDataProviders} from "../http-data/http-data";
@@ -67,6 +70,7 @@ export class ImgUploadService {
     private transfer: FileTransfer,
     private file: File,
     private loadingCtrl: LoadingController,
+    private storage: Storage,
     private toastCtrl: ToastController,
     private httpDataProvider: HttpDataProviders,
     private fileTransfer: FileTransferObject) {
@@ -91,36 +95,73 @@ export class ImgUploadService {
   // }
 
   showPicActionSheet(fileList: Array<any>) {
-    let params = {};
-    this.httpDataProvider.fetchUploadUrl(params).then(res =>{
-      if (res && res.success) {
-        this.uploadApi = res.body.host || '';
-        this.signature = res.body.signature || '';
-        this.policy = res.body.policy || '';
-        this.expire = res.body.expire || '';
-        this.accessid = res.body.accessid || '';
-        this.dir = res.body.dir || '';
-        // alert('dir--->' + res.body.dir);
-        // this.uploadApi = 'http://dininghall.oss-cn-shenzhen.aliyuncs.com';
-        this.useASComponent(fileList);
+
+    this.storage.get('ossExprire').then(data =>{
+      if (data) {
+        let now = moment().format('X');
+        // alert('now--->' + now);
+        if (Number(data) < Number(now) + 3) {
+          this.fetSignByHttp(fileList);
+        } else {
+          this.storage.get('ossInfo').then(res =>{
+            if (res) {
+              let temInfo = JSON.parse(res);
+              this.uploadApi = temInfo.host || '';
+              this.signature = temInfo.signature || '';
+              this.policy = temInfo.policy || '';
+              this.expire = temInfo.expire || '';
+              this.accessid = temInfo.accessid || '';
+              this.dir = temInfo.dir || '';
+              this.useASComponent(fileList);
+            } else {
+              this.fetSignByHttp(fileList);
+            }
+          });
+
+        }
       } else {
+        this.fetSignByHttp(fileList);
+      }
+    });
+    // this.useASComponent();
+  }
+
+  // 调用接口获取签名
+    fetSignByHttp(fileList: Array<any>) {
+      let params = {};
+      this.httpDataProvider.fetchUploadUrl(params).then(res =>{
+        if (res && res.success) {
+          const temRes = res.body;
+          this.uploadApi = temRes.host || '';
+          this.signature = temRes.signature || '';
+          this.policy = temRes.policy || '';
+          this.expire = temRes.expire || '';
+          this.accessid = temRes.accessid || '';
+          this.dir = temRes.dir || '';
+          this.storage.remove('ossExprire');
+          this.storage.remove('ossInfo');
+          this.storage.set('ossExprire', temRes.expire);
+          this.storage.set('ossInfo', JSON.stringify(temRes));
+          // alert('dir--->' + res.body.dir);
+          // this.uploadApi = 'http://dininghall.oss-cn-shenzhen.aliyuncs.com';
+          this.useASComponent(fileList);
+        } else {
+          this.toastCtrl.create({
+            message: '访问接口失败',
+            duration: 1000,
+            position: 'middle',
+            cssClass: 'toast-ctrl'
+          }).present();
+        }
+      }).catch(e =>{
         this.toastCtrl.create({
           message: '访问接口失败',
           duration: 1000,
           position: 'middle',
           cssClass: 'toast-ctrl'
         }).present();
-      }
-    }).catch(e =>{
-      this.toastCtrl.create({
-        message: '访问接口失败',
-        duration: 1000,
-        position: 'middle',
-        cssClass: 'toast-ctrl'
-      }).present();
-    });
-    // this.useASComponent();
-  }
+      });
+    }
 
   // 使用ionic中的ActionSheet组件
   private useASComponent(fileList: Array<any>) {
@@ -164,8 +205,16 @@ export class ImgUploadService {
 
   // 打开手机相册
   private openImgPicker(fileList: Array<any>) {
+
+  const imagePickerOpt = {
+      maximumImagesCount: 6 - fileList.length,//选择一张图片
+      width: 800,
+      height: 800,
+      quality: 80,
+      // outputType: 0
+    };
     let temp = '';
-    this.imagePicker.getPictures(this.imagePickerOpt).then((results)=> {
+    this.imagePicker.getPictures(imagePickerOpt).then((results)=> {
       // alert('results-->' + results.length);
       if (results.length > 0) {
         let upLoading = this.loadingCtrl.create({
