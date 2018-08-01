@@ -24,6 +24,10 @@ export class FeedBackDetailPage {
   hygiene: boolean = false;
   others: boolean = false;
 
+
+
+  fileList: Array<any> = [];
+
   type: string;
   content: string;
   factoryId: string;
@@ -76,11 +80,12 @@ export class FeedBackDetailPage {
   }
 
   uploadImg() {
-    this.imgUploadService.showPicActionSheet();
+    this.imgUploadService.showPicActionSheet(this.fileList);
   }
 
   // 提交反馈意见
   doSubmit() {
+    // alert('fileList--->' + this.fileList.join(','));
     if (this.type && this.content && this.factoryId) {
       // alert('factoryId--->' + this.factoryId);
       // alert('feedbackType--->' + this.type);
@@ -89,7 +94,7 @@ export class FeedBackDetailPage {
         'feedbackType': this.type,
         'detail': this.content,
         'imgUrl': '',
-        'blobPath': '',
+        'blobPath': this.fileList.join(','),
       };
 
 

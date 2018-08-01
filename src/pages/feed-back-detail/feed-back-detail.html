@@ -41,10 +41,16 @@
   <ion-textarea [(ngModel)]="content" style="margin-top: 2vh; border: .5px #c8c7cc solid;height: 25vh;line-height: 4vh"  placeholder="请输入您的详细意见或建议">
 
   </ion-textarea>
-  <div>
+  <div style="margin-top: 20px">
     请提供相关照片或截图
   </div>
-  <button (click)="uploadImg()" style="width: 20vw;height: 10vh;border: .5px #c8c7cc solid">
+  <div *ngIf="fileList && fileList.length > 0 ">
+    <div style="float: left;margin: 5px" *ngFor="let item of fileList">
+      <!--<ion-icon name="ios-close-circle-outline"></ion-icon>-->
+      <img style="width: 20vw;height: 10vh;" src="{{item}}" alt="">
+    </div>
+  </div>
+  <button (click)="uploadImg()" style="margin: 5px;width: 20vw;height: 10vh;border: .5px #c8c7cc solid">
     <ion-icon name="ios-add-outline"></ion-icon>
     <p>
       相机/相册

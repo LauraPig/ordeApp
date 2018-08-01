@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {ActionSheetController, ToastController} from "ionic-angular";
+import {ActionSheetController, LoadingController, ToastController} from "ionic-angular";
 
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Camera } from '@ionic-native/camera';
@@ -66,6 +66,7 @@ export class ImgUploadService {
     private imagePicker: ImagePicker,
     private transfer: FileTransfer,
     private file: File,
+    private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private httpDataProvider: HttpDataProviders,
     private fileTransfer: FileTransferObject) {
@@ -89,7 +90,7 @@ export class ImgUploadService {
   //
   // }
 
-  showPicActionSheet() {
+  showPicActionSheet(fileList: Array<any>) {
     let params = {};
     this.httpDataProvider.fetchUploadUrl(params).then(res =>{
       if (res && res.success) {
@@ -101,7 +102,7 @@ export class ImgUploadService {
         this.dir = res.body.dir || '';
         // alert('dir--->' + res.body.dir);
         // this.uploadApi = 'http://dininghall.oss-cn-shenzhen.aliyuncs.com';
-        this.useASComponent();
+        this.useASComponent(fileList);
       } else {
         this.toastCtrl.create({
           message: '访问接口失败',
@@ -122,20 +123,20 @@ export class ImgUploadService {
   }
 
   // 使用ionic中的ActionSheet组件
-  private useASComponent() {
+  private useASComponent(fileList: Array<any>) {
     let actionSheet= this.actionSheetCtrl.create({
       title: '请选择',
       buttons: [
         {
           text: '拍照',
           handler: ()=> {
-            this.startCamera();
+            this.startCamera(fileList);
           }
         },
         {
           text: '从手机相册选择',
           handler: ()=> {
-            this.openImgPicker();
+            this.openImgPicker(fileList);
           }
         },
         {
@@ -151,37 +152,61 @@ export class ImgUploadService {
   }
 
 // 启动拍照功能
-  private startCamera() {
+  private startCamera(fileList: Array<any>) {
     this.camera.getPicture(this.cameraOpt).then((imageData)=> {
       alert('imageData-->' + imageData);
       // this.getFileName(imageData);
-      this.uploadImg(imageData);
+      this.uploadImg(imageData, fileList);
     }, (err)=>{
       alert('ERROR:'+ err);//错误：无法使用拍照功能！
     });
   }
 
   // 打开手机相册
-  private openImgPicker() {
-    // alert('调用相册');
+  private openImgPicker(fileList: Array<any>) {
     let temp = '';
     this.imagePicker.getPictures(this.imagePickerOpt).then((results)=> {
       // alert('results-->' + results.length);
-      for (var i=0; i < results.length; i++) {
-        temp = results[i];
-        this.uploadImg(temp);
+      if (results.length > 0) {
+        let upLoading = this.loadingCtrl.create({
+          spinner: 'bubbles',
+          content: '上传中...'
+          // content: `
+          //   <div class="custom-spinner-container">
+          //     <div class="custom-spinner-box"></div>
+          //   </div>`,
+        });
+        upLoading.present();
+        for (var i = 0; i < results.length; i++) {
+          temp = results[i];
+          this.uploadImg(temp,fileList);
+          if (i === results.length - 1) {
+            upLoading.dismiss();
+            this.toastCtrl.create({
+              message: '上传成功',
+              duration: 1000,
+              position: 'middle',
+              cssClass: 'toast-ctrl'
+            }).present();
+          }
+        }
       }
 
-      // this.uploadImg(temp);
-
     }, (err)=> {
+      // upLoading.dismiss();
+      this.toastCtrl.create({
+        message: '上传失败',
+        duration: 1000,
+        position: 'middle',
+        cssClass: 'toast-ctrl'
+      }).present();
       alert('ERROR:'+ err);//错误：无法从手机相册中选择图片！
     });
   }
 
 
   // 上传图片
-  private uploadImg(path:string) {
+  private uploadImg(path:string, fileList: Array<any>) {
     if (!path) {
       return;
     }
@@ -194,7 +219,7 @@ export class ImgUploadService {
     options = {
       fileKey: 'file',
       // fileName: arr[arr.length - 1],
-      fileName: 'jimmy.jpg',
+      fileName: arr[arr.length - 1],
       headers: this.upload.headers,
       // httpMethod: 'GET',
       httpMethod: 'POST',
@@ -208,27 +233,31 @@ export class ImgUploadService {
         // 'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
         // 'signature': 'SJCXulH4LUsmqdIl6OSZZZ//poA=',
 
-        'key' : this.dir,
+        'key' : this.dir + '${filename}',
         'policy': this.policy,
         'OSSAccessKeyId': this.accessid,
         'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
         'signature': this.signature,
       }
     };
-    let fileInfo = {
-      fileName: options.fileName,
-      fileKey: options.fileKey,
-      path,
-    };
+    // let fileInfo = {
+    //     blobPath: `${this.uploadApi}/${this.dir}${options.fileName}`,
+    //   // fileKey: options.fileKey,
+    //   // path,
+    // };
+    let blobPath  = `${this.uploadApi}/${this.dir}${options.fileName}`;
 
     this.fileTransfer.upload(path, this.uploadApi, options)
       .then((data)=> {
-        alert('success-->' + JSON.stringify(data));
-
-        if (this.upload.success) {
-          this.fileList.push(fileInfo);
-          this.upload.success(JSON.parse(data.response));
+        if (data && data.responseCode === 200 ) {
+          fileList.push(blobPath);
         }
+        // alert('success-->' + JSON.stringify(data));
+
+        // if (this.upload.success) {
+        //   fileList.push(fileInfo);
+        //   this.upload.success(JSON.parse(data.response));
+        // }
 
       }, (err) => {
         if (this.upload.error) {
