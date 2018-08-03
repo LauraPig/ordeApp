@@ -27,7 +27,7 @@ import {LoginPage} from "../login/login";
     trigger('expand', [
       state('Active', style({opacity: '1',height: '*'})),
       state('NotActive', style({opacity: '0',height: 0, overflow: 'hidden'})),
-      transition('Active <=> NotActive', animate('700ms ease-in-out')),
+      transition('Active <=> NotActive', animate('500ms ease-in-out')),
       state('ActiveUp', style({transform: '*'})),
       state('ActiveDown', style({transform: 'rotate(180deg)'})),
       transition('ActiveUp <=> ActiveDown', animate('500ms ease-in-out')),
@@ -35,7 +35,7 @@ import {LoginPage} from "../login/login";
     trigger('expandDetail', [
       state('ActiveDetail', style({opacity: '1',height: '*'})),
       state('NotActiveDetail', style({opacity: '0',height: 0, overflow: 'hidden'})),
-      transition('ActiveDetail <=> NotActiveDetail', animate('1000ms ease-in-out')),
+      transition('ActiveDetail <=> NotActiveDetail', animate('500ms ease-in-out')),
       state('ActiveDetailUp', style({transform: '*'})),
       state('ActiveDetailDown', style({transform: 'rotate(180deg)'})),
       transition('ActiveDetailUp <=> ActiveDetailDown', animate('500ms ease-in-out')),
@@ -43,7 +43,7 @@ import {LoginPage} from "../login/login";
     trigger('expandDate', [
       state('ActiveDate', style({opacity: '1',height: '*'})),
       state('NotActiveDate', style({opacity: '0',height: 0, overflow: 'hidden'})),
-      transition('ActiveDate <=> NotActiveDate', animate('700ms ease-in-out')),
+      transition('ActiveDate <=> NotActiveDate', animate('500ms ease-in-out')),
     ])
   ]
 
@@ -96,9 +96,9 @@ export class OrderPage {
 
 
 
-    // 获取参数
-    // this.factoryId = this.navParams.get('factoryId');
-    this.factoryName = this.navParams.get('factoryName');
+    // // 获取参数
+    // // this.factoryId = this.navParams.get('factoryId');
+    // this.factoryName = this.navParams.get('factoryName');
 
     // // 获取工厂ID
     // this.storage.get('factoryId').then(res =>{
@@ -115,12 +115,12 @@ export class OrderPage {
     });
 
 
-    // 获取工厂名称
-    this.storage.get('factoryName').then(res =>{
-      if (res) {
-        this.factoryName = res;
-      }
-    });
+    // // 获取工厂名称
+    // this.storage.get('factoryName').then(res =>{
+    //   if (res) {
+    //     this.factoryName = res;
+    //   }
+    // });
 
     // this.todayStr = `${moment().format('YYYY-MM-DD')} 00:00:00`;
     this.todayStr = moment().format('YYYY-MM-DD');
@@ -165,6 +165,13 @@ export class OrderPage {
 
 
   ionViewWillEnter() {
+
+    // 获取工厂名称
+    this.storage.get('factoryName').then(res =>{
+      if (res) {
+        this.factoryName = res;
+      }
+    });
 
 
     this.typeList = [];

@@ -138,13 +138,6 @@ export class FeedBackDetailPage {
         buttons: [
           {
             text: '确定',
-            // handler: data => {
-            //   this.storage.remove('token').then(() => {
-            //     this.navCtrl.setRoot(LoginPage)
-            //   });
-            //   console.log(data);
-            //   // this.navCtrl.setRoot()
-            // }
           }
         ]
       }).present();

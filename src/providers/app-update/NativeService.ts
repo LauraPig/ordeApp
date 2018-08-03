@@ -110,7 +110,7 @@ export class NativeService {
             }
 
           }).catch(e =>{
-            alert('e--in-getVersion-http' + e.toString());
+            // alert('e--in-getVersion-http' + e.toString());
           });
         }
       });
@@ -150,7 +150,7 @@ export class NativeService {
             }
           ]
         }).present();
-        alert('未找到android apk下载地址');
+        // alert('未找到android apk下载地址');
         return;
       }
       this.externalStoragePermissionsAuthorization().subscribe(() => {
@@ -183,17 +183,28 @@ export class NativeService {
           this.dataBaseService.deleteDataBase().then(() =>{
             this.storage.remove('HasCreateDb');
           });
-          this.fileOpener.open(apk, 'application/vnd.android.package-archive');
+          this.fileOpener.open(apk, 'application/vnd.android.package-archive').catch(e => {
+            this.alertCtrl.create({
+              title: '本地升级失败',
+              subTitle: '前往网页下载？',
+              buttons: [{
+                text: '确定', handler: () => {
+                  this.openUrlByBrowser(this.apkUrl); // 打开网页下载
+                }
+              }
+              ]
+            }).present();
+          });
         }, err => {
           this.updateProgress = -1;
           alert && alert.dismiss();
           // this.logger.log(err, 'android app 本地升级失败');
           this.alertCtrl.create({
-            // title: '前往网页下载',
-            subTitle: '本地升级失败',
+            title: '本地升级失败',
+            subTitle: '前往网页下载？',
             buttons: [{
               text: '确定', handler: () => {
-                // this.nativeService.openUrlByBrowser(this.appDownloadPageUrl); // 打开网页下载
+                this.openUrlByBrowser(this.apkUrl); // 打开网页下载
               }
             }
             ]
@@ -225,8 +236,8 @@ export class NativeService {
 
     }
     if (this.isIos()) {
-      alert('ios暂时未开通此功能');
-      // this.openUrlByBrowser(APP_DOWNLOAD);
+      // alert('ios暂时未开通此功能');
+      this.openUrlByBrowser('https://laurapig.github.io/order/index');
     }
   }
 

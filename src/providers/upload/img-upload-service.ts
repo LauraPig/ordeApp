@@ -8,10 +8,7 @@ import { File } from '@ionic-native/file';
 import { Storage } from '@ionic/storage';
 import *  as moment from 'moment';
 
-
-import { UUIDHelper, Utils } from '../../utils'
 import {HttpDataProviders} from "../http-data/http-data";
-// import { ToastService } from "../toast-service/toast-service";
 
 @Injectable()
 export class ImgUploadService {
@@ -38,14 +35,14 @@ export class ImgUploadService {
     correctOrientation: true
   };
 
-  // 调用相册时传入的参数
-  private imagePickerOpt = {
-      maximumImagesCount: 6,//选择一张图片
-      width: 800,
-      height: 800,
-      quality: 80,
-      // outputType: 0
-    };
+  // // 调用相册时传入的参数
+  // private imagePickerOpt = {
+  //     maximumImagesCount: 6,//选择一张图片
+  //     width: 800,
+  //     height: 800,
+  //     quality: 80,
+  //     // outputType: 0
+  //   };
 
   upload: any= {
     // fileKey: 'upload',//接收图片时的key
@@ -82,17 +79,6 @@ export class ImgUploadService {
     this.uploadApi = api || '';
     alert('api' + api);
   }
-
-  // getFileName(path: string): string {
-  //   if(!path) {
-  //     return;
-  //   }
-  //   let arr = path.split('/');
-  //   alert('fileName' + arr[arr.length - 1]);
-  //   return arr[arr.length - 1];
-  //   // let fileName = temStr.substring(0, temStr.indexOf('.'));
-  //
-  // }
 
   showPicActionSheet(fileList: Array<any>) {
 
@@ -195,11 +181,10 @@ export class ImgUploadService {
 // 启动拍照功能
   private startCamera(fileList: Array<any>) {
     this.camera.getPicture(this.cameraOpt).then((imageData)=> {
-      alert('imageData-->' + imageData);
-      // this.getFileName(imageData);
+      // alert('imageData-->' + imageData);
       this.uploadImg(imageData, fileList);
     }, (err)=>{
-      alert('ERROR:'+ err);//错误：无法使用拍照功能！
+      alert('错误信息:'+ err);//错误：无法使用拍照功能！
     });
   }
 
@@ -211,19 +196,13 @@ export class ImgUploadService {
       width: 800,
       height: 800,
       quality: 80,
-      // outputType: 0
     };
     let temp = '';
     this.imagePicker.getPictures(imagePickerOpt).then((results)=> {
-      // alert('results-->' + results.length);
       if (results.length > 0) {
         let upLoading = this.loadingCtrl.create({
           spinner: 'bubbles',
           content: '上传中...'
-          // content: `
-          //   <div class="custom-spinner-container">
-          //     <div class="custom-spinner-box"></div>
-          //   </div>`,
         });
         upLoading.present();
         for (var i = 0; i < results.length; i++) {
@@ -267,21 +246,11 @@ export class ImgUploadService {
     let options:any;
     options = {
       fileKey: 'file',
-      // fileName: arr[arr.length - 1],
       fileName: arr[arr.length - 1],
       headers: this.upload.headers,
-      // httpMethod: 'GET',
       httpMethod: 'POST',
-      // chunkedMode: false,
       mimeType: 'image/jpeg;image/jpg;image/png',
-      // mimeType: 'jpg,gif,png,bmp',
       params: {
-        // 'key' : '',
-        // 'policy': 'eyJleHBpcmF0aW9uIjoiMjAxOC0wNy0yNlQxNDoyMTo0Ny42ODhaIiwiY29uZGl0aW9ucyI6W1siY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjAwMF0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXV19',
-        // 'OSSAccessKeyId': 'LTAIUpqLSZzIK03R',
-        // 'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
-        // 'signature': 'SJCXulH4LUsmqdIl6OSZZZ//poA=',
-
         'key' : this.dir + '${filename}',
         'policy': this.policy,
         'OSSAccessKeyId': this.accessid,
@@ -289,11 +258,6 @@ export class ImgUploadService {
         'signature': this.signature,
       }
     };
-    // let fileInfo = {
-    //     blobPath: `${this.uploadApi}/${this.dir}${options.fileName}`,
-    //   // fileKey: options.fileKey,
-    //   // path,
-    // };
     let blobPath  = `${this.uploadApi}/${this.dir}${options.fileName}`;
 
     this.fileTransfer.upload(path, this.uploadApi, options)
@@ -301,18 +265,10 @@ export class ImgUploadService {
         if (data && data.responseCode === 200 ) {
           fileList.push(blobPath);
         }
-        // alert('success-->' + JSON.stringify(data));
-
-        // if (this.upload.success) {
-        //   fileList.push(fileInfo);
-        //   this.upload.success(JSON.parse(data.response));
-        // }
-
       }, (err) => {
         if (this.upload.error) {
           this.upload.error(err);
         } else {
-          // this.noticeSer.showToast('错误：上传失败！');
         }
       });
   }

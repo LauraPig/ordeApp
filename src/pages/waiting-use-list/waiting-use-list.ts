@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
+import {OrderPage} from "../order/order";
 /**
  * Generated class for the WaitingUseListPage page.
  *
@@ -183,12 +184,33 @@ export class WaitingUseListPage {
   edit(id: string) {
     this.alertCtrl.create({
       title: '确认编辑',
-      subTitle: '是否确定取消该订餐，并重新预订',
+      subTitle: '是否确定取消该订餐，并重新预订?',
       buttons: [
         {
           text: '确定',
           handler: data => {
-            // this.navCtrl.setRoot()
+            if (id) {
+              let params = {
+                'id': id
+              };
+              this.httpDataPro.unsubscribeOrder(params).then(res => {
+                if (res && res.success) {
+                  this.navCtrl.setRoot(OrderPage);
+                } else {
+                  this.alertCtrl.create({
+                    title: '操作失败',
+                    buttons: [{
+                      text: '确定'
+                    }]
+                  }).present();
+                }
+              }).catch(e => {
+                console.log(e);
+              })
+            } else {
+              alert('订单标识为空');
+            }
+
           }
         },
         {
