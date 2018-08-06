@@ -112,6 +112,11 @@ export class HttpDataProviders {
     return this.httpPro.httpPostWithAuth('/subFeedback', params);
   }
 
+  // 删除oss图片
+  public deletePhoto (params: any) {
+    return this.httpPro.httpPostWithAuth('/delFeedbackPhoto', params);
+  }
+
 
   // 积分查询
   public getIntegral (params: any) {

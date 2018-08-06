@@ -171,7 +171,24 @@ export class FeedBackDetailPage {
           {
             text: '确定',
             handler: data => {
-              this.fileList.splice(index, 1);
+              let params = {
+                imgUrl: this.fileList[index]
+              };
+
+              this.httpDataProvider.deletePhoto(params).then(res => {
+                if (res && res.success) {
+                  this.fileList.splice(index, 1);
+                } else {
+                  this.toastCtrl.create({
+                    message: res.msg || '提交失败',
+                    duration: 1000,
+                    position: 'middle',
+                    cssClass: 'toast-ctrl'
+                  }).present();
+                }
+              }).catch(e =>{
+                console.log(e);
+              });
             }
           },
           {
