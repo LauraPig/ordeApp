@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header >
   <ion-navbar>
     <ion-buttons start>
       <button tappable ion-button icon-only (click)="goHomeMenuPage()">
@@ -6,8 +6,8 @@
       </button>
     </ion-buttons>
     <ion-title>
-      <div >
-        <p>{{userName}}</p>
+      <div style="margin: 15px 0" >
+        <p>{{userName}}Jimmy</p>
         <p class="cut-title">欢迎来到{{factoryName}}</p>
       </div>
     </ion-title>
@@ -15,6 +15,12 @@
       <button tappable ion-button icon-only (click)="gotoUnreadMessage()" >
         <ion-icon color="Gray-color" name="ios-mail-outline">
           <ion-badge class="bage-message">{{messageCount}}</ion-badge>
+        </ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button tappable ion-button icon-only (click)="gotoHomePage()" >
+        <ion-icon color="Gray-color" name="ios-more">
         </ion-icon>
       </button>
     </ion-buttons>

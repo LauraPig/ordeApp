@@ -48,6 +48,7 @@ import {IntegralPage} from "../pages/integral/integral";
 
 import * as ionicGalleryModal from 'ionic-gallery-modal';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import {CommonHelper} from "../providers/common-helper";
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
   ],
   providers: [
     StatusBar,
+    CommonHelper,
     SplashScreen,
     HttpProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

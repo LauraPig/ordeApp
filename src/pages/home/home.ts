@@ -12,6 +12,7 @@ import * as moment from "moment";
 import {DATABASE_NAME} from "../../common/config";
 import {BackButtonService} from "../../providers/back-button/back-button.service";
 import {LoginPage} from "../login/login";
+import {CommonHelper} from "../../providers/common-helper";
 const tableName = 'ct_product';
 
 @Component({
@@ -47,6 +48,7 @@ export class HomePage {
     public httpDataPro: HttpDataProviders,
     public sqlite: SQLite,
     public alertCtrl: AlertController,
+    public commonHelper: CommonHelper,
   ) {
 
     this.platform.ready().then(() => {
@@ -507,5 +509,11 @@ export class HomePage {
   gotoUnreadMessage() {
     this.navCtrl.push('unread-message');
   }
+
+
+  gotoHomePage() {
+    this.commonHelper.GoBackHomePage();
+  }
+
 
 }
