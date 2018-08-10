@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SuperTabsController } from "ionic2-super-tabs/dist/index";
 import { Storage } from '@ionic/storage';
+import {CommonHelper} from "../../providers/common-helper";
 
 /**
  * Generated class for the ConsumeRecordPage page.
@@ -26,6 +27,7 @@ export class ConsumeRecordPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public commonHelper: CommonHelper,
     public superTabsCtrl: SuperTabsController,
   ) {
 
@@ -53,6 +55,10 @@ export class ConsumeRecordPage {
 
   goSettingPage() {
     this.navCtrl.push('setting');
+  }
+
+  gotoHomePage() {
+    this.commonHelper.GoBackHomePage();
   }
 
 }

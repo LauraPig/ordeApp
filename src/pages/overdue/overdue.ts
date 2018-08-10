@@ -3,8 +3,8 @@ import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angu
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import * as moment from "moment";
-import _date = moment.unitOfTime._date;
 import {LoginPage} from "../login/login";
+import {CommonHelper} from "../../providers/common-helper";
 
 /**
  * Generated class for the OverduePage page.
@@ -30,6 +30,7 @@ export class OverduePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public commonHelper: CommonHelper,
     public httpDataPro: HttpDataProviders,
     public loadingCtrl: LoadingController,
   ) {
@@ -100,6 +101,10 @@ export class OverduePage {
       });
     }
     dataLoading.dismiss();
+  }
+
+  gotoHomePage() {
+    this.commonHelper.GoBackHomePage();
   }
 
   gotoUnreadMessage() {

@@ -7,12 +7,20 @@
       </button>
     </ion-buttons>
     <ion-title>
-      历史用餐记录
+      <div style="margin: 15px 0" >
+        <p>历史用餐记录</p>
+      </div>
     </ion-title>
     <ion-buttons *ngIf="messageCount > 0" end>
       <button tappable ion-button icon-only (click)="gotoUnreadMessage()" >
         <ion-icon color="Gray-color" name="ios-mail-outline">
           <ion-badge class="bage-message">{{messageCount}}</ion-badge>
+        </ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button tappable ion-button icon-only (click)="gotoHomePage()" >
+        <ion-icon color="Gray-color" name="ios-more">
         </ion-icon>
       </button>
     </ion-buttons>

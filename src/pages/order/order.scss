@@ -11,6 +11,40 @@ page-order {
 
   position: absolute;
 
+  // 日期样式
+  ion-calendar {
+    background-color: #ededed;
+  }
+
+  ion-calendar-month .primary .days .today p {
+    color: #D97300;
+  }
+
+  ion-calendar-month .primary .days .on-selected,
+  ion-calendar-month .primary .startSelection button.days-btn,
+  ion-calendar-month .primary .endSelection button.days-btn {
+    background-color: #D97300;
+    color: #fff;
+  }
+
+
+  ion-calendar-month-picker .month-picker.primary .month-packer-item.this-month button {
+    border: 1px solid #D97300;
+  }
+
+
+  //ion-card
+  //.card-header-ios {
+  //  //margin: 12px;
+  //  //border-radius: 2px;
+  //  width: 100vw;
+  //  //font-size: 1.4rem;
+  //  //background: #fff;
+  //  //-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  //  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  //}
+
+
   /*无数据样式*/
   .null-tips {
     color: #bfbfbf;
@@ -29,9 +63,9 @@ page-order {
     background-color: #ff0f1c !important;
   }
 
-  /* 头部样式*/
   .toolbar-ios {
-    min-height: 55px !important;
+    color: #686868;
+    min-height: 70px !important;
     p {
       margin: 0 !important;
     }

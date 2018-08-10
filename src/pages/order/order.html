@@ -6,7 +6,7 @@
       </button>
     </ion-buttons>
     <ion-title>
-      <div >
+      <div style="margin: 15px 0" >
         <p>{{userName}}</p>
         <p class="cut-title">欢迎来到{{factoryName}}</p>
       </div>
@@ -15,6 +15,12 @@
       <button tappable ion-button icon-only (click)="gotoUnreadMessage()" >
         <ion-icon color="Gray-color" name="ios-mail-outline">
           <ion-badge class="bage-message">{{messageCount}}</ion-badge>
+        </ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button tappable ion-button icon-only (click)="gotoHomePage()" >
+        <ion-icon color="Gray-color" name="ios-more">
         </ion-icon>
       </button>
     </ion-buttons>
@@ -32,24 +38,30 @@
 
   <ion-card ion-item  no-lines style="background-image: none;" >
     <ion-card-header tappable (click)="openCalendar()">
-      <ion-row *ngIf="!status">
-        <ion-col offset-4 col-3>
-          <p style="font-weight: bold;font-size: 2rem">{{monStr}}月{{dayStr}}日</p>
+      <ion-row >
+        <ion-col offset-3 col-3>
+          <p style="font-weight: bold;font-size: 2rem;color: #686868">{{selectDay}}<ion-icon [@expandDate]="expandDateStatus" style="margin-left: 20px"   item-right name="ios-arrow-down"></ion-icon></p>
+
           <!--<p style="margin-left: -10px;font-weight: bold;font-size: 1.3em">{{dayStr}}日</p>-->
         </ion-col>
+
+        <!--<ion-col col-2>-->
+          <!--<ion-icon *ngIf="!status"  item-right name="ios-arrow-up" style="margin-left: 57vw" ></ion-icon>-->
+          <!--<ion-icon *ngIf="status"  item-right name="ios-arrow-down" style="margin-left: 57vw" ></ion-icon>-->
+        <!--</ion-col>-->
         <!--<ion-col col-6 *ngIf="isToday">-->
           <!--<span style="font-size: 4rem">今天</span>-->
         <!--</ion-col>-->
 
       </ion-row>
-      <ion-row *ngIf="status">
-        <ion-col col-3 >
-          {{selectDay}}
-        </ion-col>
-        <ion-col col-9>
-          <ion-icon item-right name="md-arrow-dropup" style="margin-left: 57vw" ></ion-icon>
-        </ion-col>
-      </ion-row>
+      <!--<ion-row *ngIf="status">-->
+        <!--<ion-col col-3 >-->
+          <!--{{selectDay}}-->
+        <!--</ion-col>-->
+        <!--<ion-col col-9>-->
+          <!--<ion-icon item-right name="md-arrow-dropup" style="margin-left: 57vw" ></ion-icon>-->
+        <!--</ion-col>-->
+      <!--</ion-row>-->
     </ion-card-header>
 
     <ion-calendar [@expandDate]="expandStatus" [(ngModel)]="date"
@@ -66,24 +78,24 @@
     <!--3个item-->
     <div *ngSwitchCase="3">
       <div *ngFor="let item of typeList; index as i">
-        <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
+        <ion-item tappable  class="item-5" (click)="getMealTypeDetail(item, i)">
           <ion-avatar item-start>
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
           <!--<ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>-->
-          <ion-icon [@expand]="item.direction" name="ios-arrow-up-outline" item-end></ion-icon>
+          <ion-icon [@expand]="item.direction" name="ios-arrow-down" item-end></ion-icon>
         </ion-item>
         <div [@expand]="item.status">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
-              <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
+              <ion-item tappable class="item-list-normal" (click)="getProductList(item, p, i, ci)">
                 <ion-avatar item-start>
                   <img src="{{p.imgUrl}}"/>
                 </ion-avatar>
                 {{p.name}}
                 <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
-                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-up-outline" item-end></ion-icon>
+                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-down" item-end></ion-icon>
               </ion-item>
               <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
@@ -109,24 +121,24 @@
     <!--4个item-->
     <div *ngSwitchCase="4">
       <div *ngFor="let item of typeList; index as i">
-        <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
+        <ion-item tappable  class="item-5" (click)="getMealTypeDetail(item, i)">
           <ion-avatar item-start>
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
           <!--<ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>-->
-          <ion-icon [@expand]="item.direction" name="ios-arrow-up-outline" item-end></ion-icon>
+          <ion-icon [@expand]="item.direction" name="ios-arrow-up" item-end></ion-icon>
         </ion-item>
         <div [@expand]="item.status">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
-              <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
+              <ion-item tappable class="item-list-normal" (click)="getProductList(item, p, i, ci)">
                 <ion-avatar item-start>
                   <img src="{{p.imgUrl}}"/>
                 </ion-avatar>
                 {{p.name}}
                 <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
-                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-up-outline" item-end></ion-icon>
+                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-down" item-end></ion-icon>
               </ion-item>
               <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
@@ -152,24 +164,24 @@
     <!--5个item-->
     <div *ngSwitchCase="5">
       <div *ngFor="let item of typeList; index as i">
-        <ion-item  class="item-5" (click)="getMealTypeDetail(item, i)">
+        <ion-item tappable  class="item-5" (click)="getMealTypeDetail(item, i)">
           <ion-avatar item-start>
             <img src="{{item.imgUrl}}"/>
           </ion-avatar>
           {{item.label}}
           <!--<ion-icon *ngIf="!(item.value === valueStr)" name="ios-arrow-forward-outline" item-end></ion-icon>-->
-          <ion-icon [@expand]="item.direction" name="ios-arrow-up-outline" item-end></ion-icon>
+          <ion-icon [@expand]="item.direction" name="ios-arrow-down" item-end></ion-icon>
         </ion-item>
         <div [@expand]="item.status">
           <ion-list no-lines>
             <div *ngFor="let p of item?.officeList; index as ci">
-              <ion-item class="item-list-normal" (click)="getProductList(item, p, i, ci)">
+              <ion-item tappable class="item-list-normal" (click)="getProductList(item, p, i, ci)">
                 <ion-avatar item-start>
                   <img src="{{p.imgUrl}}"/>
                 </ion-avatar>
                 {{p.name}}
                 <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
-                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-up-outline" item-end></ion-icon>
+                <ion-icon [@expandDetail]="p.direction" name="ios-arrow-down" item-end></ion-icon>
               </ion-item>
               <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
@@ -197,7 +209,7 @@
           <img src="{{item.imgUrl}}"/>
         </ion-avatar>
         {{item.label}}
-        <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+        <ion-icon name="ios-arrow-down" item-end></ion-icon>
       </ion-item>
     </div>
   </ion-list>

@@ -11,6 +11,7 @@ import {HomePage} from "../home/home";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {LoginPage} from "../login/login";
+import {CommonHelper} from "../../providers/common-helper";
 
 /**
  * Generated class for the OrderPage page.
@@ -44,12 +45,16 @@ import {LoginPage} from "../login/login";
       state('ActiveDate', style({opacity: '1',height: '*'})),
       state('NotActiveDate', style({opacity: '0',height: 0, overflow: 'hidden'})),
       transition('ActiveDate <=> NotActiveDate', animate('500ms ease-in-out')),
+      state('ActiveUp', style({transform: '*'})),
+      state('ActiveDown', style({transform: 'rotate(180deg)'})),
+      transition('ActiveUp <=> ActiveDown', animate('500ms ease-in-out')),
     ])
   ]
 
 })
 export class OrderPage {
-  selectDay: any = moment().format('YYYY年MM月DD');
+  // selectDay: any = moment().format('YYYY年MM月DD');
+  selectDay: any = moment().format('MM/DD/YYYY');
   monStr: string;
   factoryId: string;
   factoryName: string;
@@ -58,6 +63,7 @@ export class OrderPage {
   // dateResult: string;
   days: DayConfig[] = [];
   status: boolean = false; // 控制日期是否显示
+  expandDateStatus: string = 'ActiveDown'; // 控制日期箭头状态
   expandStatus: string = 'NotActiveDate'; // 控制日期下拉部分是否显示
   // isToday: boolean = true; // 是否今天
   listLength: number;
@@ -82,6 +88,7 @@ export class OrderPage {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public storage: Storage,
+    public commonHelper: CommonHelper,
     public dbService: DataBaseService,
     public httpDataPro: HttpDataProviders,
   ) {
@@ -149,6 +156,7 @@ export class OrderPage {
       to: moment().add(13, 'd').toDate(),
       pickMode: 'single',
       daysConfig: this.days,
+      // showMonthPicker: false,
       monthFormat: 'yyyy 年 MM 月 ',
       weekdays: ['日', '一', '二', '三', '四', '五', '六'],
       monthPickerFormat: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
@@ -161,6 +169,7 @@ export class OrderPage {
   openCalendar() {
     this.status = !this.status;
     this.expandStatus = this.expandStatus === 'ActiveDate' ? 'NotActiveDate': 'ActiveDate' ;
+    this.expandDateStatus = this.expandDateStatus === 'ActiveUp' ? 'ActiveDown': 'ActiveUp' ;
   }
 
 
@@ -231,6 +240,7 @@ export class OrderPage {
   onChange($event) {
     this.status = !this.status;
     this.expandStatus = this.expandStatus === 'ActiveDate' ? 'NotActiveDate': 'ActiveDate' ;
+    this.expandDateStatus = this.expandDateStatus === 'ActiveUp' ? 'ActiveDown': 'ActiveUp' ;
     console.log($event);
     const result = moment().format('YYYY-MM-DD');
     // const today = moment().format('YYYY-MM-DD');
@@ -239,7 +249,7 @@ export class OrderPage {
     // this.dateResult = $event.toString();
     this.monStr = (moment($event).get('months') + 1).toString();
     this.dayStr = (moment($event).get('date')).toString();
-    this.selectDay = moment($event).format('YYYY年MM月DD');
+    this.selectDay = moment($event).format('MM/DD/YYYY');
     // this.todayStr = moment($event).format('YYYY-MM-DD HH:mm:ss');
     this.todayStr = moment($event).format('YYYY-MM-DD');
     // this.getGoalDay();
@@ -650,6 +660,12 @@ export class OrderPage {
       dayStr: this.dayStr,
       typeList: this.typeList,
     })
+  }
+
+
+  // 返回主页
+  gotoHomePage() {
+    this.commonHelper.GoBackHomePage();
   }
 
   gotoUnreadMessage() {

@@ -1,4 +1,13 @@
 page-consume-record {
+
+  .toolbar-ios {
+    color: #686868;
+    min-height: 70px !important;
+    p {
+      margin: 0 !important;
+    }
+  }
+
   super-tab-button{
     width: 33.33vw !important;
   }

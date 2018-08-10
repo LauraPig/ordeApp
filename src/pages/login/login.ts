@@ -129,8 +129,33 @@ export class LoginPage {
         }
       }).catch(e =>{
         console.log(e);
-        alert('服务器异常，请联系管理员');
+        // alert('服务器异常，请联系管理员');
+        this.alertCtrl.create({
+          // title: '重置密码',
+          message: '服务器异常，请联系管理员',
+          buttons:[
+            {
+              text: '确定',
+              handler: data => {
+                console.log(data);
+              }
+            }
+          ]
+        }).present();
       });
+    } else {
+      this.alertCtrl.create({
+        // title: '重置密码',
+        message: '账号或密码不能为空',
+        buttons:[
+          {
+            text: '确定',
+            handler: data => {
+              console.log(data);
+            }
+          }
+        ]
+      }).present();
     }
   }
 

@@ -5,6 +5,7 @@ import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from '@ionic/storage';
 import {LoginPage} from "../login/login";
 import {OrderPage} from "../order/order";
+import {CommonHelper} from "../../providers/common-helper";
 
 /**
  * Generated class for the WaitingUsePage page.
@@ -34,6 +35,7 @@ export class WaitingUsePage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
+    public commonHelper: CommonHelper,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
   ) {
@@ -365,6 +367,10 @@ export class WaitingUsePage {
 
   goSettingPage() {
     this.navCtrl.push('setting');
+  }
+
+  gotoHomePage() {
+    this.commonHelper.GoBackHomePage();
   }
 
 }
