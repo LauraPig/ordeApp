@@ -1,6 +1,15 @@
 page-overdue {
   position: absolute;
 
+  /* 头部样式*/
+  .toolbar-ios {
+    color: #686868;
+    min-height: 70px !important;
+    p {
+      margin: 0 !important;
+    }
+  }
+
   历史用餐记录
   /*无数据样式*/
   .null-tips {

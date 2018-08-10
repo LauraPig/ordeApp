@@ -35,54 +35,50 @@
 
 
 <ion-content>
-
-  <ion-list no-lines *ngFor="let item of dataList">
-    <ion-list-header>
-      <span *ngIf="item.dateStr === todayStr">今日您已预订</span>
-      <span *ngIf="item.dateStr !== todayStr">{{item.dateStr}}</span>
-    </ion-list-header>
-
-    <!--如果显示多条则进行ngFor-->
-    <!--<ion-item-sliding *ngFor="let p of item.list" style="margin-bottom: 3vh">-->
-
-
-    <ion-item-sliding style="margin-bottom: 3vh">
-      <ion-item tappable (click)="gotoDetailList(item)">
-        <!--<img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>-->
-        <img src="{{item.list[0].blobPath}}"/>
-        <div class="card-title">
-          <div style="font-size: 3rem">
-            {{item?.list[0].mealType}}
+  <ion-list no-lines>
+    <div *ngFor="let item of dataList" class="my-card">
+      <ion-item-sliding>
+        <ion-item tappable (click)="gotoDetailList(item)">
+          <!--<img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>-->
+          <img src="{{item.list[0].blobPath}}"/>
+          <div class="card-title">
+            <div style="font-size: 3rem">
+              {{item?.list[0].mealType}}
+            </div>
+            <div style="font-size: 1.7rem">
+              {{item?.list[0].productName}}
+            </div>
+            <div style="font-size: 1.7rem;font-weight: bolder">
+              {{item?.list[0].factoryName}}-{{item?.list[0].officeName}}
+            </div>
           </div>
-          <div style="font-size: 1.7rem">
-            {{item?.list[0].productName}}
+        </ion-item>
+        <ion-item-options side="right">
+          <div class="btn-list">
+            <button [ngClass]="{'unpack-btn':item?.list[0].isPack === '0'}" color="light" class="operator-button " ion-button (click)="pack(item?.list[0].id, item?.list[0].isPack)">
+              <ion-icon name="ios-cube-outline"></ion-icon>
+              打包
+            </button>
+            <button class="operator-button" color="light" ion-button (click)="holdOrder(item?.list[0].id)">
+              <ion-icon name="ios-hand-outline"></ion-icon>
+              留餐
+            </button>
+            <button class="operator-button" color="light" ion-button (click)="edit(item?.list[0].id)">
+              <ion-icon name="ios-create-outline"></ion-icon>
+              编辑
+            </button>
+            <button class="operator-button" ion-button color="light" (click)="cancelOrder(item?.list[0].id)">
+              <ion-icon name="ios-trash-outline"></ion-icon>
+              退订
+            </button>
           </div>
-          <div style="font-size: 1.7rem;font-weight: bolder">
-            {{item?.list[0].factoryName}}-{{item?.list[0].officeName}}
-          </div>
-        </div>
-      </ion-item>
-      <ion-item-options side="right">
-        <div class="btn-list">
-              <button [ngClass]="{'unpack-btn':item?.list[0].isPack === '0'}" color="light" class="operator-button " ion-button (click)="pack(item?.list[0].id, item?.list[0].isPack)">
-                <ion-icon name="ios-cube-outline"></ion-icon>
-                打包
-              </button>
-              <button class="operator-button" color="light" ion-button (click)="holdOrder(item?.list[0].id)">
-                <ion-icon name="ios-hand-outline"></ion-icon>
-                留餐
-              </button>
-              <button class="operator-button" color="light" ion-button (click)="edit(item?.list[0].id)">
-                <ion-icon name="ios-create-outline"></ion-icon>
-                编辑
-              </button>
-              <button class="operator-button" ion-button color="light" (click)="cancelOrder(item?.list[0].id)">
-                <ion-icon name="ios-trash-outline"></ion-icon>
-                退订
-              </button>
-        </div>
-      </ion-item-options>
-    </ion-item-sliding>
+        </ion-item-options>
+      </ion-item-sliding>
+      <div style="text-align: center;padding: 3px 0">
+        <span *ngIf="item.dateStr === todayStr">今日您已预订</span>
+        <span *ngIf="item.dateStr !== todayStr">{{item.dateStr}}</span>
+      </div>
+    </div>
   </ion-list>
 
   <div *ngIf="(isNull && dataList.length === 0)" class="null-tips">

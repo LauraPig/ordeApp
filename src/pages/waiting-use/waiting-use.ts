@@ -53,7 +53,7 @@ export class WaitingUsePage {
         this.messageCount = res;
       }
     });
-    this.todayStr = moment().format('YYYY-MM-DD');
+    this.todayStr = moment().format('MM/DD/YYYY');
     this.storage.get('userId').then(res =>{
       if (res) {
         this.userId = res;
@@ -101,7 +101,7 @@ export class WaitingUsePage {
         if (res.success && res.body) {
           for (let key in res.body) {
             let tempObj = {
-              dateStr: key,
+              dateStr: moment(key).format('MM/DD/YYYY'),
               list: res.body[key],
             };
             this.dataList.push(tempObj);

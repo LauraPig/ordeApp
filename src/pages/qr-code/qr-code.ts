@@ -18,9 +18,12 @@ import * as moment from 'moment';
 export class QrCodePage {
   todayStr: string;
   userNo: string;
+  qrCodeStr: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    let timestampStr = moment().format('x');
     this.userNo = this.navParams.get('no');
+    this.qrCodeStr = `esquel,${this.userNo},${timestampStr}`;
   }
 
   ionViewDidLoad() {
@@ -29,7 +32,9 @@ export class QrCodePage {
   }
 
   ionViewWillEnter() {
-    // this.userNo = this.navParams.get('no');
+    let timestampStr = moment().format('x');
+    this.userNo = this.navParams.get('no');
+    this.qrCodeStr = `esquel,${this.userNo},${timestampStr}`;
   }
 
 }

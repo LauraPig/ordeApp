@@ -351,7 +351,7 @@ export class OrderPage {
 
         // db.executeSql(`select  a.* from ct_plan a where a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{
 
-          // alert('res.length--' + res.rows.length);
+          alert('res.length--' + res.rows.length);
           if (res.rows.length) {
             for (let i = 0; i < res.rows.length; i ++) {
               if (res.rows.item(i).type === 1) {

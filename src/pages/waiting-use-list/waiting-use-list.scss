@@ -1,23 +1,42 @@
 page-waiting-use-list {
 
-
-  /* 头部样式*/
-  .toolbar-ios {
-    color: #686868;
-    min-height: 70px !important;
-    p {
-      margin: 0 !important;
-    }
+  .toolbar-background-ios{
+    background-color: #ededed;
   }
 
+  .content-ios{
+    background-color: #ededed;
+  }
+
+  ///* 头部样式*/
+  //.toolbar-ios {
+  //  color: #686868;
+  //  min-height: 70px !important;
+  //  p {
+  //    margin: 0 !important;
+  //  }
+  //}
+
   .toolbar-title-ios{
-    text-align: left !important;
+    //text-align: left !important;
   }
 
   .cut-title{
     font-size: 1.2rem !important;
     font-weight: 500 !important;
   }
+
+  // 自定义card 样式
+  .my-card {
+    margin: 10px;
+    border-radius: 2px;
+    width: calc(100% - 20px);
+    font-size: 2rem;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
 
   // 覆盖原有样式
   ion-item-options {

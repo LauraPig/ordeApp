@@ -46,7 +46,7 @@ export class WaitingUseListPage {
   ionViewWillEnter () {
 
     // 获取当前时间
-    this.todayStr = moment().format('YYYY-MM-DD');
+    this.todayStr = moment().format('MM/DD/YYYY');
     console.log('ionViewDidLoad WaitingUseListPage');
   }
 

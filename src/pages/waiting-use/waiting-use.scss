@@ -1,6 +1,14 @@
 page-waiting-use {
 
   position: absolute;
+
+  //ion-header{
+  //  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  //}
+
+  .content-ios{
+    background-color: #ededed;
+  }
   /*无数据样式*/
   .null-tips {
     color: #bfbfbf;
@@ -24,6 +32,18 @@ page-waiting-use {
     //min-width: 3px !important;
     font-size: 1rem !important;
     background-color: #ff0f1c !important;
+  }
+
+
+  // 自定义card 样式
+  .my-card {
+    margin: 10px;
+    border-radius: 2px;
+    width: calc(100% - 20px);
+    font-size: 2rem;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
   /* 头部样式*/
