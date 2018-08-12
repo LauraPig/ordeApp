@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  ModalController,
+  NavController,
+  NavParams,
+  ToastController
+} from 'ionic-angular';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {CalendarComponentOptions, DayConfig} from 'ion2-calendar'
 import * as moment from 'moment'
@@ -86,6 +94,7 @@ export class OrderPage {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public storage: Storage,
     public commonHelper: CommonHelper,
@@ -95,41 +104,12 @@ export class OrderPage {
 
     this.isNull = false;
 
-    // this.storage.get('messageCount').then(res =>{
-    //   if (res) {
-    //     this.messageCount = res;
-    //   }
-    // });
-
-
-
-    // // 获取参数
-    // // this.factoryId = this.navParams.get('factoryId');
-    // this.factoryName = this.navParams.get('factoryName');
-
-    // // 获取工厂ID
-    // this.storage.get('factoryId').then(res =>{
-    //   if (res) {
-    //     this.factoryId = res;
-    //   }
-    // });
-
     // 获取用户名称
     this.storage.get('userName').then(res =>{
       if (res) {
         this.userName = res;
       }
     });
-
-
-    // // 获取工厂名称
-    // this.storage.get('factoryName').then(res =>{
-    //   if (res) {
-    //     this.factoryName = res;
-    //   }
-    // });
-
-    // this.todayStr = `${moment().format('YYYY-MM-DD')} 00:00:00`;
     this.todayStr = moment().format('YYYY-MM-DD');
 
     this.monStr = (new Date().getMonth() + 1).toString();
@@ -321,21 +301,6 @@ export class OrderPage {
     let temList: Array<any> = [];
     if (this.todayStr && item.value && p.id) {
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
-      /*  db.executeSql(`select 0 type from ct_plan a ,ct_plan_dtl c,ct_meal b
-                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}'
-                       and b.office_id = '${p.id}' AND c.obj_type = '0'
-                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0'
-                       and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'
-                       UNION
-                       select 1 type  from ct_plan a ,ct_plan_dtl c,ct_meal b
-                       WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}'
-                       and b.office_id = '${p.id}' AND c.obj_type = '1'
-                       and a.del_flag='0' and b.del_flag='0' and c.del_flag='0'
-                       and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{*/
-
-
-
-
         db.executeSql(`select d.product_name name,d.price price,d.id id,0 type,d.blob_path imgPath from ct_plan a ,ct_plan_dtl c,ct_meal b,ct_product d
                        WHERE   c.plan_id = a.id and a.meal_id = b.id AND b.meal_type = '${item.value}'
                        and b.office_id = '${p.id}' AND c.obj_type = '0' AND c.obj_id = d.id
@@ -347,11 +312,7 @@ export class OrderPage {
                        and b.office_id = '${p.id}' AND c.obj_type = '1' AND c.obj_id = d.id
                        and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
                        and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{
-
-
-        // db.executeSql(`select  a.* from ct_plan a where a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{
-
-          alert('res.length--' + res.rows.length);
+          // alert('res.length--' + res.rows.length);
           if (res.rows.length) {
             for (let i = 0; i < res.rows.length; i ++) {
               if (res.rows.item(i).type === 1) {
@@ -404,6 +365,13 @@ export class OrderPage {
               this.typeList[parentIndex].officeList[childrenIndex].productList = temList;
             }
 
+          } else {
+            this.toastCtrl.create({
+              message: '暂无数据',
+              duration: 1000,
+              position: 'middle',
+              cssClass: 'toast-ctrl'
+            }).present();
           }
         }).catch(e =>{
 
@@ -650,19 +618,6 @@ export class OrderPage {
 
   }
 
-  gotoSelectTypePage(value: string, factoryName: string) {
-    // alert('this.monstr--order: ' + this.monStr);
-    this.navCtrl.setRoot(SelectTypePage, {
-      value,
-      factoryName,
-      factoryId: this.factoryId,
-      monStr: this.monStr,
-      dayStr: this.dayStr,
-      typeList: this.typeList,
-    })
-  }
-
-
   // 返回主页
   gotoHomePage() {
     this.commonHelper.GoBackHomePage();
@@ -675,8 +630,6 @@ export class OrderPage {
   goHomeMenuPage() {
     this.navCtrl.push('homeMenu');
   }
-
-
 
   goSettingPage() {
     this.navCtrl.push('setting');
