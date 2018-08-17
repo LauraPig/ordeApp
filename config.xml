@@ -96,4 +96,7 @@
     <plugin name="cordova-plugin-image-picker" spec="https://github.com/Findiglay/cordova-imagePicker.git" />
     <engine name="android" spec="6.4.0" />
     <engine name="ios" spec="4.5.5" />
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <allow-navigation href="*" />
 </widget>

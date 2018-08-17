@@ -1,3 +1,10 @@
 page-message-detail {
+  p {
+    word-wrap:break-word;
+  }
 
+  .content-message {
+    padding-right: 2vw;
+    //border-bottom: 0.5px solid #ededed;
+  }
 }

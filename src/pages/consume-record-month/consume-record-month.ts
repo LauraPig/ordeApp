@@ -82,7 +82,7 @@ export class ConsumeRecordMonthPage {
         dataLoading.dismiss();
         if (res.success) {
           this.orderList = res.body.ctOrderList && res.body.ctOrderList.map((item, index) => {
-              item.dinnerDate = moment(item.dinnerDate).format('MM月DD日 HH:MM');
+              item.payDate = moment(item.payDate).format('MM月DD日 HH:MM');
               return item;
             });
 

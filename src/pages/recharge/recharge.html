@@ -14,13 +14,20 @@
 
 
 <ion-content>
-  <ion-item style="margin-top: 15vh">
-    <ion-label color="primary" fixed>充值金额:</ion-label>
-    <ion-input [(ngModel)]="amount" type="number" placeholder="请输入充值金额"></ion-input>
-  </ion-item>
 
-  <div padding style="margin-top: 10vh">
-    <button block ion-button color="primary" (click)="doRecharge()" >微信支付</button>
+
+
+
+  <div style="display: flex;justify-content: center;align-items: center">
+    <img src="./assets/imgs/qr-code.png" alt="">
   </div>
+  <!--<ion-item style="margin-top: 15vh">-->
+    <!--<ion-label color="primary" fixed>充值金额:</ion-label>-->
+    <!--<ion-input [(ngModel)]="amount" type="number" placeholder="请输入充值金额"></ion-input>-->
+  <!--</ion-item>-->
+
+  <!--<div padding style="margin-top: 10vh">-->
+    <!--<button block ion-button color="primary" (click)="doRecharge()" >微信支付</button>-->
+  <!--</div>-->
 
 </ion-content>

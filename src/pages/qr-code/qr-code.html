@@ -26,5 +26,8 @@
       <ion-qrcode [data]="qrCodeStr" [size]="180" [level]="'M'"  [foreground]="'black'"></ion-qrcode>
     </ion-item>
   </ion-list>
+  <div style="display: flex;justify-content: center">
+    <button ion-button round (click)="refreshQRcode()">刷新</button>
+  </div>
 
 </ion-content>

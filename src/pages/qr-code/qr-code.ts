@@ -37,4 +37,9 @@ export class QrCodePage {
     this.qrCodeStr = `esquel,${this.userNo},${timestampStr}`;
   }
 
+  refreshQRcode() {
+    let timestampStr = moment().format('x');
+    this.qrCodeStr = `esquel,${this.userNo},${timestampStr}`;
+  }
+
 }

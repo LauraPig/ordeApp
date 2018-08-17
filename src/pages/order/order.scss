@@ -11,6 +11,11 @@ page-order {
 
   position: absolute;
 
+
+  ion-buttons {
+    margin: 0 0.4rem !important;
+  }
+
   // 日期样式
   ion-calendar {
     background-color: #ededed;
