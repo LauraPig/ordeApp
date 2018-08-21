@@ -25,6 +25,7 @@ export class HomePage {
   hotVersion: number = 0;
   factoryName: string = '';
   factoryId: string = '';
+  initUpdateLoading: any;
 
   isNull: boolean = false;
 
@@ -157,11 +158,11 @@ export class HomePage {
     ];
 
    return this.httpDataPro.fetchInitData(params).then(res => {
-     let initUpdateLoading = this.loadingCtrl.create({
+     this.initUpdateLoading = this.loadingCtrl.create({
        spinner: 'bubbles',
        content: '更新数据中...',
      });
-     initUpdateLoading.present();
+     this.initUpdateLoading.present();
       // alert('结果---' + res.success);
       // alert('数据-in Home--' + JSON.stringify(res));
       // alert('数据---' + JSON.stringify(res.body));
@@ -169,7 +170,7 @@ export class HomePage {
       // alert('type--' + typeof temData);
       // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
       if (!res.success) {
-        initUpdateLoading.dismiss();
+        this.initUpdateLoading.dismiss();
         if (res.errorCode === '-2') {
           this.alertCtrl.create({
             subTitle: '登录信息失效，请重新登录',
@@ -225,7 +226,7 @@ export class HomePage {
                              // alert('设置缓存coldVersion--' + temData.coldDataVer);
                              this.storage.set('coldVersion', temData.coldDataVer);
                            }
-                           initUpdateLoading.dismiss();
+                           this.initUpdateLoading.dismiss();
                            this.getData();
                          });
                        });
@@ -239,6 +240,7 @@ export class HomePage {
        });
      });
     }).catch(e =>{
+     this.initUpdateLoading.dismiss();
       this.alertCtrl.create({
         title: '服务异常，请联系管理员',
         buttons: [{
