@@ -7,7 +7,8 @@ import qrcanvas from 'qrcanvas';
 })
 export class QrCodeComponent implements AfterViewInit, OnChanges {
   options: any;
-  effects = ['none', 'liquid', 'round', 'spot'];
+  // effects = ['none', 'liquid', 'round', 'spot'];
+  effects = ['liquid'];
   @Input() size: string;
   @Input() data: string;
   @Input() logo: string;

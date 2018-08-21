@@ -23,11 +23,12 @@
     </ion-list-header>
     <ion-item style="text-align: center">
       <!--<img src="assets/imgs/qr-code.png" alt="暂无图片">-->
-      <ion-qrcode [data]="qrCodeStr" [size]="180" [level]="'M'"  [foreground]="'black'"></ion-qrcode>
+      <ion-qrcode [data]="qrCodeStr" [size]="180" [level]="'H'"  [foreground]="'black'"></ion-qrcode>
+      <!--<qrcode [qrdata]="qrCodeStr" [size]="180" [level]="'H'"></qrcode>-->
     </ion-item>
   </ion-list>
   <div style="display: flex;justify-content: center">
-    <button ion-button round (click)="refreshQRcode()">刷新</button>
+    <button ion-button round (click)="refreshQRcode()">刷新二维码</button>
   </div>
 
 </ion-content>

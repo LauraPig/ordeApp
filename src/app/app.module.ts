@@ -50,6 +50,8 @@ import * as ionicGalleryModal from 'ionic-gallery-modal';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import {CommonHelper} from "../providers/common-helper";
 
+import { QRCodeModule } from 'angularx-qrcode';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -71,7 +73,7 @@ import {CommonHelper} from "../providers/common-helper";
   imports: [
     // QRCodeModule,
     HttpModule,
-    // QRCodeModule,
+    QRCodeModule,
     BrowserModule,
     BrowserAnimationsModule,
     ionicGalleryModal.GalleryModalModule,
