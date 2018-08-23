@@ -256,7 +256,11 @@ export class OrderPage {
       // alert('value' + this.value);
       // alert('factoryId' + this.factoryId);
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
-        db.executeSql(`select DISTINCT  a.name, a.id from sys_office a ,ct_meal b where  a.parent_ids LIKE '%${this.factoryId}%' AND a.type='4' and b.office_id = a.id and b.meal_type = '${item.value}' AND b.del_flag='0' AND a.del_flag='0';`,{}).then(res =>{
+        // db.executeSql(`select DISTINCT  a.name, a.id from sys_office a ,ct_meal b where  a.parent_ids LIKE '%${this.factoryId}%' AND a.type='4' and b.office_id = a.id and b.meal_type = '${item.value}' AND b.del_flag='0' AND a.del_flag='0';`,{}).then(res =>{
+        db.executeSql(`SELECT DISTINCT a.id ,a.name from sys_office a ,ct_meal b,ct_plan c WHERE a.parent_ids   LIKE '%${this.factoryId}%'  AND a.type='4' 
+AND a.id = b.office_id AND b.meal_type = '${item.value}' AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag='0' 
+AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1' 
+;`,{}).then(res =>{
           // alert('res: ' + res.rows.length);
           if (res.rows.length) {
             for (let i =0; i < res.rows.length; i ++ ) {
@@ -276,6 +280,13 @@ export class OrderPage {
             // alert('temList: ' + temList);
             this.typeList[index].officeList = temList;
             // alert('result: ' + this.typeObj[`${this.value}`]);
+          } else {
+            this.toastCtrl.create({
+              message: '暂无数据',
+              duration: 1000,
+              position: 'middle',
+              cssClass: 'toast-ctrl'
+            }).present();
           }
         }).catch(e =>{
           console.log(e);
