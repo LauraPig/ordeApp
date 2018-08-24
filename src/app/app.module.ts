@@ -25,7 +25,7 @@ import {OverduePage} from "../pages/overdue/overdue";
 import {LoginPage} from "../pages/login/login";
 import {ZBar} from "@ionic-native/zbar";
 import {HttpProvider} from "../providers/http/http-service";
-import { HttpModule} from "@angular/http";
+import {Http, HttpModule} from "@angular/http";
 import {HttpDataProviders} from "../providers/http-data/http-data";
 import {SelectTypePage} from "../pages/select-type/select-type";
 
@@ -51,6 +51,11 @@ import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import {CommonHelper} from "../providers/common-helper";
 
 import { QRCodeModule } from 'angularx-qrcode';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+
+export function createTranslateLoader(http: Http) {
+  return new TranslateStaticLoader(http, './assets/i18n', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -85,6 +90,13 @@ import { QRCodeModule } from 'angularx-qrcode';
     }),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
+
+    // 多语言版本模块导入
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    }),
     CalendarModule,
     SharedModule,
     // SuperTabsModule

@@ -8,7 +8,7 @@
     <ion-title>
       <div style="margin: 15px 0" >
         <p>{{userName}}</p>
-        <p class="cut-title">欢迎来到{{factoryName}}</p>
+        <p class="cut-title">{{ 'HOME.WELCOME' | translate }}{{factoryName}}</p>
       </div>
     </ion-title>
     <ion-buttons *ngIf="messageCount > 0" end>
@@ -33,16 +33,11 @@
   </ion-navbar>
 </ion-header>
 
-<!--测试富文本-->
 
-<!--<ion-content>-->
-  <!--<div id="text">-->
-  <!--</div>-->
-<!--</ion-content>-->
 
 <ion-content>
   <ion-card *ngIf="orderList?.length > 0" tappable="" (click)="gotoWaitingUse()">
-    <ion-slides pager>
+    <ion-slides [autoplay]="1000" [loop]="true" pager>
 
       <ion-slide *ngFor="let item of orderList" >
         <img class="img-item" src="{{item.imgUrl}}"/>
@@ -59,10 +54,6 @@
         </div>
       </ion-slide>
     </ion-slides>
-    <!--<ion-cardR-header>-->
-    <!--<ion-icon ios="ios-basket" md="md-basket"></ion-icon>-->
-    <!--<span >今日您已预订</span>-->
-    <!--</ion-card-header>-->
   </ion-card>
 
   <ion-card *ngIf="(isNull && orderList.length === 0)">
@@ -82,7 +73,7 @@
     <img class="img-item" src="https://dininghall.blob.core.windows.net/product/473c5d4611c74be3acc05a6b54cca853.png"/>
     <!--<img class="img-item" src="assets/imgs/test.jpg"/>-->
     <div class="order-tile">
-      立即预订
+      {{'HOME.ORDER' | translate }}
     </div>
   </ion-card>
 
@@ -90,10 +81,9 @@
     <ion-card >
       <img class="img-item" src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
       <div class="order-tile">
-        新闻
+        {{'HOME.NEWS' | translate }}
       </div>
     </ion-card>
   </div>
-  <!--<qr-code [value]="'1231234'" [size]="150" [backgroundAlpha]="0.5" [padding]="10"></qr-code>-->
 </ion-content>
 

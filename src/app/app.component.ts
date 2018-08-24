@@ -18,6 +18,8 @@ import {LoginPage} from "../pages/login/login";
 
 import * as moment from 'moment';
 import {NativeService} from "../providers/app-update/NativeService";
+import {TranslateService} from "ng2-translate";
+
 
 
 @Component({
@@ -48,6 +50,7 @@ export class MyApp {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public sqlite: SQLite,
+    public translate: TranslateService,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
     public nativeService: NativeService,
@@ -66,7 +69,10 @@ export class MyApp {
       this.splashScreen.hide();
       this.nativeService.detectionUpgrade(true);
 
-      this.storage.set('userId', '1');
+      // 设置默认语言
+      this.translate.setDefaultLang('zh');
+
+      // this.storage.set('userId', '1');
       this.storage.get('token').then(res =>{
         // alert('res-->' + res);
         if (res) {
