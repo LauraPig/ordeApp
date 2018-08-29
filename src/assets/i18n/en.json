@@ -1,7 +1,51 @@
 {
+  "COMMON": {
+    "LOADING_TIPS": "Loading...",
+    "LOGIN_INVALID": {
+      "TITLE": "Tips",
+      "CONTENT": "Your login information is invalid,Please login again",
+      "BTN_TEXT": "OK"
+    },
+    "ORDER_SUCCESS_TIPS": {
+      "TITLE": "Order Successed",
+      "CONTENT": "Please go to the 'waiting list' list for details.",
+      "BTN_TEXT": "OK"
+    },
+    "ORDER_FAIL_TIPS": {
+      "TITLE": "Order Failed",
+      "CONTENT": "",
+      "BTN_TEXT": "OK"
+    },
+    "NODATA": "No Data"
+  },
   "HOME": {
-    "WELCOME": "欢迎来到",
+    "WELCOME": "Welcome to ",
     "TITLE":"Home",
+    "ORDER": "Book Now",
     "CONTENT":"Hello word!"
+  },
+  "CONSUME": {
+    "TITLE": "History Record",
+    "FIR": "CUR Mon",
+    "SEC": "Last Mon",
+    "THR": "LS Two Mon",
+    "UNIT": "Yuan",
+    "ACTION": "comment"
+
+  },
+  "DETAIL": {
+    "TITLE": "Detail",
+    "CLOSE": "close",
+    "UNIT": "Yuan/Per",
+    "INCLUDE": "Package Include",
+    "FEATURE": "Package Feature",
+    "CONTENT": "Maintain the spicy and spicy characteristics of Sichuan, combined with nutritional matching, without losing the characteristics of local cuisine while controlling energy, to meet your dual experience of nutrition / local cuisine.",
+    "ORDER": "Order",
+    "ORDER_BTN_TIPS": {
+      "TITLE": "Amount",
+      "OK_BTN_TEXT": "OK",
+      "CANCEL_BTN_TEXT": "Cancel"
+    }
+
   }
 }

@@ -70,7 +70,7 @@ export class MyApp {
       this.nativeService.detectionUpgrade(true);
 
       // 设置默认语言
-      this.translate.setDefaultLang('zh');
+      this.translate.setDefaultLang('en');
 
       // this.storage.set('userId', '1');
       this.storage.get('token').then(res =>{

@@ -5,6 +5,8 @@ import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from '@ionic/storage';
 import {LoginPage} from "../login/login";
 import {getCurrentMonth} from "../../utils/index";
+import {CommonHelper} from "../../providers/common-helper";
+import {TranslateService} from "ng2-translate";
 
 /**
  * Generated class for the ConsumeRecordWeekPage page.
@@ -29,6 +31,8 @@ export class ConsumeRecordWeekPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public commonHelper: CommonHelper,
+    public translate: TranslateService,
     public storage: Storage,
     public loadingCtrl: LoadingController,
     public httpDataPro: HttpDataProviders,
@@ -58,13 +62,10 @@ export class ConsumeRecordWeekPage {
   }
 
   getListData(queryStartDate: string, queryEndDate: string ) {
-    // alert('queryStartDate-consume-week-->' + queryStartDate);
-    // alert('queryEndDate--in-consume-week-->' + queryEndDate);
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
+    this.translate.get('COMMON.LOADING_TIPS').subscribe(res =>{
+      // this.commonHelper.Alert(res.toString());
+      this.commonHelper.LoadingShow(res);
     });
-    dataLoading.present();
     if (queryEndDate && queryStartDate) {
       let params = {
         'status': '1',
@@ -73,25 +74,35 @@ export class ConsumeRecordWeekPage {
       };
       this.httpDataPro.fetchRecordListData(params).then(res =>{
         // alert('res--in-consume-week-->' + JSON.stringify(res));
-        dataLoading.dismiss();
+
         if (res.success) {
+
           this.orderList = res.body.ctOrderList && res.body.ctOrderList.map((item, index) => {
             item.payDate = moment(item.payDate).format('MM月DD日 HH:mm');
             return item;
           });
+          this.commonHelper.LoadingHide();
 
         } else if (res.errorCode === '-2') {
-          alert('登录信息过期，请重新登录');
+          this.commonHelper.LoadingHide();
+
+          // 登录信息过期
+          this.translate.get('COMMON.LOGIN_INVALID').subscribe(res =>{
+            console.log(res);
+            this.commonHelper.Alert(res.CONTENT,null, res.TITLE, res.BTN_TEXT);
+          });
+
+
           this.storage.remove('token').then(data => {
             console.log(data);
             this.navCtrl.setRoot(LoginPage);
           })
         }
       }).catch(e =>{
-        dataLoading.dismiss();
+        this.commonHelper.LoadingHide();
       });
     } else {
-      dataLoading.dismiss();
+      this.commonHelper.LoadingHide();
     }
   }
 

@@ -8,7 +8,7 @@
     </ion-buttons>
     <ion-title>
       <div style="margin: 15px 0" >
-        <p>历史用餐记录</p>
+        <p>{{ 'CONSUME.TITLE' | translate }}</p>
       </div>
     </ion-title>
     <ion-buttons *ngIf="messageCount > 0" end>
@@ -36,9 +36,9 @@
 
 <ion-content>
   <super-tabs scrollTabs  [selectedTabIndex]="selectedTabIndex" style="width: 100vw">
-    <super-tab [root]="page1" [rootParams]="navParams" title="本月" ></super-tab>
-    <super-tab [root]="page2" [rootParams]="navParams" title="上个月" ></super-tab>
-    <super-tab [root]="page3" [rootParams]="navParams" title="前个月" ></super-tab>
+    <super-tab [root]="page1" [rootParams]="navParams" title="{{ 'CONSUME.FIR' | translate }}" ></super-tab>
+    <super-tab [root]="page2" [rootParams]="navParams" title="{{ 'CONSUME.SEC' | translate }}" ></super-tab>
+    <super-tab [root]="page3" [rootParams]="navParams" title="{{ 'CONSUME.THR' | translate }}" ></super-tab>
   </super-tabs>
 
 </ion-content>

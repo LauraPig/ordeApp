@@ -1,10 +1,10 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let item of orderList">
-      <h2>{{item?.productName}}</h2>
+      <h2>{{item.productName}}</h2>
       <div item-end>
-        <h3 style="margin-left: 10px">{{item?.price}}元</h3>
-        <button ion-button >去评价</button>
+        <h3 style="margin-left: 10px">{{item.price}}{{'CONSUME.UNIT' | translate}}</h3>
+        <button ion-button >{{'CONSUME.ACTION' | translate}}</button>
       </div>
       <p style="line-height: 35px">
         <ion-badge>{{item.mealType}}</ion-badge>
@@ -15,7 +15,7 @@
 
   <div *ngIf="(isNull && orderList.length === 0)" class="null-tips">
     <img src="assets/imgs/null.png" alt="">
-    <div>暂无数据</div>
+    <div>{{'COMMON.NODATA' | translate}}</div>
   </div>
 
 </ion-content>

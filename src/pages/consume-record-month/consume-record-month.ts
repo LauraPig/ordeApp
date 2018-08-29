@@ -5,6 +5,8 @@ import { Storage } from '@ionic/storage';
 import * as moment from 'moment';
 import {LoginPage} from "../login/login";
 import {getCurrentMonth} from "../../utils/index";
+import {CommonHelper} from "../../providers/common-helper";
+import {TranslateService} from "ng2-translate";
 
 /**
  * Generated class for the ConsumeRecordMonthPage page.
@@ -25,17 +27,28 @@ export class ConsumeRecordMonthPage {
   userId: string;
   orderList: Array<any> = [];
   isNull: boolean = false;
+  lang: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
     public loadingCtrl: LoadingController,
+    public translate: TranslateService,
+    public commonHelper: CommonHelper,
     public httpDataPro: HttpDataProviders,
   ) {
   }
 
   ionViewDidLoad() {
+    // this.commonHelper.getCurrentLanguage().then(res =>{
+    //   if(!res) {
+    //     this.lang = 'zh';
+    //   } else {
+    //     this.lang = res.toString();
+    //   }
+    //
+    // });
     // this.orderList = [];
     // // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
     // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
@@ -62,14 +75,10 @@ export class ConsumeRecordMonthPage {
 
   getListData(queryStartDate: string, queryEndDate: string ) {
 
-    // alert('queryStartDate-consume-week-->' + queryStartDate);
-    // alert('queryEndDate--in-consume-week-->' + queryEndDate);
-
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
+    this.translate.get('COMMON.LOADING_TIPS').subscribe(res =>{
+      // this.commonHelper.Alert(res.toString());
+      this.commonHelper.LoadingShow(res);
     });
-    dataLoading.present();
 
     if (queryEndDate && queryStartDate) {
       let params = {
@@ -79,25 +88,37 @@ export class ConsumeRecordMonthPage {
       };
       this.httpDataPro.fetchRecordListData(params).then(res =>{
         // alert('res-data--' + JSON.stringify(res.body.ctOrderList));
-        dataLoading.dismiss();
+        // this.commonHelper.LoadingHide();
         if (res.success) {
           this.orderList = res.body.ctOrderList && res.body.ctOrderList.map((item, index) => {
               item.payDate = moment(item.payDate).format('MM月DD日 HH:MM');
               return item;
             });
-
+          this.commonHelper.LoadingHide();
         } else if (res.errorCode === '-2') {
-          alert('登录信息过期，请重新登录');
-          this.storage.remove('token').then(data => {
-            console.log(data);
-            this.navCtrl.setRoot(LoginPage);
-          })
+          this.commonHelper.LoadingHide();
+
+
+          //  登录信息过期提示
+          this.translate.get('COMMON.LOGIN_INVALID').subscribe(res =>{
+            console.log(res);
+            this.commonHelper.Alert(res.CONTENT,()=>{
+              this.storage.remove('token').then(data => {
+                console.log(data);
+
+                this.navCtrl.setRoot(LoginPage);
+              })
+            }, res.TITLE, res.BTN_TEXT);
+          });
+
+
+
         }
       }).catch(e =>{
-        dataLoading.dismiss();
+        this.commonHelper.LoadingHide();
       });
     } else {
-      dataLoading.dismiss();
+      this.commonHelper.LoadingHide();
     }
 
   }

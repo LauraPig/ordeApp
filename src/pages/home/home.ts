@@ -139,7 +139,7 @@ export class HomePage {
        return this.checkData();
       });
     });
-     return Promise.reject('错误');
+     return Promise.reject('error');
   }
 
   // 调用接口，拉取最新数据

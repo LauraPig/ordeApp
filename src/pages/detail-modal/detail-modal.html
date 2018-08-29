@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      详情
+      {{'DETAIL.TITLE' | translate}}
     </ion-title>
     <ion-buttons end>
       <button ion-button (click)="dismiss()">
-        <span ion-text color="primary" showWhen="ios">关闭</span>
+        <span ion-text color="primary" showWhen="ios">{{'DETAIL.CLOSE' | translate}}</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
@@ -22,18 +22,18 @@
     {{item.name}}
   </p>
   <p class="price-title">
-    ￥{{item.price}}元/份
+    ￥{{item.price}}{{'DETAIL.UNIT' | translate}}
   </p>
   <p class="common-title">
-    套餐包括：
+    {{'DETAIL.INCLUDE' | translate}}：
   </p>
   <p class="common-title">
     {{item?.productName}}
   </p>
   <div class="common-title">
-    <p>套餐特色</p>
+    <p>{{'DETAIL.FEATURE' | translate}}</p>
     <p>
-      保留川香得麻辣特点，结合营养搭配，不失地方菜系特点同时能控制能量，满足你对营养/地方美食的双重体验。
+      {{'DETAIL.CONTENT' | translate}}
     </p>
   </div>
   <div *ngIf="item.type === 1">
@@ -51,4 +51,4 @@
 
 </ion-content>
 
-<button [@scroll]="status"  id="orderBtn" full class="order-btn" (click)="orderProduct(item.id)">订餐</button>
+<button [@scroll]="status"  id="orderBtn" full class="order-btn" (click)="orderProduct(item.id)">{{'DETAIL.ORDER' | translate}}</button>

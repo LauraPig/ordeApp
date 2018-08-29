@@ -1,9 +1,52 @@
 {
+  "COMMON": {
+    "LOADING_TIPS": "加载中...",
+    "LOGIN_INVALID": {
+      "TITLE": "提示",
+      "CONTENT": "登录信息过期，请重新登录",
+      "BTN_TEXT": "确定"
+    },
+    "ORDER_SUCCESS_TIPS": {
+      "TITLE": "订餐成功",
+      "CONTENT": "请到“待消费”列表查看详情",
+      "BTN_TEXT": "确定"
+    },
+    "ORDER_FAIL_TIPS": {
+      "TITLE": "订餐失败",
+      "CONTENT": "",
+      "BTN_TEXT": "确定"
+    },
+    "NODATA": "暂无数据"
+  },
   "HOME": {
     "WELCOME": "欢迎来到",
     "ORDER": "立即预定",
     "NEWS": "新闻",
     "TITLE":"Home",
     "CONTENT":"Hello word!"
+  },
+  "CONSUME": {
+    "TITLE": "历史用餐记录",
+    "FIR": "本月",
+    "SEC": "上个月",
+    "THR": "前个月",
+    "UNIT": "元",
+    "ACTION": "去评论"
+  },
+  "DETAIL": {
+    "TITLE": "详情",
+    "CLOSE": "关闭",
+    "UNIT": "元/份",
+    "INCLUDE": "套餐包括",
+    "FEATURE": "套餐特色",
+    "CONTENT": "保留川香得麻辣特点，结合营养搭配，不失地方菜系特点同时能控制能量，满足你对营养/地方美食的双重体验。",
+    "ORDER": "订餐",
+    "ORDER_BTN_TIPS": {
+      "TITLE": "份数",
+      "OK_BTN_TEXT": "确定",
+      "CANCEL_BTN_TEXT": "取消"
+    }
+
   }
+
 }
