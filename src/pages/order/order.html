@@ -99,7 +99,7 @@
               </ion-item>
               <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
-                  <ion-slides pager>
+                  <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1" pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
                       <img src="{{path}}"/>
                     </ion-slide>
@@ -142,7 +142,7 @@
               </ion-item>
               <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
-                  <ion-slides pager>
+                  <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1" pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
                       <img src="{{path}}"/>
                     </ion-slide>
@@ -185,7 +185,7 @@
               </ion-item>
               <div [@expandDetail]="p.status">
                 <div *ngFor="let de of p.productList" >
-                  <ion-slides pager>
+                  <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1"  pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
                       <img src="{{path}}"/>
                     </ion-slide>

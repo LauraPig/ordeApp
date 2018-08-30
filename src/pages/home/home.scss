@@ -129,6 +129,16 @@ page-home {
     }
   }
 
+  // 文字遮罩层
+  .back-ground {
+    width: 37vw;
+    height: 30vh;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
 
 
   .card-title {

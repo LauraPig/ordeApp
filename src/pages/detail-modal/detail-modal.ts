@@ -25,9 +25,9 @@ import {TranslateService} from "ng2-translate";
   templateUrl: 'detail-modal.html',
   animations: [
     trigger('scroll', [
-      state('scrolling', style({opacity: '0',height: 0, overflow: 'hidden'})),
+      state('scrolling', style({opacity: '0', overflow: 'hidden'})),
       state('static', style({opacity: '1',height: '*'})),
-      transition('static <=> scrolling', animate('2000ms ease-in-out')),
+      transition('static <=> scrolling', animate('10ms ease-in-out')),
     ]),
   ]
 })
@@ -131,7 +131,9 @@ export class DetailModalPage {
 
 
             this.translate.get('COMMON.ORDER_SUCCESS_TIPS').subscribe(res =>{
-              this.commonHelper.Alert(res.CONTENT,null, res.TITLE, res.BTN_TEXT);
+              this.commonHelper.Alert(res.CONTENT,() =>{
+                this.navCtrl.setRoot(WaitingUsePage);
+              }, res.TITLE, res.BTN_TEXT);
             });
 
           }  else if (data.errorCode === '-2') {
@@ -198,7 +200,9 @@ export class DetailModalPage {
 
 
           this.translate.get('COMMON.ORDER_SUCCESS_TIPS').subscribe(res =>{
-            this.commonHelper.Alert(res.CONTENT,null, res.TITLE, res.BTN_TEXT);
+            this.commonHelper.Alert(res.CONTENT,() =>{
+              this.navCtrl.setRoot(WaitingUsePage);
+            }, res.TITLE, res.BTN_TEXT);
           });
 
         }  else if (data.errorCode === '-2') {

@@ -37,10 +37,14 @@
 
 <ion-content>
   <ion-card *ngIf="orderList?.length > 0" tappable="" (click)="gotoWaitingUse()">
-    <ion-slides [autoplay]="1000" [loop]="true" pager>
+    <!--[loop]="true"-->
+    <ion-slides [autoplay]="2000" [loop]="orderList.length > 1"  pager>
 
       <ion-slide *ngFor="let item of orderList" >
         <img class="img-item" src="{{item.imgUrl}}"/>
+        <div class="back-ground">
+
+        </div>
         <div class="card-title">
           <div style="font-size: 2rem">
             {{item.productName}}
@@ -57,7 +61,7 @@
   </ion-card>
 
   <ion-card *ngIf="(isNull && orderList.length === 0)">
-    <img src="assets/imgs/noOrder.png"/>
+    <img class="img-item" src="assets/imgs/noData.png"/>
     <!--<div  class="null-content">-->
       <!--<div class="null-tips">-->
         <!--<img src="assets/imgs/null.png" alt="">-->
@@ -79,7 +83,7 @@
 
   <div class="footer-card">
     <ion-card >
-      <img class="img-item" src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>
+      <img class="img-item" src="assets/imgs/Blank_Image.png"/>
       <div class="order-tile">
         <!--{{'HOME.NEWS' | translate }}-->
       </div>
