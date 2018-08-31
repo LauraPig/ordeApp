@@ -50,8 +50,8 @@ import {CommonHelper} from "../../providers/common-helper";
       transition('ActiveDetailUp <=> ActiveDetailDown', animate('500ms ease-in-out')),
     ]),
     trigger('expandDate', [
-      state('ActiveDate', style({opacity: '1',height: '*'})),
-      state('NotActiveDate', style({opacity: '0',height: 0, overflow: 'hidden'})),
+      state('ActiveDate', style({opacity: '1',height: '*', display: '*', marginTop: '3px'})),
+      state('NotActiveDate', style({opacity: '0',height: 0, display: 'none', overflow: 'hidden', marginTop: '0px'})),
       transition('ActiveDate <=> NotActiveDate', animate('500ms ease-in-out')),
       state('ActiveUp', style({transform: '*'})),
       state('ActiveDown', style({transform: 'rotate(180deg)'})),

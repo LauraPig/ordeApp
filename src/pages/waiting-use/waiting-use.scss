@@ -6,6 +6,18 @@ page-waiting-use {
     margin: 0 0.4rem !important;
   }
 
+
+  // 文字遮罩层
+  .back-ground {
+    width: 37vw;
+    height: 30vh;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+
   //ion-header{
   //  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   //}

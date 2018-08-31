@@ -8,6 +8,17 @@ page-waiting-use-list {
     background-color: #ededed;
   }
 
+
+  // 文字遮罩层
+  .back-ground {
+    width: 37vw;
+    height: 30vh;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
   ///* 头部样式*/
   //.toolbar-ios {
   //  color: #686868;

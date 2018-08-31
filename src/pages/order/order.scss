@@ -12,12 +12,29 @@ page-order {
   position: absolute;
 
 
+
+  .date-title {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    width:100%;
+    height: 15.5vh;
+    box-shadow: 0px 2px 3px #b0b0b0;
+
+    div {
+      font-weight: bold;
+      font-size: 2rem;
+      color: #686868
+    }
+  }
+
   ion-buttons {
     margin: 0 0.4rem !important;
   }
 
   // 日期样式
   ion-calendar {
+    padding: 0 !important;
     background-color: #ededed;
   }
 
@@ -181,6 +198,17 @@ page-order {
       margin-top: -6vh;
       margin-bottom: -6vh;
     }
+  }
+
+
+  .product-list-detail {
+    border: 1px solid #b0b0b0;
+    background: #b0b0b0 !important;
+  }
+
+  .product-item-detail {
+    margin: 8px ;
+    border: 1px solid #ffffff;
   }
 
   // 轮播图的点的样式

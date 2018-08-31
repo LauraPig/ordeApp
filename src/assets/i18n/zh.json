@@ -47,6 +47,21 @@
       "CANCEL_BTN_TEXT": "取消"
     }
 
+  },
+  "FEED_BACK": {
+    "TITLE": "反馈",
+    "CLOSE": "关闭",
+    "UNIT": "元/份",
+    "INCLUDE": "套餐包括",
+    "FEATURE": "套餐特色",
+    "CONTENT": "保留川香得麻辣特点，结合营养搭配，不失地方菜系特点同时能控制能量，满足你对营养/地方美食的双重体验。",
+    "ORDER": "订餐",
+    "ORDER_BTN_TIPS": {
+      "TITLE": "份数",
+      "OK_BTN_TEXT": "确定",
+      "CANCEL_BTN_TEXT": "取消"
+    }
+
   }
 
 }

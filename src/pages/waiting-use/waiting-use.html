@@ -20,7 +20,7 @@
     </ion-buttons>
     <ion-buttons end>
       <button tappable ion-button icon-only (click)="gotoHomePage()" >
-        <ion-icon color="Gray-color" name="ios-more">
+        <ion-icon color="Gray-color" name="ios-home-outline">
         </ion-icon>
       </button>
     </ion-buttons>
@@ -41,6 +41,9 @@
         <ion-item tappable (click)="gotoDetailList(item)">
           <!--<img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>-->
           <img src="{{item.list[0].blobPath}}"/>
+          <div class="back-ground">
+
+          </div>
           <div class="card-title">
             <div style="font-size: 3rem">
               {{item?.list[0].mealType}}

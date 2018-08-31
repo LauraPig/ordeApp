@@ -20,7 +20,7 @@
     </ion-buttons>
     <ion-buttons end>
       <button tappable ion-button icon-only (click)="gotoHomePage()" >
-        <ion-icon color="Gray-color" name="ios-more">
+        <ion-icon color="Gray-color" name="ios-home-outline">
         </ion-icon>
       </button>
     </ion-buttons>
@@ -35,42 +35,53 @@
 
 
 <ion-content>
+  <div class="date-title" tappable (click)="openCalendar()">
+    <div>{{selectDay}}
+      <ion-icon [@expandDate]="expandDateStatus" style="margin-left: 20px" item-right name="ios-arrow-down"></ion-icon>
+    </div>
+  </div>
+  <ion-calendar [@expandDate]="expandStatus" [(ngModel)]="date"
+                [options]="calendarOptions"
+                [format]="'YYYY-MM-DD'"
+                (onChange)="onChange($event)">
+  </ion-calendar>
 
-  <ion-card ion-item  no-lines style="background-image: none;" >
-    <ion-card-header tappable (click)="openCalendar()">
-      <ion-row >
-        <ion-col offset-3 col-3>
-          <p style="font-weight: bold;font-size: 2rem;color: #686868">{{selectDay}}<ion-icon [@expandDate]="expandDateStatus" style="margin-left: 20px"   item-right name="ios-arrow-down"></ion-icon></p>
+  <!--<ion-card ion-item  no-lines style="background-image: none;" >-->
+    <!--<ion-card-header tappable (click)="openCalendar()">-->
+      <!--<ion-row >-->
+        <!--<ion-col offset-3 col-3>-->
+          <!--<p style="font-weight: bold;font-size: 2rem;color: #686868">{{selectDay}}<ion-icon [@expandDate]="expandDateStatus" style="margin-left: 20px"   item-right name="ios-arrow-down"></ion-icon></p>-->
 
-          <!--<p style="margin-left: -10px;font-weight: bold;font-size: 1.3em">{{dayStr}}日</p>-->
-        </ion-col>
-
-        <!--<ion-col col-2>-->
-          <!--<ion-icon *ngIf="!status"  item-right name="ios-arrow-up" style="margin-left: 57vw" ></ion-icon>-->
-          <!--<ion-icon *ngIf="status"  item-right name="ios-arrow-down" style="margin-left: 57vw" ></ion-icon>-->
-        <!--</ion-col>-->
-        <!--<ion-col col-6 *ngIf="isToday">-->
-          <!--<span style="font-size: 4rem">今天</span>-->
+          <!--&lt;!&ndash;<p style="margin-left: -10px;font-weight: bold;font-size: 1.3em">{{dayStr}}日</p>&ndash;&gt;-->
         <!--</ion-col>-->
 
-      </ion-row>
-      <!--<ion-row *ngIf="status">-->
-        <!--<ion-col col-3 >-->
-          <!--{{selectDay}}-->
-        <!--</ion-col>-->
-        <!--<ion-col col-9>-->
-          <!--<ion-icon item-right name="md-arrow-dropup" style="margin-left: 57vw" ></ion-icon>-->
-        <!--</ion-col>-->
+        <!--&lt;!&ndash;<ion-col col-2>&ndash;&gt;-->
+          <!--&lt;!&ndash;<ion-icon *ngIf="!status"  item-right name="ios-arrow-up" style="margin-left: 57vw" ></ion-icon>&ndash;&gt;-->
+          <!--&lt;!&ndash;<ion-icon *ngIf="status"  item-right name="ios-arrow-down" style="margin-left: 57vw" ></ion-icon>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ion-col>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ion-col col-6 *ngIf="isToday">&ndash;&gt;-->
+          <!--&lt;!&ndash;<span style="font-size: 4rem">今天</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ion-col>&ndash;&gt;-->
+
       <!--</ion-row>-->
-    </ion-card-header>
+      <!--&lt;!&ndash;<ion-row *ngIf="status">&ndash;&gt;-->
+        <!--&lt;!&ndash;<ion-col col-3 >&ndash;&gt;-->
+          <!--&lt;!&ndash;{{selectDay}}&ndash;&gt;-->
+        <!--&lt;!&ndash;</ion-col>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ion-col col-9>&ndash;&gt;-->
+          <!--&lt;!&ndash;<ion-icon item-right name="md-arrow-dropup" style="margin-left: 57vw" ></ion-icon>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ion-col>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ion-row>&ndash;&gt;-->
+    <!--</ion-card-header>-->
+    <!--<ion-calendar [@expandDate]="expandStatus" [(ngModel)]="date"-->
+                  <!--[options]="calendarOptions"-->
+                  <!--[format]="'YYYY-MM-DD'"-->
+                  <!--(onChange)="onChange($event)">-->
+    <!--</ion-calendar>-->
 
-    <ion-calendar [@expandDate]="expandStatus" [(ngModel)]="date"
-                  [options]="calendarOptions"
-                  [format]="'YYYY-MM-DD'"
-                  (onChange)="onChange($event)">
-    </ion-calendar>
 
-  </ion-card>
+
+  <!--</ion-card>-->
 
 
   <ion-list no-lines class="type-list"  [ngSwitch]="listLength">
@@ -97,8 +108,8 @@
                 <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
                 <ion-icon [@expandDetail]="p.direction" name="ios-arrow-down" item-end></ion-icon>
               </ion-item>
-              <div [@expandDetail]="p.status">
-                <div *ngFor="let de of p.productList" >
+              <div [@expandDetail]="p.status" class="product-list-detail">
+                <div *ngFor="let de of p.productList" class="product-item-detail" >
                   <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1" pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
                       <img src="{{path}}"/>
@@ -140,8 +151,8 @@
                 <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
                 <ion-icon [@expandDetail]="p.direction" name="ios-arrow-down" item-end></ion-icon>
               </ion-item>
-              <div [@expandDetail]="p.status">
-                <div *ngFor="let de of p.productList" >
+              <div [@expandDetail]="p.status" class="product-list-detail">
+                <div *ngFor="let de of p.productList" class="product-item-detail" >
                   <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1" pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
                       <img src="{{path}}"/>
@@ -183,8 +194,8 @@
                 <!--<ion-icon *ngIf="!p.status" name="ios-arrow-forward-outline" item-end></ion-icon>-->
                 <ion-icon [@expandDetail]="p.direction" name="ios-arrow-down" item-end></ion-icon>
               </ion-item>
-              <div [@expandDetail]="p.status">
-                <div *ngFor="let de of p.productList" >
+              <div [@expandDetail]="p.status" class="product-list-detail">
+                <div *ngFor="let de of p.productList" class="product-item-detail" >
                   <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1"  pager>
                     <ion-slide *ngFor="let path of de?.imgUrl">
                       <img src="{{path}}"/>
