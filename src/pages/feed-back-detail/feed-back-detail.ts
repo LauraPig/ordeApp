@@ -7,6 +7,8 @@ import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { ModalController } from 'ionic-angular';
 import { GalleryModal } from 'ionic-gallery-modal';
 import {WaitingUsePage} from "../waiting-use/waiting-use";
+import {CommonHelper} from "../../providers/common-helper";
+import {TranslateService} from "ng2-translate";
 
 /**
  * Generated class for the FeedBackDetailPage page.
@@ -39,6 +41,8 @@ export class FeedBackDetailPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public commonHelper: CommonHelper,
+    public translate: TranslateService,
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
     public httpDataProvider: HttpDataProviders,
@@ -79,20 +83,17 @@ export class FeedBackDetailPage {
     this.product = 'product' === value;
     this.hygiene = 'hygiene' === value;
     this.others = 'others' === value;
-    console.log('value----->', this.type);
-    console.log('content----->', this.content);
+    // console.log('value----->', this.type);
+    // console.log('content----->', this.content);
   }
 
   uploadImg() {
     if (this.fileList.length < 6) {
       this.imgUploadService.showPicActionSheet(this.fileList);
     } else {
-      this.toastCtrl.create({
-        message: '最多上传6张',
-        duration: 1000,
-        position: 'middle',
-        cssClass: 'toast-ctrl'
-      }).present();
+      this.translate.get('COMMON.MAX_PHOTOS').subscribe(res =>{
+        this.commonHelper.Toast(res, 'middle', 1000);
+      });
     }
   }
 
@@ -113,34 +114,26 @@ export class FeedBackDetailPage {
 
       this.httpDataProvider.submitFeedBack(params).then(res =>{
         if (res && res.success) {
-          this.toastCtrl.create({
-            message: res.msg || '提交成功',
-            duration: 1000,
-            position: 'middle',
-            cssClass: 'toast-ctrl'
-          }).present();
 
+          this.translate.get('COMMON.SUBMIT_SUCCESSED').subscribe(data =>{
+            this.commonHelper.Toast(res.msg || data, 'middle', 1000);
+          });
+
+          // 返回上一页
           this.navCtrl.pop();
         } else {
-          this.toastCtrl.create({
-            message: res.msg || '提交失败',
-            duration: 1000,
-            position: 'middle',
-            cssClass: 'toast-ctrl'
-          }).present();
+
+          this.translate.get('COMMON.SUBMIT_FAILD').subscribe(data =>{
+            this.commonHelper.Toast(res.msg || data, 'middle', 1000);
+          });
         }
       }).catch(e =>{
         console.log(e);
       });
     } else {
-      this.alertCtrl.create({
-        subTitle: '提交内容不能为空',
-        buttons: [
-          {
-            text: '确定',
-          }
-        ]
-      }).present();
+      this.translate.get('COMMON.NO_CONTENT').subscribe(data =>{
+        this.commonHelper.Alert(data);
+      });
     }
 
   }
@@ -164,42 +157,29 @@ export class FeedBackDetailPage {
   deleteImg(index: number) {
     // alert('index--->' + index);
     if (index || index === 0 ) {
-      this.alertCtrl.create({
-        title: '删除图片',
-        subTitle: '确定要删除该图片吗？',
-        buttons: [
-          {
-            text: '确定',
-            handler: data => {
-              let params = {
-                imgUrl: this.fileList[index]
-              };
-
-              this.httpDataProvider.deletePhoto(params).then(res => {
-                if (res && res.success) {
-                  this.fileList.splice(index, 1);
-                } else {
-                  this.toastCtrl.create({
-                    message: res.msg || '提交失败',
-                    duration: 1000,
-                    position: 'middle',
-                    cssClass: 'toast-ctrl'
-                  }).present();
-                }
-              }).catch(e =>{
-                console.log(e);
-              });
-            }
-          },
-          {
-            text: '取消',
-            handler: data => {
-              // this.navCtrl.setRoot()
-            }
-          }
-        ]
-      }).present();
+      this.translate.get('FEED_DETAIL.DELETE_PHOTO').subscribe(data =>{
+        this.commonHelper.AlertWithCancel(data.MSG, this.okHandler, ()=>{}, index, data.TITLE, data.OK_TEXT, data.CANCEL_TEXT);
+      });
     }
+  }
+
+  okHandler = (index?:any) =>{
+    if (index === null || index === undefined) return;
+    let params = {
+      imgUrl: this.fileList[index]
+    };
+
+    this.httpDataProvider.deletePhoto(params).then(res => {
+      if (res && res.success) {
+        this.fileList.splice(index, 1);
+      } else {
+        this.translate.get('FEED_DETAIL.DELETE_FAILED').subscribe(data =>{
+          this.commonHelper.Toast(res.msg || data, 'middle', 1000);
+        });
+      }
+    }).catch(e =>{
+      console.log(e);
+    });
   }
 
 

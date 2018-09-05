@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>反馈</ion-title>
+    <ion-title>{{'FEED_BACK.TITLE' | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,23 +17,23 @@
   <ion-list>
     <ion-item>
       <ion-icon name="ios-desktop-outline" item-start></ion-icon>
-      <p>部门：{{office}}</p>
+      <p>{{'FEED_BACK.DEPARTMENT' | translate}}：{{office}}</p>
     </ion-item>
     <ion-item>
       <ion-icon name="ios-people-outline" item-start></ion-icon>
-      <p>联系人：{{user}}</p>
+      <p>{{'FEED_BACK.CONTACTS' | translate}}：{{user}}</p>
     </ion-item>
     <ion-item>
       <ion-icon name="ios-call-outline" item-start></ion-icon>
-      <p>内线电话：{{phone}}</p>
+      <p>{{'FEED_BACK.INNER_LINE' | translate}}：{{phone}}</p>
     </ion-item>
     <ion-item>
       <ion-icon name="ios-phone-portrait-outline" item-start></ion-icon>
-      <p>手机：{{mobile}}</p>
+      <p>{{'FEED_BACK.MOBILE' | translate}}：{{mobile}}</p>
     </ion-item>
     <button ion-item  (click)="gotoFD()">
       <ion-icon name="ios-paper-outline" item-start></ion-icon>
-        意见反馈
+      {{'FEED_BACK.FEED_BACK' | translate}}
     </button>
   </ion-list>
 

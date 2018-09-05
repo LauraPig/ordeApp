@@ -13,6 +13,7 @@ import {DATABASE_NAME} from "../../common/config";
 import {BackButtonService} from "../../providers/back-button/back-button.service";
 import {LoginPage} from "../login/login";
 import {CommonHelper} from "../../providers/common-helper";
+import {TranslateService} from "ng2-translate";
 const tableName = 'ct_product';
 
 @Component({
@@ -25,7 +26,6 @@ export class HomePage {
   hotVersion: number = 0;
   factoryName: string = '';
   factoryId: string = '';
-  initUpdateLoading: any;
 
   isNull: boolean = false;
 
@@ -42,6 +42,7 @@ export class HomePage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private storage: Storage,
+    private translate: TranslateService,
     private navCtrl: NavController,
     private platform: Platform,
     private backButtonService: BackButtonService,
@@ -61,7 +62,7 @@ export class HomePage {
         this.messageCount = res;
       }
     });
-    console.log('主页...');
+    console.log('Home Page...');
   }
   ionViewWillEnter() {
     // this.getHasMessage();
@@ -98,23 +99,7 @@ export class HomePage {
     }).catch(e => {
       console.log(e);
     });
-    // this.isNull = this.messageList.length === 0;
-    // setTimeout(() =>{
-    //   this.getData();
-    // }, 20000);
   }
-
-
-
-  // ionViewWillEnter() {
-  //   this.getData();
-  //   this.storage.get('messageCount').then(res =>{
-  //     if (res) {
-  //       this.messageCount = res;
-  //     }
-  //   });
-  //
-  // }
 
   ionViewDidEnter() {
     this.isNull = this.orderList.length === 0;
@@ -158,11 +143,12 @@ export class HomePage {
     ];
 
    return this.httpDataPro.fetchInitData(params).then(res => {
-     this.initUpdateLoading = this.loadingCtrl.create({
-       spinner: 'bubbles',
-       content: '更新数据中...',
+
+     this.translate.get('COMMON.UPDATE_TIPS').subscribe(res =>{
+       // this.commonHelper.Alert(res.toString());
+       this.commonHelper.LoadingShow(res);
      });
-     this.initUpdateLoading.present();
+
       // alert('结果---' + res.success);
       // alert('数据-in Home--' + JSON.stringify(res));
       // alert('数据---' + JSON.stringify(res.body));
@@ -170,25 +156,21 @@ export class HomePage {
       // alert('type--' + typeof temData);
       // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
       if (!res.success) {
-        this.initUpdateLoading.dismiss();
+        this.commonHelper.LoadingHide();
         if (res.errorCode === '-2') {
-          this.alertCtrl.create({
-            subTitle: '登录信息失效，请重新登录',
-            buttons: [
-              {
-                text: '确定',
-                handler: data => {
-                  this.storage.remove('token').then(() => {
-                    this.navCtrl.setRoot(LoginPage)
-                  });
-                  console.log(data);
-                  // this.navCtrl.setRoot()
-                }
-              }
-            ]
-          }).present();
+          //  登录信息过期提示
+          this.translate.get('COMMON.LOGIN_INVALID').subscribe(res =>{
+            console.log(res);
+            this.commonHelper.Alert(res.CONTENT,()=>{
+              this.storage.remove('token').then(data => {
+                console.log(data);
+
+                this.navCtrl.setRoot(LoginPage);
+              })
+            }, res.TITLE, res.BTN_TEXT);
+          });
         } else {
-          return Promise.reject('获取数据错误');
+          return Promise.reject('ERROR');
         }
 
       }
@@ -226,7 +208,7 @@ export class HomePage {
                              // alert('设置缓存coldVersion--' + temData.coldDataVer);
                              this.storage.set('coldVersion', temData.coldDataVer);
                            }
-                           this.initUpdateLoading.dismiss();
+                           this.commonHelper.LoadingHide();
                            this.getData();
                          });
                        });
@@ -240,26 +222,19 @@ export class HomePage {
        });
      });
     }).catch(e =>{
-     this.initUpdateLoading.dismiss();
-      this.alertCtrl.create({
-        title: '服务异常，请联系管理员',
-        buttons: [{
-          text: '确定'
-        }]
-      }).present();
-   });
+     this.commonHelper.LoadingHide();
+     this.translate.get('COMMON.EXCEPTION_TIPS').subscribe(res =>{
+       this.commonHelper.Alert(res);
+       });
+     });
 
   }
 
   initDB() :Promise<any> {
-    this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '创建数据库...'
-      // content: `
-      //   <div class="custom-spinner-container">
-      //     <div class="custom-spinner-box"></div>
-      //   </div>`,
-    });
+
+    // this.translate.get('COMMON.CREATE_DB').subscribe(res =>{
+    //   this.commonHelper.Alert(res);
+    // });
     // this.loading.present();
      return this.dataBaseService.creatDataBase();
   }
@@ -306,21 +281,17 @@ export class HomePage {
     this.httpDataPro.fetchUserOrderData(params).then(res =>{
       // alert('res' + JSON.stringify(res));
       if (!res.success && res.errorCode === '-2') {
-        this.alertCtrl.create({
-          subTitle: '登录信息失效，请重新登录',
-          buttons: [
-            {
-              text: '确定',
-              handler: data => {
-                this.storage.remove('token').then(() => {
-                  this.navCtrl.setRoot(LoginPage)
-                });
-                console.log(data);
-                // this.navCtrl.setRoot()
-              }
-            }
-          ]
-        }).present();
+        //  登录信息过期提示
+        this.translate.get('COMMON.LOGIN_INVALID').subscribe(res =>{
+          console.log(res);
+          this.commonHelper.Alert(res.CONTENT,()=>{
+            this.storage.remove('token').then(data => {
+              console.log(data);
+
+              this.navCtrl.setRoot(LoginPage);
+            })
+          }, res.TITLE, res.BTN_TEXT);
+        });
       }
       const list = res.body.ctOrderList;
       if (list && list.length > 0) {
@@ -403,91 +374,18 @@ export class HomePage {
 
 
 
-              // let temObj = {
-              //   label,
-              //   imgUrl,
-              //   name,
-              //   num,
-              //   officeName,
-              //   factoryName,
-              // };
-              // this.orderList.push(temObj);
-
-
-
-              //
             }
-            // tx.executeSql(`SELECT meal_id FROM ct_plan WHERE id='${item.id}'`, [], (res) =>{
-            //   alert('res in select: ' + JSON.stringify(res));
-            //
-            // }, err =>{
-            //   alert('err in select label' + JSON.stringify(err));
-            // });
 
           });
-          // db.transaction((tx: SQLiteTransaction) => {
-          //
-          // }).then().catch(e =>{
-          //   alert('err in operate table' + e.toString());
-          // });
         }).catch(e =>{
           // alert('err in open database' + e.toString());
         });
       }
     }).catch(e => {
       console.log(e);
-      // alert('网络异常---' + e.toString());
     });
   }
 
-
-
-  getText (initLoading: any) {
-    this.dbService.openDataBase().then((db: SQLiteObject) => {
-      db.executeSql(`SELECT * FROM ${tableName}`, {}).then(res => {
-        initLoading.dismiss();
-        // selctLoading.dismiss();
-        if (res.rows.length) {
-          this.userinfo = [];
-          for(var i=0; i < res.rows.length; i++) {
-            this.userinfo.push({
-              id:res.rows.item(i).id,
-              summary:res.rows.item(i).summary
-            });
-
-            this.text = res.rows.item(i).summary.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
-            let obj = document.querySelector('#text');
-            obj.insertAdjacentHTML('afterend', this.text);
-          }
-        }
-
-      }).catch(e => {console.log(e)});
-      initLoading.dismiss();
-      // selctLoading.dismiss();
-
-    }).catch(e => {
-      this.toastCtrl.create({
-        message: `查询失败: ${e.toString()}`,
-        duration: 5000,
-        position: 'middle'
-      }).present();
-      initLoading.dismiss();
-      // selctLoading.dismiss();
-      console.log(e);
-    });
-
-    this.dbService.openDataBase().then((db: SQLiteObject) => {
-      db.executeSql(`SELECT COUNT(*) AS total FROM ${tableName}`, {}).then(res => {
-        if (res.rows.length) {
-          this.total = res.rows.item(0).total;
-        }
-      }).catch(e => {console.log(e)});
-    }).catch(e => {
-      // selctLoading.dismiss();
-      console.log(e);
-    });
-
-  }
 
   goHomeMenuPage() {
     this.navCtrl.push('homeMenu');

@@ -1,6 +1,13 @@
 {
   "COMMON": {
     "LOADING_TIPS": "Loading...",
+    "UPDATE_TIPS": "Update Data...",
+    "CREATE_DB": "Create DB...",
+    "EXCEPTION_TIPS": "The service is abnormal. Please contact the administrator.",
+    "MAX_PHOTOS": "Upload 6 copies at most",
+    "SUBMIT_SUCCESSED": "Submit Successed",
+    "SUBMIT_FAILD": "Submit Failed",
+    "NO_CONTENT": "Submission of contents should not be empty.",
     "LOGIN_INVALID": {
       "TITLE": "Tips",
       "CONTENT": "Your login information is invalid,Please login again",
@@ -18,12 +25,14 @@
     },
     "NODATA": "No Data"
   },
+  // 主页
   "HOME": {
     "WELCOME": "Welcome to ",
     "TITLE":"Home",
     "ORDER": "Book Now",
     "CONTENT":"Hello word!"
   },
+  // 消费记录
   "CONSUME": {
     "TITLE": "History Record",
     "FIR": "CUR Mon",
@@ -33,6 +42,7 @@
     "ACTION": "comment"
 
   },
+  // 详情弹框
   "DETAIL": {
     "TITLE": "Detail",
     "CLOSE": "Close",
@@ -47,5 +57,45 @@
       "CANCEL_BTN_TEXT": "Cancel"
     }
 
+  },
+  // 反馈
+  "FEED_BACK": {
+    "TITLE": "Feed Back",
+    "DEPARTMENT": "Department",
+    "CONTACTS": "Contacts",
+    "INNER_LINE": "Inner Line",
+    "MOBILE": "Mobile",
+    "FEED_BACK": "FeedBackDetail"
+  },
+  // 反馈详情
+  "FEED_DETAIL": {
+    "TITLE": "Feed Back",
+    "SUBMIT_TEXT": "Submit",
+    "TIPS_TITLE": "Please select the categories of questions you want feedback.",
+    "FOOD_PROBLEM": "Food Problem",
+    "HEALTH_PROBLEM": "Health Problem",
+    "OTHERS_PROBLEM": "Others Problem",
+    "PLACEHOLDER": "Please input your detailed opinion or suggestion.",
+    "IMAGE_TIPS": "Please provide relevant photos or screenshots.",
+    "BTN_TEXT": "Camera/Album",
+    "DELETE_FAILED": "Delete Failed",
+    "DELETE_PHOTO": {
+      "TITLE": "Delete Photo",
+      "CANCEL_TEXT": "Cancel",
+      "OK_TEXT": "Sure",
+      "MSG": "Are you sure you want to delete this picture?"
+    }
+  },
+  // 左侧菜单
+  "HOME_MENU": {
+    "BOOKING": "Order",
+    "BOOKING_NOW": "Order Now",
+    "WAITING_USE": "Waiting Use",
+    "DINING_RECORD": "Dining Record",
+    "OVERDUE": "Overdue Meal",
+    "MY_POINTS": "My Points",
+    "SCORE": "Score",
+    "MY_MSG": "My Message",
+    "SCAN": "Scan"
   }
 }

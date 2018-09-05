@@ -6,6 +6,7 @@ import {HomePage} from "../home/home";
 import {LocationPage} from "../location/location";
 import {BackButtonService} from "../../providers/back-button/back-button.service";
 import * as moment from 'moment';
+import {CommonHelper} from "../../providers/common-helper";
 
 /**
  * Generated class for the LoginPage page.
@@ -23,11 +24,13 @@ export class LoginPage {
   type: string='password';
   name: string;
   password: string;
+  btnStatus: boolean = false;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public commonHelper: CommonHelper,
     public platform: Platform,
     public backButtonService: BackButtonService,
     public httpDataPro: HttpDataProviders,
@@ -66,7 +69,10 @@ export class LoginPage {
 
   doLogin() {
     // let loginLoading = this.
+    this.btnStatus = true;
     if (this.name && this.password) {
+      this.commonHelper.LoadingShow('登录中...');
+      // this.btnStatus = true;
       let params = {
         'name': this.name,
         'password': this.password,
@@ -77,6 +83,8 @@ export class LoginPage {
         // alert('res--login-> ' + JSON.stringify(res));
         if (res.success) {
           if (res.body.token) {
+            this.commonHelper.LoadingHide();
+            this.btnStatus = false;
             this.toastCtrl.create({
               message: '登录成功',
               duration: 1000,
@@ -95,6 +103,8 @@ export class LoginPage {
               }
             });
           } else {
+            this.commonHelper.LoadingHide();
+            this.btnStatus = false;
             this.alertCtrl.create({
               // title: '重置密码',
               message: '服务器异常，请联系管理员',
@@ -113,6 +123,10 @@ export class LoginPage {
 
           // this.navCtrl.setRoot(HomePage);
         } else {
+
+          this.btnStatus = false;
+          this.commonHelper.LoadingHide();
+
           this.alertCtrl.create({
             // title: '重置密码',
             message: res.msg,
@@ -128,6 +142,8 @@ export class LoginPage {
           // alert(res.msg);
         }
       }).catch(e =>{
+        this.commonHelper.LoadingHide();
+        this.btnStatus = false;
         console.log(e);
         // alert('服务器异常，请联系管理员');
         this.alertCtrl.create({
@@ -144,6 +160,8 @@ export class LoginPage {
         }).present();
       });
     } else {
+      this.btnStatus = false;
+
       this.alertCtrl.create({
         // title: '重置密码',
         message: '账号或密码不能为空',

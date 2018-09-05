@@ -101,7 +101,7 @@ export class DetailModalPage {
 
       this.translate.get('DETAIL.ORDER_BTN_TIPS').subscribe(res =>{
         // this.commonHelper.Alert(res.toString());
-        this.commonHelper.AlertWithCancel(res.TITLE,[
+        this.commonHelper.AlertWithInput(res.TITLE,[
           {
             name: 'num',
             type: 'number'

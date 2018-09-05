@@ -48,13 +48,53 @@ export  class CommonHelper {
     });
   }
 
+
   /**
-   * 显示对话框，没有取消按钮
-   * @param msgtext 对话框内容
+   * 显示对话框，带取消按钮
+   * @param msgtext 提示内容
+   * @param handler 确定按钮回调
+   * @param cancelHandler 取消按钮回调
    * @param title 标题
-   * @param buttonText 按钮文本
+   * @param buttonText 确定按钮文本
+   * @param cancalBtnText 取消按钮文本
    */
-  public AlertWithCancel(title: string = "提示", inputs: any, handlerCancel?: any,cancelBtnText: string = "取消", handlerOk?: any, okBtnText: string = "确定", id?:any) {
+
+  public AlertWithCancel(msgtext: string, handler?: any, cancelHandler?: any, index?: any, title: string = "提示", buttonText: string = "确定",cancalBtnText: string = '取消') {
+    let alertbox = this.alertCtrl.create({
+      title: title,
+      subTitle: msgtext,
+      buttons: [
+        {
+          text: cancalBtnText,
+          handler: () => {
+            if (cancelHandler != null) cancelHandler();
+          }
+        },
+        {
+          text: buttonText,
+          handler: () => {
+            if (handler != null) handler(index);
+          }
+        }
+      ]
+    });
+    return alertbox.present().then(() => {
+      setTimeout(() => {
+        alertbox.dismiss();
+      }, 20000);
+    });
+  }
+
+  /**
+   * 显示对话框，带输入框
+   * @param title 标题
+   * @param inputs 输入框
+   * @param handlerCancel 取消按钮回调
+   * @param cancelBtnText 取消按钮文本
+   * @param handlerOk 确定按钮回调
+   * @param okBtnText 确定按钮文本
+   */
+  public AlertWithInput(title: string = "提示", inputs?: any, handlerCancel?: any,cancelBtnText: string = "取消", handlerOk?: any, okBtnText: string = "确定", id?:any) {
     let alertbox = this.alertCtrl.create({
       title: title,
       inputs: inputs,

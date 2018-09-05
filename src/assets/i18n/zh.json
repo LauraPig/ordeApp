@@ -1,6 +1,13 @@
 {
   "COMMON": {
     "LOADING_TIPS": "加载中...",
+    "UPDATE_TIPS": "更新数据中...",
+    "CREATE_DB": "创建数据库...",
+    "EXCEPTION_TIPS": "服务异常，请联系管理员.",
+    "MAX_PHOTOS": "最多上传6张",
+    "SUBMIT_SUCCESSED": "提交成功",
+    "SUBMIT_FAILD": "提交失败",
+    "NO_CONTENT": "提交内容不能为空",
     "LOGIN_INVALID": {
       "TITLE": "提示",
       "CONTENT": "登录信息过期，请重新登录",
@@ -50,18 +57,38 @@
   },
   "FEED_BACK": {
     "TITLE": "反馈",
-    "CLOSE": "关闭",
-    "UNIT": "元/份",
-    "INCLUDE": "套餐包括",
-    "FEATURE": "套餐特色",
-    "CONTENT": "保留川香得麻辣特点，结合营养搭配，不失地方菜系特点同时能控制能量，满足你对营养/地方美食的双重体验。",
-    "ORDER": "订餐",
-    "ORDER_BTN_TIPS": {
-      "TITLE": "份数",
-      "OK_BTN_TEXT": "确定",
-      "CANCEL_BTN_TEXT": "取消"
+    "DEPARTMENT": "部门",
+    "CONTACTS": "联系人",
+    "INNER_LINE": "内线电话",
+    "MOBILE": "手机",
+    "FEED_BACK": "意见反馈"
+  },
+  "FEED_DETAIL": {
+    "TITLE": "意见反馈",
+    "SUBMIT_TEXT": "提交",
+    "TIPS_TITLE": "请选择您要反馈的问题分类",
+    "FOOD_PROBLEM": "菜品问题",
+    "HEALTH_PROBLEM": "卫生问题",
+    "OTHERS_PROBLEM": "其他问题",
+    "PLACEHOLDER": "请输入您的详细意见或建议",
+    "IMAGE_TIPS": "请提供相关照片或截图",
+    "BTN_TEXT": "相机/相册",
+    "DELETE_FAILED": "删除失败",
+    "DELETE_PHOTO": {
+      "TITLE": "删除图片",
+      "MSG": "确定要删除该图片吗?"
     }
-
+  },
+  "HOME_MENU": {
+    "BOOKING": "预订",
+    "BOOKING_NOW": "立即预定",
+    "WAITING_USE": "待消费",
+    "DINING_RECORD": "历史用餐记录",
+    "OVERDUE": "逾期未取餐",
+    "MY_POINTS": "我的积分",
+    "SCORE": "分",
+    "MY_MSG": "我的消息",
+    "SCAN": "扫一扫"
   }
 
 }

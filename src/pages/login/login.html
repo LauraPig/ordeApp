@@ -19,7 +19,7 @@
   </ion-list>
 
   <div padding>
-    <button ion-button color="Gray-color" block (click)="doLogin()">登陆</button>
+    <button ion-button color="Gray-color" block (click)="doLogin()"  [disabled]="btnStatus">登陆</button>
   </div>
   <div>
     <span tappable (click)="openForgetPwd()" class="forget-pwd">忘记密码?</span>

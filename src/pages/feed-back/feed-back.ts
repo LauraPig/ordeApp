@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
+import {TranslateService} from "ng2-translate";
+import {CommonHelper} from "../../providers/common-helper";
 /**
  * Generated class for the FeedBackPage page.
  *
@@ -28,6 +30,8 @@ export class FeedBackPage {
       public navCtrl: NavController,
       public navParams: NavParams,
       public storage: Storage,
+      public commonHelper: CommonHelper,
+      public translate: TranslateService,
       public loadingCtrl: LoadingController,
       public httpDataService: HttpDataProviders,
     ) {
@@ -50,20 +54,15 @@ export class FeedBackPage {
 
   fetchInitInfo (id: string) {
     if (id) {
-      let initLoading = this.loadingCtrl.create({
-        spinner: 'bubbles',
-        content: '加载中...'
-        // content: `
-        //   <div class="custom-spinner-container">
-        //     <div class="custom-spinner-box"></div>
-        //   </div>`,
+
+      this.translate.get('COMMON.LOADING_TIPS').subscribe(res =>{
+        this.commonHelper.LoadingShow(res)
       });
-      initLoading.present();
       let params = {
         'id': id
       };
       this.httpDataService.fetchFeedBackInfo(params).then(res =>{
-        initLoading.dismiss();
+        this.commonHelper.LoadingHide();
         // alert(JSON.stringify(res));
         if (res && res.success) {
           if (res.body && res.body.data) {
@@ -75,7 +74,7 @@ export class FeedBackPage {
           }
         }
       }).catch(e =>{
-        initLoading.dismiss();
+        this.commonHelper.LoadingHide();
         console.log(e);
       });
     }

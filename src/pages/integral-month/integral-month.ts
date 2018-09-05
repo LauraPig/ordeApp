@@ -74,7 +74,7 @@ export class IntegralMonthPage {
         'endTime': queryEndDate,
       };
       this.httpDataPro.getIntegralDetail(params).then(res =>{
-        // alert('res-data--' + JSON.stringify(res.body.list));
+        // alert('res-data--' + JSON.stringify(res));
         dataLoading.dismiss();
         if (res.success) {
           this.orderList = res.body.list || [];

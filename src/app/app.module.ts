@@ -51,11 +51,12 @@ import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import {CommonHelper} from "../providers/common-helper";
 
 import { QRCodeModule } from 'angularx-qrcode';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import {TranslateModule, TranslateLoader, TranslateStaticLoader, TranslateService} from 'ng2-translate';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
+
 
 @NgModule({
   declarations: [

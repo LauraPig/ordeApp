@@ -7,10 +7,10 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>意见反馈</ion-title>
+    <ion-title>{{'FEED_DETAIL.TITLE' | translate}}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="doSubmit()">
-        <span ion-text color="primary">提交</span>
+        <span ion-text color="primary">{{'FEED_DETAIL.SUBMIT_TEXT' | translate}}</span>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -19,30 +19,30 @@
 
 
 <ion-content padding>
-  <p>请选择您要反馈的问题分类</p>
+  <p>{{'FEED_DETAIL.TIPS_TITLE' | translate}}</p>
   <ion-item>
     <ion-label>
-      菜品问题
+      {{'FEED_DETAIL.FOOD_PROBLEM' | translate}}
     </ion-label>
     <ion-checkbox [checked]="product" (click)="selectValue('product')"></ion-checkbox>
   </ion-item>
   <ion-item>
     <ion-label>
-      卫生问题
+      {{'FEED_DETAIL.HEALTH_PROBLEM' | translate}}
     </ion-label>
     <ion-checkbox [checked]="hygiene" (click)="selectValue('hygiene')"></ion-checkbox>
   </ion-item>
   <ion-item>
     <ion-label>
-      其他问题
+      {{'FEED_DETAIL.OTHERS_PROBLEM' | translate}}
     </ion-label>
     <ion-checkbox [checked]="others" (click)="selectValue('others')"></ion-checkbox>
   </ion-item>
-  <ion-textarea [(ngModel)]="content" style="margin-top: 2vh; border: .5px #c8c7cc solid;height: 25vh;line-height: 4vh"  placeholder="请输入您的详细意见或建议">
+  <ion-textarea [(ngModel)]="content" style="margin-top: 2vh; border: .5px #c8c7cc solid;height: 25vh;line-height: 4vh"  placeholder="{{'FEED_DETAIL.PLACEHOLDER' | translate}}">
 
   </ion-textarea>
   <div style="margin-top: 20px">
-    请提供相关照片或截图
+    {{'FEED_DETAIL.IMAGE_TIPS' | translate}}
   </div>
   <div *ngIf="fileList && fileList.length > 0 " class="img-container">
     <div class="img-detail" *ngFor="let item of fileList; index as i">
@@ -53,7 +53,7 @@
   <button (click)="uploadImg()" style="margin: 5px;width: 20vw;height: 10vh;border: .5px #c8c7cc solid">
     <ion-icon name="ios-add-outline"></ion-icon>
     <p>
-      相机/相册
+      {{'FEED_DETAIL.BTN_TEXT' | translate}}
     </p>
   </button>
 </ion-content>
