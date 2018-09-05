@@ -56,6 +56,7 @@ export class HomePage {
     this.platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction();
     });
+    this.commonHelper.getHasUnreadMessage();
 
     this.storage.get('messageCount').then(res =>{
       if (res) {
@@ -65,6 +66,7 @@ export class HomePage {
     console.log('Home Page...');
   }
   ionViewWillEnter() {
+    this.commonHelper.getHasUnreadMessage();
     // this.getHasMessage();
 
     this.storage.get('messageCount').then(res =>{

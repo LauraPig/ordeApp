@@ -1,7 +1,9 @@
 import {Injectable} from "@angular/core";
 import {HomePage} from "../pages/home/home";
-import {AlertController, App, LoadingController, ToastController} from "ionic-angular";
+import {AlertController, App, LoadingController, NavController, ToastController} from "ionic-angular";
 import {Storage} from "@ionic/storage";
+import {HttpDataProviders} from "./http-data/http-data";
+import  * as moment from 'moment';
 
 @Injectable()
 export  class CommonHelper {
@@ -12,6 +14,7 @@ export  class CommonHelper {
     public alertCtrl: AlertController,
     // public http: HttpClient,
     public toastCtrl: ToastController,
+    public httpDataPro: HttpDataProviders,
     public loadingCtrl: LoadingController,
     // public actionSheetCtrl: ActionSheetController,
     public appCtrl: App,
@@ -151,6 +154,75 @@ export  class CommonHelper {
     });
     return this._loaderding.present();
   }
+
+
+  //getHasUnreadMessage
+  getHasUnreadMessage = () =>{
+    let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
+    let params = {
+      'pushDate': reqDateStr,
+      'flag': '0'
+    };
+    this.httpDataPro.fetchHasMessage(params).then (res => {
+      if (res.success) {
+        this.storage.set('messageCount', res.body.count);
+      }
+    });
+  }
+
+  // 轮询获取消息并弹出来
+  getHasMessageAndAlert = () =>{
+    let reqDateStr = moment().format('YYYY-MM-DD HH:mm:ss');
+    let params = {
+      'pushDate': reqDateStr,
+      'flag': '0'
+    };
+    this.httpDataPro.fetchHasMessage(params).then (res => {
+      // alert('res-in-count->' + JSON.stringify(res));
+      if (res.success) {
+        this.storage.set('messageCount', res.body.count);
+
+        if (res.body.count > 0) {
+          let params = {
+            'pushDate': reqDateStr,
+            'flag': '1'
+          };
+          this.httpDataPro.fetchMessageListData(params).then(data => {
+            // alert('res-in-messageDetail->' + JSON.stringify(data));
+            if (data.success) {
+              let temObj = data.body.sysMessageList[0];
+              if (moment(reqDateStr).isBefore(temObj.endDate)) {
+                this.alertCtrl.create({
+                  title: temObj.head || '消息提示',
+                  subTitle: temObj.body || '',
+                  enableBackdropDismiss: false,
+                  buttons: [
+                    {
+                      text: '确定',
+                      handler: res => {
+                        console.log(res);
+                        this.httpDataPro.changeMessageStatus({'id': temObj.id}).then(res =>{
+                          this.getHasUnreadMessage();
+                          this.GoBackHomePage();
+                          // this.GoBackHomePage();
+                          console.log(res);
+                        }).catch(e =>{
+                          console.log(e);
+                        });
+                      }
+                    }
+                  ]
+                }).present();
+              }
+            }
+          }).catch( e =>{
+
+          });
+        }
+      }
+    });
+  }
+
   // public ActionSheetShow(title: string, buttons: any = []) {
   //   const actionSheet = this.actionSheetCtrl.create({
   //     title: title,

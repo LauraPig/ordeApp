@@ -155,6 +155,8 @@ export class OrderPage {
 
   ionViewWillEnter() {
 
+    this.commonHelper.getHasUnreadMessage();
+
     // 获取工厂名称
     this.storage.get('factoryName').then(res =>{
       if (res) {

@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list *ngIf="messageList?.length > 0" >
-    <ion-item *ngFor="let item of messageList">
+    <ion-item *ngFor="let item of messageList" tappable (click)="gotoMessageDetail(item)">
       <h2>{{item.head}}<ion-badge *ngIf="item.isRead === '0'" style="margin-left: 5px;background-color: #ff0f1c">未读</ion-badge></h2>
       <div item-end>
         <h3 style="margin-left: 10px">{{item.pushDate}}</h3>

@@ -19,6 +19,7 @@ import {LoginPage} from "../pages/login/login";
 import * as moment from 'moment';
 import {NativeService} from "../providers/app-update/NativeService";
 import {TranslateService} from "ng2-translate";
+import {CommonHelper} from "../providers/common-helper";
 
 
 
@@ -50,6 +51,7 @@ export class MyApp {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public sqlite: SQLite,
+    public commonHelper: CommonHelper,
     public translate: TranslateService,
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
@@ -67,17 +69,18 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      //检查是否需要更新
       this.nativeService.detectionUpgrade(true);
 
       // 设置默认语言
       // this.translate.setDefaultLang('en');
       this.translate.setDefaultLang('zh');
 
-      this.storage.set('userId', '1');
       this.storage.get('token').then(res =>{
         // alert('res-->' + res);
         if (res) {
-          this.getHasMessage();
+          this.commonHelper.getHasMessageAndAlert();
           this.token = res;
           this.rootPage = HomePage;
         } else {
@@ -87,24 +90,7 @@ export class MyApp {
       });
 
       //  轮询获取最新消息
-      setInterval(() => {
-        let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
-        // this.storage.get('token').then(res =>{
-        //   if (res) {
-        //     this.token = res;
-        //   }
-        // });
-        let params = {
-          'pushDate': reqDateStr,
-          'flag': '0'
-        };
-        this.httpDataPro.fetchHasMessage(params).then (res => {
-          // alert('res-in-loop->' + JSON.stringify(res));
-          if (res.success) {
-            this.storage.set('messageCount', res.body.count);
-          }
-        });
-      }, 300000);
+      setInterval(this.commonHelper.getHasUnreadMessage, 300000);
     });
   }
 
@@ -165,115 +151,4 @@ export class MyApp {
       }
     });
   }
-
-  handleVersion() {
-    // 获取本地的coldVersion版本号
-    this.storage.get('coldVersion').then(res => {
-      // alert('res--coldVersion-' + res);
-      if (res) {
-        this.coldVersion = Number(res);
-      }
-      // hotVersion 版本号
-      this.storage.get('hotVersion').then(res => {
-        // alert('res--hotVersion-' + res);
-        if (res) {
-          this.hotVersion = Number(res);
-        }
-
-        this.checkData();
-      }).catch(e => {
-        this.isFetchHot = true;
-        console.log(e);
-      });
-    }).catch(e => {
-      this.isFetchCold = true;
-      console.log(e);
-    });
-  }
-
-  // 调用接口，拉取最新数据
-  checkData () {
-    let params = [
-      {
-        'versionNo': this.coldVersion,
-        'type': '0'
-      },
-      {
-        'versionNo': this.hotVersion,
-        'type': '1'
-      }
-    ];
-    // alert('this.coldVersion--' + this.coldVersion);
-    // alert('this.hotVersion--' + this.hotVersion);
-    this.httpDataPro.fetchInitData(params).then(res => {
-      // alert('结果---' + res.success);
-      // alert('数据---' + JSON.stringify(res.body));
-      // alert('数据---' + JSON.stringify(res.body));
-      const temData = res.body;
-      // alert('type--' + typeof temData);
-      // alert('数据-2--' + JSON.stringify(temData.ctPlanList));
-      if (!res.success) {
-        return;
-      }
-
-      //  保存最新的版本号
-      if (temData.thermalDataVer && temData.thermalDataVer !== this.hotVersion) {
-        // alert('设置缓存hotVersion--' + temData.thermalDataVer);
-        // this.storage.set('hotVersion', temData.thermalDataVer);
-      }
-
-      //
-      if (temData.coldDataVer && temData.coldDataVer !== this.coldVersion) {
-        // alert('设置缓存coldVersion--' + temData.coldDataVer);
-        // this.storage.set('coldVersion', temData.coldDataVer);
-      }
-
-      //  CT_Material
-      // alert(temData.ctMaterialList.length);
-      if (temData.ctMaterialList && temData.ctMaterialList.length > 0) {
-        // this.dbService.updateCtMaterialTableData(temData);
-        // this.dbService.updateCtMaterialTableData(temData.ctMaterialList);
-      }
-
-
-    }).catch(e => {
-      console.log(e);
-      alert('拉取数据错误---' + e.toString());
-    });
-  }
-
-  initDB() {
-    this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '创建数据库...'
-      // content: `
-      //   <div class="custom-spinner-container">
-      //     <div class="custom-spinner-box"></div>
-      //   </div>`,
-    });
-    this.loading.present();
-    this.dbService.creatDataBase().then((res) => {
-      // resolve(res);
-      this.handleVersion();
-      this.storage.set('HasCreateDb', true);
-      this.loading.dismiss();
-    }).catch(e => {
-      this.loading.dismiss();
-      this.toastCtrl.create({
-        message: JSON.stringify(e).toString(),
-        duration: 1000,
-        position: 'middle'
-      }).present();
-      console.log(e);
-      // reject(e);
-    });
-  }
-
-
-  // openPage(page) {
-  //   // close the menu when clicking a link from the menu
-  //   this.menu.close();
-  //   // navigate to the new page if it is not the current page
-  //   this.nav.setRoot(page.component);
-  // }
 }

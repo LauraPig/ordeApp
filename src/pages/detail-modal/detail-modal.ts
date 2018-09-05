@@ -39,7 +39,6 @@ export class DetailModalPage {
   factoryId: string; // 工厂ID
   value: string; // 餐别
   planId: string; //
-  userId: string; //
 
   status: string;
 
@@ -248,7 +247,6 @@ export class DetailModalPage {
       // alert('factoryId-->' + this.factoryId);
       // alert('officeId-->' + this.officeId);
       // alert('dateStr-->' + this.dateStr);
-      // alert('userId-->' + this.userId);
     }
   };
 

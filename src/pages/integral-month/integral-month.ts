@@ -22,7 +22,6 @@ import { Storage } from "@ionic/storage";
 })
 export class IntegralMonthPage {
 
-  // userId: string;
   orderList: Array<any> = [];
   isNull: boolean = false;
 

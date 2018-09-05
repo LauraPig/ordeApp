@@ -23,7 +23,6 @@ import {CommonHelper} from "../../providers/common-helper";
 })
 export class ConsumeRecordThreeMonthsPage {
 
-  userId: string;
   isNull: boolean = false;
   orderList: Array<any> = [];
 

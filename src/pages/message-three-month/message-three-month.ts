@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {LoginPage} from "../login/login";
 import {Storage} from '@ionic/storage';
 import {getCurrentMonth} from "../../utils/index";
+import {CommonHelper} from "../../providers/common-helper";
 /**
  * Generated class for the MessageThreeMonthPage page.
  *
@@ -23,6 +24,8 @@ export class MessageThreeMonthPage {
 
   messageList: Array<any> = [];
   isNull: boolean = false;
+  startTime: string;
+  endTime: string;
 
 
   constructor(
@@ -30,7 +33,9 @@ export class MessageThreeMonthPage {
     public httpDataPro: HttpDataProviders,
     public navParams: NavParams,
     public storage: Storage,
+    public commonHelper: CommonHelper,
     public loadingCtrl: LoadingController,
+    public modalCtrl: ModalController,
 
   ) {
   }
@@ -43,11 +48,11 @@ export class MessageThreeMonthPage {
     this.messageList = [];
 
     let month = new Date().getMonth() - 1;
-    const [startTime, endTime] = getCurrentMonth(month);
+    [this.startTime, this.endTime] = getCurrentMonth(month);
     // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
     // let firstDay = `${moment().subtract(89, 'days').format('YYYY-MM-DD')} 00:00:00`;   // 开始日期
     // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
-    this.getListData(startTime, endTime);
+    this.getListData(this.startTime, this.endTime);
   }
 
   ionViewDidEnter() {
@@ -91,22 +96,32 @@ export class MessageThreeMonthPage {
       dataLoading.dismiss();
     }
   }
-  // gotoMessageDetail (item: any) {
-  //   let params = {
-  //     'id': item.id,
-  //   };
-  //   this.httpDataPro.changeMessageStatus(params).then (res => {
-  //     if (res.success) {
-  //       this.navCtrl.push('message-detail', {
-  //         item
-  //       });
-  //     } if (res.errorCode === -2) {
-  //       alert('登录信息过期，请重新登录');
-  //       this.navCtrl.setRoot(LoginPage);
-  //     }
-  //   }).catch(e => {
-  //     console.log(e);
-  //   });
-  // }
+
+  gotoMessageDetail (item: any) {
+    this.commonHelper.LoadingShow('跳转中...');
+    let detailModal = this.modalCtrl.create('message-detail-modal',{
+      item,
+    });
+    let params = {
+      'id': item.id,
+    };
+    this.httpDataPro.changeMessageStatus(params).then (res => {
+      this.commonHelper.LoadingHide();
+      if (res.success) {
+
+        this.getListData(this.startTime, this.endTime);
+        detailModal.present();
+      } else if (res.errorCode === '-2') {
+        alert('登录信息过期，请重新登录');
+        this.storage.remove('token').then(data => {
+          console.log(data);
+          this.navCtrl.setRoot(LoginPage);
+        })
+      }
+    }).catch(e => {
+      this.commonHelper.LoadingHide();
+      console.log(e);
+    });
+  }
 
 }

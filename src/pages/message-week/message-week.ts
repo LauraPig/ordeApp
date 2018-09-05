@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import * as moment from "moment";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {LoginPage} from "../login/login";
 import {Storage} from '@ionic/storage';
 import { getCurrentMonth } from "../../utils/index";
+import {MessageDetailPage} from "../message-detail/message-detail";
+import {CommonHelper} from "../../providers/common-helper";
 /**
  * Generated class for the MessageWeekPage page.
  *
@@ -22,12 +24,16 @@ import { getCurrentMonth } from "../../utils/index";
 export class MessageWeekPage {
   messageList: Array<any> = [];
   isNull: boolean = false;
+  startTime: string;
+  endTime: string;
 
   constructor(
     public navCtrl: NavController,
     public httpDataPro: HttpDataProviders,
     public navParams: NavParams,
     public storage: Storage,
+    public commonHelper: CommonHelper,
+    public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
   ) {
   }
@@ -43,11 +49,11 @@ export class MessageWeekPage {
     // let lastMonday = `${moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD')} 00:00:00`;   //周一日期
 
     let month = new Date().getMonth() + 1;
-    const [startTime, ] = getCurrentMonth(month);
-    let endTime = moment().format('YYYY-MM-DD HH:mm:ss');
+    [this.startTime, ] = getCurrentMonth(month);
+     this.endTime = moment().format('YYYY-MM-DD HH:mm:ss');
     // let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期
     let lastSunday = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   //今天日期
-    this.getListData(startTime, endTime);
+    this.getListData(this.startTime, this.endTime);
   }
 
   ionViewDidEnter() {
@@ -92,22 +98,42 @@ export class MessageWeekPage {
     }
   }
 
-  // gotoMessageDetail (item: any) {
-  //   let params = {
-  //     'id': item.id,
-  //   };
-  //   this.httpDataPro.changeMessageStatus(params).then (res => {
-  //     if (res.success) {
-  //       this.navCtrl.push('message-detail', {
-  //         item
-  //       });
-  //     } if (res.errorCode === -2) {
-  //       alert('登录信息过期，请重新登录');
-  //       this.navCtrl.setRoot(LoginPage);
-  //     }
-  //   }).catch(e => {
-  //     console.log(e);
+  // // 弹出详情框
+  // showDetailModal (p: any, id: string, value: string) {
+  //   let detailModal = this.modalCtrl.create('modal-detail',{
+  //     item: p,
+  //     id,
+  //     value,
+  //     todayStr: this.todayStr
   //   });
+  //   detailModal.present();
   // }
+
+  gotoMessageDetail (item: any) {
+    this.commonHelper.LoadingShow('跳转中...');
+    let detailModal = this.modalCtrl.create('message-detail-modal',{
+      item,
+    });
+    let params = {
+      'id': item.id,
+    };
+    this.httpDataPro.changeMessageStatus(params).then (res => {
+      this.commonHelper.LoadingHide();
+      if (res.success) {
+
+        this.getListData(this.startTime, this.endTime);
+        detailModal.present();
+      } else if (res.errorCode === '-2') {
+        alert('登录信息过期，请重新登录');
+        this.storage.remove('token').then(data => {
+          console.log(data);
+          this.navCtrl.setRoot(LoginPage);
+        })
+      }
+    }).catch(e => {
+      this.commonHelper.LoadingHide();
+      console.log(e);
+    });
+  }
 
 }

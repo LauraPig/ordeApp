@@ -24,7 +24,6 @@ import {TranslateService} from "ng2-translate";
 })
 export class ConsumeRecordMonthPage {
 
-  userId: string;
   orderList: Array<any> = [];
   isNull: boolean = false;
   lang: string;

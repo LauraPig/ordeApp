@@ -22,7 +22,6 @@ import {CommonHelper} from "../../providers/common-helper";
 export class WaitingUsePage {
 
   dataList: Array<any> = [];
-  userId: string;
   todayStr: string;
   factoryName: string;
   userName: string;
@@ -48,21 +47,15 @@ export class WaitingUsePage {
   }
 
   ionViewWillEnter() {
+    this.commonHelper.getHasUnreadMessage();
     this.storage.get('messageCount').then(res =>{
       if (res) {
         this.messageCount = res;
       }
     });
     this.todayStr = moment().format('MM/DD/YYYY');
-    this.storage.get('userId').then(res =>{
-      if (res) {
-        this.userId = res;
-        let dateStr = `${moment().format('YYYY-MM-DD')} 00:00:00`;
-        this.getDataList(res, dateStr);
-      }
-
-    });
-
+    let dateStr = `${moment().format('YYYY-MM-DD')} 00:00:00`;
+    this.getDataList(dateStr);
     // 获取当前工厂名称
     this.storage.get('factoryName').then(res =>{
       if (res) {
@@ -78,7 +71,7 @@ export class WaitingUsePage {
 
 
 
-  getDataList(userId: string, dinnerDate: string){
+  getDataList(dinnerDate: string){
     this.dataList = [];
 
     let dataLoading = this.loadingCtrl.create({
@@ -90,9 +83,8 @@ export class WaitingUsePage {
 
 
 
-    if (userId && dinnerDate) {
+    if (dinnerDate) {
       let params = {
-        'userId': userId,
         'dinnerDate': dinnerDate
       }
       this.httpDataPro.fetchWaitingListData(params).then(res =>{

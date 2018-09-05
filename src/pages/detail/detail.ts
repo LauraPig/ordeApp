@@ -30,7 +30,6 @@ export class DetailPage {
   factoryId: string; // 工厂ID
   value: string; // 餐别
   planId: string; //
-  userId: string; //
 
 
   constructor(
@@ -52,9 +51,6 @@ export class DetailPage {
 
   ionViewDidLoad() {
 
-    this.storage.get('userId').then(res => {
-      this.userId = res;
-    });
 
     if (this.officeId && this.value && this.dateStr) {
       // alert('officeId-->' + this.officeId);
@@ -79,11 +75,10 @@ export class DetailPage {
   }
 
   orderProduct(id: string) {
-    if (id && this.planId && this.factoryId && this.officeId && this.dateStr && this.userId) {
+    if (id && this.planId && this.factoryId && this.officeId && this.dateStr) {
       let params = {
         'factoryId': this.factoryId,
         'officeId': this.officeId,
-        'userId': this.userId,
         'planId': this.planId,
         'dinnerDate': this.dateStr,
         'isPre': 1,
@@ -126,7 +121,6 @@ export class DetailPage {
       // alert('factoryId-->' + this.factoryId);
       // alert('officeId-->' + this.officeId);
       // alert('dateStr-->' + this.dateStr);
-      // alert('userId-->' + this.userId);
     }
   }
 

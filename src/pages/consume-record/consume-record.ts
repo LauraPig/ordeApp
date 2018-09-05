@@ -38,6 +38,7 @@ export class ConsumeRecordPage {
   }
 
   ionViewWillEnter() {
+    this.commonHelper.getHasUnreadMessage();
     this.storage.get('messageCount').then(res =>{
       if (res) {
         this.messageCount = res;

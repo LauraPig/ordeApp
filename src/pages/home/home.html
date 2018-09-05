@@ -61,7 +61,7 @@
   </ion-card>
 
   <ion-card *ngIf="(isNull && orderList.length === 0)">
-    <img class="img-item" src="assets/imgs/noData.png"/>
+    <img tappable (click)="gotoOrder(factoryName)" class="img-item" src="assets/imgs/noData.png"/>
     <!--<div  class="null-content">-->
       <!--<div class="null-tips">-->
         <!--<img src="assets/imgs/null.png" alt="">-->

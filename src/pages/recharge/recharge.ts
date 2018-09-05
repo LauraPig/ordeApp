@@ -32,11 +32,11 @@ export class RechargePage {
     public wechatChenyu: WechatChenyu,
     public navParams: NavParams,
   ) {
-    this.storage.get('userId').then(res =>{
-      if (res) {
-        this.userId = res;
-      }
-    });
+    // this.storage.get('userId').then(res =>{
+    //   if (res) {
+    //     this.userId = res;
+    //   }
+    // });
   }
 
   ionViewDidLoad() {
@@ -53,6 +53,9 @@ export class RechargePage {
     // alert('amount--->' + this.amount );
     if ( this.timeStamp && this.userId && this.amount) {
       let params = {
+
+        // TODO  是否需要userID
+
         'userId': this.userId,
         'timeStamp': this.timeStamp,
         'amount': this.amount,

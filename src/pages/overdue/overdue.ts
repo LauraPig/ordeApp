@@ -20,7 +20,6 @@ import {CommonHelper} from "../../providers/common-helper";
 })
 export class OverduePage {
 
-  userId: string;
   messageCount: number;
   // dataList: Array<any> = [];
   orderList: Array<any> = [];
@@ -47,6 +46,7 @@ export class OverduePage {
   }
 
   ionViewWillEnter() {
+    this.commonHelper.getHasUnreadMessage();
     this.storage.get('messageCount').then(res =>{
       if (res) {
         this.messageCount = res;
@@ -54,15 +54,10 @@ export class OverduePage {
     });
     let dateStr = moment().format('YYYY-MM-DD HH:MM:SS');
     // alert('date--' + dateStr);
-    this.storage.get('userId').then(res =>{
-      if (res && dateStr) {
-        this.userId = res;
-        this.getOverDueData(res, dateStr);
-      }
-    });
+    this.getOverDueData(dateStr);
   }
 
-  getOverDueData(id: string, dateStr: string) {
+  getOverDueData(dateStr: string) {
 
     this.orderList = [];
 
@@ -71,9 +66,8 @@ export class OverduePage {
       content: '加载中...',
     });
     dataLoading.present();
-    if (id && dateStr) {
+    if (dateStr) {
       let params = {
-        id,
         'date': dateStr
       };
       this.httpDataPro.fetchOverDueData(params).then(res => {
