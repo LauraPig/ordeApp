@@ -133,7 +133,7 @@ export class WaitingUseListPage {
   holdOrder(id: string) {
     this.alertCtrl.create({
       title: '确认留餐',
-      subTitle: '留餐：若中午13：30前未到主餐厅取餐，请移步面食馆取餐。',
+      subTitle: '留餐：若中午13：30前未到主餐厅取餐，请移步水吧取餐。',
       buttons: [
         {
           text: '确定',

@@ -417,5 +417,9 @@ export class HomePage {
     this.commonHelper.GoBackHomePage();
   }
 
+  gotoQRCodePage() {
+    this.navCtrl.push('qr-code');
+  }
+
 
 }

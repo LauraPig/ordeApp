@@ -52,7 +52,7 @@ export class MessageThreeMonthPage {
     // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
     // let firstDay = `${moment().subtract(89, 'days').format('YYYY-MM-DD')} 00:00:00`;   // 开始日期
     // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
-    this.getListData(this.startTime, this.endTime);
+    this.getListData(this.startTime, this.endTime, true);
   }
 
   ionViewDidEnter() {
@@ -61,12 +61,8 @@ export class MessageThreeMonthPage {
 
 
 
-  getListData(queryStartDate: string, queryEndDate: string ) {
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
-    });
-    dataLoading.present();
+  getListData(queryStartDate: string, queryEndDate: string, isShowLoading?: boolean ) {
+    isShowLoading ? this.commonHelper.LoadingShow('加载中...') : null;
     if (queryEndDate && queryStartDate) {
 
       let params = {
@@ -74,7 +70,7 @@ export class MessageThreeMonthPage {
         'endTime': queryEndDate,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
-        dataLoading.dismiss();
+        isShowLoading ? this.commonHelper.LoadingHide() : null;
         // alert('res-data:' + JSON.stringify(res));
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
@@ -90,10 +86,10 @@ export class MessageThreeMonthPage {
           });
         }
       }).catch(e =>{
-        dataLoading.dismiss();
+        isShowLoading ? this.commonHelper.LoadingHide() : null;
       });
     } else {
-      dataLoading.dismiss();
+      isShowLoading ? this.commonHelper.LoadingHide() : null;
     }
   }
 
@@ -109,7 +105,7 @@ export class MessageThreeMonthPage {
       this.commonHelper.LoadingHide();
       if (res.success) {
 
-        this.getListData(this.startTime, this.endTime);
+        this.getListData(this.startTime, this.endTime, false);
         detailModal.present();
       } else if (res.errorCode === '-2') {
         alert('登录信息过期，请重新登录');

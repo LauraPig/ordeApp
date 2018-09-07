@@ -3,6 +3,7 @@ import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angu
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {Storage} from '@ionic/storage';
 import {LoginPage} from "../login/login";
+import * as moment from 'moment';
 
 /**
  * Generated class for the PersonalInfoPage page.
@@ -24,6 +25,11 @@ export class PersonalInfoPage {
   accountInfo: Array<any> = [];
   creditAccount: string;
   cashAccount: string;
+
+  code: string;
+
+  qrCodeStr: string = 'aaa';  // 二维码字符串
+
   constructor(
     public navCtrl: NavController,
     public httpDataPro: HttpDataProviders,
@@ -64,6 +70,10 @@ export class PersonalInfoPage {
         // alert('res-username:' + temObj.name);
 
         this.userInfo = {...temObj};
+        this.code = temObj.code;
+
+        let timestampStr = moment().format('x');
+        this.qrCodeStr = `esquel,${this.code},${timestampStr}`;
 
         this.accountInfo = res.body.accounList;
         this.accountInfo.map((item, index) =>{
@@ -85,6 +95,12 @@ export class PersonalInfoPage {
       console.log(e);
       initLoading.dismiss();
     });
+  }
+
+  //  刷新二维码
+  refreshQRcode() {
+    let timestampStr = moment().format('x');
+    this.qrCodeStr = `esquel,${this.code},${timestampStr}`;
   }
 
   goQRCode(no: string) {

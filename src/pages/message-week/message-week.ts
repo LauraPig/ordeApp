@@ -53,30 +53,31 @@ export class MessageWeekPage {
      this.endTime = moment().format('YYYY-MM-DD HH:mm:ss');
     // let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期
     let lastSunday = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   //今天日期
-    this.getListData(this.startTime, this.endTime);
+    this.getListData(this.startTime, this.endTime, true);
   }
 
   ionViewDidEnter() {
     this.isNull = this.messageList.length === 0;
   }
 
-  getListData(startTime: string, endTime: string ) {
+  getListData(startTime: string, endTime: string, isShowLoading?: boolean ) {
 
     // alert('startTime:' + startTime);
     // alert('endTime:' + endTime);
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
-    });
-    dataLoading.present();
+    isShowLoading ? this.commonHelper.LoadingShow('加载中...') : null;
+    // let dataLoading = this.loadingCtrl.create({
+    //   spinner: 'bubbles',
+    //   content: '加载中...'
+    // });
+    // dataLoading.present();
     if (startTime && endTime) {
       let params = {
         'startTime': startTime,
         'endTime': endTime,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
+        isShowLoading ? this.commonHelper.LoadingHide() : null;
         // alert('res-data:' + JSON.stringify(res));
-        dataLoading.dismiss();
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
@@ -91,10 +92,10 @@ export class MessageWeekPage {
           })
         }
       }).catch(e =>{
-        dataLoading.dismiss();
+        isShowLoading ? this.commonHelper.LoadingHide() : null;
       });
     } else {
-      dataLoading.dismiss();
+      isShowLoading ? this.commonHelper.LoadingHide() : null;
     }
   }
 
@@ -121,7 +122,7 @@ export class MessageWeekPage {
       this.commonHelper.LoadingHide();
       if (res.success) {
 
-        this.getListData(this.startTime, this.endTime);
+        this.getListData(this.startTime, this.endTime, false);
         detailModal.present();
       } else if (res.errorCode === '-2') {
         alert('登录信息过期，请重新登录');

@@ -174,4 +174,14 @@ page-home {
     //font-weight: bold;
     color: #ffffff;
   }
+
+  .qrcode-btn {
+    z-index: 100;
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    bottom: 10vh;
+    right: 10vw;
+    box-shadow: 2px 2px 12px 1px #000;
+  }
 }

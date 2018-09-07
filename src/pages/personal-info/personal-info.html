@@ -15,7 +15,8 @@
 
 <ion-content>
   <ion-list>
-    <ion-item tappable (click)="goQRCode(userInfo?.code)">
+    <!--<ion-item tappable (click)="goQRCode(userInfo?.code)">-->
+    <ion-item tappable>
       <ion-thumbnail item-start>
         <img src="{{userInfo.avatar_url || 'assets/icon/icon.png'}}">
       </ion-thumbnail >
@@ -37,43 +38,39 @@
       </ion-note>
     </ion-item>
   </ion-list>
-  <ion-list>
+  <ion-list style="margin-top: -2vh">
     <ion-list-header>
       <span style="font-size: 1.2em;font-weight: bold">我的钱包</span>
     </ion-list-header>
     <ion-item>
       <ion-row>
-        <ion-col col-6 style="border-right: 1px solid #c5c5c5">
-          <p>信用账户余额</p>
-          <p>{{creditAccount || '0'}}元</p>
-        </ion-col>
-        <ion-col col-6 style="padding-left: 5vw">
+        <!--<ion-col col-6 style="border-right: 1px solid #c5c5c5">-->
+        <ion-col col-6>
           <p>现金账户余额</p>
           <p>{{cashAccount|| '0'}}元</p>
         </ion-col>
+        <!--<ion-col col-6 style="padding-left: 5vw">-->
+          <!--<p>信用账户余额</p>-->
+          <!--<p>{{creditAccount || '0'}}元</p>-->
+        <!--</ion-col>-->
       </ion-row>
     </ion-item>
 
-
   </ion-list>
-  <!--<ion-list>-->
-  <!--<ion-list-header>-->
-  <!--<span style="font-size: 1.2em;font-weight: bold">基础信息</span> <ion-icon item-end name="md-create"></ion-icon>-->
-  <!--</ion-list-header>-->
-  <!--<ion-item>-->
-  <!--<ion-row>-->
-  <!--<ion-col col-6 style="border-right: 1px solid #c5c5c5">-->
-  <!--<p>身高</p>-->
-  <!--<p>170 cm</p>-->
-  <!--</ion-col>-->
-  <!--<ion-col col-6 style="padding-left: 5vw">-->
-  <!--<p>体重</p>-->
-  <!--<p>70 KG</p>-->
-  <!--</ion-col>-->
-  <!--</ion-row>-->
-  <!--</ion-item>-->
-  <!--</ion-list>-->
-  <!--<qr-code [value]="'1231234'" [size]="150" [backgroundAlpha]="0.5" [padding]="10"></qr-code>-->
-  <!--<qrcode [qrdata]="'Your QR code data string'" [size]="256" [level]="'M'"></qrcode>-->
+
+  <ion-list style="margin-top: -2vh">
+    <ion-list-header>
+      <span style="font-size: 1.2em;font-weight: bold">二维码取餐</span>
+    </ion-list-header>
+    <ion-item style="text-align: center">
+      <!--<img src="assets/imgs/qr-code.png" alt="暂无图片">-->
+      <ion-qrcode [data]="qrCodeStr" [size]="180" [level]="'H'"  [foreground]="'black'"></ion-qrcode>
+      <!--<qrcode [qrdata]="qrCodeStr" [size]="180" [level]="'H'"></qrcode>-->
+    </ion-item>
+  </ion-list>
+
+  <div style="display: flex;justify-content: center">
+    <button ion-button round (click)="refreshQRcode()">刷新二维码</button>
+  </div>
 
 </ion-content>

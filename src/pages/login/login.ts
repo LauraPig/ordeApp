@@ -94,6 +94,7 @@ export class LoginPage {
             this.storage.set('token', res.body.token).then(data => {
               this.getHasMessage();
             });
+            this.storage.set('userCode', res.body.user.code);
             this.storage.set('userName', res.body.name.indexOf('(') > -1 ? res.body.name.match('\\((.+?)\\)')[1] : res.body.name);
             this.storage.get('factoryId').then(res => {
               if (res) {

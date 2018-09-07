@@ -50,7 +50,7 @@ export class MessageMonthPage {
     // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
     // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
     // let lastDay = `${moment().format('YYYY-MM-DD')} 23:59:59`;   // 今天日期
-    this.getListData(this.startTime, this.endTime);
+    this.getListData(this.startTime, this.endTime, true);
   }
 
   ionViewDidEnter() {
@@ -58,12 +58,8 @@ export class MessageMonthPage {
   }
 
 
-  getListData(queryStartDate: string, queryEndDate: string ) {
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
-    });
-    dataLoading.present();
+  getListData(queryStartDate: string, queryEndDate: string, isShowLoading?: boolean ) {
+    isShowLoading ? this.commonHelper.LoadingShow('加载中...') : null;
     if (queryStartDate && queryEndDate) {
       // alert('startTime-->' + queryStartDate);
       // alert('endTime-->' + queryEndDate);
@@ -74,7 +70,7 @@ export class MessageMonthPage {
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
         // alert('res-data-month:' + JSON.stringify(res));
 
-        dataLoading.dismiss();
+        isShowLoading ? this.commonHelper.LoadingHide() : null;
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
@@ -88,10 +84,10 @@ export class MessageMonthPage {
           });
         }
       }).catch(e =>{
-        dataLoading.dismiss();
+        isShowLoading ? this.commonHelper.LoadingHide() : null;
       });
     } else {
-      dataLoading.dismiss();
+      isShowLoading ? this.commonHelper.LoadingHide() : null;
     }
   }
 
@@ -107,7 +103,7 @@ export class MessageMonthPage {
       this.commonHelper.LoadingHide();
       if (res.success) {
 
-        this.getListData(this.startTime, this.endTime);
+        this.getListData(this.startTime, this.endTime, false);
         detailModal.present();
       } else if (res.errorCode === '-2') {
         alert('登录信息过期，请重新登录');

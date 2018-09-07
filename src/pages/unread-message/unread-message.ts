@@ -43,7 +43,7 @@ export class UnreadMessagePage {
   }
 
   ionViewWillEnter() {
-    this.getMessageData();
+    this.getMessageData(true);
     console.log('ionViewDidLoad UnreadMessagePage');
   }
 
@@ -52,13 +52,9 @@ export class UnreadMessagePage {
     this.isNull = this.messageList.length === 0;
   }
 
-  getMessageData () {
+  getMessageData (isShowLoading?: boolean) {
     this.messageList = [];
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...',
-    });
-    dataLoading.present();
+    isShowLoading ? this.commonHelper.LoadingShow('加载中...') : null;
     let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
     // alert('date--->' + reqDateStr);
     let params = {
@@ -66,7 +62,7 @@ export class UnreadMessagePage {
       'flag': '1'
     };
     this.httpDataPro.fetchHasMessage(params).then (res => {
-      dataLoading.dismiss();
+      isShowLoading ? this.commonHelper.LoadingHide() : null;
       // alert('res--->' + JSON.stringify(res));
       if (res.success) {
         this.messageList = res.body.sysMessageList.map((item,index) => {
@@ -82,8 +78,8 @@ export class UnreadMessagePage {
         })
       }
     }).catch(e => {
+      isShowLoading ? this.commonHelper.LoadingHide() : null;
       console.log(e);
-      dataLoading.dismiss();
     });
   }
 
@@ -103,7 +99,7 @@ export class UnreadMessagePage {
     this.httpDataPro.changeMessageStatus(params).then (res => {
       this.commonHelper.LoadingHide();
       if (res.success) {
-        this.getMessageData();
+        this.getMessageData(false);
         detailModal.present();
       } else if (res.errorCode === '-2') {
         alert('登录信息过期，请重新登录');
