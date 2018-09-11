@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 import {LoadingController, ToastController} from 'ionic-angular';
 import {getIdSet} from "../../utils/index";
 import {resolveTimingValue} from "@angular/animations/browser/src/util";
+import {CommonHelper} from "../common-helper";
 
 @Injectable()
 export class OperateDataBaseService {
@@ -16,6 +17,7 @@ export class OperateDataBaseService {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     public storage: Storage,
+    public commonHelper: CommonHelper,
   ){
     console.log('数据库初始化');
   }
@@ -39,33 +41,33 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM CT_Material WHERE id in ('${sqlStr}')`, {}).then(res =>{
-          // alert('res--Ct_Material--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--Ct_Material--' + JSON.stringify(res));
           if (res) {
             this.openDataBase().then((db: SQLiteObject) =>{
               db.transaction((tx: SQLiteTransaction) => {
                 // tx.start();
                 list.map((item, index) => {
-                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
                     if (index === list.length - 1) {
                       tx.finish();
-                      // alert('Ct_Material finish');
+                      // this.commonHelper.Alert('Ct_Material finish');
                     }
                   }, e =>{
-                    alert('eeeeee-insert-' + JSON.stringify(e));
+                    this.commonHelper.Alert('eeeeee-insert-' + JSON.stringify(e));
                   });
                 });
               }).then().catch(e =>{
-                alert('操作CT_Material表数据失败-transaction-' + e.toString());
+                this.commonHelper.Alert('操作CT_Material表数据失败-transaction-' + e.toString());
               });
             }).catch(e =>{
-              alert('操作CT_Material表数据失败--' + JSON.stringify(e));
+              this.commonHelper.Alert('操作CT_Material表数据失败--' + JSON.stringify(e));
             });
           }
         }).catch(e =>{
-          alert('操作CT_Material表数据失败--' + JSON.stringify(e));
+          this.commonHelper.Alert('操作CT_Material表数据失败--' + JSON.stringify(e));
         });
       }).catch(e => {
-        alert('操作CT_Material表数据失败');
+        this.commonHelper.Alert('操作CT_Material表数据失败');
       });
     } else {
       return Promise.resolve();
@@ -82,7 +84,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM ct_meal WHERE id in ('${sqlStr}')`,{}).then(res =>{
-          // alert('res--ct_meal--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--ct_meal--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               // tx.start();
@@ -90,23 +92,23 @@ export class OperateDataBaseService {
                 tx.executeSql(INSERT_DATA.ct_meal, [item.id, item.factoryId, item.officeId, item.mealType, item.preHour, item.endHour, item.backHour, item.isPre, item.startTime, item.endTime, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks],() =>{
                   if (index === list.length - 1) {
                     // tx.finish();
-                    // alert('ct_meal finish');
+                    // this.commonHelper.Alert('ct_meal finish');
                   }
                 }, (e) =>{
-                  alert('err in insert ct_meal table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert ct_meal table cause by: ' + JSON.stringify(e));
                 });
               });
             }).then(() =>{
 
             }).catch(e =>{
-              alert('err in operate the ct_meal table cause by: ' + e.toString());
+              this.commonHelper.Alert('err in operate the ct_meal table cause by: ' + e.toString());
             });
           }
         }).catch(e => {
-          alert('操作ct_meal表数据失败--' + JSON.stringify(e));
+          this.commonHelper.Alert('操作ct_meal表数据失败--' + JSON.stringify(e));
         });
       }).catch(e => {
-        alert('操作ct_meal表数据失败--' + JSON.stringify(e));
+        this.commonHelper.Alert('操作ct_meal表数据失败--' + JSON.stringify(e));
       });
     } else {
       return Promise.resolve();
@@ -123,30 +125,30 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM ct_plan WHERE id in ('${sqlStr}')`,{}).then(res => {
-          // alert('res--ct_plan--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--ct_plan--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
                 tx.executeSql(INSERT_DATA.ct_plan , [item.id, item.mealId, item.startDate, item.endDate, item.delFlag, item.createById, item.createDate, item.updateById, item.updateDate, item.remarks, item.status],() =>{
                   if (index === list.length - 1) {
                     tx.finish();
-                    // alert('ct_plan finish');
+                    // this.commonHelper.Alert('ct_plan finish');
                   }
                 }, (e) =>{
-                  alert('err in insert ct_plan table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert ct_plan table cause by: ' + JSON.stringify(e));
                 });
               });
             }).then(() =>{
 
             }).catch(e =>{
-              alert('err in operate the ct_plan table cause by: ' + e.toString());
+              this.commonHelper.Alert('err in operate the ct_plan table cause by: ' + e.toString());
             });
           }
         }).catch(e => {
-          alert('err in select the ct_plan table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in select the ct_plan table cause by: ' + e.toString());
         });
       }).catch(e => {
-        alert('操作ct_plan表数据失败--' + JSON.stringify(e));
+        this.commonHelper.Alert('操作ct_plan表数据失败--' + JSON.stringify(e));
       });
     } else {
       return Promise.resolve();
@@ -165,7 +167,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM ct_plan_dtl WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--ct_plan_dtl--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--ct_plan_dtl--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) => {
               list.map((item, index) => {
@@ -175,18 +177,18 @@ export class OperateDataBaseService {
                     // initLoading.dismiss();
                   }
                 }, (e) => {
-                  alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e => {
-              alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
         });
       }).catch(e => {
-        alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+        this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
       });
     } else {
       return Promise.resolve();
@@ -203,7 +205,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM ct_product WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--ct_pro--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--ct_pro--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
@@ -211,18 +213,18 @@ export class OperateDataBaseService {
                   if (index === list.length - 1) {
                   }
                 }, (e) =>{
-                  alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e =>{
-              alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
         });
       }).catch(e => {
-        alert('e错误-createDB-' + e.toString());
+        this.commonHelper.Alert('e错误-createDB-' + e.toString());
       });
     } else {
       return Promise.resolve();
@@ -239,7 +241,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM ct_product_dtl WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--ct_pro_dtl--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--ct_pro_dtl--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
@@ -248,15 +250,15 @@ export class OperateDataBaseService {
                     tx.finish();
                   }
                 }, (e) =>{
-                  alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e =>{
-              alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
         });
       }).catch(e => {});
     } else {
@@ -274,7 +276,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM ct_product_set WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--ct_pro_set--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--ct_pro_set--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
@@ -284,15 +286,15 @@ export class OperateDataBaseService {
                     // initLoading.dismiss();
                   }
                 }, (e) =>{
-                  alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e =>{
-              alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
         });
       }).catch(e => {});
     } else {
@@ -311,7 +313,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM ct_product_set_dtl WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--ct_pro_dtl_set--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--ct_pro_dtl_set--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
@@ -320,15 +322,15 @@ export class OperateDataBaseService {
                     tx.finish();
                   }
                 }, (e) =>{
-                  alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert ct_plan_dtl table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e =>{
-              alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate ct_plan_dtl table cause by: ' + e.toString());
         });
 
 
@@ -349,7 +351,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM sys_dict_type WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--sys_dict_type--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--sys_dict_type--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
@@ -358,15 +360,15 @@ export class OperateDataBaseService {
                     tx.finish();
                   }
                 }, (e) =>{
-                  alert('err in insert sys_dict_type table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert sys_dict_type table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e =>{
-              alert('err in operate sys_dict_type table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate sys_dict_type table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate sys_dict_type table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate sys_dict_type table cause by: ' + e.toString());
         });
       }).catch(e => {});
     } else {
@@ -385,7 +387,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM sys_dict_value WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--sys_dict_value--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--sys_dict_value--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
@@ -394,15 +396,15 @@ export class OperateDataBaseService {
                     tx.finish();
                   }
                 }, (e) =>{
-                  alert('err in insert sys_dict_value table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert sys_dict_value table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e =>{
-              alert('err in operate sys_dict_value table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate sys_dict_value table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate sys_dict_value table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate sys_dict_value table cause by: ' + e.toString());
         });
       }).catch(e => {});
     } else {
@@ -421,7 +423,7 @@ export class OperateDataBaseService {
         location: 'default'
       }).then((db: SQLiteObject) => {
         db.executeSql(`DELETE FROM sys_office WHERE id in ('${sqlStr}')`, {}).then(res => {
-          // alert('res--sys_office--' + JSON.stringify(res));
+          // this.commonHelper.Alert('res--sys_office--' + JSON.stringify(res));
           if (res) {
             db.transaction((tx: SQLiteTransaction) =>{
               list.map((item, index) =>{
@@ -430,26 +432,26 @@ export class OperateDataBaseService {
                     tx.finish();
                     //  保存最新的版本号
                     // if (obj.thermalDataVer) {
-                    //   alert('设置缓存hotVersion--' + obj.thermalDataVer);
+                    //   this.commonHelper.Alert('设置缓存hotVersion--' + obj.thermalDataVer);
                     //   this.storage.set('hotVersion', obj.thermalDataVer);
                     // }
                     //
                     // //
                     // if (obj.coldDataVer) {
-                    //   alert('设置缓存coldVersion--' + obj.coldDataVer);
+                    //   this.commonHelper.Alert('设置缓存coldVersion--' + obj.coldDataVer);
                     //   this.storage.set('coldVersion', obj.coldDataVer);
                     // }
                   }
                 }, (e) =>{
-                  alert('err in insert sys_office table cause by: ' + JSON.stringify(e));
+                  this.commonHelper.Alert('err in insert sys_office table cause by: ' + JSON.stringify(e));
                 });
               });
             }).catch(e =>{
-              alert('err in operate sys_office table cause by: ' + JSON.stringify(e));
+              this.commonHelper.Alert('err in operate sys_office table cause by: ' + JSON.stringify(e));
             });
           }
         }).catch(e => {
-          alert('err in operate sys_office table cause by: ' + e.toString());
+          this.commonHelper.Alert('err in operate sys_office table cause by: ' + e.toString());
         });
       }).catch(e => {});
     } else {

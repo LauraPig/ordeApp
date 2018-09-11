@@ -64,7 +64,7 @@ export class DataBaseService {
               tx.executeSql(`SELECT COUNT(*) AS total FROM CT_Material WHERE id='${item.id}'`, [], (res) =>{
                 // alert('res' + JSON.stringify(res));
                 if (res.rows.item(0).total > 0) {
-                  tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
+                  tx.executeSql(UPDATE_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.materialType, item.officeId, item.updateDate, item.delFlag], () => {
                     if (index === list.length - 1) {
                       // alert('index---' + index);
                       initLoading.dismiss();
@@ -74,7 +74,7 @@ export class DataBaseService {
                     alert('eeeeee-update-' + JSON.stringify(e));
                   });
                 } else {
-                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
                     if (index === list.length - 1) {
                       initLoading.dismiss();
                       // alert('index---' + index);
@@ -116,7 +116,7 @@ export class DataBaseService {
               db.transaction((tx: SQLiteTransaction) => {
                 // tx.start();
                 list.map((item, index) => {
-                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.unitg, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
+                  tx.executeSql(INSERT_DATA.CT_Material, [item.id, item.materialname, item.unit, item.exp, item.specification, item.remarks, item.isvalid, item.pinyin, item.attribute, item.imgs, item.heat, item.protein, item.fat, item.carbohydrate, item.materialType, item.officeId, item.updateDate, item.delFlag], () =>{
                     if (index === list.length - 1) {
                       // tx.finish();
                         this.updateCtMealTableData(obj, initLoading, resolve);

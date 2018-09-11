@@ -14,7 +14,6 @@ export const CREATE_TABLE = {
         [protein] decimal(18,2) NULL ,
         [fat] decimal(18,2) NULL ,
         [carbohydrate] decimal(18,2) NULL ,
-        [unitg] decimal(18,2) NULL ,
         [material_type] varchar(100) NULL ,
         [office_id] varchar(64) NULL ,
         [update_date] datetime2(7) NULL ,
@@ -179,7 +178,7 @@ export const CREATE_TABLE = {
     )`,
 };
 export  const INSERT_DATA = {
-    CT_Material: `INSERT INTO CT_Material VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //19
+    CT_Material: `INSERT INTO CT_Material VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //19
 
     ct_meal: `INSERT INTO ct_meal VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //16
 
@@ -203,7 +202,7 @@ export  const INSERT_DATA = {
 };
 
 export const UPDATE_DATA = {
-    CT_Material: `UPDATE CT_Material SET id=?, MaterialName=?, Unit=?, EXP=?, Specification=?, Remarks=?, IsValid=?, Pinyin=?, Attribute=?, Imgs=?, heat=?, protein=?, fat=?, carbohydrate=?, unitg=?, material_type=?, office_id=?, update_date=?, del_flag=?`,
+    CT_Material: `UPDATE CT_Material SET id=?, MaterialName=?, Unit=?, EXP=?, Specification=?, Remarks=?, IsValid=?, Pinyin=?, Attribute=?, Imgs=?, heat=?, protein=?, fat=?, carbohydrate=?, material_type=?, office_id=?, update_date=?, del_flag=?`,
 
     ct_meal: `UPDATE ct_meal SET id=?, factory_id=?, office_id=?, meal_type=?, pre_hour=?, end_hour=?, back_hour=?, is_pre=?, start_time=?, end_time=?, del_flag=?, create_by=?, create_date=?, update_by=?, update_date=?, remarks=?`,
 

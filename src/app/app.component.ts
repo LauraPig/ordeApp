@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 import {
   Platform, MenuController, Nav, LoadingController, Loading, ToastController,
-  AlertController
+  AlertController, IonicApp, App, NavController
 } from 'ionic-angular';
 
 import { HomePage } from '../pages/home/home';
@@ -28,6 +28,8 @@ import {CommonHelper} from "../providers/common-helper";
 })
 export class MyApp {
 
+  backButtonPressed: boolean = false;
+
   loading: Loading ;
   coldVersion: number = 0;
   isFetchCold: boolean = false;
@@ -51,6 +53,8 @@ export class MyApp {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public sqlite: SQLite,
+    public appCtrl: App,
+    public ionicApp: IonicApp,
     public commonHelper: CommonHelper,
     public translate: TranslateService,
     public storage: Storage,
@@ -73,6 +77,10 @@ export class MyApp {
       //检查是否需要更新
       this.nativeService.detectionUpgrade(true);
 
+      // 物理返回键问题
+      this.registerBackButtonAction();
+
+
       // 设置默认语言
       // this.translate.setDefaultLang('en');
       this.translate.setDefaultLang('zh');
@@ -92,6 +100,37 @@ export class MyApp {
       //  轮询获取最新消息
       setInterval(this.commonHelper.getHasUnreadMessage, 300000);
     });
+  }
+
+  // 物理返回键事件注册
+  registerBackButtonAction(){
+    this.platform.registerBackButtonAction(()=>{
+      //如果想点击返回按钮隐藏toast或loading或Overlay就把下面加上
+      // this.ionicApp._toastPortal.getActive() || this.ionicApp._loadingPortal.getActive() || this.ionicApp._overlayPortal.getActive()
+      let activePortal = this.ionicApp._modalPortal.getActive();
+      if (activePortal) {
+        activePortal.dismiss().catch(() => {});
+        activePortal.onDidDismiss(() => {});
+        return;
+      }
+      let activeNav: NavController = this.appCtrl.getActiveNavs()[0];
+      return activeNav.canGoBack() ? activeNav.pop() : this.showExit();//另外两种方法在这里将this.showExit()改为其他两种的方法的逻辑就好。
+    },999);
+  }
+
+  //双击退出提示框
+  showExit() {
+    if (this.backButtonPressed) { //当触发标志为true时，即2秒内双击返回按键则退出APP
+      this.platform.exitApp();
+    } else {
+      this.toastCtrl.create({
+        message: '再按一次退出应用',
+        duration: 2000,
+        position: 'middle'
+      }).present();
+      this.backButtonPressed = true;
+      setTimeout(() => this.backButtonPressed = false, 2000);//2秒内没有再次点击返回则将触发标志标记为false
+    }
   }
 
   // 轮询获取消息

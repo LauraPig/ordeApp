@@ -80,20 +80,20 @@ export class HomeMenuPage {
 
   initData () {
 
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
-    });
-    dataLoading.present();
+    // let dataLoading = this.loadingCtrl.create({
+    //   spinner: 'bubbles',
+    //   content: '加载中...'
+    // });
+    // dataLoading.present();
     let params = {};
     this.httpDataProviders.getIntegral(params).then(res => {
       // alert('res--> integral' + JSON.stringify(res));
-      dataLoading.dismiss();
+      // dataLoading.dismiss();
       if (res && res.success) {
         this.integral = res.body.balance || '0';
       }
     }).catch( e =>{
-      dataLoading.dismiss();
+      // dataLoading.dismiss();
       // alert('error--> integral' + e.toString());
       console.log(e);
     });

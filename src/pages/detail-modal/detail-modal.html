@@ -13,11 +13,14 @@
 </ion-header>
 
 <ion-content (ionScrollStart)="scrollStart($event)"  (ionScrollEnd)="scrollComplete($event)">
-  <ion-slides>
-    <ion-slide>
-      <img src="{{item?.imgMainUrl}}"/>
-    </ion-slide>
-  </ion-slides>
+  <div>
+    <img src="{{item?.imgMainUrl}}"/>
+    <!--<ion-slides>-->
+      <!--<ion-slide>-->
+        <!---->
+      <!--</ion-slide>-->
+    <!--</ion-slides>-->
+  </div>
   <p class="product-title">
     {{item.name}}
   </p>

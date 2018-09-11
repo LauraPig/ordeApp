@@ -53,9 +53,9 @@ export class HomePage {
     public commonHelper: CommonHelper,
   ) {
 
-    this.platform.ready().then(() => {
-      this.backButtonService.registerBackButtonAction();
-    });
+    // this.platform.ready().then(() => {
+    //   this.backButtonService.registerBackButtonAction();
+    // });
     this.commonHelper.getHasUnreadMessage();
 
     this.storage.get('messageCount').then(res =>{
