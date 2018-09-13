@@ -100,26 +100,31 @@ export class HomeMenuPage {
 
   }
 
-  openPage(page: string) {
-    switch (page) {
-      case 'homePage':
-        this.navCtrl.setRoot(HomePage);
-        break;
-      case 'listPage':
-        this.navCtrl.push(ListPage);
-        break;
-      case 'weekMenu':
-        this.navCtrl.setRoot(WeekMenuPage);
-        break;
-      default:
-        // break;
-    }
+  gotoHome() {
+    this.navCtrl.setRoot(HomePage);
   }
+
+  // openPage(page: string) {
+  //   switch (page) {
+  //     case 'homePage':
+  //       this.navCtrl.setRoot(HomePage);
+  //       break;
+  //     case 'listPage':
+  //       this.navCtrl.push(ListPage);
+  //       break;
+  //     case 'weekMenu':
+  //       this.navCtrl.setRoot(WeekMenuPage);
+  //       break;
+  //     default:
+  //       // break;
+  //   }
+  // }
 
 
   // 我的积分
   gotoIntegral() {
     this.navCtrl.push(IntegralPage);
+    // this.navCtrl.push('integral-page');
   }
 
   // 扫一扫功能
