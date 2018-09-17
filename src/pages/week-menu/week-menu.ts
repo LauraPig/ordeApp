@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { productList } from '../../mock/mock-data';
 import {getResult} from "../../utils/index";
 import {DataBaseService} from "../../providers/database/database";
 import {SQLiteObject} from "@ionic-native/sqlite";

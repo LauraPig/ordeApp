@@ -16,7 +16,7 @@ import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../providers/http-data/http-data";
 import {LoginPage} from "../pages/login/login";
 
-import * as moment from 'moment';
+import * as moment from 'moment'; //时间处理模块
 import {NativeService} from "../providers/app-update/NativeService";
 import {TranslateService} from "ng2-translate";
 import {CommonHelper} from "../providers/common-helper";
@@ -28,7 +28,7 @@ import {CommonHelper} from "../providers/common-helper";
 })
 export class MyApp {
 
-  backButtonPressed: boolean = false;
+  backButtonPressed: boolean = false; //物理返回键
 
   loading: Loading ;
   coldVersion: number = 0;
@@ -60,11 +60,8 @@ export class MyApp {
     public storage: Storage,
     public httpDataPro: HttpDataProviders,
     public nativeService: NativeService,
-    // public sqliteObj: SQLiteObject,
   ) {
     this.initializeApp();
-    // setInterval(this.getHasMessage(),5000);
-    // this.getHasMessage();
   }
 
   initializeApp() {
@@ -85,6 +82,8 @@ export class MyApp {
       // this.translate.setDefaultLang('en');
       this.translate.setDefaultLang('zh');
 
+
+      // 判断是否登录
       this.storage.get('token').then(res =>{
         // alert('res-->' + res);
         if (res) {
@@ -184,7 +183,7 @@ export class MyApp {
               }
             }
           }).catch( e =>{
-
+            console.log(e);
           });
         }
       }

@@ -11,7 +11,6 @@ import {File} from '@ionic-native/file';
 import {FileOpener} from '@ionic-native/file-opener';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import {APP_DOWNLOAD, APK_DOWNLOAD} from "../../common/const";
 import {HttpDataProviders} from "../http-data/http-data";
 import {Utils} from "../../utils";
 import {Storage} from '@ionic/storage';

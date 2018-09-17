@@ -5,10 +5,9 @@ import { Storage } from '@ionic/storage';
 import {CommonHelper} from "../../providers/common-helper";
 
 /**
- * Generated class for the ConsumeRecordPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Author：Jimmy Liang
+ * Date: 2018-9-14
+ * 历史用餐记录
  */
 
 @IonicPage()
@@ -38,6 +37,8 @@ export class ConsumeRecordPage {
   }
 
   ionViewWillEnter() {
+
+    //  获取未读消息
     this.commonHelper.getHasUnreadMessage();
     this.storage.get('messageCount').then(res =>{
       if (res) {

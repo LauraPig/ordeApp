@@ -6,11 +6,11 @@ import {TranslateModule} from "ng2-translate";
 
 @NgModule({
   declarations: [
-    QrCodeComponent,
+    QrCodeComponent,  //二维码组件
   ],
   imports: [
     IonicModule,
-    TranslateModule,
+    TranslateModule,  //国际化模块
     CommonModule
   ],
   exports: [

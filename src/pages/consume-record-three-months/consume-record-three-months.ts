@@ -8,10 +8,9 @@ import {getCurrentMonth} from "../../utils/index";
 import {TranslateService} from "ng2-translate";
 import {CommonHelper} from "../../providers/common-helper";
 /**
- * Generated class for the ConsumeRecordThreeMonthsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Author：Jimmy Liang
+ * Date: 2018-9-14
+ * 前个月
  */
 
 @IonicPage({

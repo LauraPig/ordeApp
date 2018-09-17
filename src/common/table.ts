@@ -1,3 +1,9 @@
+/**
+ * Author：Jimmy Liang
+ * Date: 2018-9-14
+ * 数据库操作语句，如果表结构变化，需要修改创建以及插入，update语句目前没有用
+ * **/
+// 创建数据库表
 export const CREATE_TABLE = {
     CT_Material: `CREATE TABLE IF NOT EXISTS CT_Material(
         [id] varchar(64) PRIMARY KEY NOT NULL ,
@@ -177,6 +183,8 @@ export const CREATE_TABLE = {
         [del_flag] char(1) NULL 
     )`,
 };
+
+// 插入表数据
 export  const INSERT_DATA = {
     CT_Material: `INSERT INTO CT_Material VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, //19
 
@@ -201,6 +209,8 @@ export  const INSERT_DATA = {
     sys_office: `INSERT INTO sys_office VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
 };
 
+
+// 更新表数据，目前没有用到，可以尝试删除
 export const UPDATE_DATA = {
     CT_Material: `UPDATE CT_Material SET id=?, MaterialName=?, Unit=?, EXP=?, Specification=?, Remarks=?, IsValid=?, Pinyin=?, Attribute=?, Imgs=?, heat=?, protein=?, fat=?, carbohydrate=?, material_type=?, office_id=?, update_date=?, del_flag=?`,
 

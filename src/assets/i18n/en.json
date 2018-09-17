@@ -1,4 +1,5 @@
 {
+  //  通用的提示
   "COMMON": {
     "LOADING_TIPS": "Loading...",
     "UPDATE_TIPS": "Update Data...",

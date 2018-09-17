@@ -9,10 +9,9 @@ import {CommonHelper} from "../../providers/common-helper";
 import {TranslateService} from "ng2-translate";
 
 /**
- * Generated class for the ConsumeRecordWeekPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Author：Jimmy Liang
+ * Date: 2018-9-14
+ * 本月
  */
 
 @IonicPage({

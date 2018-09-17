@@ -23,6 +23,8 @@ import {TranslateService} from "ng2-translate";
 @Component({
   selector: 'page-detail-modal',
   templateUrl: 'detail-modal.html',
+
+  //  angular 动画，滚动时，隐藏底部按钮
   animations: [
     trigger('scroll', [
       state('scrolling', style({opacity: '0', overflow: 'hidden'})),
