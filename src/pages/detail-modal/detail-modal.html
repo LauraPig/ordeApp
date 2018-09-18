@@ -54,4 +54,4 @@
 
 </ion-content>
 
-<button [@scroll]="status"  id="orderBtn" full class="order-btn" (click)="orderProduct(item.id)">{{'DETAIL.ORDER' | translate}}</button>
+<button *ngIf="!isShow" [@scroll]="status"  id="orderBtn" full class="order-btn" (click)="orderProduct(item.id)">{{'DETAIL.ORDER' | translate}}</button>

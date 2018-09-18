@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { Storage } from '@ionic/storage';
 import * as moment from 'moment';
@@ -31,6 +31,7 @@ export class ConsumeRecordMonthPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
+    public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
     public translate: TranslateService,
     public commonHelper: CommonHelper,
@@ -121,4 +122,23 @@ export class ConsumeRecordMonthPage {
 
   }
 
+
+  gotoRecordDetail(item: any) {
+    if (item) {
+      // let temObject = this.commonHelper.getProductDetailInfoByID(item);
+      this.showDetailModal(item.type === 1 ? this.commonHelper.getProductDetailInfoByID(item) : item);
+    }
+  }
+
+  // 弹出详情框
+  showDetailModal (p: any) {
+    let detailModal = this.modalCtrl.create('modal-detail',{
+      item: p,
+      id: '',
+      value: '',
+      isShow: true,
+      todayStr: ''
+    });
+    detailModal.present();
+  }
 }

@@ -403,6 +403,7 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
       item: p,
       id,
       value,
+      isShow: false,
       todayStr: this.todayStr
     });
     detailModal.present();
@@ -646,6 +647,11 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
 
   goSettingPage() {
     this.navCtrl.push('setting');
+  }
+
+  //  弹出二维码页面
+  gotoQRCodePage() {
+    this.navCtrl.push('qr-code');
   }
 
 }

@@ -417,6 +417,12 @@ export class HomePage {
     this.commonHelper.GoBackHomePage();
   }
 
+  // goQRCode(no: string) {
+  //   this.navCtrl.push('qr-code', {
+  //     no
+  //   });
+  // }
+
   gotoQRCodePage() {
     this.navCtrl.push('qr-code');
   }

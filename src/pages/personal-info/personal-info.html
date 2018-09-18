@@ -17,24 +17,23 @@
   <ion-list>
     <!--<ion-item tappable (click)="goQRCode(userInfo?.code)">-->
     <ion-item tappable>
-      <ion-thumbnail item-start>
-        <img src="{{userInfo.avatar_url || 'assets/icon/icon.png'}}">
-      </ion-thumbnail >
-      <h2 style="margin-left: 5vw">
-        <p ion-text>{{userInfo.name || '还没有昵称'}}</p>
+      <!--<ion-thumbnail item-start>-->
+        <!--<img src="{{userInfo.avatar_url || 'assets/icon/icon.png'}}">-->
+      <!--</ion-thumbnail >-->
+
+      <!--<h2 style="margin-left: 5vw">-->
+      <h2>
+        <p ion-text>{{userInfo.name}}</p>
         <p>
           {{userInfo.code}}
         </p>
         <p>
           {{userInfo.departmentName}}
         </p>
-
-        <!--<i class="iconfont icon-vip-copy" ion-text [color]="user.is_vip?'danger':'gray'" (click)="goVipPage($event)"></i>-->
-        <!--<ion-badge [color]="user.is_vip?'yellow':'gray'" (click)="goVipPage($event)">pro</ion-badge>-->
       </h2>
       <ion-note item-end>
-        <ion-icon name="ios-apps" style="margin-right: 3vw"></ion-icon>
-        <ion-icon name="arrow-forward"></ion-icon>
+        <!--<ion-icon name="ios-apps" style="margin-right: 3vw"></ion-icon>-->
+        <!--<ion-icon name="arrow-forward"></ion-icon>-->
       </ion-note>
     </ion-item>
   </ion-list>

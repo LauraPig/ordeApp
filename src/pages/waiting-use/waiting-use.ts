@@ -365,4 +365,9 @@ export class WaitingUsePage {
     this.commonHelper.GoBackHomePage();
   }
 
+  //  弹出二维码页面
+  gotoQRCodePage() {
+    this.navCtrl.push('qr-code');
+  }
+
 }

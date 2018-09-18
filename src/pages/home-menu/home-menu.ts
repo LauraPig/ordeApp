@@ -46,15 +46,6 @@ export class HomeMenuPage {
     public loadingCtrl: LoadingController,
     public storage: Storage,
   ) {
-
-    // this.pages = [
-    //   { title: '立即预订', component: HomePage },
-    //   { title: '一周菜单', component: ListPage },
-    //   { title: '待消费', component: ListPage }
-    // ];
-    // this.otherPages = [
-    //   {title: '历史用餐几率',}
-    // ];
   }
 
   ionViewDidLoad() {
@@ -101,24 +92,10 @@ export class HomeMenuPage {
   }
 
   gotoHome() {
+    // this.menu.close();
     this.navCtrl.setRoot(HomePage);
   }
 
-  // openPage(page: string) {
-  //   switch (page) {
-  //     case 'homePage':
-  //       this.navCtrl.setRoot(HomePage);
-  //       break;
-  //     case 'listPage':
-  //       this.navCtrl.push(ListPage);
-  //       break;
-  //     case 'weekMenu':
-  //       this.navCtrl.setRoot(WeekMenuPage);
-  //       break;
-  //     default:
-  //       // break;
-  //   }
-  // }
 
 
   // 我的积分

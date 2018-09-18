@@ -1,13 +1,16 @@
 <ion-header>
   <ion-navbar>
-    <ion-buttons start>
-      <button tappable ion-button icon-only (click)="goHomeMenuPage()">
-        <ion-icon color="Gray-color" name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <!--<ion-buttons start>-->
+      <!--<button tappable ion-button icon-only (click)="goHomeMenuPage()">-->
+        <!--<ion-icon color="Gray-color" name="menu"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
     <ion-title>
       <div style="margin: 15px 0" >
-        <p>{{userName}}</p>
+        <p tappable (click)="gotoQRCodePage()">{{userName}}</p>
         <p class="cut-title">欢迎来到{{factoryName}}</p>
       </div>
     </ion-title>
@@ -111,9 +114,15 @@
               <div [@expandDetail]="p.status" class="product-list-detail">
                 <div *ngFor="let de of p.productList" class="product-item-detail" >
                   <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1" pager>
-                    <ion-slide *ngFor="let path of de?.imgUrl">
-                      <img src="{{path}}"/>
-                    </ion-slide>
+
+                    <img src="{{de.imgMainUrl}}"/>
+
+                    <!--轮播图-->
+                    <!--<ion-slide *ngFor="let path of de?.imgUrl">-->
+                      <!--<img src="{{path}}"/>-->
+                    <!--</ion-slide>-->
+
+
                   </ion-slides>
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}} <span style="margin-left: 10px">¥{{de.price}}</span></p>
@@ -153,11 +162,14 @@
               </ion-item>
               <div [@expandDetail]="p.status" class="product-list-detail">
                 <div *ngFor="let de of p.productList" class="product-item-detail" >
-                  <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1" pager>
-                    <ion-slide *ngFor="let path of de?.imgUrl">
-                      <img src="{{path}}"/>
-                    </ion-slide>
-                  </ion-slides>
+
+                  <img src="{{de.imgMainUrl}}"/>
+
+                  <!--轮播图-->
+                  <!--<ion-slide *ngFor="let path of de?.imgUrl">-->
+                  <!--<img src="{{path}}"/>-->
+                  <!--</ion-slide>-->
+
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}<span style="margin-left: 10px">¥{{de.price}}</span></p>
                     <p class="message-content">包括： {{de.productName}} </p>
@@ -196,11 +208,14 @@
               </ion-item>
               <div [@expandDetail]="p.status" class="product-list-detail">
                 <div *ngFor="let de of p.productList" class="product-item-detail" >
-                  <ion-slides [autoplay]="2000" [loop]="de.imgUrl.length > 1"  pager>
-                    <ion-slide *ngFor="let path of de?.imgUrl">
-                      <img src="{{path}}"/>
-                    </ion-slide>
-                  </ion-slides>
+
+                  <img src="{{de.imgMainUrl}}"/>
+
+                  <!--轮播图-->
+                  <!--<ion-slide *ngFor="let path of de?.imgUrl">-->
+                  <!--<img src="{{path}}"/>-->
+                  <!--</ion-slide>-->
+
                   <ion-item tappable (click)="showDetailModal(de, p.id, item.value)">
                     <p class="product-title">{{de.name}}<span style="margin-left: 10px">¥{{de.price}}</span></p>
                     <p class="message-content">包括： {{de.productName}} </p>

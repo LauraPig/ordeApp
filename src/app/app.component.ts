@@ -20,6 +20,11 @@ import * as moment from 'moment'; //时间处理模块
 import {NativeService} from "../providers/app-update/NativeService";
 import {TranslateService} from "ng2-translate";
 import {CommonHelper} from "../providers/common-helper";
+import {ConsumeRecordPage} from "../pages/consume-record/consume-record";
+import {ZBar, ZBarOptions} from "@ionic-native/zbar";
+import {OverduePage} from "../pages/overdue/overdue";
+import {WaitingUsePage} from "../pages/waiting-use/waiting-use";
+import {IntegralPage} from "../pages/integral/integral";
 
 
 
@@ -43,6 +48,13 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
   token: string;
 
+  //我的消息条数
+  messageCount: number;
+
+
+  // 积分
+  integral: string;
+
   constructor(
     public platform: Platform,
     public menu: MenuController,
@@ -54,6 +66,8 @@ export class MyApp {
     public alertCtrl: AlertController,
     public sqlite: SQLite,
     public appCtrl: App,
+    public zbar: ZBar,
+    public httpDataProviders: HttpDataProviders,
     public ionicApp: IonicApp,
     public commonHelper: CommonHelper,
     public translate: TranslateService,
@@ -188,5 +202,94 @@ export class MyApp {
         }
       }
     });
+  }
+
+  initData () {
+
+    // let dataLoading = this.loadingCtrl.create({
+    //   spinner: 'bubbles',
+    //   content: '加载中...'
+    // });
+    // dataLoading.present();
+    let params = {};
+    this.httpDataProviders.getIntegral(params).then(res => {
+      // alert('res--> integral' + JSON.stringify(res));
+      // dataLoading.dismiss();
+      if (res && res.success) {
+        this.integral = res.body.balance || '0';
+      }
+    }).catch( e =>{
+      // dataLoading.dismiss();
+      // alert('error--> integral' + e.toString());
+      console.log(e);
+    });
+
+  }
+
+  gotoHome() {
+    this.menu.close();
+    this.nav.setRoot(HomePage);
+  }
+
+
+
+  // 我的积分
+  gotoIntegral() {
+    this.menu.close();
+    this.nav.push(IntegralPage);
+    // this.nav.push('integral-page');
+  }
+
+  // 扫一扫功能
+
+  qrScan() {
+    let options: ZBarOptions = {
+      flash: 'off',
+      text_title: '扫码',
+      text_instructions: '请将二维码置于红线中央',
+      // camera: "front" || "back",
+      drawSight: true
+    };
+
+    this.zbar.scan(options)
+      .then(result => {
+        alert("结果：" + result); // Scanned code
+        this.nav.pop();
+      })
+      .catch(error => {
+        alert(error); // Error message
+      });
+  }
+
+  goBack() {
+    this.menu.close();
+  }
+
+  gotoUnreadMessage() {
+    this.menu.close();
+    this.nav.push('unread-message');
+  }
+
+  openWaitingUse () {
+    this.menu.close();
+    this.nav.setRoot(WaitingUsePage);
+  }
+  openConsumeRecord() {
+    this.menu.close();
+    this.nav.setRoot(ConsumeRecordPage);
+  }
+  openOverdue() {
+    this.menu.close();
+    this.nav.setRoot(OverduePage);
+  }
+
+  gotoLogin () {
+    this.menu.close();
+    this.nav.setRoot(LoginPage);
+  }
+
+  gotoTest () {
+    this.menu.close();
+    this.nav.push('test-page');
   }
 }

@@ -4,6 +4,8 @@ import {AlertController, App, LoadingController, NavController, ToastController}
 import {Storage} from "@ionic/storage";
 import {HttpDataProviders} from "./http-data/http-data";
 import  * as moment from 'moment';
+import {SQLiteObject} from "@ionic-native/sqlite";
+import {DataBaseService} from "./database/database";
 
 @Injectable()
 export  class CommonHelper {
@@ -12,6 +14,7 @@ export  class CommonHelper {
   constructor(
     public storage: Storage,
     public alertCtrl: AlertController,
+    public dbService: DataBaseService,
     // public http: HttpClient,
     public toastCtrl: ToastController,
     public httpDataPro: HttpDataProviders,
@@ -250,6 +253,56 @@ export  class CommonHelper {
 
   public getCurrentLanguage () {
    return this.storage.get('lang');
+  }
+
+  /**
+   * 根据ID 获取餐品详情信息
+   * @params id string
+   * @return item object
+   *
+   */
+
+  public getProductDetailInfoByID (item: any): any {
+    if (!(item instanceof Object ) && !item.proId) return null;
+    // if (!item.id) return null;
+    this.dbService.openDataBase().then((db: SQLiteObject) =>{
+      let productName: string ='';
+      let productNameList: Array<any> = [];
+      let blobPathList: Array<any> = [];
+      // let productObj = {picUrl: '', name: ''}; //
+      let mealList: Array<any> = [];
+      let temList: Array<any> = [];
+      db.executeSql(`select c.product_name productName,c.blob_path blobPath  from ct_product_set_dtl b,ct_product c where b.product_id = c.id and b.del_flag='0' and c.del_flag='0' AND b.product_set_id= '${item.proId}';`, {}).then(data =>{
+        // alert('data.length--' + data.rows.length);
+        if (data.rows.length) {
+          for (let j = 0; j < data.rows.length; j ++ ) {
+            productNameList.push(data.rows.item(j).productName);
+            blobPathList.push(data.rows.item(j).blobPath);
+            let productObj = {
+              picUrl:  data.rows.item(j).blobPath,
+              name:  data.rows.item(j).productName,
+            };
+            mealList.push(productObj);
+          }
+          let temObj = {
+            imgUrl: blobPathList,
+            imgMainUrl: item.blobPath,
+            name: item.productName,
+            type: item.type,
+            price: item.price,
+            id: item.id,
+            productName: productNameList.join(','),
+            productObjList: mealList,  // 套餐下的产品对象
+          };
+          temList.push(temObj);
+        }
+        return temList;
+      }).catch(e =>{
+
+      });
+    }).catch(e =>{
+
+    });
   }
 
 }

@@ -1,6 +1,6 @@
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let item of orderList">
+    <ion-item *ngFor="let item of orderList" tappable (click)="gotoRecordDetail(item)">
       <h2>{{item.productName}}</h2>
       <div item-end>
         <h3 style="margin-left: 10px">{{item.price}}{{'CONSUME.UNIT' | translate}}</h3>

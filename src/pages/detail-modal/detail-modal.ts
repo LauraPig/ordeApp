@@ -41,6 +41,7 @@ export class DetailModalPage {
   factoryId: string; // 工厂ID
   value: string; // 餐别
   planId: string; //
+  isShow: boolean; // 展示
 
   status: string;
 
@@ -60,6 +61,7 @@ export class DetailModalPage {
     this.dateStr = this.navParams.get('todayStr');
     this.officeId = this.navParams.get('id');
     this.value = this.navParams.get('value');
+    this.isShow = this.navParams.get('isShow');
     this.storage.get('factoryId').then(res =>{
       if (res) {
         this.factoryId = res;
