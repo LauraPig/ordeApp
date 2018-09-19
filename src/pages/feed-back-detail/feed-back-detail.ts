@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ImgUploadService} from "../../providers/upload/img-upload-service";
 import { Storage } from '@ionic/storage';
-import {LoginPage} from "../login/login";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { ModalController } from 'ionic-angular';
 import { GalleryModal } from 'ionic-gallery-modal';
-import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {CommonHelper} from "../../providers/common-helper";
 import {TranslateService} from "ng2-translate";
 
@@ -25,16 +23,16 @@ import {TranslateService} from "ng2-translate";
   templateUrl: 'feed-back-detail.html',
 })
 export class FeedBackDetailPage {
-  product: boolean = false;
-  hygiene: boolean = false;
-  others: boolean = false;
+  product: boolean = false; //  餐品问题
+  hygiene: boolean = false; //  卫生问题
+  others: boolean = false;  //  其他问题
 
 
 
-  fileList: Array<any> = [];
+  fileList: Array<any> = []; // 图片数组
 
   type: string;
-  content: string;
+  content: string;  // 评论
   factoryId: string;
 
   constructor(
@@ -63,6 +61,7 @@ export class FeedBackDetailPage {
     });
   }
 
+  //  勾选类型
   selectValue (value: string) {
 
     switch (value) {
@@ -78,15 +77,13 @@ export class FeedBackDetailPage {
       default:
         break;
     }
-
-    // this.type = value && value || '';
     this.product = 'product' === value;
     this.hygiene = 'hygiene' === value;
     this.others = 'others' === value;
-    // console.log('value----->', this.type);
-    // console.log('content----->', this.content);
   }
 
+
+  //  添加图片按钮
   uploadImg() {
     if (this.fileList.length < 6) {
       this.imgUploadService.showPicActionSheet(this.fileList);
@@ -99,10 +96,7 @@ export class FeedBackDetailPage {
 
   // 提交反馈意见
   doSubmit() {
-    // alert('fileList--->' + this.fileList.join(','));
     if (this.type && this.content && this.factoryId) {
-      // alert('factoryId--->' + this.factoryId);
-      // alert('feedbackType--->' + this.type);
       let params = {
         'factoryId': this.factoryId,
         'feedbackType': this.type,
@@ -155,7 +149,6 @@ export class FeedBackDetailPage {
 
   // 删除图片
   deleteImg(index: number) {
-    // alert('index--->' + index);
     if (index || index === 0 ) {
       this.translate.get('FEED_DETAIL.DELETE_PHOTO').subscribe(data =>{
         this.commonHelper.AlertWithCancel(data.MSG, this.okHandler, ()=>{}, index, data.TITLE, data.OK_TEXT, data.CANCEL_TEXT);

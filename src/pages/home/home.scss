@@ -1,21 +1,4 @@
 page-home {
-
-  //position: relative;
-
-  //.null-content {
-  //  position: absolute;
-  //  width: 100% !important;
-  //  height: 40vh !important;
-  //
-  //  img{
-  //    width: auto;
-  //    height: auto;
-  //    //overflow: hidden;
-  //    //margin-top: -50px;
-  //    //margin-bottom: -50px;
-  //  }
-  //}
-
   ion-buttons {
     margin: 0 0.4rem !important;
   }
@@ -62,12 +45,6 @@ page-home {
     }
   }
 
-  //.toolbar-android {
-  //  min-height: 68px !important;
-  //  p {
-  //    margin: 0 !important;
-  //  }
-  //}
 
   .toolbar-title-ios{
     text-align: left !important;
@@ -110,19 +87,14 @@ page-home {
   }
 
   .footer-card {
-    //position: fixed;
-    //bottom: 0;
     ion-card {
       margin: 0 !important;
     }
   }
 
   ion-card {
-    //height: 70px;
     height: 30vh;
     position: relative;
-    //text-align: center;
-    //margin-bottom: 1vh;
 
     .no-product {
       text-align: center;
@@ -143,7 +115,6 @@ page-home {
 
   .card-title {
 
-    //background-color: rgba(2d,2d,2d, 0.5);
     width: 50%;
     height: 180px;
     line-height: 5vh;
@@ -161,7 +132,6 @@ page-home {
 
   .order-tile {
 
-    //background-color: rgba(2d,2d,2d, 0.5);
     width: 50%;
     //height: 180px;
     line-height: 5vh;
@@ -170,8 +140,6 @@ page-home {
     top: 13vh;
     bottom: 35px;
     font-size: 2em;
-    //width: 100%;
-    //font-weight: bold;
     color: #ffffff;
   }
 

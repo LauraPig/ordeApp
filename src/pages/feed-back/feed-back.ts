@@ -43,6 +43,7 @@ export class FeedBackPage {
   }
 
   ionViewWillEnter() {
+    //  获取工厂ID
     this.storage.get('factoryId').then(res =>{
       if(res) {
         this.factoryId = res;
@@ -52,6 +53,8 @@ export class FeedBackPage {
 
   }
 
+
+  //  根据ID获取初始化信息
   fetchInitInfo (id: string) {
     if (id) {
 

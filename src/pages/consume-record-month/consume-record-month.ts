@@ -63,10 +63,6 @@ export class ConsumeRecordMonthPage {
 
   ionViewWillEnter() {
     this.orderList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
-    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
-
     let month = new Date().getMonth();
     const [startTime, endTime] = getCurrentMonth(month);
     this.getListData(startTime, endTime);

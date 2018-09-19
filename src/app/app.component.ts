@@ -146,85 +146,7 @@ export class MyApp {
     }
   }
 
-  // 轮询获取消息
-  getHasMessage () {
-    let reqDateStr = moment().format('YYYY-MM-DD HH:mm:ss');
-    // this.storage.get('token').then(res =>{
-    //   if (res) {
-    //     this.token = res;
-    //   }
-    // });
-    let params = {
-      'pushDate': reqDateStr,
-      'flag': '0'
-    };
-    this.httpDataPro.fetchHasMessage(params).then (res => {
-      // alert('res-in-count->' + JSON.stringify(res));
-      if (res.success) {
-        this.storage.set('messageCount', res.body.count);
 
-        if (res.body.count > 0) {
-          let params = {
-            'pushDate': reqDateStr,
-            'flag': '1'
-          };
-          this.httpDataPro.fetchMessageListData(params).then(data => {
-            // alert('res-in-messageDetail->' + JSON.stringify(data));
-            if (data.success) {
-              let temObj = data.body.sysMessageList[0];
-              // alert('res-in-reqDateStr->' + reqDateStr);
-              // alert('res-in-endDate->' + temObj.endDate);
-              // alert(moment(reqDateStr).isBefore(temObj.endDate));
-              if (moment(reqDateStr).isBefore(temObj.endDate)) {
-                this.alertCtrl.create({
-                  title: temObj.head || '消息提示',
-                  subTitle: temObj.body || '',
-                  enableBackdropDismiss: false,
-                  buttons: [
-                    {
-                      text: '确定',
-                      handler: res => {
-                        console.log(res);
-                        this.httpDataPro.changeMessageStatus({'id': temObj.id}).then(res =>{
-                          console.log(res);
-                        }).catch(e =>{
-                          console.log(e);
-                        });
-                      }
-                    }
-                  ]
-                }).present();
-              }
-            }
-          }).catch( e =>{
-            console.log(e);
-          });
-        }
-      }
-    });
-  }
-
-  initData () {
-
-    // let dataLoading = this.loadingCtrl.create({
-    //   spinner: 'bubbles',
-    //   content: '加载中...'
-    // });
-    // dataLoading.present();
-    let params = {};
-    this.httpDataProviders.getIntegral(params).then(res => {
-      // alert('res--> integral' + JSON.stringify(res));
-      // dataLoading.dismiss();
-      if (res && res.success) {
-        this.integral = res.body.balance || '0';
-      }
-    }).catch( e =>{
-      // dataLoading.dismiss();
-      // alert('error--> integral' + e.toString());
-      console.log(e);
-    });
-
-  }
 
   gotoHome() {
     this.menu.close();
@@ -261,35 +183,28 @@ export class MyApp {
       });
   }
 
-  goBack() {
-    this.menu.close();
-  }
-
+  // 跳转到未读消息列表
   gotoUnreadMessage() {
     this.menu.close();
     this.nav.push('unread-message');
   }
 
+  //  待消费
   openWaitingUse () {
     this.menu.close();
     this.nav.setRoot(WaitingUsePage);
   }
+
+  //  历史消费记录
   openConsumeRecord() {
     this.menu.close();
     this.nav.setRoot(ConsumeRecordPage);
   }
+
+  //  逾期未取餐
   openOverdue() {
     this.menu.close();
     this.nav.setRoot(OverduePage);
   }
 
-  gotoLogin () {
-    this.menu.close();
-    this.nav.setRoot(LoginPage);
-  }
-
-  gotoTest () {
-    this.menu.close();
-    this.nav.push('test-page');
-  }
 }

@@ -3,7 +3,7 @@ import { OperateDataBaseService } from '../../providers/database/operate-databas
 import { DataBaseService } from '../../providers/database/database';
 import {Loading, LoadingController, ToastController, NavController, Platform, AlertController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import {SQLite, SQLiteObject, SQLiteTransaction} from "@ionic-native/sqlite";
+import {SQLite, SQLiteObject} from "@ionic-native/sqlite";
 import { OrderPage } from '../order/order';
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {HttpProvider} from "../../providers/http/http-service";
@@ -14,7 +14,6 @@ import {BackButtonService} from "../../providers/back-button/back-button.service
 import {LoginPage} from "../login/login";
 import {CommonHelper} from "../../providers/common-helper";
 import {TranslateService} from "ng2-translate";
-const tableName = 'ct_product';
 
 @Component({
   selector: 'page-home',
@@ -44,18 +43,13 @@ export class HomePage {
     private storage: Storage,
     private translate: TranslateService,
     private navCtrl: NavController,
-    private platform: Platform,
-    private backButtonService: BackButtonService,
-    public httpPro: HttpProvider,
     public httpDataPro: HttpDataProviders,
     public sqlite: SQLite,
     public alertCtrl: AlertController,
     public commonHelper: CommonHelper,
   ) {
 
-    // this.platform.ready().then(() => {
-    //   this.backButtonService.registerBackButtonAction();
-    // });
+    //  获取未读消息条数
     this.commonHelper.getHasUnreadMessage();
 
     this.storage.get('messageCount').then(res =>{
@@ -67,7 +61,6 @@ export class HomePage {
   }
   ionViewWillEnter() {
     this.commonHelper.getHasUnreadMessage();
-    // this.getHasMessage();
 
     this.storage.get('messageCount').then(res =>{
       if (res) {
@@ -417,11 +410,6 @@ export class HomePage {
     this.commonHelper.GoBackHomePage();
   }
 
-  // goQRCode(no: string) {
-  //   this.navCtrl.push('qr-code', {
-  //     no
-  //   });
-  // }
 
   gotoQRCodePage() {
     this.navCtrl.push('qr-code');

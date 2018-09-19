@@ -4,12 +4,6 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-
-    <!--<ion-buttons start>-->
-      <!--<button tappable ion-button icon-only (click)="goHomeMenuPage()">-->
-        <!--<ion-icon color="Gray-color" name="menu"></ion-icon>-->
-      <!--</button>-->
-    <!--</ion-buttons>-->
     <ion-title>
       <div style="margin: 15px 0" >
         <p tappable (click)="gotoQRCodePage()">{{userName}}</p>
@@ -42,7 +36,6 @@
 
 <ion-content>
   <ion-card *ngIf="orderList?.length > 0" tappable="" (click)="gotoWaitingUse()">
-    <!--[loop]="true"-->
     <ion-slides [autoplay]="2000" [loop]="orderList.length > 1"  pager>
 
       <ion-slide *ngFor="let item of orderList" >
@@ -67,12 +60,6 @@
 
   <ion-card *ngIf="(isNull && orderList.length === 0)">
     <img tappable (click)="gotoOrder(factoryName)" class="img-item" src="assets/imgs/noData.png"/>
-    <!--<div  class="null-content">-->
-      <!--<div class="null-tips">-->
-        <!--<img src="assets/imgs/null.png" alt="">-->
-        <!--<div>暂无订餐</div>-->
-      <!--</div>-->
-    <!--</div>-->
   </ion-card>
 
 
@@ -80,7 +67,6 @@
 
   <ion-card tappable (click)="gotoOrder(factoryName)">
     <img class="img-item" src="https://dininghall.blob.core.windows.net/product/473c5d4611c74be3acc05a6b54cca853.png"/>
-    <!--<img class="img-item" src="assets/imgs/test.jpg"/>-->
     <div class="order-tile">
       {{'HOME.ORDER' | translate }}
     </div>
@@ -90,7 +76,6 @@
     <ion-card >
       <img class="img-item" src="assets/imgs/Blank_Image.png"/>
       <div class="order-tile">
-        <!--{{'HOME.NEWS' | translate }}-->
       </div>
     </ion-card>
   </div>
