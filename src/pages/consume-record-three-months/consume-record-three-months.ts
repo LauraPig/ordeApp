@@ -108,8 +108,7 @@ export class ConsumeRecordThreeMonthsPage {
 
   gotoRecordDetail(item: any) {
     if (item) {
-      // let temObject = this.commonHelper.getProductDetailInfoByID(item);
-      this.showDetailModal(item.type === 1 ? this.commonHelper.getProductDetailInfoByID(item) : item);
+      this.showDetailModal(item.type === '1' ? this.commonHelper.getProductDetailInfoByID(item) : item);
     }
   }
 

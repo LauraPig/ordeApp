@@ -58,6 +58,7 @@ export class DetailModalPage {
     public viewCtrl: ViewController,
   ) {
     this.item = this.navParams.get('item');
+    console.log(`params===>> ${JSON.stringify(this.item)}`);
     this.dateStr = this.navParams.get('todayStr');
     this.officeId = this.navParams.get('id');
     this.value = this.navParams.get('value');
