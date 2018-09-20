@@ -46,10 +46,6 @@ export class MessageMonthPage {
     let month = new Date().getMonth();
     [this.startTime, this.endTime] = getCurrentMonth(month);
     this.messageList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
-    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
-    // let lastDay = `${moment().format('YYYY-MM-DD')} 23:59:59`;   // 今天日期
     this.getListData(this.startTime, this.endTime, true);
   }
 
@@ -61,15 +57,11 @@ export class MessageMonthPage {
   getListData(queryStartDate: string, queryEndDate: string, isShowLoading?: boolean ) {
     isShowLoading ? this.commonHelper.LoadingShow('加载中...') : null;
     if (queryStartDate && queryEndDate) {
-      // alert('startTime-->' + queryStartDate);
-      // alert('endTime-->' + queryEndDate);
       let params = {
         'startTime': queryStartDate,
         'endTime': queryEndDate,
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
-        // alert('res-data-month:' + JSON.stringify(res));
-
         isShowLoading ? this.commonHelper.LoadingHide() : null;
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
@@ -91,6 +83,8 @@ export class MessageMonthPage {
     }
   }
 
+
+  //  查看详细信息
   gotoMessageDetail (item: any) {
     this.commonHelper.LoadingShow('跳转中...');
     let detailModal = this.modalCtrl.create('message-detail-modal',{
@@ -117,6 +111,4 @@ export class MessageMonthPage {
       console.log(e);
     });
   }
-
-
 }

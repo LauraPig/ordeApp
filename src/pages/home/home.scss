@@ -13,9 +13,6 @@ page-home {
     img{
       width: auto;
       height: auto;
-      //overflow: hidden;
-      //margin-top: -50px;
-      //margin-bottom: -50px;
     }
   }
 
@@ -28,12 +25,12 @@ page-home {
     background-color: #ff0f1c !important;
   }
 
-  .swiper-slide img {
-    width: 100% !important;
-    max-width: none;
-    height: 40vh !important;
-    max-height: none;
-  }
+  //.swiper-slide img {
+  //  width: 100% !important;
+  //  max-width: none;
+  //  height: 40vh !important;
+  //  max-height: none;
+  //}
 
 
   /* 头部样式*/
@@ -74,26 +71,48 @@ page-home {
 
 
   .card-ios {
-    margin: 0 0 0.5vh !important;
+    margin: 0 0 0.3vh !important;
     width: 100% !important;
   }
 
   .img-item{
     width: 100% !important;
-    height: 40vh !important;
-    margin-top: -6vh;
-    margin-bottom: -6vh;
+    height: auto !important;
+    //margin-top: -6vh;
+    //margin-bottom: -6vh;
     overflow: hidden;
   }
 
   .footer-card {
-    ion-card {
-      margin: 0 !important;
+    //z-index: 10000;
+    //border: 1px solid red;
+    height: calc(100vh - 70px - calc( 100vw / 16 * 9 * 2));
+    display: flex;
+    /*左右居中*/
+    justify-content: center;
+    /*上下居中*/
+    align-items: center;
+    .logo {
+      width: calc(100vw * 0.8);
+      height: 80%;
+      object-position: center;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      //height: calc(calc(100vh - 70px - calc( 100vw / 3 * 4)) / 3 * 2);
     }
+    //ion-card {
+    //  margin: 0 !important;
+    //}
+    //.logo {
+    //
+    //}
   }
 
   ion-card {
-    height: 30vh;
+    height: calc( 100vw / 16 * 9);
     position: relative;
 
     .no-product {
@@ -104,7 +123,7 @@ page-home {
   // 文字遮罩层
   .back-ground {
     width: 37vw;
-    height: 30vh;
+    height: calc( 100vw / 16 * 9);
     background: rgba(0, 0, 0, .5);
     position: absolute;
     left: 0;
@@ -114,7 +133,6 @@ page-home {
 
 
   .card-title {
-
     width: 50%;
     height: 180px;
     line-height: 5vh;
@@ -122,22 +140,17 @@ page-home {
     left: 5vw;
     top: 7vh;
     bottom: 35px;
-    //font-size: 1.5em;
-    //width: 100%;
-    //font-weight: bold;
     color: #ffffff;
     text-align: left;
-    //float: left;
   }
 
   .order-tile {
-
     width: 50%;
-    //height: 180px;
     line-height: 5vh;
     position: absolute;
     left: 5vw;
-    top: 13vh;
+    //top: 13vh;
+    top: calc(100vw / 16 * 9 / 2 - 1vh);
     bottom: 35px;
     font-size: 2em;
     color: #ffffff;

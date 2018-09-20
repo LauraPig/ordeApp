@@ -13,9 +13,7 @@ import {CalendarComponentOptions, DayConfig} from 'ion2-calendar'
 import * as moment from 'moment'
 import {DataBaseService} from "../../providers/database/database";
 import {SQLiteObject} from "@ionic-native/sqlite";
-import {SelectTypePage} from "../select-type/select-type";
 import { Storage } from '@ionic/storage';
-import {HomePage} from "../home/home";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {LoginPage} from "../login/login";
@@ -61,26 +59,22 @@ import {CommonHelper} from "../../providers/common-helper";
 
 })
 export class OrderPage {
-  // selectDay: any = moment().format('YYYY年MM月DD');
   selectDay: any = moment().format('MM/DD/YYYY');
   monStr: string;
   factoryId: string;
   factoryName: string;
   dayStr: string;
   date: string;
-  // dateResult: string;
   days: DayConfig[] = [];
   status: boolean = false; // 控制日期是否显示
   expandDateStatus: string = 'ActiveDown'; // 控制日期箭头状态
   expandStatus: string = 'NotActiveDate'; // 控制日期下拉部分是否显示
-  // isToday: boolean = true; // 是否今天
   listLength: number;
 
   typeList: Array<any> = []; // 餐别类型List
 
   todayStr: string;  // 日期选择器选择的时间 格式： YYYY-MM-DD HH:mm:ss
   planId: string;  // 产品计划ID
-  valueStr: string = '';  // 当前展开的餐别
   userName: string;  // 当前用户名称
   messageCount: number;  // 消息条数
 
@@ -119,18 +113,9 @@ export class OrderPage {
     this.days.push({
       date: new Date(),
       title: '今天',
-      // subTitle: '●',
     });
 
 
-    // this.days.push({
-    //   date: moment().add(1, 'd').toDate(),
-    //   subTitle: '●',
-    // });
-    // this.days.push({
-    //   date: moment().add(2, 'd').toDate(),
-    //   subTitle: '●',
-    // });
     this.calendarOptions = {
       from: new Date(),
       to: moment().add(13, 'd').toDate(),
@@ -141,8 +126,6 @@ export class OrderPage {
       weekdays: ['日', '一', '二', '三', '四', '五', '六'],
       monthPickerFormat: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
 
-      // defaultDate: new Date(),
-      // title: 'test',
     };
   }
 
@@ -174,7 +157,6 @@ export class OrderPage {
     });
     // 获取工厂ID
     this.storage.get('factoryId').then(data =>{
-      // alert('data-id-->' + data);
       if (data) {
         let dataLoading = this.loadingCtrl.create({
           spinner: 'bubbles',
@@ -197,8 +179,6 @@ export class OrderPage {
                   direction: 'ActiveDown',
                 });
               }
-              // this.typeList.push(this.typeList[0]);
-              // this.typeList.push(this.typeList[0]);
               this.listLength = this.typeList.length;
             }
           }).catch(e =>{
@@ -212,10 +192,6 @@ export class OrderPage {
 
   ionViewDidEnter() {
     this.isNull = true;
-    // const listSelector = document.getElementById('type');
-    // alert('count-->' + listSelector.childElementCount);
-    // alert('children-->' + listSelector.childNodes[0]);
-    // listSelector.children
   }
 
   // 日期选择事件
@@ -225,24 +201,16 @@ export class OrderPage {
     this.expandDateStatus = this.expandDateStatus === 'ActiveUp' ? 'ActiveDown': 'ActiveUp' ;
     console.log($event);
     const result = moment().format('YYYY-MM-DD');
-    // const today = moment().format('YYYY-MM-DD');
     console.log(result);
-    // this.isToday = $event.toString() === result;
-    // this.dateResult = $event.toString();
     this.monStr = (moment($event).get('months') + 1).toString();
     this.dayStr = (moment($event).get('date')).toString();
     this.selectDay = moment($event).format('MM/DD/YYYY');
-    // this.todayStr = moment($event).format('YYYY-MM-DD HH:mm:ss');
     this.todayStr = moment($event).format('YYYY-MM-DD');
-    // this.getGoalDay();
   }
 
 
   // 获取餐别下的餐厅
   getMealTypeDetail(item: any, index: number) {
-    // alert('index---->' + index);
-    // alert('item---->' + item.value);
-    // this.typeList[index].status = item.status === false;
 
     this.typeList.map((item, i) => {
       if (i !== index) {
@@ -255,15 +223,11 @@ export class OrderPage {
     let name: string = '';
     let temList: Array<any> = [];
     if (item.value && this.factoryId) {
-      // alert('value' + this.value);
-      // alert('factoryId' + this.factoryId);
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
-        // db.executeSql(`select DISTINCT  a.name, a.id from sys_office a ,ct_meal b where  a.parent_ids LIKE '%${this.factoryId}%' AND a.type='4' and b.office_id = a.id and b.meal_type = '${item.value}' AND b.del_flag='0' AND a.del_flag='0';`,{}).then(res =>{
         db.executeSql(`SELECT DISTINCT a.id ,a.name from sys_office a ,ct_meal b,ct_plan c WHERE a.parent_ids   LIKE '%${this.factoryId}%'  AND a.type='4' 
 AND a.id = b.office_id AND b.meal_type = '${item.value}' AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag='0' 
 AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1' 
 ;`,{}).then(res =>{
-          // alert('res: ' + res.rows.length);
           if (res.rows.length) {
             for (let i =0; i < res.rows.length; i ++ ) {
               name = res.rows.item(i).name;
@@ -279,9 +243,7 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
 
             this.typeList[index].status = item.status === 'Active' ? 'NotActive' : 'Active';
             this.typeList[index].direction = item.direction === 'ActiveUp' ? 'ActiveDown' : 'ActiveUp';
-            // alert('temList: ' + temList);
             this.typeList[index].officeList = temList;
-            // alert('result: ' + this.typeObj[`${this.value}`]);
           } else {
             this.toastCtrl.create({
               message: '暂无数据',
@@ -306,11 +268,6 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
     this.typeList[parentIndex].officeList[childrenIndex].status = p.status === 'ActiveDetail' ? 'NotActiveDetail' : 'ActiveDetail';
     this.typeList[parentIndex].officeList[childrenIndex].direction = p.direction === 'ActiveDetailUp' ? 'ActiveDetailDown' : 'ActiveDetailUp';
 
-    // this.typeList[parentIndex].officeList[childrenIndex].status = p.status === false;
-
-    // alert('value-->' + item.value);
-    // alert('todayStr-->' + this.todayStr);
-    // alert('office-id->' + p.id);
     let temList: Array<any> = [];
     if (this.todayStr && item.value && p.id) {
       this.dbService.openDataBase().then((db: SQLiteObject) =>{
@@ -325,17 +282,13 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
                        and b.office_id = '${p.id}' AND c.obj_type = '1' AND c.obj_id = d.id
                        and a.del_flag='0' and b.del_flag='0' and c.del_flag='0' and d.del_flag='0'
                        and a.start_date<='${this.todayStr}' and a.end_date>='${this.todayStr}'`,{}).then(res =>{
-          // alert('res.length--' + res.rows.length);
           if (res.rows.length) {
             for (let i = 0; i < res.rows.length; i ++) {
               if (res.rows.item(i).type === 1) {
-                let productName: string ='';
                 let productNameList: Array<any> = [];
                 let blobPathList: Array<any> = [];
-                // let productObj = {picUrl: '', name: ''}; //
                 let mealList: Array<any> = [];
                 db.executeSql(`select c.product_name productName,c.blob_path blobPath  from ct_product_set_dtl b,ct_product c where b.product_id = c.id and b.del_flag='0' and c.del_flag='0' AND b.product_set_id= '${res.rows.item(i).id}';`, {}).then(data =>{
-                  // alert('data.length--' + data.rows.length);
                   if (data.rows.length) {
                     for (let j = 0; j < data.rows.length; j ++ ) {
                       productNameList.push(data.rows.item(j).productName);
@@ -429,8 +382,6 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
             text: '确认',
             handler: inputData => {
               console.log('data');
-              // alert('份数--->' + inputData.num);
-
               if (inputData.num) {
 
               }
@@ -446,7 +397,6 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
                 this.dbService.openDataBase().then((db: SQLiteObject) =>{
                   let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
                   db.executeSql(sqlStr, {}).then(res =>{
-                    // alert('res-length--' + res.rows.length);
                     if (res.rows.length) {
                       this.planId = res.rows.item(0).id;
 
@@ -514,7 +464,6 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
                     }
                   }).catch(e => {
                     orderLoading.dismiss();
-                    // alert('错误-->' + JSON.stringify(e));
                   });
                 }).catch(e =>{
                   orderLoading.dismiss();
@@ -549,7 +498,6 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
         this.dbService.openDataBase().then((db: SQLiteObject) =>{
           let sqlStr = `select a.id id from ct_plan a,ct_meal b where a.meal_id = b.id and b.office_id = '${officeId}' and b.meal_type = '${value}' and a.del_flag='0' AND b.del_flag ='0' and a.start_date<='${this.todayStr}' AND a.end_date>='${this.todayStr}'`;
           db.executeSql(sqlStr, {}).then(res =>{
-            // alert('res-length--' + res.rows.length);
             if (res.rows.length) {
               this.planId = res.rows.item(0).id;
 
@@ -617,7 +565,6 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
             }
           }).catch(e => {
             orderLoading.dismiss();
-            // alert('错误-->' + JSON.stringify(e));
           });
         }).catch(e =>{
           orderLoading.dismiss();

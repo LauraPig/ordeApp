@@ -39,26 +39,21 @@ export class IntegralMonthPage {
   }
 
   ionViewDidEnter() {
+    //  判断是否没有数据
     this.isNull = this.orderList.length === 0;
   }
 
   ionViewWillEnter() {
     this.orderList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
-    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
-
     let month = new Date().getMonth() + 1;
-    const [startTime, ] = getCurrentMonth(month);
-    let endTime = moment().format('YYYY-MM-DD HH:mm:ss');
+    const [startTime, ] = getCurrentMonth(month); //  开始时间
+    let endTime = moment().format('YYYY-MM-DD HH:mm:ss'); //  结束时间
     this.getListData(startTime, endTime);
 
   }
 
+  //  根据时间段获取数据
   getListData(queryStartDate: string, queryEndDate: string ) {
-
-    // alert('queryStartDate-integral-month-->' + queryStartDate);
-    // alert('queryEndDate--integral-month-->' + queryEndDate);
 
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
@@ -68,12 +63,10 @@ export class IntegralMonthPage {
 
     if (queryEndDate && queryStartDate) {
       let params = {
-        // 'status': '1',
         'startTime': queryStartDate,
         'endTime': queryEndDate,
       };
       this.httpDataPro.getIntegralDetail(params).then(res =>{
-        // alert('res-data--' + JSON.stringify(res));
         dataLoading.dismiss();
         if (res.success) {
           this.orderList = res.body.list || [];
@@ -86,7 +79,6 @@ export class IntegralMonthPage {
           })
         }
       }).catch(e =>{
-        alert('res-error--' + e.toString());
         dataLoading.dismiss();
       });
     } else {

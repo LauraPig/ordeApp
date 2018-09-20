@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import {LoadingController, ToastController} from 'ionic-angular';
 import {getIdSet} from "../../utils/index";
-import {resolveTimingValue} from "@angular/animations/browser/src/util";
 
 @Injectable()
 export class DataBaseService {

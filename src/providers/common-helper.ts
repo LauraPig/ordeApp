@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HomePage} from "../pages/home/home";
-import {AlertController, App, LoadingController, NavController, ToastController} from "ionic-angular";
+import {AlertController, App, LoadingController, ToastController} from "ionic-angular";
 import {Storage} from "@ionic/storage";
 import {HttpDataProviders} from "./http-data/http-data";
 import  * as moment from 'moment';
@@ -15,15 +15,11 @@ export  class CommonHelper {
     public storage: Storage,
     public alertCtrl: AlertController,
     public dbService: DataBaseService,
-    // public http: HttpClient,
     public toastCtrl: ToastController,
     public httpDataPro: HttpDataProviders,
     public loadingCtrl: LoadingController,
-    // public actionSheetCtrl: ActionSheetController,
     public appCtrl: App,
   ) {
-    //this.localstorage.clear();
-    // this.UpdateAPIURL();
   }
 
   public GoBackHomePage() {

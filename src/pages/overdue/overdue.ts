@@ -21,7 +21,6 @@ import {CommonHelper} from "../../providers/common-helper";
 export class OverduePage {
 
   messageCount: number;
-  // dataList: Array<any> = [];
   orderList: Array<any> = [];
   isNull: boolean = false;
 
@@ -53,7 +52,6 @@ export class OverduePage {
       }
     });
     let dateStr = moment().format('YYYY-MM-DD HH:MM:SS');
-    // alert('date--' + dateStr);
     this.getOverDueData(dateStr);
   }
 
@@ -71,8 +69,6 @@ export class OverduePage {
         'date': dateStr
       };
       this.httpDataPro.fetchOverDueData(params).then(res => {
-        // dataLoading.dismiss();
-        // alert('res-length--' + res.body.orderList.length);
         if (res.success) {
           this.orderList  = res.body.orderList && res.body.orderList.map((item, index) => {
             item.dinnerDate = moment(item.dinnerDate).format('YYYY-MM-DD');

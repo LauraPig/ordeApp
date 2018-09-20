@@ -34,19 +34,12 @@ export class MessageDetailModalPage {
   }
 
   ionViewDidLoad() {
-    // alert('ionViewWillLeave');
     let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
-    // this.storage.get('token').then(res =>{
-    //   if (res) {
-    //     this.token = res;
-    //   }
-    // });
     let params = {
       'pushDate': reqDateStr,
       'flag': '0'
     };
     this.httpDataPro.fetchHasMessage(params).then (res => {
-      // alert('res-in-loop->' + JSON.stringify(res));
       if (res.success) {
         this.storage.set('messageCount', res.body.count);
       } else if (res.errorCode === '-2') {

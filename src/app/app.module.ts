@@ -6,8 +6,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
 import { HomePage } from '../pages/home/home';
-import { ItemDetailsPage } from '../pages/item-details/item-details';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
@@ -62,8 +60,6 @@ export function createTranslateLoader(http: Http) {
   declarations: [
     MyApp,
     HomePage,
-    ItemDetailsPage,
-    ListPage,
     WeekMenuPage,
     OrderPage,
     WaitingUsePage,
@@ -107,8 +103,6 @@ export function createTranslateLoader(http: Http) {
   entryComponents: [
     MyApp,
     HomePage,
-    ItemDetailsPage,
-    ListPage,
     WeekMenuPage,
     OrderPage,
     WaitingUsePage,

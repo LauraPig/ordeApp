@@ -1,7 +1,6 @@
 import {SQLite, SQLiteObject, SQLiteTransaction} from '@ionic-native/sqlite';
 import { DATABASE_NAME } from '../../common/config';
-import { CREATE_TABLE, INSERT_DATA, UPDATE_DATA  } from '../../common/table';
-// import { mock_data } from '../../mock/mock-data';
+import { CREATE_TABLE, INSERT_DATA  } from '../../common/table';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import {LoadingController, ToastController} from 'ionic-angular';

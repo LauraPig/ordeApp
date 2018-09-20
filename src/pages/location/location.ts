@@ -30,21 +30,17 @@ export class LocationPage {
     public alertCtrl: AlertController,
     public storage: Storage,
   ) {
-    // this.storage.get('factoryId').then(res =>{
-    //   if (res) {
-    //     this.location = res;
-    //   }
-    // });
   }
 
   ionViewDidLoad() {
+
+    //初始化数据
     this.storage.get('factoryId').then(res =>{
       if (res) {
         this.location = res;
       }
     });
     this.httpDataPro.fetchFactoryListData().then(res => {
-      // alert('res-fact---' + JSON.stringify(res));
       if (res.success && res.body) {
         for (let key in res.body) {
           let tempObj = {
@@ -77,6 +73,7 @@ export class LocationPage {
   accordion(index: number) {
     this.currentIndex =  index === this.currentIndex ? -1 : index ;
   }
+
 
   setValue(id: string, name: string) {
 

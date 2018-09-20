@@ -327,12 +327,10 @@ export class NativeService {
                   observer.error(false);
                 }
               }).catch(err => {
-                // this.logger.log(err, '调用diagnostic.requestRuntimePermissions方法失败');
                 observer.error(false);
               });
             }
           }).catch(err => {
-            // this.logger.log(err, '调用diagnostic.getPermissionsAuthorizationStatus方法失败');
             observer.error(false);
           });
         }

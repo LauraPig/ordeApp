@@ -50,24 +50,16 @@ export class PersonalInfoPage {
     let initLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '加载中...'
-      // content: `
-      //   <div class="custom-spinner-container">
-      //     <div class="custom-spinner-box"></div>
-      //   </div>`,
     });
     initLoading.present();
     let params ={
-      // 'token': token,
     }
     this.httpDataPro.fetchPersonInfoData(params).then(res =>{
-      // alert('res-data:' + JSON.stringify(res));
       initLoading.dismiss();
 
       if (res.success && res.body) {
         const temObj = {...res.body.user};
-        // alert('res-before:' + temObj.name);
         temObj.name = temObj.name.indexOf('(') > -1 ? temObj.name.match('\\((.+?)\\)')[1] : temObj.name;
-        // alert('res-username:' + temObj.name);
 
         this.userInfo = {...temObj};
         this.code = temObj.code;
@@ -103,10 +95,5 @@ export class PersonalInfoPage {
     this.qrCodeStr = `esquel,${this.code},${timestampStr}`;
   }
 
-  goQRCode(no: string) {
-    this.navCtrl.push('qr-code', {
-      no
-    });
-  }
 
 }

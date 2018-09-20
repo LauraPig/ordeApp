@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import { HomePage } from  '../../pages/home/home';
-import { ListPage } from  '../../pages/list/list';
 import { Storage } from  '@ionic/storage';
 import {LoginPage} from "../login/login";
 import { AppVersion } from '@ionic-native/app-version';
@@ -48,9 +47,6 @@ export class SettingPage {
     switch (page) {
       case 'homePage':
         this.navCtrl.setRoot(HomePage);
-        break;
-      case 'listPage':
-        this.navCtrl.push(ListPage);
         break;
       default:
       // break;

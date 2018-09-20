@@ -44,15 +44,9 @@ export class MessageWeekPage {
 
   ionViewWillEnter() {
     this.messageList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-
-    // let lastMonday = `${moment().subtract(weekOfday - 1, 'days').format('YYYY-MM-DD')} 00:00:00`;   //周一日期
-
     let month = new Date().getMonth() + 1;
     [this.startTime, ] = getCurrentMonth(month);
      this.endTime = moment().format('YYYY-MM-DD HH:mm:ss');
-    // let lastSunday = `${moment().add(7 - weekOfday, 'days').format('YYYY-MM-DD')} 23:59:59`;   //周日日期
-    let lastSunday = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   //今天日期
     this.getListData(this.startTime, this.endTime, true);
   }
 
@@ -62,14 +56,7 @@ export class MessageWeekPage {
 
   getListData(startTime: string, endTime: string, isShowLoading?: boolean ) {
 
-    // alert('startTime:' + startTime);
-    // alert('endTime:' + endTime);
     isShowLoading ? this.commonHelper.LoadingShow('加载中...') : null;
-    // let dataLoading = this.loadingCtrl.create({
-    //   spinner: 'bubbles',
-    //   content: '加载中...'
-    // });
-    // dataLoading.present();
     if (startTime && endTime) {
       let params = {
         'startTime': startTime,
@@ -77,13 +64,11 @@ export class MessageWeekPage {
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
         isShowLoading ? this.commonHelper.LoadingHide() : null;
-        // alert('res-data:' + JSON.stringify(res));
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
               return item;
             });
-          // dataLoading.dismiss();
         } else if (res.errorCode === '-2') {
           alert('登录信息过期，请重新登录');
           this.storage.remove('token').then(data => {
@@ -98,17 +83,6 @@ export class MessageWeekPage {
       isShowLoading ? this.commonHelper.LoadingHide() : null;
     }
   }
-
-  // // 弹出详情框
-  // showDetailModal (p: any, id: string, value: string) {
-  //   let detailModal = this.modalCtrl.create('modal-detail',{
-  //     item: p,
-  //     id,
-  //     value,
-  //     todayStr: this.todayStr
-  //   });
-  //   detailModal.present();
-  // }
 
   gotoMessageDetail (item: any) {
     this.commonHelper.LoadingShow('跳转中...');

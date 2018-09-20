@@ -44,6 +44,7 @@
         <ion-item tappable (click)="gotoDetailList(item)">
           <!--<img src="https://dininghall.blob.core.windows.net/product/bb4ecee246e44ebdad0ef41ca1e8320e.png"/>-->
           <img src="{{item.list[0].blobPath}}"/>
+          <!--<img src='assets/imgs/test.png' alt="">-->
           <div class="back-ground">
 
           </div>
@@ -60,24 +61,22 @@
           </div>
         </ion-item>
         <ion-item-options side="right">
-          <div class="btn-list">
-            <button [ngClass]="{'unpack-btn':item?.list[0].isPack === '0'}" color="light" class="operator-button " ion-button (click)="pack(item?.list[0].id, item?.list[0].isPack)">
-              <ion-icon name="ios-cube-outline"></ion-icon>
-              打包
-            </button>
-            <button class="operator-button" color="light" ion-button (click)="holdOrder(item?.list[0].id)">
-              <ion-icon name="ios-hand-outline"></ion-icon>
-              留餐
-            </button>
-            <button class="operator-button" color="light" ion-button (click)="edit(item?.list[0].id)">
-              <ion-icon name="ios-create-outline"></ion-icon>
-              编辑
-            </button>
-            <button class="operator-button" ion-button color="light" (click)="cancelOrder(item?.list[0].id)">
-              <ion-icon name="ios-trash-outline"></ion-icon>
-              退订
-            </button>
-          </div>
+          <button [ngClass]="{'unpack-btn':item?.list[0].isPack === '0'}" color="dark" ion-button (click)="pack(item?.list[0].id, item?.list[0].isPack)">
+            <ion-icon name="ios-cube-outline"></ion-icon>
+            打包
+          </button>
+          <button  color="secondary" ion-button (click)="holdOrder(item?.list[0].id)">
+            <ion-icon name="ios-hand-outline"></ion-icon>
+            留餐
+          </button>
+          <!--<button class="operator-button" color="light" ion-button (click)="edit(item?.list[0].id)">-->
+            <!--<ion-icon name="ios-create-outline"></ion-icon>-->
+            <!--编辑-->
+          <!--</button>-->
+          <button ion-button color="danger" (click)="cancelOrder(item?.list[0].id)">
+            <ion-icon name="ios-trash-outline"></ion-icon>
+            退订
+          </button>
         </ion-item-options>
       </ion-item-sliding>
       <div style="text-align: center;padding: 3px 0">

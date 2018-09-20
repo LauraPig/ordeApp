@@ -12,7 +12,7 @@ page-waiting-use-list {
   // 文字遮罩层
   .back-ground {
     width: 37vw;
-    height: 30vh;
+    height: calc(100% - 3.5px);
     background: rgba(0, 0, 0, .5);
     position: absolute;
     left: 0;
@@ -70,17 +70,17 @@ page-waiting-use-list {
   }
   img{
     width: 100%;
-    height: 250px;
-    overflow: hidden;
-    margin-top: -50px;
-    margin-bottom: -50px;
+    height: auto;
+    //overflow: hidden;
+    //margin-top: -50px;
+    //margin-bottom: -50px;
   }
 
   ion-item {
     padding:  0 !important;
     //pading-left:  0 !important;
     //width: 100vw !important;
-    height: 20vh;
+    height: auto;
     position: relative;
     text-align: center;
   }
@@ -98,7 +98,7 @@ page-waiting-use-list {
 
     //background-color: rgba(2d,2d,2d, 0.5);
     width: 50%;
-    height: 180px;
+    height: 100%;
     line-height: 5vh;
     position: absolute;
     left: 5vw;

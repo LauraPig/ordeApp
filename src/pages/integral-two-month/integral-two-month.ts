@@ -44,20 +44,12 @@ export class IntegralTwoMonthPage {
 
   ionViewWillEnter() {
     this.orderList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
-    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
-
     let month = new Date().getMonth();
-    const [startTime, endTime] = getCurrentMonth(month);
+    const [startTime, endTime] = getCurrentMonth(month);//  获取开始和结束时间
     this.getListData(startTime, endTime);
   }
 
   getListData(queryStartDate: string, queryEndDate: string ) {
-
-    // alert('queryStartDate-consume-week-->' + queryStartDate);
-    // alert('queryEndDate--in-consume-week-->' + queryEndDate);
-
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '加载中...'
@@ -66,12 +58,10 @@ export class IntegralTwoMonthPage {
 
     if (queryEndDate && queryStartDate) {
       let params = {
-        // 'status': '1',
         'startTime': queryStartDate,
         'endTime': queryEndDate,
       };
       this.httpDataPro.getIntegralDetail(params).then(res =>{
-        // alert('res-data--' + JSON.stringify(res.body.ctOrderList));
         dataLoading.dismiss();
         if (res.success) {
           this.orderList = res.body.list || [];

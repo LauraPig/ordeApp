@@ -21,8 +21,8 @@ import {getCurrentMonth} from "../../utils";
 })
 export class IntegralThreeMonthPage {
 
-  orderList: Array<any> = [];
-  isNull: boolean = false;
+  orderList: Array<any> = [];// 数据列表
+  isNull: boolean = false;// 是否没有数据
 
   constructor(
     public navCtrl: NavController,
@@ -44,20 +44,13 @@ export class IntegralThreeMonthPage {
 
   ionViewWillEnter() {
     this.orderList = [];
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    // let firstDay = `${moment().format('YYYY-MM')}-01 00:00:00`;   // 开始日期
-    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
-
     let month = new Date().getMonth() - 1;
-    const [startTime, endTime] = getCurrentMonth(month);
+    const [startTime, endTime] = getCurrentMonth(month);//  获取开始和结束时间
     this.getListData(startTime, endTime);
   }
 
+  //  根据时间段获取数据
   getListData(queryStartDate: string, queryEndDate: string ) {
-
-    // alert('queryStartDate-consume-week-->' + queryStartDate);
-    // alert('queryEndDate--in-consume-week-->' + queryEndDate);
-
     let dataLoading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: '加载中...'
@@ -71,7 +64,6 @@ export class IntegralThreeMonthPage {
         'endTime': queryEndDate,
       };
       this.httpDataPro.getIntegralDetail(params).then(res =>{
-        // alert('res-data--' + JSON.stringify(res.body.ctOrderList));
         dataLoading.dismiss();
         if (res.success) {
           this.orderList = res.body.list || [];

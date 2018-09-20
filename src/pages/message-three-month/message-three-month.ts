@@ -49,9 +49,6 @@ export class MessageThreeMonthPage {
 
     let month = new Date().getMonth() - 1;
     [this.startTime, this.endTime] = getCurrentMonth(month);
-    // let weekOfday = Number(moment().format('E'));//计算今天是这周第几天
-    // let firstDay = `${moment().subtract(89, 'days').format('YYYY-MM-DD')} 00:00:00`;   // 开始日期
-    // let lastDay = `${moment().format('YYYY-MM-DD HH:mm:ss')}`;   // 今天日期
     this.getListData(this.startTime, this.endTime, true);
   }
 
@@ -71,7 +68,6 @@ export class MessageThreeMonthPage {
       };
       this.httpDataPro.fetchAllMessageData(params).then(res =>{
         isShowLoading ? this.commonHelper.LoadingHide() : null;
-        // alert('res-data:' + JSON.stringify(res));
         if (res.success) {
           this.messageList = res.body.sysMessageList && res.body.sysMessageList.map((item, index) => {
               item.pushDate = moment(item.pushDate).format('YYYY-MM-DD');
