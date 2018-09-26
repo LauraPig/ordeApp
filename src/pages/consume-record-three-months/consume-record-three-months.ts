@@ -107,8 +107,10 @@ export class ConsumeRecordThreeMonthsPage {
 
 
   gotoRecordDetail(item: any) {
+    let temObj = {...item};
+    temObj.imgMainUrl = item.blobPath;
     if (item) {
-      this.showDetailModal(item.type === '1' ? this.commonHelper.getProductDetailInfoByID(item) : item);
+      this.showDetailModal(item.type === '1' ? this.commonHelper.getProductDetailInfoByID(item) : temObj);
     }
   }
 

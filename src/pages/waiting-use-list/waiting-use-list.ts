@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import * as moment from 'moment';
 
 import { Storage } from '@ionic/storage';
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import {WaitingUsePage} from "../waiting-use/waiting-use";
 import {OrderPage} from "../order/order";
+import {CommonHelper} from "../../providers/common-helper";
 /**
  * Generated class for the WaitingUseListPage page.
  *
@@ -31,6 +32,8 @@ export class WaitingUseListPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public storage: Storage,
+    public modalCtrl: ModalController,
+    public commonHelper: CommonHelper,
     public httpDataPro: HttpDataProviders,
   ) {
     this.item = this.navParams.get('item');
@@ -272,6 +275,26 @@ export class WaitingUseListPage {
         }
       ]
     }).present();
+  }
+
+  gotoRecordDetail(item: any) {
+    let temObj = {...item};
+    temObj.imgMainUrl = item.blobPath;
+    if (item) {
+      this.showDetailModal(item.type === '1' ? this.commonHelper.getProductDetailInfoByID(item) : temObj);
+    }
+  }
+
+  // 弹出详情框
+  showDetailModal (p: any) {
+    let detailModal = this.modalCtrl.create('modal-detail',{
+      item: p,
+      id: '',
+      value: '',
+      isShow: true,
+      todayStr: ''
+    });
+    detailModal.present();
   }
 
 
