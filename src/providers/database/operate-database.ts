@@ -75,7 +75,9 @@ export class OperateDataBaseService {
 
   //   ct_meal
   updateCtMealTableData(obj): Promise<any> {
-    if (obj.ctPlanList && obj.ctPlanList.length > 0) {
+
+    // alert('length-->' + obj.ctMealList.length);
+    if (obj.ctMealList && obj.ctMealList.length > 0) {
       const list = obj.ctMealList;
       let sqlStr = getIdSet(list);
      return this.sqlite.create({

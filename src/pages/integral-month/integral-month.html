@@ -5,13 +5,13 @@
         <img src="{{item.blobpath}}">
       </ion-avatar>
       <h2>{{item.name}}</h2>
-      <p item-end>+{{item.socre}}分</p>
+      <p item-end>+{{item.socre}}{{'INTEGRAL.UNIT' | translate}}</p>
     </ion-item>
   </ion-list>
 
   <div *ngIf="(isNull && orderList.length === 0)" class="null-tips">
     <img src="assets/imgs/null.png" alt="">
-    <div>暂无数据</div>
+    <div>{{'COMMON.NODATA' | translate}}</div>
   </div>
 
 </ion-content>

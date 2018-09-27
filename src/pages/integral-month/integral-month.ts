@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import {getCurrentMonth} from "../../utils/index";
 import {HttpDataProviders} from "../../providers/http-data/http-data";
 import { Storage } from "@ionic/storage";
+import {CommonHelper} from "../../providers/common-helper";
+import {TranslateService} from "ng2-translate";
 
 /**
  * Generated class for the IntegralMonthPage page.
@@ -31,6 +33,8 @@ export class IntegralMonthPage {
     public httpDataPro: HttpDataProviders,
     public loadingCtrl: LoadingController,
     public storage: Storage,
+    public commonHelper: CommonHelper,
+    public translate: TranslateService,
     ) {
   }
 
@@ -55,11 +59,10 @@ export class IntegralMonthPage {
   //  根据时间段获取数据
   getListData(queryStartDate: string, queryEndDate: string ) {
 
-    let dataLoading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: '加载中...'
+    this.translate.get('COMMON.LOADING_TIPS').subscribe(res =>{
+      // this.commonHelper.Alert(res.toString());
+      this.commonHelper.LoadingShow(res);
     });
-    dataLoading.present();
 
     if (queryEndDate && queryStartDate) {
       let params = {
@@ -67,22 +70,28 @@ export class IntegralMonthPage {
         'endTime': queryEndDate,
       };
       this.httpDataPro.getIntegralDetail(params).then(res =>{
-        dataLoading.dismiss();
+        this.commonHelper.LoadingHide();
         if (res.success) {
           this.orderList = res.body.list || [];
           this.isNull = this.orderList.length === 0;
         } else if (res.errorCode === '-2') {
-          alert('登录信息过期，请重新登录');
+
+          // 登录信息过期
+          this.translate.get('COMMON.LOGIN_INVALID').subscribe(res =>{
+            console.log(res);
+            this.commonHelper.Alert(res.CONTENT,null, res.TITLE, res.BTN_TEXT);
+          });
+
           this.storage.remove('token').then(data => {
             console.log(data);
             this.navCtrl.setRoot(LoginPage);
-          })
+          });
         }
       }).catch(e =>{
-        dataLoading.dismiss();
+        this.commonHelper.LoadingHide();
       });
     } else {
-      dataLoading.dismiss();
+      this.commonHelper.LoadingHide();
     }
 
   }

@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>我的积分</ion-title>
+    <ion-title>{{'INTEGRAL.TITLE' | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,9 +16,9 @@
 <ion-content>
 
   <super-tabs scrollTabs  [selectedTabIndex]="selectedTabIndex" style="width: 100vw">
-    <super-tab [root]="page1" [rootParams]="navParams" title="本月" ></super-tab>
-    <super-tab [root]="page2" [rootParams]="navParams" title="上个月" ></super-tab>
-    <super-tab [root]="page3" [rootParams]="navParams" title="前个月" ></super-tab>
+    <super-tab [root]="page1" [rootParams]="navParams" title="{{'INTEGRAL.SUB_TITLE_1' | translate}}" ></super-tab>
+    <super-tab [root]="page2" [rootParams]="navParams" title="{{'INTEGRAL.SUB_TITLE_2' | translate}}" ></super-tab>
+    <super-tab [root]="page3" [rootParams]="navParams" title="{{'INTEGRAL.SUB_TITLE_3' | translate}}" ></super-tab>
   </super-tabs>
 
 </ion-content>

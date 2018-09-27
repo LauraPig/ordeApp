@@ -89,6 +89,14 @@
     "SCORE": "分",
     "MY_MSG": "我的消息",
     "SCAN": "扫一扫"
+  },
+  "INTEGRAL": {
+    "TITLE": "我的积分",
+    "SUB_TITLE_1": "本月",
+    "SUB_TITLE_2": "上个月",
+    "SUB_TITLE_3": "前个月",
+    "UNIT": "分"
+
   }
 
 }

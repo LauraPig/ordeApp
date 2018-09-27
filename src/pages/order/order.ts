@@ -164,8 +164,10 @@ export class OrderPage {
         });
         dataLoading.present();
         this.factoryId = data;
+        // alert('res.length--->' + this.factoryId);
         this.dbService.openDataBase().then((db: SQLiteObject) =>{
           db.executeSql(`select  b.label as label,b.value as value from ct_meal a,sys_dict_value b,sys_office c where c.parent_ids LIKE '%${this.factoryId}%' AND c.type='4'  AND b.[value]=a.meal_type and a.office_id = c.id AND a.del_flag='0' AND b.del_flag='0' AND c.del_flag = '0' GROUP BY b.label,b.[value],b.sort ORDER BY b.sort;`, {}).then(res =>{
+            // alert('res.length--->' + res.rows.length);
             // alert('res.length--->' + res.rows.length);
             dataLoading.dismiss();
             if (res.rows.length) {
