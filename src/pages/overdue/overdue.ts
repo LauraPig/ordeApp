@@ -45,7 +45,15 @@ export class OverduePage {
   }
 
   ionViewWillEnter() {
-    this.commonHelper.getHasUnreadMessage();
+    this.commonHelper.getHasUnreadMessage().then(_ => {
+      this.storage.get('messageCount').then(res =>{
+        if (res) {
+          this.messageCount = res;
+        } else {
+          this.messageCount = 0;
+        }
+      });
+    });
     this.storage.get('messageCount').then(res =>{
       if (res) {
         this.messageCount = res;

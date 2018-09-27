@@ -39,12 +39,16 @@ export class ConsumeRecordPage {
   ionViewWillEnter() {
 
     //  获取未读消息
-    this.commonHelper.getHasUnreadMessage();
-    this.storage.get('messageCount').then(res =>{
-      if (res) {
-        this.messageCount = res;
-      }
+    this.commonHelper.getHasUnreadMessage().then(_ => {
+      this.storage.get('messageCount').then(res =>{
+        if (res) {
+          this.messageCount = res;
+        } else {
+          this.messageCount = 0;
+        }
+      });
     });
+
   }
 
   gotoUnreadMessage() {

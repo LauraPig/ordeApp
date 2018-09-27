@@ -156,15 +156,15 @@ export  class CommonHelper {
 
 
   //getHasUnreadMessage
-  getHasUnreadMessage = () =>{
+  getHasUnreadMessage = (): Promise<any> =>{
     let reqDateStr = moment().format('YYYY-MM-DD HH:MM:SS');
     let params = {
       'pushDate': reqDateStr,
       'flag': '0'
     };
-    this.httpDataPro.fetchHasMessage(params).then (res => {
+    return this.httpDataPro.fetchHasMessage(params).then (res => {
       if (res.success) {
-        this.storage.set('messageCount', res.body.count);
+       return this.storage.set('messageCount', res.body.count);
       }
     });
   }
@@ -201,8 +201,9 @@ export  class CommonHelper {
                       handler: res => {
                         console.log(res);
                         this.httpDataPro.changeMessageStatus({'id': temObj.id}).then(res =>{
-                          this.getHasUnreadMessage();
-                          this.GoBackHomePage();
+                          this.getHasUnreadMessage().then( _ =>{
+                            this.GoBackHomePage();
+                          });
                           // this.GoBackHomePage();
                           console.log(res);
                         }).catch(e =>{

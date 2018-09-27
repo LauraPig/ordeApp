@@ -26,6 +26,8 @@ export class HomePage {
 
   isNull: boolean = false;
 
+  isSYNC: boolean = false;
+
   orderList: any = [];
   loading: Loading ;
   userinfo: any = [];
@@ -46,16 +48,21 @@ export class HomePage {
     public alertCtrl: AlertController,
     public commonHelper: CommonHelper,
   ) {
+    // this.commonHelper.getHasUnreadMessage();
     console.log('Home Page...');
   }
   ionViewWillEnter() {
-    this.commonHelper.getHasUnreadMessage();
-
-    this.storage.get('messageCount').then(res =>{
-      if (res) {
-        this.messageCount = res;
-      }
+    this.commonHelper.getHasUnreadMessage().then(_ => {
+      this.storage.get('messageCount').then(res =>{
+        if (res) {
+          this.messageCount = res;
+        } else {
+          this.messageCount = 0;
+        }
+      });
     });
+
+
     this.storage.get('userName').then(res => {
       if (res) {
         this.userName = res;
@@ -158,6 +165,7 @@ export class HomePage {
                      this.dbService.updateSysDictTypeTableData(temData).then(() =>{
                        this.dbService.updateSysDictValueTableData(temData).then(() =>{
                          this.dbService.updateSysOfficeTableData(temData).then(() =>{
+                           this.isSYNC = true;
                            if (temData.thermalDataVer) {
                              this.storage.set('hotVersion', temData.thermalDataVer);
                            }
@@ -329,10 +337,16 @@ export class HomePage {
 
   //  跳到订餐页面
   gotoOrder() {
-    this.navCtrl.setRoot(OrderPage, {
-      factoryId: this.factoryId,
-      factoryName: this.factoryName,
-    });
+    if (this.isSYNC) {
+      this.navCtrl.setRoot(OrderPage, {
+        factoryId: this.factoryId,
+        factoryName: this.factoryName,
+      });
+    } else {
+      this.commonHelper.Toast('初始化数据，请稍等...','middle', 1000);
+    }
+
+
   }
 
   //  待消费列表

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
   AlertController,
   IonicPage,
   LoadingController,
-  ModalController,
+  ModalController, Nav,
   NavController,
   NavParams,
   ToastController
@@ -83,6 +83,7 @@ export class OrderPage {
   calendarOptions: CalendarComponentOptions = {
   };
 
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -138,7 +139,15 @@ export class OrderPage {
 
   ionViewWillEnter() {
 
-    this.commonHelper.getHasUnreadMessage();
+    this.commonHelper.getHasUnreadMessage().then(_ => {
+      this.storage.get('messageCount').then(res =>{
+        if (res) {
+          this.messageCount = res;
+        } else {
+          this.messageCount = 0;
+        }
+      });
+    });
 
     // 获取工厂名称
     this.storage.get('factoryName').then(res =>{
@@ -438,7 +447,7 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
                                   text: '确定',
                                   handler: data => {
                                     this.storage.remove('token').then(() => {
-                                      this.navCtrl.setRoot(LoginPage)
+                                      this.navCtrl.setRoot(LoginPage);
                                     });
                                     console.log(data);
                                     // this.navCtrl.setRoot()
@@ -539,7 +548,7 @@ AND c.meal_id = b.id AND c.start_date = '${this.todayStr}' AND c.status='1'
                           text: '确定',
                           handler: data => {
                             this.storage.remove('token').then(() => {
-                              this.navCtrl.setRoot(LoginPage)
+                              this.navCtrl.setRoot(LoginPage);
                             });
                             console.log(data);
                             // this.navCtrl.setRoot()
