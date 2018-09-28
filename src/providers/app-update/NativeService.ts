@@ -65,31 +65,43 @@ export class NativeService {
             if (res.success && res.body.versionNo && res.body.versionNo !== data) {
               this.apkUrl = res.body.azurepath;
               this.isForce = res.body.isForce;
+
+              // 判断是否强制更新
               if (res.body.isForce === '1') {
                 this.alertCtrl.create({
                   title: '升级',
                   subTitle: '发现新版本,请更新后再使用',
-                  enableBackdropDismiss: false,
+                  enableBackdropDismiss: false, // 不允许点击弹出框背景
                   buttons: [
                     {
                       text: '取消',
                       handler: () =>{
+                        this.dataBaseService.deleteDataBase().then(_ =>{
+                          this.storage.remove('HasCreateDb');
+                        });
                         this.platform.exitApp();
                       }
                     },
                     {
                       text: '确定',
                       handler: () => {
+                        this.dataBaseService.deleteDataBase().then(_ =>{
+                          this.storage.remove('HasCreateDb');
+                        });
                         this.downloadApp();
                       }
                     }
                   ]
                 }).present();
               } else {
-                this.alertCtrl.create({
+                this.alertCtrl.create(
+                  {
                   title: '升级',
                   subTitle: '发现新版本,是否立即升级？',
-                  buttons: [{text: '取消'},
+                  buttons: [
+                    {
+                      text: '取消',
+                    },
                     {
                       text: '确定',
                       handler: () => {
