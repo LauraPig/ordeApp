@@ -25,7 +25,6 @@ import {ZBar} from "@ionic-native/zbar";
 import {HttpProvider} from "../providers/http/http-service";
 import {Http, HttpModule} from "@angular/http";
 import {HttpDataProviders} from "../providers/http-data/http-data";
-import {SelectTypePage} from "../pages/select-type/select-type";
 
 import { WechatChenyu } from "wechat-chenyu";
 import { LocationPage } from "../pages/location/location";
@@ -66,7 +65,6 @@ export function createTranslateLoader(http: Http) {
     ConsumeRecordPage,
     OverduePage,
     LoginPage,
-    SelectTypePage,
     LocationPage,
     MessageRecordPage,
     IntegralPage,
@@ -109,7 +107,6 @@ export function createTranslateLoader(http: Http) {
     ConsumeRecordPage,
     OverduePage,
     LoginPage,
-    SelectTypePage,
     LocationPage,
     MessageRecordPage,
     IntegralPage,
