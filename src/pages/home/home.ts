@@ -343,7 +343,7 @@ export class HomePage {
         factoryName: this.factoryName,
       });
     } else {
-      this.commonHelper.Toast('初始化数据，请稍等...','middle', 1000);
+      this.commonHelper.Toast('加载中，请稍等...','middle', 1000);
     }
 
 

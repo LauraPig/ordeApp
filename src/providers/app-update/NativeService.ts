@@ -77,7 +77,10 @@ export class NativeService {
                       text: '取消',
                       handler: () =>{
                         this.dataBaseService.deleteDataBase().then(_ =>{
-                          this.storage.remove('HasCreateDb');
+                          this.storage.remove('HasCreateDb').then(_ =>{
+                            this.storage.remove('hotVersion');
+                            this.storage.remove('coldVersion');
+                          });
                         });
                         this.platform.exitApp();
                       }
@@ -86,7 +89,10 @@ export class NativeService {
                       text: '确定',
                       handler: () => {
                         this.dataBaseService.deleteDataBase().then(_ =>{
-                          this.storage.remove('HasCreateDb');
+                          this.storage.remove('HasCreateDb').then(_ =>{
+                            this.storage.remove('hotVersion');
+                            this.storage.remove('coldVersion');
+                          });
                         });
                         this.downloadApp();
                       }
