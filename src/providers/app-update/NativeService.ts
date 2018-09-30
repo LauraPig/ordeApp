@@ -222,6 +222,22 @@ export class NativeService {
             //   position: 'middle',
             //   cssClass: 'toast-ctrl'
             // }).present();
+            this.storage.remove('coldVersion');
+            this.storage.remove('hotVersion');
+            this.storage.remove('HasCreateDb').then(() =>{
+              this.fileOpener.open(apk, 'application/vnd.android.package-archive').catch(e => {
+                this.alertCtrl.create({
+                  title: '本地升级失败',
+                  subTitle: '前往网页下载？',
+                  buttons: [{
+                    text: '确定', handler: () => {
+                      this.openUrlByBrowser(this.apkUrl); // 打开网页下载
+                    }
+                  }
+                  ]
+                }).present();
+              });
+            });
           });
         }, err => {
           this.updateProgress = -1;
