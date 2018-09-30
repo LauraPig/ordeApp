@@ -4,7 +4,8 @@
 
 // export const HOST = 'http://dininghall.gxgltom.com:8080/jeeplus/a/mobile'; // 主域
 
-export const HOST = 'http://dininghalluat.esquel.cn:8080/jeeplus/a/mobile'; // 主域
+//export const HOST = 'http://dininghalluat.esquel.cn:8080/jeeplus/a/mobile'; // 主域
+export const HOST = 'http://dininghall.esquel.cn/jeeplus/a/mobile'; // 主域
 
 // export const HOST = 'http://112.74.166.45/jeeplus/a/mobile'; // 阿里云
 
